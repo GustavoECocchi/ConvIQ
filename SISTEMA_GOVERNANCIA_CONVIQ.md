@@ -193,7 +193,11 @@ Usar uma branch por PR, como `feat/b01-fundacao-api`, e registrar a base real. C
 
 ## 7. Sequência de desenvolvimento e quadro inicial
 
-O plano de desenvolvimento continua sendo a fonte dos critérios detalhados. A tabela abaixo registra o acompanhamento inicial dos PRs de backend e dos contratos necessários. Todos começam como `PLANEJADO`; esta governança não libera automaticamente a execução.
+O plano de desenvolvimento continua sendo a fonte dos critérios detalhados.
+A tabela abaixo é a fotografia histórica inicial de 17/09/2026, anterior às
+entregas B01–B04/C01 e à revisão de escopo abaixo. Todos começaram como
+`PLANEJADO`; consultar o registro para o estado atual. Esta governança não
+libera automaticamente a execução.
 
 | ID | Entrega | Depende de | Estado inicial |
 |---|---|---|---|
@@ -211,17 +215,38 @@ O plano de desenvolvimento continua sendo a fonte dos critérios detalhados. A t
 | B10 | Listagem de reuniões, opcional para a apresentação | B09 | `PLANEJADO` |
 | I01 | Ensaio integrado da demonstração | F11 e B09 | `PLANEJADO` |
 
-Os PRs de frontend seguem a sequência do plano e ficam com o responsável dessa frente. Os contratos C01 e C02 precisam ser alinhados entre as frentes antes de seus consumidores dependerem deles.
+Os PRs de frontend seguem a sequência do plano e ficam com o responsável dessa frente. C01 e o contrato de áudio precisam estar alinhados antes da integração entre as frentes; a divisão C02-A/B abaixo permite preparação independente do backend.
 
 | Marco do ConvIQ | O que comprova sua conclusão |
 |---|---|
 | Backend de análise textual disponível | B04 integrado e validado conforme C01 |
 | Primeira versão utilizável por texto | F06 integrado: formulário → API real → card e evidências |
-| Demonstração com áudio e recuperação | F09 integrado, incluindo B09 e transcrição real no ambiente escolhido |
-| Histórico navegável, se incluído | B10 e F10 integrados, com resultados acessíveis após reinício |
+| Demonstração com áudio e nova tentativa | F09 integrado, incluindo B09-A/B e transcrição real; após reinício sem banco, orientar reenvio |
+| Histórico navegável posterior | B05-A/B, B09-C, B10 e F10 integrados, com resultados acessíveis após reinício |
 | Preparação da apresentação | I01 concluído no ambiente da apresentação, após revisão F11 |
 
-B10/F10 podem ser adiados juntos, conforme o plano. Isso não elimina a persistência mínima de B05 nem a recuperação de B09.
+### Ajuste de escopo — decisão do usuário em 18/09/2026
+
+A exigência inicial de persistência mínima antes do áudio foi substituída:
+o usuário não precisa apresentar persistência no dia, mas a deseja depois.
+B05-A/B, recuperação durável B09-C e histórico B10/F10 ficam posteriores.
+A demonstração pode guardar estados/resultados em memória e áudio temporário;
+reinício perde estado e exige novo envio, sem prometer recuperação automática.
+Continuam obrigatórios tratamento de falhas/timeout, identidade por tentativa,
+limpeza e explicação desse comportamento ao usuário.
+
+Transcrição deve ser somente gratuita; Whisper aberto é candidato permitido,
+validado primeiro em B07-A. Execução por link no navegador é o objetivo e
+permanece **A_RESOLVER** (H01), sem escolha de hospedagem ou implantação.
+C02-A define contrato técnico e limites após B07-A, permitindo backend
+independente; C02-B conserva o alinhamento com frontend após F06 antes de
+concluir F07/F08. Assim, F06 deixa de bloquear pesquisa e backend de áudio,
+mas continua requisito da integração pelo navegador.
+
+O detalhamento vigente e as dependências que substituem o quadro inicial
+estão em [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md)
+e no [plano](PLANO_DESENVOLVIMENTO.md). Este ajuste registra o pedido do
+usuário; não atualiza nenhuma versão externa de governança adotada.
 
 ## 8. Relatório padrão de entrega
 

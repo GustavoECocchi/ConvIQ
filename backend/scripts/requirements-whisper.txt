@@ -1,0 +1,26 @@
+# Dependências experimentais de B07-A (viabilidade do Whisper gratuito).
+#
+# NÃO fazem parte de backend/pyproject.toml e não são instaladas com a API.
+# Instalar num ambiente virtual separado, isolado do runtime da aplicação,
+# em um único passo:
+#
+#   python3 -m venv .venv-whisper
+#   .venv-whisper/bin/pip install --no-cache-dir -r backend/scripts/requirements-whisper.txt
+#
+# Como a receita evita os pacotes CUDA (revisão B07-A-R01):
+# - `--extra-index-url` mantém o PyPI como índice primário (é de lá que vêm
+#   openai-whisper, numba, llvmlite, tiktoken...) e acrescenta o índice CPU
+#   do PyTorch. Um `--index-url` único apontando para o índice CPU falha:
+#   ele não hospeda openai-whisper ("No matching distribution found").
+# - O pino `torch==2.14.0+cpu` (com o rótulo local `+cpu`) só é satisfeito
+#   pelo índice CPU do PyTorch; o PyPI não tem essa versão local, então o
+#   pip não consegue cair no torch padrão, que arrasta pacotes NVIDIA/CUDA
+#   (vários GB) mesmo em máquina sem GPU NVIDIA — foi isso que estourou uma
+#   cota de disco na primeira tentativa desta verificação.
+# - `--no-cache-dir` evita duplicar os wheels no cache do pip.
+#
+# Verificado em venv vazio em 19/09/2026 (Python 3.14.7, linux x86_64);
+# versões e resultado em docs/decisoes/transcricao-whisper.md, seção 2.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.0+cpu
+openai-whisper==20250625

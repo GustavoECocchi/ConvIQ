@@ -12,24 +12,69 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia de 18/09/2026, baseada na inspeção local pelo Codex. As fichas
-detalham as evidências e os limites desta fotografia.
+Fotografia atualizada em 19/09/2026 pelo Codex (B07-A-02), com as entregas
+anteriores e o relato parcial B07-A do Sonnet. As fichas distinguem evidência
+conferida de resultado apenas relatado.
 
 | PR/tarefa | Entrega do executor | Estado do ciclo | Git da entrega | Branch de trabalho | Publicação da entrega | Integração na principal |
 |---|---|---|---|---|---|---|
-| [DOC01 — Registro compartilhado](#doc01--registro-compartilhado) | FINALIZADA | ENTREGUE | NAO_COMMITADO | `master` | NAO_PUBLICADO | NAO_INTEGRADO; principal ainda não confirmada |
-| [B01 — Fundação da API](#b01--fundação-da-api) | FINALIZADA; verificada pelo Codex | APROVADO; aceite técnico local em B01-07 | NAO_COMMITADO | `feat/b01-fundacao-api` | NAO_PUBLICADO | NAO_INTEGRADO |
-| [C01 — Contrato de análise por texto](#c01--contrato-de-análise-por-texto) | FINALIZADA; verificada pelo Codex | APROVADO; aceite técnico local em C01-04 | NAO_COMMITADO | `feat/b01-fundacao-api` | NAO_PUBLICADO | NAO_INTEGRADO |
-| [B02 — Sentimento e evidências](#b02--sentimento-e-evidências) | FINALIZADA; verificada pelo Codex | APROVADO; aceite técnico local em B02-04 | NAO_COMMITADO | `feat/b01-fundacao-api` | NAO_PUBLICADO | NAO_INTEGRADO |
-| [B03 — Sinais comerciais](#b03--sinais-comerciais) | FINALIZADA; verificada pelo Codex | APROVADO; B03-R01 conferido em B03-04 | NAO_COMMITADO | `feat/b01-fundacao-api` | NAO_PUBLICADO | NAO_INTEGRADO |
-| [B04 — Endpoint de análise](#b04--endpoint-de-análise) | FINALIZADA; verificada pelo Codex | APROVADO; B04-R01 e R02 conferidos em B04-04 | NAO_COMMITADO | `feat/b01-fundacao-api` | NAO_PUBLICADO | NAO_INTEGRADO |
-| [ANA01 — Avaliação de escalabilidade](#ana01--avaliação-de-escalabilidade) | FINALIZADA | ENTREGUE | NAO_COMMITADO; somente registro da análise | `master` | NAO_PUBLICADO | NAO_SE_APLICA; análise sem implementação |
-| [PROD01 — Evolução futura por equipe](#prod01--evolução-futura-por-equipe) | FINALIZADA; planejamento documentado | ENTREGUE | NAO_COMMITADO; plano e registro | `feat/b01-fundacao-api` observada ao encerrar | NAO_PUBLICADO | NAO_SE_APLICA; planejamento |
+| [DOC01 — Registro compartilhado](#doc01--registro-compartilhado) | FINALIZADA | ENTREGUE | Original COMMITADO em `6169fec`; atualizações PLN01 locais | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_VERIFICADO |
+| [B01 — Fundação da API](#b01--fundação-da-api) | FINALIZADA; verificada pelo Codex | APROVADO; B01-07 | COMMITADO; `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_VERIFICADO |
+| [C01 — Contrato de análise por texto](#c01--contrato-de-análise-por-texto) | FINALIZADA; verificada pelo Codex | APROVADO; C01-04 | COMMITADO; `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_VERIFICADO |
+| [B02 — Sentimento e evidências](#b02--sentimento-e-evidências) | FINALIZADA; verificada pelo Codex | APROVADO; B02-04 | COMMITADO; `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_VERIFICADO |
+| [B03 — Sinais comerciais](#b03--sinais-comerciais) | FINALIZADA; verificada pelo Codex | APROVADO; B03-04 | COMMITADO; `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_VERIFICADO |
+| [B04 — Endpoint de análise](#b04--endpoint-de-análise) | FINALIZADA; verificada pelo Codex | APROVADO; B04-04 | COMMITADO; `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_VERIFICADO |
+| [ANA01 — Avaliação de escalabilidade](#ana01--avaliação-de-escalabilidade) | FINALIZADA | ENTREGUE | COMMITADO; registro em `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_SE_APLICA; análise |
+| [PROD01 — Evolução futura por equipe](#prod01--evolução-futura-por-equipe) | FINALIZADA | ENTREGUE | COMMITADO; plano/registro em `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_SE_APLICA; planejamento |
+| [PLN01 — Detalhamento dos PRs restantes](#pln01--detalhamento-dos-prs-restantes) | FINALIZADA; planejamento | ENTREGUE; implementação não iniciada | NAO_COMMITADO; 5 arquivos documentais | `feat/b01-fundacao-api` | NAO_PUBLICADO | NAO_SE_APLICA; planejamento |
+| [B07-A — Viabilidade do Whisper](#b07-a--viabilidade-do-whisper) | PARCIAL; artefatos corrigidos pelo Opus | EM_REVISAO; R01/R02 corrigidos em B07-A-03, P01 (fala real) pendente, aguardando verificação do Codex | NAO_COMMITADO | `spike/b07-a-viabilidade-whisper` | NAO_PUBLICADO | NAO_INTEGRADO |
+| [ANA02 — Panorama funcional](#ana02--panorama-funcional) | FINALIZADA; análise | ENTREGUE | NAO_COMMITADO; somente registro | `spike/b07-a-viabilidade-whisper` | NAO_PUBLICADO | NAO_SE_APLICA |
+| [PLN02 — Refinamento das capacidades](#pln02--refinamento-das-capacidades) | FINALIZADA; planejamento | ENTREGUE | NAO_COMMITADO; documentação | `spike/b07-a-viabilidade-whisper` | NAO_PUBLICADO | NAO_SE_APLICA |
+| [B11 — Negação no sentimento](#b11--negação-no-sentimento) | NAO_INICIADA | PLANEJADO; prompt preparado | SEM_ALTERACOES de implementação | Proposta: `fix/b11-negacao-sentimento`, não criada | NAO_SE_APLICA | NAO_INTEGRADO |
 
-Os demais PRs B, F, C e I continuam no planejamento. Não há evidência local de
-implementação nesta inspeção. Nenhum estado de PR no servidor foi consultado.
-Criar a ficha de cada um conforme for preparado ou iniciado, sem declarar
-conclusão por antecipação.
+Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
+[PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
+iniciais, branches propostas, dependências e critérios. Nenhum PR no servidor
+foi consultado ou aberto nesta atuação. Criar/atualizar a ficha de cada tarefa
+quando encaminhada, sem declarar conclusão por antecipação.
+
+### Fotografia Git vigente — 19/09/2026, B07-A-02
+
+Branch atual `spike/b07-a-viabilidade-whisper`, HEAD/base de código
+`6169feca8c3a6cc6c5500eeab264eba817c8fbbc`. A criação da branch pelo Sonnet
+já está relatada em B07-A-01. A fotografia de PLN01 abaixo é histórica.
+B01–B04/C01 permanecem commitados e correspondem ao manifesto de aceite
+(33/33 conferidos nesta consulta). B07-A é PARCIAL, não commitado, ainda sem
+aceite; métricas de Whisper são relato do Sonnet, não reproduzidas pelo Codex
+nesta consulta funcional. Plano/governança/prompt/registro modificados e
+9 arquivos não rastreados (scripts, relatório/amostra, roteiros, cópias de
+retomada B07-A/B11 e manifesto da revisão B07-A). Aplicação e experimento
+preservados. B07-A está EM_REVISAO após análise inicial do Codex; revisão
+do Opus ainda pendente. O prompt vigente encaminha essa revisão.
+Índice vazio; principal, destino, publicação e PR remoto atuais NAO_VERIFICADO,
+sem consulta ao servidor. Nenhuma operação Git de escrita pelo Codex.
+
+### Fotografia Git histórica — 18/09/2026, PLN01-02/03
+
+- Branch observada: `feat/b01-fundacao-api`; HEAD e commit agregado das entregas
+  de texto: `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; pai/base local anterior
+  `master`: `3c52ea3ed0d3c3d38de5b9adf2a4a4ff320a1842`.
+- A aplicação/C01/.gitignore no commit correspondem aos arquivos locais e às
+  33 entradas do manifesto de aceite B04. Não há mudanças locais de código.
+  Os aceites técnicos existentes permanecem; não se atribui novo teste a PLN01.
+- A referência local `origin/feat/b01-fundacao-api` aponta ao mesmo commit;
+  `origin/main` local permanece em `8d48e7546ad5987f12f3bb3ab1c7ded514c0e322`.
+  Servidor não consultado: publicação, PR, principal e destino atuais
+  NAO_VERIFICADO. O commit não está na `master` local observada; isso não
+  comprova a situação da principal remota.
+- DOC01/ANA01/PROD01 também entraram no commit agregado. Suas fichas abaixo
+  conservam a fotografia histórica das entregas; este bloco atualiza o Git,
+  sem atribuir a operação de commit/push ao Codex nesta rodada.
+- PLN01 modifica plano, governança, registro e `prompt.md`, além do arquivo
+  novo `docs/planejamento/PRS_BACKEND_AUDIO.md`. Tudo NAO_COMMITADO;
+  índice vazio. Documentação local não integra automaticamente o HEAD.
+- Não houve criação/troca de branch, commit, push, abertura de PR ou merge
+  pelo Codex nesta atuação. Organização futura: uma branch por PR pequeno.
 
 ## DOC01 — Registro compartilhado
 
@@ -91,7 +136,17 @@ conclusão por antecipação.
 
 ## B01 — Fundação da API
 
-### Situação vigente — Codex, 18/09/2026 — B01-07
+### Git vigente — Codex, 18/09/2026 — PLN01-03
+
+Entrega FINALIZADA; ciclo APROVADO conforme B01-07. Conteúdo COMMITADO
+no agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, branch
+`feat/b01-fundacao-api`, base anterior `master` em `3c52ea3`.
+Manifesto B04 conferido (33/33); sem mudança local na aplicação/contrato.
+Publicação, PR remoto, principal e integração atuais NAO_VERIFICADO;
+commit não incorporado à `master` local observada. Atualização deste registro
+NAO_COMMITADA, pertencente a PLN01. Os campos Git do aceite abaixo são históricos.
+
+### Aceite técnico preservado — Codex, 18/09/2026 — B01-07
 
 - **Entrega do executor:** FINALIZADA pelo Sonnet, revisada/corrigida pelo
   Opus. **Ciclo: APROVADO**, após verificação final do Codex nesta versão local.
@@ -319,7 +374,17 @@ rodada. A situação vigente é a registrada acima e no evento B01-07.
 
 ## C01 — Contrato de análise por texto
 
-### Situação vigente — Codex, 18/09/2026 — C01-04
+### Git vigente — Codex, 18/09/2026 — PLN01-03
+
+Entrega FINALIZADA; ciclo APROVADO conforme C01-04. Conteúdo COMMITADO
+no agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, branch
+`feat/b01-fundacao-api`, base anterior `master` em `3c52ea3`.
+Manifesto B04 conferido (33/33); sem mudança local na aplicação/contrato.
+Publicação, PR remoto, principal e integração atuais NAO_VERIFICADO;
+commit não incorporado à `master` local observada. Atualização deste registro
+NAO_COMMITADA, pertencente a PLN01. Os campos Git do aceite abaixo são históricos.
+
+### Aceite técnico preservado — Codex, 18/09/2026 — C01-04
 
 - **Entrega do executor:** FINALIZADA pelo Sonnet, revisada/corrigida pelo
   Opus. **Ciclo: APROVADO**, aceite técnico local do contrato e schemas.
@@ -607,7 +672,17 @@ vigente acima e o evento C01-04.
 
 ## B02 — Sentimento e evidências
 
-### Situação vigente — Codex, 18/09/2026 — B02-04
+### Git vigente — Codex, 18/09/2026 — PLN01-03
+
+Entrega FINALIZADA; ciclo APROVADO conforme B02-04. Conteúdo COMMITADO
+no agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, branch
+`feat/b01-fundacao-api`, base anterior `master` em `3c52ea3`.
+Manifesto B04 conferido (33/33); sem mudança local na aplicação/contrato.
+Publicação, PR remoto, principal e integração atuais NAO_VERIFICADO;
+commit não incorporado à `master` local observada. Atualização deste registro
+NAO_COMMITADA, pertencente a PLN01. Os campos Git do aceite abaixo são históricos.
+
+### Aceite técnico preservado — Codex, 18/09/2026 — B02-04
 
 - **Entrega do executor:** FINALIZADA pelo Sonnet, revisada/corrigida pelo
   Opus. **Ciclo: APROVADO**, aceite técnico local dentro do escopo de B02.
@@ -885,7 +960,17 @@ acima e no evento B02-04.
 
 ## B03 — Sinais comerciais
 
-### Situação vigente — Codex, 18/09/2026 — B03-04
+### Git vigente — Codex, 18/09/2026 — PLN01-03
+
+Entrega FINALIZADA; ciclo APROVADO conforme B03-04. Conteúdo COMMITADO
+no agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, branch
+`feat/b01-fundacao-api`, base anterior `master` em `3c52ea3`.
+Manifesto B04 conferido (33/33); sem mudança local na aplicação/contrato.
+Publicação, PR remoto, principal e integração atuais NAO_VERIFICADO;
+commit não incorporado à `master` local observada. Atualização deste registro
+NAO_COMMITADA, pertencente a PLN01. Os campos Git do aceite abaixo são históricos.
+
+### Aceite técnico preservado — Codex, 18/09/2026 — B03-04
 
 - **Entrega:** FINALIZADA pelo Sonnet, corrigida/revisada pelo Opus.
   **Ciclo: APROVADO**, após verificação final do Codex da versão atual.
@@ -1179,7 +1264,17 @@ e a situação vigente estão acima e no evento B03-02.
 
 ## B04 — Endpoint de análise
 
-### Situação vigente — Codex, 18/09/2026 — B04-04
+### Git vigente — Codex, 18/09/2026 — PLN01-03
+
+Entrega FINALIZADA; ciclo APROVADO conforme B04-04. Conteúdo COMMITADO
+no agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, branch
+`feat/b01-fundacao-api`, base anterior `master` em `3c52ea3`.
+Manifesto B04 conferido (33/33); sem mudança local na aplicação/contrato.
+Publicação, PR remoto, principal e integração atuais NAO_VERIFICADO;
+commit não incorporado à `master` local observada. Atualização deste registro
+NAO_COMMITADA, pertencente a PLN01. Os campos Git do aceite abaixo são históricos.
+
+### Aceite técnico preservado — Codex, 18/09/2026 — B04-04
 
 - **Entrega:** FINALIZADA pelo Sonnet, corrigida/revisada pelo Opus.
   **Ciclo: APROVADO**, após verificação final do Codex nesta versão local.
@@ -1527,6 +1622,307 @@ encaminhamento atuais são os registrados acima e no evento B04-02.
   `backend/`, `prompt.md` e os demais documentos. Não alterado código da aplicação.
 - **Próxima ação:** seguir os PRs atuais; retomar o detalhamento dessa evolução
   quando o usuário priorizá-la. Não há decisão futura bloqueando B01.
+
+## PLN01 — Detalhamento dos PRs restantes
+
+- **Pedido:** estruturar os tópicos restantes em PRs pequenos para o Claude,
+  após consultar decisões necessárias. Perguntas e preparação em PLN01-01;
+  resposta do usuário e divergência Git registradas em PLN01-02.
+- **Agente/papel/data:** Codex, coordenação, 18/09/2026.
+- **Entrega:** FINALIZADA para planejamento; **ciclo: ENTREGUE**. Não é
+  implementação nem aprovação dos PRs planejados.
+- **Decisões recebidas:** acesso por link desejado, execução/hospedagem a
+  resolver; somente transcrição gratuita, Whisper permitido; persistência
+  dispensada na demonstração e desejada posteriormente. Prazo/duração ainda
+  não informados; não bloqueiam planejamento ou investigação B07-A.
+- **Resultado:** 12 cartões de preparação/entrega de áudio (incluindo contrato
+  e ensaio), 4 PRs posteriores de persistência/recuperação/histórico e H01 como
+  decisão pendente, sem PR de implantação. Cada cartão define escopo,
+  dependências, branch proposta, exclusões, aceite e validação.
+- **Mudança de sequência explícita:** B05-A/B e B09-C posteriores; B06 não
+  depende mais de banco. C02-A fornece contrato técnico ao backend; C02-B
+  conserva a conferência com F06 antes da integração de áudio. Memória e
+  temporários exigem reenvio após reinício; nenhuma promessa de recuperação
+  durável nessa fase. Limites quantitativos ficam para C02-A após B07-A.
+- **Arquivos:** `docs/planejamento/PRS_BACKEND_AUDIO.md` (novo),
+  `PLANO_DESENVOLVIMENTO.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md`, `prompt.md`
+  e este registro. Roteiro detalha os novos PRs; plano e governança registram
+  a decisão que substitui a persistência obrigatória na apresentação.
+- **Prompt:** revisão B04 já consumida substituída por prompt completo para
+  Claude Sonnet executar somente B07-A, com ambiente isolado, evidência real
+  e devolução ao Codex. Conteúdo anterior permanece em `6169fec:prompt.md`
+  e seu resultado no histórico B04; não foi criada cópia redundante.
+- **Fontes:** repositório/model card oficiais do Whisper, vinculados no roteiro;
+  governança/plano, contrato C01, Git e código local. Referência geral de
+  governança segue indisponível; nenhuma atualização de versão externa adotada.
+- **Validação:** reconciliação com Git; 33/33 hashes do aceite B04 conferem e
+  aplicação/contrato/.gitignore sem diff contra HEAD. Conferências documentais
+  finais registradas em PLN01-03. Nenhum teste de aplicação executado nesta tarefa.
+- **Git da entrega/registro:** NAO_COMMITADO, quatro arquivos rastreados
+  modificados e um novo não rastreado; índice vazio. Branch observada
+  `feat/b01-fundacao-api`, HEAD `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`;
+  sem commit PLN01. Publicação PLN01 NAO_PUBLICADO; integração NAO_SE_APLICA;
+  principal/destino/PR remoto atuais NAO_VERIFICADO. Não houve operação Git
+  de escrita nem alteração de implementação. Preexistência PLN01-01 preservada.
+- **Próximo responsável:** usuário encaminhar `prompt.md` ao Claude quando
+  for iniciar; Claude executar B07-A e registrar evidência; Codex analisar e
+  preparar revisão. Frente frontend confirma F06 em C02-B. Execução por link
+  permanece em H01 para decisão posterior, sem bloquear investigação local.
+
+## B07-A — Viabilidade do Whisper
+
+### Situação vigente — Codex, 19/09/2026 — B07-A-02
+
+- **Entrega do executor:** PARCIAL. **Ciclo:** EM_REVISAO após análise inicial
+  do Codex; revisão/correção do Opus ainda não executada nem registrada.
+- **Última atuação do Claude:** B07-A-01, Sonnet, 19/09/2026. A última revisão
+  Opus registrada é B04-03, de 18/09/2026, que não cobre este experimento.
+  B11 ainda não tem implementação/branch/relato de executor nesta cópia.
+- **Versão examinada:** quatro arquivos locais do experimento em
+  `docs/revisoes/2026-09-19-b07-a-entrada-opus.sha256`. Esses arquivos não
+  estão no HEAD 6169fec; manifesto preservado para a revisão.
+- **Achados/encaminhamento:** R01 verificar instalação limpa do comando/índice
+  publicado (não reproduzida pelo Codex); R02 completar comandos/parâmetros
+  e identificação da amostra convertida para reproduzir os experimentos.
+  P01 falta fala real para o aceite integral; não impede revisão parcial.
+- **Validação própria:** CLI `--help` saiu 0, sintaxe Python OK, WAV mono
+  22.050 Hz e 12,128 s; quatro hashes calculados; diff de aplicação/testes/
+  pyproject/contratos vazio. Sem instalação/inferência/suíte completa nesta rodada.
+- **Prompt:** `prompt.md` substituído por revisão B07-A para Opus. B11
+  preservado em `docs/planejamento/PROMPT_B11_NEGACAO_SENTIMENTO.md`, SHA-256
+  `0514d052ad435ebd9bebffdc49714458ac6e8e6ea289db1c7c218dfcafdb4907`.
+- **Git da entrega e registro:** NAO_COMMITADO, branch
+  `spike/b07-a-viabilidade-whisper`, HEAD/base
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; índice vazio, sem hash B07-A.
+  NAO_PUBLICADO, NAO_INTEGRADO; principal/destino/PR remoto NAO_VERIFICADO,
+  servidor não consultado. Sem commit/push/merge ou mudança de branch.
+- **Próximo responsável:** usuário encaminhar `prompt.md` ao Opus; Opus
+  revisar/corrigir o que existe e distinguir revisão encerrada de entrega
+  integral. Codex verificará a devolução; C02-A/B11 não iniciados por este pedido.
+
+### Situação após a revisão do Opus — 19/09/2026 — B07-A-03
+
+- **Revisão: CONCLUÍDA** sobre os artefatos existentes, com correções de
+  R01 e R02. **Entrega B07-A: continua PARCIAL** — a validação com fala
+  humana real (P01) segue pendente por falta de amostra; a revisão não
+  esperou por ela nem a substituiu. **Ciclo: EM_REVISAO**, aguardando
+  verificação final do Codex. Sem aceite técnico; sem aprovação.
+- **B07-A-R01 → confirmado como falha real e corrigido.** Reproduzido em
+  venv vazio, sem cache, com `pip install --dry-run`: a receita publicada
+  (índice único `--index-url` apontando ao índice CPU do PyTorch) falhava
+  com `No matching distribution found for openai-whisper==20250625` — o
+  índice CPU não hospeda o Whisper. A instalação relatada em B07-A-01 tinha
+  sido feita em duas etapas manuais, não com o arquivo. Correção em
+  `backend/scripts/requirements-whisper.txt`: `--extra-index-url` (PyPI
+  primário) + pino `torch==2.14.0+cpu` (rótulo local só existe no índice
+  CPU, impossibilitando cair no torch com CUDA). **Instalação limpa real**
+  executada em venv vazio, `--no-cache-dir`: saída 0, 0 pacotes `nvidia*`,
+  `torch-2.14.0+cpu` (196 MB), versões iguais às relatadas
+  (`openai-whisper==20250625`, `numba==0.67.0`, `llvmlite==0.49.0`,
+  `numpy==2.5.3`, `tiktoken==0.14.0`), 2,1 GB. Para caber na cota de disco
+  do ambiente, removi o venv de scratchpad da execução anterior (artefato
+  temporário meu); `backend/.venv` e o cache global do pip não foram
+  tocados.
+- **B07-A-R02 → confirmado e corrigido, com achado adicional.** O texto
+  citado no relatório **não se reproduz** só com `no_speech_threshold=0.9`
+  (a única opção que a CLI oferecia): isolando os fatores com um snippet
+  documentado, o texto exige também `logprob_threshold=None` e
+  `condition_on_previous_text=False` (parâmetros da execução original,
+  não registrados); a conversão para 16 kHz citada em B07-A-01 é
+  irrelevante (texto idêntico com o WAV original de 22,05 kHz — o Whisper
+  reamostra internamente). Com o threshold sozinho, o modelo produz
+  **alucinação multilíngue não determinística** (coreano/cirílico/francês,
+  4–12 segmentos estendidos até ~28–30 s num áudio de 12 s; texto diferente
+  a cada execução — o fallback de temperatura do Whisper passa a amostrar).
+  Correção no script: opção isolada substituída por `--experimento-forcado`,
+  que fixa os três parâmetros; reproduz o texto citado byte a byte em duas
+  execuções seguidas. Script agora imprime SHA-256 do áudio e parâmetros
+  antes de cada ensaio. Relatório ganhou comandos exatos e hashes das
+  amostras auxiliares (silêncio, inválido) e a seção 9 "Rastreabilidade".
+- **B07-A-P01 → mantido.** Nenhuma amostra falada real estava disponível
+  para a revisão; conclusões, recomendações e ficha continuam em "execução
+  mecânica provada", não "qualidade aprovada". Redação do relatório
+  reforçada: o resultado ruim com voz sintética não é evidência sobre fala
+  humana, nem para pior nem para melhor.
+- **Outros pontos do Codex:** "idioma detectado" → agora "idioma
+  configurado (detecção desligada)" e "idioma no resultado (ecoa o
+  configurado)"; carga do modelo/diretório de pesos passou a ter `try` com
+  saída 2 (testado com `--modelo nao-existe`), e o relatório declara o que
+  **não** é tratado (import, rede na primeira baixa); RAM: relatório agora
+  distingue *free* (~150 MB) de *available* (~2,2 GiB) e baseia a
+  recomendação de concorrência no segundo; "30–60 s" reescrito como tamanho
+  da amostra de validação, não duração aprovada de reunião; `--pesos`:
+  documentação e `--help` deixam claro que o script exige o argumento mas
+  não valida se está fora do repositório.
+- **Revisão própria, adicional:** recomendação nova para B07-B — usar os
+  padrões de decodificação do Whisper e tratar silêncio/não-fala como
+  resultado vazio, nunca forçar thresholds (seção 7 do relatório). Suíte da
+  API após a revisão: 100/100; `import app.main` não carrega `whisper` nem
+  `torch`; `git diff --name-only` em `backend/app`, `tests`, `pyproject` e
+  `docs/contratos`: vazio.
+- **Arquivos alterados pelo Opus (3):** `backend/scripts/verificar_whisper.py`,
+  `backend/scripts/requirements-whisper.txt`,
+  `docs/decisoes/transcricao-whisper.md`. `amostra_sintetica_pt_espeak.wav`
+  intocado (hash igual ao manifesto). Manifesto de entrada preservado;
+  hashes da versão revisada em B07-A-03.
+- **Git:** branch `spike/b07-a-viabilidade-whisper`, HEAD/base
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc` (não contém B07-A); índice
+  vazio; `NAO_COMMITADO`, `NAO_PUBLICADO`, PR remoto `NAO_ABERTO`,
+  `NAO_INTEGRADO`; principal/destino `NAO_VERIFICADO`. Sem commit, push,
+  PR, troca de branch ou merge. Registro `NAO_COMMITADO`.
+- **Próximo responsável:** usuário leva o relatório do Opus (B07-A-03) ao
+  Codex para a verificação da revisão. A pendência P01 (amostra real)
+  continua com o usuário/Codex; C02-A, B07-B e B11 não iniciados.
+
+### Relato do executor e encaminhamentos anteriores
+
+- **Agente executor:** Claude Sonnet, 19/09/2026. **Entrega: PARCIAL.**
+  **Ciclo: ENTREGUE**, aguardando análise do Codex. Pipeline mecânico
+  provado com medições reais; validação de qualidade com fala humana real
+  **não concluída** — só havia amostra sintetizada por texto-para-voz
+  (`espeak-ng`), que o próprio Whisper trata como pouco confiável (ver
+  evento B07-A-01 e `docs/decisoes/transcricao-whisper.md`, seção 4). Não
+  se declara Whisper "validado" nem C02-A liberado por esta entrega.
+- **Escopo executado:** inventário real de hardware/software; instalação
+  isolada (venv fora do repositório); download e execução real do modelo
+  `base` sobre amostra sintética de 12s; testes de silêncio e arquivo
+  inválido; medições de tempo/memória; recomendações preliminares para
+  C02-A, com ressalva explícita de que a qualidade ainda não foi
+  comprovada com fala real. Nenhuma rota, banco ou dependência nova em
+  `backend/pyproject.toml`; `backend/app/` intocado (confirmado por
+  `git diff --stat`).
+- **Achado de instalação:** `pip install openai-whisper` sem índice
+  específico resolve `torch` para a build padrão (pacotes CUDA/NVIDIA,
+  vários GB), o que **estourou uma cota de disco do ambiente** mesmo sem
+  GPU NVIDIA na máquina. Corrigido instalando `torch` explicitamente via
+  `--index-url https://download.pytorch.org/whl/cpu`
+  (`backend/scripts/requirements-whisper.txt`). Achado relevante para
+  C02-A/hospedagem, registrado no relatório.
+- **Compatibilidade Python 3.14:** confirmada para toda a cadeia
+  (`torch==2.14.0+cpu`, `openai-whisper==20250625`, `numba==0.67.0`,
+  `llvmlite==0.49.0`) — não foi preciso outra versão de Python.
+- **Dependências:** B04/C01 disponíveis em `6169fec`, usados só como
+  referência de contexto; nenhuma alteração neles. Não depende de F06,
+  banco ou hospedagem, como previsto.
+- **Branch:** `spike/b07-a-viabilidade-whisper`, **criada** nesta tarefa a
+  partir de `6169feca8c3a6cc6c5500eeab264eba817c8fbbc` (autorizado no
+  prompt). Nenhum commit feito. Principal/destino e PR remoto continuam
+  `NAO_VERIFICADO`.
+- **Git da entrega:** `NAO_COMMITADO`; arquivos listados no evento B07-A-01,
+  na pasta de trabalho da branch `spike/b07-a-viabilidade-whisper`, sobre
+  as alterações locais de PLN01 (preservadas, não commitadas). Publicação
+  `NAO_SE_APLICA`; integração `NAO_INTEGRADO`.
+- **Próxima ação:** usuário fornecer ou gravar uma amostra real falada em
+  português (30–60s, termos comerciais) para completar a validação de
+  qualidade — sem isso, B07-A não pode ser considerado tecnicamente
+  encerrado. Em paralelo, Codex analisa esta entrega parcial e decide se
+  prepara revisão do Opus sobre o que já existe ou aguarda a amostra real.
+  C02-A não deve começar antes dessa decisão.
+
+- **Encaminhamento atualizado em PLN02 (Codex, 19/09):** usuário pediu também
+  planejamento de refinamento do texto. B07-A permanece parcial, sem novo
+  aceite; seu prompt está em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
+  `prompt.md` agora encaminha B11, sem cancelar ou concluir o experimento.
+
+## ANA02 — Panorama funcional
+
+- **Pedido/agente/data:** explicar o nível atual e o que o ConvIQ já faz;
+  Codex, análise do estado local, 19/09/2026.
+- **Entrega:** FINALIZADA; **ciclo:** ENTREGUE como análise. Não constitui
+  revisão técnica completa/aceite de B07-A nem nova implementação.
+- **Conclusão:** protótipo funcional do backend de análise por texto. Recebe
+  transcrição, detecta sentimento/sinais comerciais por regras, produtos e
+  concorrentes cadastrados, evidências posicionadas e sugestões genéricas.
+  Áudio ainda é experimento isolado parcial; frontend ausente nesta cópia,
+  acesso por link não demonstrado; persistência/histórico planejados depois.
+- **Evidência própria:** leitura de rotas/fábrica da API, README, script e
+  relatório de Whisper; manifesto B04 com 33/33 hashes corretos; execução
+  direta de quatro casos com a composição real e inspeção de OpenAPI.
+  Resultados detalhados em ANA02-01. Sem suíte completa/servidor HTTP/Whisper
+  reexecutados. Últimos 100 testes relatados pelo Sonnet em B07-A-01;
+  aceite de texto anterior do Codex em B04-04 permanece aplicável ao código.
+- **Limitações:** negação/contexto/ironia não tratados; léxico restrito;
+  classificações não são estimativas estatísticas de cancelamento. Whisper
+  precisa de fala real e integração; existência do script não comprova fluxo
+  de áudio na API. Referência geral de governança continua indisponível;
+  instruções locais aplicadas. Estado de frontend em outra cópia desconhecido.
+- **Arquivo desta atuação:** somente `REGISTRO_TRABALHO.md`; alterações de
+  PLN01/B07-A preservadas; `prompt.md` não alterado nem executado nesta consulta.
+- **Git:** NAO_COMMITADO; branch `spike/b07-a-viabilidade-whisper`,
+  HEAD/base `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; sem commit ANA02;
+  índice vazio. NAO_PUBLICADO; integração NAO_SE_APLICA à análise;
+  destino/principal/PR remoto NAO_VERIFICADO. Sem commit/push/merge.
+- **Próximo responsável:** seguir a coordenação de B07-A para completar
+  validação com fala real; frente frontend confirmar F06. Nenhuma tarefa
+  adicional liberada por esta consulta de status.
+
+## PLN02 — Refinamento das capacidades
+
+- **Pedido/agente/data:** estruturar melhorias das capacidades existentes em
+  PRs pequenos; Codex, coordenação, 19/09/2026. Continuação do panorama ANA02.
+- **Entrega:** FINALIZADA como planejamento; **ciclo:** ENTREGUE. Os 11 PRs
+  B11–B21 continuam planejados e sem implementação, revisão ou aceite novos.
+- **Escopo:** negação/sentido do sentimento, risco com contexto, intenção de
+  oportunidade, Unicode, vocabulário, catálogo ambíguo, agrupamento e descrição
+  das oportunidades, evidências compartilhadas, recomendações e avaliação.
+  Prioridade B11–B14, depois B19. Nenhuma dependência de áudio/banco/hospedagem.
+- **Base factual:** dez sondagens executadas na composição real sobre 6169fec;
+  tabela de resultados no novo roteiro. Falhas incluem cancelamento negado ou
+  de reunião marcado como churn, interesse negado/módulo instalado como
+  oportunidade, “analista sênior” como marca e evidência duplicada.
+- **Critérios:** cada cartão define branch proposta, escopo/arquivos, limites,
+  dependências, exemplos e aceite. C01 continua compatível; comportamentos
+  futuros recebem versão nova, começando B11 em 0.2. Regras locais gratuitas;
+  não prometer compreensão geral nem probabilidades. Não há decisão adicional
+  indispensável do usuário para estruturar esta frente.
+- **Arquivos desta atuação (6):** `docs/planejamento/PRS_REFINAMENTO_ANALISE.md`
+  (novo), `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md` (cópia nova),
+  `PLANO_DESENVOLVIMENTO.md`, `docs/planejamento/PRS_BACKEND_AUDIO.md`,
+  `prompt.md` e `REGISTRO_TRABALHO.md`. Governança permanece como recebida.
+- **Prompt:** B11 completo preparado para Sonnet; substituiu B07-A após
+  preservar seus bytes no arquivo de retomada, pois a tarefa ainda é parcial.
+  SHA-256 da cópia: `87deca231a0bdc5e6f6bccc7b4480796ac583ac49b641c7d2c0361ebd1ac7803`.
+  Roteiro de áudio atualizado para não apontar ao prompt errado; B07-A não
+  cancelado/aprovado. Usuário decide quando encaminhar a próxima execução.
+- **Validação:** sondagens reais registradas, 33/33 hashes de B04 conferidos;
+  conferências documentais em PLN02-01. Sem implementação, instalação ou
+  suíte completa executada nesta rodada. Referência geral continua indisponível.
+- **Git:** NAO_COMMITADO, branch `spike/b07-a-viabilidade-whisper`,
+  HEAD/base `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; sem commit da tarefa,
+  índice vazio. Quatro rastreados modificados e sete arquivos não rastreados
+  no total, incluindo preexistências de PLN01/B07-A/ANA02. NAO_PUBLICADO;
+  integração NAO_SE_APLICA; principal/destino/PR remoto NAO_VERIFICADO.
+  Nenhum commit, push, PR remoto, criação/troca de branch ou merge realizado.
+- **Próximo responsável:** Claude executar somente B11 quando receber o
+  prompt; Codex analisar e preparar revisão Opus. Demais refinamentos aguardam
+  seu ciclo; Whisper segue sua pendência de fala real, execução por link a
+  resolver e persistência posterior, sem novos bloqueios de infraestrutura.
+
+## B11 — Negação no sentimento
+
+- **Encaminhamento atualizado em B07-A-02 (19/09/2026):** B11 permanece
+  PLANEJADO/NAO_INICIADO. O prompt de execução está preservado em
+  `docs/planejamento/PROMPT_B11_NEGACAO_SENTIMENTO.md`; o `prompt.md`
+  vigente trata da revisão de B07-A pelo Opus, conforme pedido posterior.
+
+- **Executor previsto:** Claude Sonnet. **Entrega:** NAO_INICIADA;
+  **ciclo:** PLANEJADO, prompt preparado em PLN02. Revisão/aceite pendentes.
+- **Dependências:** B04/C01 presentes e aceitos tecnicamente na base 6169fec;
+  independência do experimento B07-A. Confirmar base e arquivos na retomada.
+- **Escopo/aceite:** cartão B11 do roteiro de refinamento e `prompt.md`;
+  distinguir satisfação negada de elogio, suprimir problema negado sem
+  inferir satisfação, limitar alcance da negação e preservar evidências.
+  Churn/oportunidades permanecem para B12/B13; C01 sem mudança de formato.
+- **Branch proposta:** `fix/b11-negacao-sentimento`, ainda não criada;
+  base proposta `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`. Branch atual de
+  preparação `spike/b07-a-viabilidade-whisper`. Principal/destino/PR remoto
+  NAO_VERIFICADO; autorizar somente trabalho/branch local no encaminhamento,
+  sem commit, push, abertura de PR remoto ou integração por este prompt.
+- **Git da implementação:** SEM_ALTERACOES, sem hash de entrega;
+  publicação NAO_SE_APLICA, integração NAO_INTEGRADO. Ficha/prompt são
+  preparação de PLN02 NAO_COMMITADA, não implementação B11.
+- **Próximo responsável:** Sonnet executar e registrar evidências; Codex
+  examinar antes de revisão pelo Opus e preparação do próximo PR.
 
 ## Histórico de atuações
 
@@ -2979,3 +3375,430 @@ Atualizar também a ficha e a linha do índice quando o estado mudar.
   integrar as entregas quando autorizado; alinhamento com responsável do
   frontend para F06. Depois C02 e dependências do áudio, sem presumir que
   todo o backend terminou ou que B05 está automaticamente liberado.
+
+### PLN01-01 — 18/09/2026 — Codex / levantamento antes de estruturar PRs
+
+- **Ação:** li instruções/governança local, quadro e decisões do plano,
+  contexto da demonstração, índice/ficha B04 e evento B04-04. Conferi
+  branch, HEAD/base, status, diff rastreado e índice. Estado consistente
+  com a última verificação: tudo local na branch `feat/b01-fundacao-api`,
+  HEAD/base `master` em `3c52ea3ed0d3c3d38de5b9adf2a4a4ff320a1842`,
+  índice vazio; `prompt.md` modificado e backend/docs não rastreados.
+- **Achado documental:** o plano ainda contém descrição histórica de
+  backend ausente e rotas não implementadas. A evidência vigente é o aceite
+  B04-04; esse trecho antigo não invalida B01–B04/C01. Atualização do plano
+  ficará junto do detalhamento autorizado após as respostas, preservando
+  o contexto histórico pertinente.
+- **Resultado:** já existe uma divisão macro C02/B05–B10, mas faltam
+  decisões de ambiente, transcrição/custos e restrições para detalhar
+  tarefas executáveis. Enviei três perguntas pela ferramenta de consulta:
+  ambiente local/online, transcrição externa e orçamento, prazo/áudios/
+  exigência de banco. São informações de produto/infraestrutura, não uma
+  autorização adicional para a análise já solicitada. Não presumi respostas.
+- **Limitação:** referência geral de governança inexistente, como nas
+  rodadas anteriores; regras específicas disponíveis bastam para continuar.
+  Pesquisa de fornecedores/preços e testes de aplicação não executados:
+  nesta fase só houve leitura e registro de decisões necessárias.
+- **Arquivos/estado:** somente `REGISTRO_TRABALHO.md` (índice, ficha PLN01
+  e este evento), NAO_COMMITADO. Plano/prompt/aplicação preservados. Sem
+  commit, push, criação/troca de branch, PR ou merge; remoto não consultado.
+- **Próxima ação:** usuário responder; Codex então detalhar os PRs pequenos
+  e a passagem ao Claude. O pedido para perguntar antes da estruturação
+  está sendo respeitado; nenhuma tarefa nova foi liberada.
+
+### PLN01-02 — 18/09/2026 — Codex / decisões recebidas e reconciliação Git
+
+- **Decisões do usuário:** objetivo de acesso por link no navegador, com
+  execução/hospedagem deixada para resolver posteriormente; transcrição
+  somente gratuita, Whisper permitido; persistência não precisa ser
+  apresentada nesta etapa, desejada posteriormente. Prazo e duração máxima
+  não definidos; não presumir contratação de infraestrutura ou API paga.
+- **Divergência encontrada antes de planejar:** HEAD passou de `3c52ea3`
+  para `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, commit agregado de
+  B01–B04/C01/documentação, na mesma branch `feat/b01-fundacao-api`.
+  `master` permanece em `3c52ea3ed0d3c3d38de5b9adf2a4a4ff320a1842`.
+  A referência local `origin/feat/b01-fundacao-api` aponta a `6169fec`;
+  isso não substitui consulta atual ao servidor. Publicação/principal/PR
+  remoto atuais NAO_VERIFICADO. Não atribuo autoria ou autorização dessa
+  operação Git ao Codex nesta atuação; apenas constatei o commit existente.
+- **Pasta de trabalho:** somente `REGISTRO_TRABALHO.md` modificado na entrada
+  desta rodada (PLN01-01/ficha/índice ainda fora do commit); índice vazio.
+  Demais arquivos antes não rastreados agora estão commitados. Atualizar os
+  campos atuais de Git durante o planejamento; preservar eventos históricos
+  que descrevem corretamente suas versões antigas.
+- **Ação em curso:** pesquisar a execução gratuita de Whisper, ajustar o
+  planejamento à persistência adiada e preparar PRs pequenos. Hospedagem
+  será uma pendência explícita; a validação técnica local não promete acesso
+  público gratuito ou recursos de um servidor ainda não escolhido.
+- **Arquivos nesta reconciliação:** somente este registro, sem commit/push/
+  merge ou troca de branch pelo Codex. Próximo responsável: Codex concluir
+  PLN01 conforme as decisões recebidas e registrar a entrega documental.
+
+### PLN01-03 — 18/09/2026 — Codex / PRs pequenos e primeiro encaminhamento
+
+- **Ação:** concluído planejamento solicitado após as respostas do usuário.
+  Criado `docs/planejamento/PRS_BACKEND_AUDIO.md` com 12 cartões de áudio,
+  contrato/alinhamento e ensaio; mais 4 PRs posteriores de persistência,
+  recuperação durável e histórico. Escopo, arquivos, branches propostas,
+  dependências, exclusões, aceite e validação definidos por entrega.
+- **Decisões aplicadas:** somente transcrição gratuita, Whisper aberto como
+  primeira candidata sujeita à prova B07-A; acesso por link desejado e H01
+  A_RESOLVER; persistência posterior. Na primeira fase, estado em memória e
+  áudio temporário, com reenvio após reinício e sem recuperação durável prometida.
+  Prazo e duração desejada não foram informados; B07-A mede viabilidade e
+  C02-A fixa limites configuráveis, sem inventar compromisso de produto.
+- **Dependências reconciliadas:** plano e seção 7 da governança atualizados
+  explicitamente. B06 deixa de depender de B05; C02-A fornece contrato técnico
+  ao backend, C02-B conserva alinhamento após F06 antes da integração entre
+  frentes. Frontend/F06 não comprovados nesta cópia; nenhuma aprovação
+  atribuída ao colega. Ensaio de backend I01-A não comprova navegador/link.
+- **Pesquisa:** README e model card oficiais de `github.com/openai/whisper`,
+  consultados nesta rodada e vinculados no roteiro/prompt: licença, requisitos
+  e limitações. Nenhuma instalação, download de pesos ou transcrição realizada.
+  Compatibilidade com Python 3.14 e recursos locais não foi presumida.
+- **Prompt substituído:** `prompt.md` agora encaminha somente B07-A ao Claude
+  Sonnet, com ambiente isolado, áudio fictício real, medições e relatório.
+  Revisão B04 anterior já consumida; conteúdo preservado no commit 6169fec,
+  resultado e eventos B04 mantidos. Não foi feita cópia redundante de rascunho.
+- **Registro:** índice e ficha PLN01 atualizados, ficha B07-A criada como
+  PLANEJADO/NAO_INICIADA; Git vigente adicionado às fichas B01/C01/B02/B03/B04
+  sem apagar os aceites e fotografias anteriores. DOC01/ANA01/PROD01 também
+  reconciliados na fotografia atual do índice. Não se atribui autoria da
+  operação de commit/push preexistente a esta atuação.
+- **Validação própria:** script de leitura dos 5 documentos → 26 links locais
+  existentes, blocos Markdown fechados, 12 cartões e 4 PRs posteriores,
+  dependências sem ciclos/IDs ausentes e nenhuma dependência transitiva de
+  banco na primeira fase. `git diff --check` e conferência do arquivo novo
+  com `git diff --no-index --check` sem diagnóstico de espaços. Comparação
+  do histórico contra HEAD confirmou preservação integral dos eventos commitados.
+- **Aplicação preservada:** `sha256sum -c` no manifesto de aceite B04 →
+  **33/33 OK**; `git diff --name-only 6169fec -- backend docs/contratos .gitignore`
+  vazio. Nenhum teste da aplicação executado nesta tarefa documental;
+  a última evidência de suíte segue atribuída a B04-04 (100/100).
+- **Git ao encerrar:** branch `feat/b01-fundacao-api`, HEAD
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; quatro arquivos rastreados
+  modificados (plano, governança, registro e prompt), um novo não rastreado
+  (roteiro); índice vazio. PLN01 NAO_COMMITADO e NAO_PUBLICADO; integração
+  NAO_SE_APLICA ao planejamento. Publicação/PR/principal/integração remotos
+  da base NAO_VERIFICADO, sem consulta ao servidor. Nenhuma criação/troca
+  de branch, commit, push, abertura de PR ou merge nesta atuação.
+- **Pendências/próximo responsável:** Claude executa somente B07-A quando
+  receber o prompt; Codex analisa e prepara revisão pelo Opus. C02-A depende
+  da viabilidade; C02-B da confirmação de F06 com a outra frente; H01 segue
+  para decisão posterior. PLN01 FINALIZADA/ENTREGUE como documentação,
+  sem declarar os PRs planejados implementados ou aprovados.
+
+### B07-A-01 — 19/09/2026 — Claude Sonnet / executor
+
+- **Pedido:** usuário pediu para continuar com o próximo PR; o prompt
+  vigente (preparado pelo Codex em PLN01-03) encaminhava só B07-A.
+- **Conferência antes de executar:** reli `AGENTS.md`, `CLAUDE.md`,
+  `SISTEMA_GOVERNANCIA_CONVIQ.md`, índice/fichas PLN01 e B07-A, etapa 4 do
+  plano, `docs/planejamento/PRS_BACKEND_AUDIO.md` e o contrato C01. Conferi
+  `git status --short --branch` — branch `feat/b01-fundacao-api`, HEAD
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, igual ao esperado pelo
+  prompt; `PLANO_DESENVOLVIMENTO.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md`,
+  `REGISTRO_TRABALHO.md` e `prompt.md` modificados localmente (PLN01),
+  `docs/planejamento/` não rastreado — tudo preservado, nada descartado.
+- **Ação — ambiente:** inventariei CPU (Intel i5-1335U, 12 threads), RAM
+  (7608 MB, ~150 MB livres num dado momento), GPU (Intel Iris Xe, sem
+  NVIDIA), disco (419 GB livres), FFmpeg/FFprobe (8.1.2) e Python (só
+  3.14.7 disponível, sem pyenv/conda). Criei venv isolado fora do
+  repositório (scratchpad da sessão), sem tocar `backend/pyproject.toml`.
+- **Achado durante a instalação:** `pip install openai-whisper` sem índice
+  específico resolveu `torch` para a build com pacotes CUDA/NVIDIA
+  completos (vários GB: cublas, cudnn, nccl, cufft, cusolver...) e
+  **estourou a cota de disco do ambiente** (`OSError: [Errno 122] Disk
+  quota exceeded`), mesmo sem GPU NVIDIA na máquina. Limpei o cache do pip
+  (3,1 GB liberados) e reinstalei fixando
+  `--index-url https://download.pytorch.org/whl/cpu`: `torch` caiu para
+  196 MB de download, sem nenhum pacote NVIDIA. Confirmei que existe wheel
+  CPU-only para `cp314-x86_64` (`torch==2.14.0+cpu`) antes de instalar.
+- **Ação — instalação e compatibilidade:** `openai-whisper==20250625`
+  instalado com sucesso sobre o torch CPU; toda a cadeia
+  (`torch`, `numba==0.67.0`, `llvmlite==0.49.0`, `tiktoken`, `numpy`) tem
+  wheel para Python 3.14 — não precisei de outra versão de Python.
+  `import whisper, torch` funcionou; `torch.cuda.is_available()` → `False`,
+  como esperado nesta máquina.
+- **Ação — experimento real:** baixei o modelo `base` (139 MB, ~4s) e
+  medi carga (0,47–1,0s) e transcrição (1,2–1,7s para 12s de áudio; pico
+  de RSS ~700–715 MB). Gerei uma amostra sintética em português com
+  `espeak-ng` (`docs/decisoes/amostras/amostra_sintetica_pt_espeak.wav`,
+  12,1s, termos comerciais) só porque não havia amostra real disponível
+  nem pedi uma gravação ao usuário durante a execução — registrei essa
+  lacuna como pendência, não decidi por conta própria que a amostra
+  sintética bastava. Com o `no_speech_threshold` padrão, o Whisper devolveu
+  texto vazio (classificou o áudio como provável não-fala,
+  `no_speech_prob` ≈ 0,72). Forçando o threshold para obter alguma saída,
+  o texto ficou majoritariamente incorreto (só "cancelado contrato",
+  "expandir" e aproximações de "Fluig"/"módulo de análise" reconhecíveis).
+  **Concluí que voz sintetizada por formantes não valida qualidade do
+  Whisper** — o resultado só prova que o pipeline mecânico funciona.
+- **Ação — casos de borda:** silêncio de 3s → texto vazio, 0 segmentos,
+  sem exceção (mas 3,5–9,9s de processamento — o Whisper usa janelas
+  internas fixas de 30s, então tempo não cai proporcionalmente para
+  clipes curtos ou silenciosos; registrado como alerta para não estimar
+  timeout de C02-A por regra de três a partir de um clipe curto). Arquivo
+  inválido (texto puro com extensão `.wav`) → `RuntimeError` do `ffmpeg`
+  interno do Whisper, capturável, processo sai com código 1 sem travar.
+- **Arquivos criados:** `backend/scripts/verificar_whisper.py` (CLI
+  testada de verdade, não só escrita — rodei `inventario` e `transcrever`
+  com os três áudios), `backend/scripts/requirements-whisper.txt`
+  (dependências isoladas, índice CPU-only), `docs/decisoes/
+  transcricao-whisper.md` (relatório completo, 8 seções) e
+  `docs/decisoes/amostras/amostra_sintetica_pt_espeak.wav` (evidência da
+  seção 4 do relatório, claramente identificada como sintética). Nenhum
+  arquivo de `backend/app/` alterado — confirmado com
+  `git diff --stat -- backend/app backend/pyproject.toml` (vazio).
+- **Validação:** suíte completa da API após o experimento →
+  **100 passaram**, sem alteração; `import app.main` não carrega `whisper`
+  nem `torch` (`sys.modules` conferido). `git diff --no-index --check` nos
+  3 arquivos de texto novos: sem diagnóstico de espaços. Script testado
+  com os 3 áudios (sintético, silêncio, inválido) reproduzindo os números
+  citados no relatório.
+- **Não executado:** transcrição com áudio real falado (motivo: nenhuma
+  amostra real disponível, e não solicitei gravação ao usuário antes de
+  concluir esta rodada — deixo isso como próxima ação explícita, em vez de
+  bloquear indefinidamente ou fabricar uma "aprovação" com a amostra
+  sintética); teste com modelo diferente de `base`; benchmark de várias
+  durações de áudio; instalação em outro sistema operacional.
+- **Resultado:** entrega **PARCIAL**, conforme o próprio prompt autoriza
+  quando falta amostra indispensável. Não me autoaprovei nem declarei
+  Whisper "validado"; não iniciei C02-A.
+- **Git:** branch `spike/b07-a-viabilidade-whisper` **criada** nesta tarefa
+  a partir de `6169feca8c3a6cc6c5500eeab264eba817c8fbbc` (autorizado no
+  prompt). `NAO_COMMITADO`; arquivos de B07-A não rastreados, junto das
+  alterações locais de PLN01 (preservadas). `NAO_PUBLICADO`; PR remoto
+  `NAO_ABERTO`; `NAO_INTEGRADO`. Nenhum commit, push, PR ou merge, como o
+  prompt exigia. Atualização deste registro também `NAO_COMMITADO`.
+- **Próximo responsável:** usuário decide como obter uma amostra real
+  falada (fornecer uma existente, gravar uma fictícia lendo o roteiro do
+  relatório, ou indicar outra fonte); Codex analisa esta entrega parcial e
+  decide o próximo passo — completar B07-A com a amostra real antes de
+  revisão do Opus, ou encaminhar o que já existe para revisão parcial.
+  C02-A não deve começar antes dessa decisão.
+
+### ANA02-01 — 19/09/2026 — Codex / panorama funcional conferido
+
+- **Leitura/retomada:** instruções do projeto, governança/seção 7, plano,
+  índice/ficha B07-A, último evento do Sonnet e relatório de transcrição.
+  Git agora em `spike/b07-a-viabilidade-whisper`, mesmo HEAD 6169fec;
+  divergência em relação à fotografia PLN01 explicada por B07-A-01.
+  Fotografia anterior rotulada histórica, índice/ficha ANA02 atualizados.
+- **Conferência própria:** inventário sem pasta `frontend/`, sem adaptador
+  da aplicação/rotas de áudio/banco; arquivos novos de B07-A são script,
+  requisitos experimentais, relatório e WAV sintético. Nenhuma conclusão
+  sobre outra cópia do frontend ou situação do servidor remoto.
+- **Verificação de versão:** `sha256sum -c` no manifesto de aceite B04 →
+  33/33 OK. API aceita preservada, sem regressão presumida pela simples
+  criação do experimento. `git diff --cached --stat` vazio.
+- **Sondagem executada:** `.venv/bin/python` no diretório `backend`, importando
+  a fábrica/serviço de composição, mostrou OpenAPI com `/api/health` e
+  `/api/analises/texto`, sem áudio. Quatro entradas fictícias percorreram
+  `compor_analise_texto`; todas as evidências retornadas recortam o texto
+  exatamente segundo seus índices.
+- **Resultados próprios:** cliente insatisfeito + cancelar contrato + interesse
+  em Fluig → sentimento negativo, risco sinalizado, 2 oportunidades de padrões,
+  Fluig e 3 recomendações; prospect com texto de risco → churn não aplicável;
+  concorrente SAP isolado → SAP identificado, sem sinal de churn;
+  “Não estamos satisfeitos.” → sentimento positivo (limitação de negação
+  reproduzida, coerente com README). Não se promete compreensão ampla.
+- **Áudio:** Sonnet relata execução de Whisper base com amostra sintética,
+  silêncio e inválido; fala real ainda não validada e transcrição não integrada
+  à API. Conferi arquivos e relato, sem repetir instalação/medições/inferência;
+  B07-A permanece PARCIAL/ENTREGUE, sem aceite técnico nesta consulta.
+- **Escopo/arquivo:** apenas atualização deste registro; nenhuma correção de
+  aplicação, execução do prompt, nova tarefa de desenvolvimento ou revisão
+  completa. A referência geral de governança segue inexistente nos caminhos
+  instruídos; regras do projeto suficientes para esta análise.
+- **Git ao encerrar:** HEAD/base `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`,
+  branch `spike/b07-a-viabilidade-whisper`; quatro rastreados modificados e
+  cinco não rastreados preexistentes; somente registro editado pelo Codex.
+  ANA02 NAO_COMMITADO/NAO_PUBLICADO, integração NAO_SE_APLICA;
+  principal/destino/PR/publicação remotos NAO_VERIFICADO. Nenhum commit,
+  push, merge ou criação/troca de branch pelo Codex.
+- **Próximo responsável:** coordenação de B07-A e confirmação de F06 conforme
+  planejamento; usuário recebe panorama funcional com limites explícitos.
+
+### PLN02-01 — 19/09/2026 — Codex / refinamentos em PRs pequenos
+
+- **Pedido:** usuário solicitou os pontos das capacidades atuais que merecem
+  refinamento, estruturados em PRs pequenos. Escopo de coordenação/documentação,
+  sem iniciar a implementação ou a revisão completa do experimento Whisper.
+- **Retomada:** AGENTS, governança, registro/fichas ANA02/B07-A e plano lidos;
+  Git em `spike/b07-a-viabilidade-whisper`, HEAD 6169fec, consistente com ANA02.
+  Nenhuma nova divergência de base/código. Referência geral de governança
+  continua indisponível; regras locais aplicadas. Preexistências preservadas.
+- **Investigação própria:** serviços `texto`, `sentimento`, `sinais_comerciais`
+  e `analise`, schemas, C01 e testes examinados. Dez sondagens pela composição
+  real reproduziram: satisfação negada positiva; cancelamento negado e de reunião
+  com churn; interesse negado com 2 oportunidades; módulo instalado como
+  oportunidade; “frustrante” insuficiente; “analista sênior” como Senior;
+  duas oportunidades/recomendações iguais na mesma intenção; evidências
+  duplicadas de insatisfação; “péssimo” em NFD sem sinal. Resultados resumidos
+  no roteiro. Não foi execução da suíte completa ou teste HTTP desta rodada.
+- **Entrega:** `docs/planejamento/PRS_REFINAMENTO_ANALISE.md` com **11 PRs
+  B11–B21**, branches propostas, dependências, critérios/exemplos, arquivos e
+  exclusões. Prioridade B11–B14, depois B19; demais refinam vocabulário,
+  catálogo, agrupamento/objeto das oportunidades, sugestões e avaliação.
+  Evolução usa regras gratuitas, C01 compatível e versão identificada;
+  não promete compreensão geral, modelo novo ou probabilidade de cancelamento.
+- **Coordenação:** seção de refinamento adicionada ao plano, estado parcial
+  de B07-A atualizado no roteiro de áudio, índice/fichas PLN02/B11 criados.
+  B11 preparado, mas todos B11–B21 seguem PLANEJADOS/NAO_INICIADOS, sem
+  aceite ou implementação. B07-A permanece PARCIAL/ENTREGUE, sem cancelamento.
+- **Substituição do prompt:** `prompt.md` passou de B07-A para B11 (negação
+  simples no sentimento). Prompt anterior preservado byte a byte em
+  `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`; SHA-256
+  `87deca231a0bdc5e6f6bccc7b4480796ac583ac49b641c7d2c0361ebd1ac7803`.
+  Cópia útil porque B07-A ainda aguarda conclusão; roteiro aponta corretamente
+  à cópia em vez de presumir que o prompt vigente continua sendo o de áudio.
+- **Arquivos próprios:** plano, registro, prompt, roteiro de áudio e os dois
+  novos documentos de planejamento/retomada (6). Governança, código,
+  requisitos/scripts de Whisper e relatório/amostra não alterados nesta atuação.
+- **Validação:** 33/33 hashes do manifesto de aceite B04 conferidos. Script
+  documental validou 6 arquivos, 20 links locais, blocos Markdown e espaços;
+  11 cartões, dependências iguais entre plano/roteiro, sem ciclos/IDs ausentes,
+  sem áudio/banco como pré-requisito; SHA-256 da cópia B07-A confere; histórico
+  commitado preservado integralmente. `git diff --check` sem diagnóstico.
+- **Git:** branch `spike/b07-a-viabilidade-whisper`, HEAD/base
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; índice vazio, quatro rastreados
+  modificados e sete arquivos não rastreados no total (incluindo preexistências).
+  PLN02/registro NAO_COMMITADO e NAO_PUBLICADO, integração NAO_SE_APLICA;
+  destino/principal/PR remoto atuais NAO_VERIFICADO, sem consulta ao servidor.
+  Sem criação/troca de branch, commit, push, PR remoto ou merge nesta atuação.
+- **Próximo responsável:** Claude executa B11 quando o usuário encaminhar
+  `prompt.md`, mantendo B07-A separado; Codex analisa a entrega e prepara
+  revisão pelo Opus. Nenhuma pergunta de produto adicional indispensável
+  identificada para este planejamento; mudança para outro método de análise
+  ou contrato dependerá de proposta própria quando houver essa necessidade.
+
+### B07-A-02 — 19/09/2026 — Codex / análise inicial e prompt para Opus
+
+- **Pedido:** conferir a última atuação do Claude e preparar `prompt.md`
+  para o Opus se ainda não houvesse revisão. Inspecionados histórico, fichas,
+  arquivos locais, branches e commits, sem executar o prompt B11 anterior.
+- **Constatação:** última entrega do Claude registrada é B07-A-01, Sonnet,
+  19/09/2026, PARCIAL. Nenhum evento/relatório de revisão Opus para B07-A
+  encontrado; última revisão Opus registrada é B04-03 (18/09), seguida do
+  aceite B04-04. B11 continua somente planejado, sem branch/implementação.
+  Conclusão limitada à cópia examinada; servidor não consultado.
+- **Leitura/versão:** governança 4.3–4.5, plano, cartão e prompt original
+  B07-A, relatório do Sonnet e quatro arquivos entregues. Base 6169fec;
+  arquivos B07-A não rastreados, ausentes desse commit. Manifesto de entrada
+  criado em `docs/revisoes/2026-09-19-b07-a-entrada-opus.sha256` (4 arquivos).
+- **Verificações próprias:** CLI `--help` → saída 0; sintaxe por `ast.parse`
+  OK; leitura WAV por `wave` → mono, 22.050 Hz, 12,128 s. Diff de
+  `backend/app`, testes, pyproject e contratos vazio; índice vazio.
+  Não executei instalação, inferência, medições de recursos ou suíte completa;
+  números de desempenho/100 testes continuam atribuídos ao Sonnet.
+- **B07-A-R01 — a confirmar:** arquivo de requisitos usa índice CPU único
+  com torch e openai-whisper, enquanto o relato descreve instalação em etapas.
+  Encaminhada verificação limpa da receita, fontes e versões; não declarei
+  falha de instalação reproduzida nem disponibilidade atual de pacotes.
+- **B07-A-R02 — confirmado documentalmente:** resultado com threshold 0.9
+  não tem comando/opção correspondente na CLI entregue; geração de silêncio/
+  inválido e conversão para 16 kHz citadas também precisam de comandos exatos
+  e identificação da amostra. WAV preservado é 22.050 Hz. Encaminhado para
+  completar a rastreabilidade, sem negar que os ensaios relatados ocorreram.
+- **B07-A-P01 — pendência de aceite:** falta fala humana real, declarada
+  corretamente na entrega. Revisão do material existente pode terminar sem
+  essa amostra; aceite integral de viabilidade/qualidade permanece pendente.
+  Opus deve distinguir conclusão da revisão de conclusão da entrega.
+- **Ação:** B07-A passa a EM_REVISAO pela análise inicial do Codex, execução
+  permanece PARCIAL. `prompt.md` preparado para Opus revisar/corrigir somente
+  B07-A, com versão, achados, exclusões, validação e devolução para Codex.
+  Nenhuma revisão do Opus declarada executada e nenhum aceite novo concedido.
+- **Substituição preservada:** prompt B11 ainda não executado copiado para
+  `docs/planejamento/PROMPT_B11_NEGACAO_SENTIMENTO.md`, SHA-256
+  `0514d052ad435ebd9bebffdc49714458ac6e8e6ea289db1c7c218dfcafdb4907`.
+  Plano/roteiros e fichas agora apontam ao encaminhamento correto; histórico
+  anterior preservado, B11 segue PLANEJADO/NAO_INICIADO.
+- **Arquivos desta atuação (7):** prompt, registro, plano, roteiros de áudio
+  e refinamento, cópia B11 e manifesto. Código/relatório/amostra de B07-A,
+  aplicação e governança recebidos foram preservados. Referência geral de
+  governança continua inacessível; instruções locais aplicadas.
+- **Validação documental:** 6 documentos/22 links locais válidos; blocos
+  Markdown fechados; cópia B11 idêntica; manifesto B07-A 4/4; histórico
+  commitado preservado; `git diff --check` sem diagnóstico.
+- **Git ao encerrar:** branch `spike/b07-a-viabilidade-whisper`, HEAD/base
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; índice vazio. Quatro rastreados
+  modificados e nove arquivos não rastreados ao todo, incluindo preexistências.
+  B07-A e preparação/registro NAO_COMMITADO/NAO_PUBLICADO; B07-A NAO_INTEGRADO;
+  principal/destino/PR remoto NAO_VERIFICADO. Sem commit, push, PR remoto,
+  troca/criação de branch ou merge nesta atuação.
+- **Próximo responsável:** usuário encaminhar `prompt.md` ao Opus; Opus
+  revisar/corrigir e registrar a própria atuação; Codex verificar a devolução.
+  Não iniciar B11/C02-A ou outro PR automaticamente.
+
+### B07-A-03 — 19/09/2026 — Claude Opus / revisor-corretor
+
+- **Pedido:** usuário pediu para executar `prompt.md` (prompt de revisão e
+  correção de B07-A, preparado pelo Codex em B07-A-02, com R01 a confirmar,
+  R02 confirmado documentalmente e P01 como pendência de aceite).
+- **Leitura:** `AGENTS.md`, `CLAUDE.md`, governança (4.4–4.5, 5, 8), ficha
+  B07-A e eventos B07-A-01/B07-A-02, etapa 4 do plano, cartão B07-A,
+  `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`, relatório do
+  executor e os quatro arquivos entregues. Não executei o prompt de B11.
+- **Conferência antes de editar:** branch `spike/b07-a-viabilidade-whisper`;
+  HEAD `6169feca8c3a6cc6c5500eeab264eba817c8fbbc` (sem B07-A); índice vazio;
+  `sha256sum -c docs/revisoes/2026-09-19-b07-a-entrada-opus.sha256` →
+  **4/4 OK**. Cota de disco do ambiente: 2,27 GB de 3,04 GB ocupados pelo
+  venv de scratchpad da execução anterior; `backend/.venv` (72 MB) intacto.
+  WAV preservado conferido: mono, 22.050 Hz, 12,128 s, SHA-256
+  `9ff6550a…8a9e`.
+- **R01 → confirmado e corrigido** (detalhe na ficha): dry-run em venv vazio
+  reproduziu a falha da receita publicada; corrigido para
+  `--extra-index-url` + `torch==2.14.0+cpu`; dry-run resolveu sem `nvidia*`;
+  instalação real em venv vazio, `--no-cache-dir`: saída 0, versões
+  idênticas às relatadas, 2,1 GB. Removi só o venv de scratchpad antigo
+  (artefato meu) para caber na cota; nenhum cache global limpo.
+- **R02 → confirmado e corrigido, com achado adicional** (detalhe na
+  ficha): o texto citado exige `logprob_threshold=None` e
+  `condition_on_previous_text=False` além do threshold — isolado com
+  snippet nas quatro combinações (22 kHz/16 kHz × com/sem os dois
+  parâmetros); a conversão para 16 kHz é irrelevante; threshold sozinho
+  produz alucinação multilíngue não determinística. CLI: opção isolada
+  substituída por `--experimento-forcado` (fixa os três); reproduz o texto
+  citado byte a byte em duas execuções. Script imprime SHA-256 do áudio e
+  parâmetros; relatório ganhou comandos exatos, hashes e seção 9.
+- **P01 → mantido:** sem amostra falada real disponível; revisão dos
+  artefatos concluída sem ela; entrega segue PARCIAL.
+- **Outros pontos:** rótulo de idioma corrigido; `try` na preparação com
+  saída 2 (testado); RAM *free* vs *available*; "30–60 s" como amostra de
+  validação; `--pesos` sem promessa de validação de caminho. Revisão
+  própria: recomendação para B07-B usar padrões de decodificação e tratar
+  não-fala como vazio (seção 7 do relatório).
+- **Ensaios reais desta revisão (venv limpo, `base`, CPU):** amostra
+  sintética com padrões → 0 segmentos, 0,98 s, 724 MB; com
+  `--experimento-forcado` → 2 segmentos, texto citado, 0,98 s, 718 MB;
+  silêncio 3 s → 0 segmentos, 4,26 s; inválido → `RuntimeError`, saída 1;
+  `--modelo nao-existe` → `RuntimeError`, saída 2. Suíte da API: 100/100;
+  `import app.main` sem `whisper`/`torch`; diff de `backend/app`, `tests`,
+  `pyproject` e `docs/contratos`: vazio. `py_compile` do script: OK.
+- **Arquivos alterados (3):** `backend/scripts/verificar_whisper.py`
+  (73140bae8b5d4aa2f737ea7c4d228bb7e4ace548bfad3f223dfea6fd7fee5773),
+  `backend/scripts/requirements-whisper.txt`
+  (b5e897dfc6eb592515a4ae616fdd46e5e3f4f11ebdbdbd0f15f1934327312ca7),
+  `docs/decisoes/transcricao-whisper.md`
+  (334692447e708890de79235d603953057c9e3787a8fbdb09b5a4bfd340ef7a11).
+  `amostra_sintetica_pt_espeak.wav` inalterado (hash do manifesto).
+  `git diff --no-index --check` nos 3: sem diagnóstico; cercas Markdown do
+  relatório balanceadas. Manifesto de entrada preservado. **Documentos:**
+  somente `REGISTRO_TRABALHO.md` (índice, ficha B07-A — bloco "Situação
+  após a revisão do Opus" inserido sem alterar os blocos do Codex e do
+  executor — e este evento). `prompt.md`, planejamento, roteiros e
+  preexistências preservados.
+- **Não executado:** transcrição de fala humana real (sem amostra);
+  outros modelos além de `base`; benchmark de durações; outro Python/OS;
+  consulta ao servidor Git.
+- **Resultado:** **revisão concluída** com correções de R01/R02; entrega
+  do executor **continua PARCIAL** (P01). Não marcado `APROVADO` nem
+  `INTEGRADO`; nenhuma outra entrega iniciada.
+- **Git:** branch `spike/b07-a-viabilidade-whisper`, HEAD/base `6169fec`
+  (não contém B07-A); índice vazio; `NAO_COMMITADO`, `NAO_PUBLICADO`, PR
+  remoto `NAO_ABERTO`, `NAO_INTEGRADO`; principal/destino `NAO_VERIFICADO`.
+  Sem commit, push, PR, troca de branch ou merge. Registro `NAO_COMMITADO`.
+- **Próximo responsável:** usuário leva este relatório ao Codex para
+  verificar a revisão; a amostra falada real (P01) segue pendente com o
+  usuário/Codex. Opus aguarda coordenação; C02-A, B07-B e B11 não iniciados.

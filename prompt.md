@@ -1,193 +1,161 @@
-# Revisão e correção de B04 — endpoint de análise — Claude Opus
+# Revisão e correção de B07-A — Whisper — Claude Opus
 
-Você revisará e corrigirá B04 do ConvIQ. Examine a entrega completa do
-Sonnet, confirme os achados do Codex antes de corrigir e devolva para a
-verificação final. Não inicie outra entrega nem declare aprovação final.
+Revise a última entrega do Claude Sonnet: **B07-A — viabilidade do Whisper**,
+registrada em B07-A-01 em 19/09/2026. O usuário pediu verificar se já houve
+revisão do Opus e, na ausência, preparar este prompt. Codex não encontrou
+revisão do Opus para B07-A; a última registrada era B04-03, de outra entrega.
 
-## Leitura e versão a revisar
+A entrega B07-A é **PARCIAL**: o Sonnet relatou execução real do Whisper sobre
+áudio sintético, silêncio e arquivo inválido, mas não validou fala humana real.
+Faça revisão própria do código, instalação e relatório; corrija problemas
+confirmados no escopo. A falta dessa amostra não impede revisar o que existe,
+mas impede declarar o aceite integral de viabilidade/qualidade.
 
-Leia `AGENTS.md`, `CLAUDE.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md` (4.4, 5, 6,
-8), índice/fichas B03 e B04 em `REGISTRO_TRABALHO.md`, critérios do plano,
-`docs/contratos/analise-texto.md` e `backend/README.md`.
+## Leitura e versão exata
 
-Relato do Sonnet: ficha B04, evento B04-01 e cópia preservada em
-`docs/revisoes/RELATORIO_SONNET_B03_B04_2026-09-18.md`. Essa cópia descreve
-a situação antes desta verificação. Resultados atuais: DOC01-10 (retomada),
-B03-04 (aceite técnico de B03) e B04-02 (análise inicial e este prompt).
+Leia `AGENTS.md`, `CLAUDE.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md` (4.4–4.5,
+5 e 8), ficha B07-A e eventos B07-A-01/B07-A-02 de `REGISTRO_TRABALHO.md`,
+etapa 4 do plano, cartão B07-A de `docs/planejamento/PRS_BACKEND_AUDIO.md`,
+`docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md` (critérios originais)
+e `docs/decisoes/transcricao-whisper.md` (relatório do executor).
 
 - Pasta: `/home/gustavoecocchi/Documents/CONVIQ`.
-- Branch: `feat/b01-fundacao-api`; base local: `master`.
-- HEAD/base: `3c52ea3ed0d3c3d38de5b9adf2a4a4ff320a1842`. Esse commit
-  não contém B01–B04: tudo continua na pasta de trabalho, sem commit;
-  índice vazio. Há 31 arquivos backend não rastreados.
-- Versão examinada: 33 arquivos (backend, contrato, `.gitignore`) em
-  `docs/revisoes/2026-09-18-verificacao-b03-b04.sha256`.
-  Confira na raiz com `sha256sum -c` nesse arquivo. Preserve-o como
-  referência de entrada; registre hashes da versão corrigida separadamente.
-  O manifesto antigo de B01–B03 é histórico, não identifica B04.
-- Destino de integração/principal/PR remoto atuais: `NAO_VERIFICADO`;
-  servidor não consultado. Não use `origin/main` local como comprovação.
-- B01/C01/B02 já tinham aceite técnico local; B03 foi verificado e aprovado
-  tecnicamente em B03-04. Nenhuma dessas entregas foi commitada/integrada.
-  B04 está `EM_REVISAO`, execução do Sonnet finalizada, correções pendentes.
+- Branch atual: `spike/b07-a-viabilidade-whisper`.
+- HEAD/base de código: `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, com
+  B01–B04/C01 aceitos. **Esse commit não contém a entrega B07-A.**
+- B07-A está em quatro arquivos locais não rastreados:
+  `backend/scripts/verificar_whisper.py`,
+  `backend/scripts/requirements-whisper.txt`,
+  `docs/decisoes/transcricao-whisper.md` e
+  `docs/decisoes/amostras/amostra_sintetica_pt_espeak.wav`.
+- Confira a versão na raiz com:
 
-Confira raiz, branch, HEAD/base, status com arquivos não rastreados, diff
-e índice. Registre divergências antes de editar; preserve mudanças
-preexistentes. A organização de branches/commits e a integração das
-dependências continuam pendentes para a coordenação.
-
-## Objetivo, critérios e escopo
-
-Plano B04: “Recomendações derivadas dos sinais, composição do resultado e
-`POST /api/analises/texto`”. Depende de B03. Critério: “Responde conforme
-C01, com método/versão e erros padronizados; testes HTTP cobrem entrada
-válida e inválida.”
-
-Arquivos principais:
-
-- `backend/app/services/analise.py` e `backend/tests/test_analise.py`.
-- `backend/app/api/analises.py`, `backend/tests/test_analises_rota.py` e
-  registro da rota em `backend/app/main.py`.
-- Schemas, `backend/app/erros.py`, serviços B02/B03 relacionados, README e
-  contrato C01. Leia-os para verificar integração, sem ampliar a entrega.
-
-Preserve prospect → `nao_aplicavel`, concorrente isolado sem inferir troca,
-coexistência de risco/oportunidade, distinção entre informação insuficiente
-e ausência de sinal. Recomendações precisam ser sugestões sustentadas pelas
-evidências. Os recortes são relativos à transcrição ecoada após strip, em
-caracteres Python, com fim exclusivo; não invente horários ou falantes.
-
-Fora desta rodada: frontend, persistência, áudio, LLM/treinamento, ampliação
-geral dos léxicos/negação, deduplicação obrigatória de trechos, mudança de
-contrato/enums ou dependências sem necessidade demonstrada. Se uma mudança
-afetar escopo/contrato de outras entregas, devolva à coordenação.
-
-## Relato e verificações do Codex
-
-O Sonnet entregou a composição B02+B03, ordenação/renumeração única das
-evidências, remapeamento das referências e recomendações (uma para risco,
-uma por oportunidade). A rota chama esse serviço e reaproveita o handler
-C01. Método/versão são `regras`/`0.1`; análise sem persistência.
-
-O Codex verificou nesta versão:
-
-- **99 testes passaram**, 2 avisos conhecidos de `httpx`/`anyio`, 0,29 s.
-  Executados fora do sandbox devido ao bloqueio de TestClient já observado
-  na sessão anterior; não houve falha da aplicação nessa execução.
-- **B03-R01 resolvido:** código e testes iguais aos hashes finais do Opus.
-  Churn dos três exemplos do contrato confere com B03. Saudação →
-  insuficiente para cliente/vínculo desconhecido; conteúdo comercial sem
-  risco → sem sinal; prospect mantém não aplicável; risco explícito e
-  oportunidade continuam independentes.
-- Sete blocos JSON de C01 válidos, round-trip sem diferenças e recortes
-  corretos; 18 cenários de composição (6 textos × 3 vínculos) verificaram
-  IDs únicos/ordenados, recortes, referências corretas por origem e
-  recomendações ligadas ao sinal correto, inclusive repetição/emoji/strip.
-- Uvicorn real + curl: os três pedidos do contrato responderam 200 e
-  validaram no schema. Exemplo 1: negativo, risco, 3 evidências e 2
-  recomendações; exemplo 2: sentimento insuficiente, churn não aplicável,
-  sem oportunidade/recomendação; exemplo 3: insuficiente e listas vazias.
-  O exemplo 2 ilustra oportunidade com “integração via API”, mas o léxico
-  atual não a detecta; limitação já relatada/aceita em B03, não igualdade
-  entre todos os campos do exemplo ilustrativo e a saída calculada.
-- Servidor real: saúde 200; 11 entradas inválidas (incluindo os sete códigos
-  C01, tipos incorretos, corpo lista e JSON malformado) → 422 no envelope
-  correto. Processo iniciado para a revisão foi encerrado. Prefixo `/v1`
-  registrado para saúde e análise em instância configurada separadamente.
-- O handler existente atende os erros exercitados. Não há motivo demonstrado
-  para reescrevê-lo; há divergência na declaração OpenAPI da rota (R01).
-
-**Evidências repetidas do mesmo trecho não são impeditivo.** Exemplo 1:
-`e1` e `e2` apontam para “insatisfeitos” em `[8:21]`; churn referencia `e2`;
-`e3` aponta para “conhecer” em `[46:54]`; oportunidade referencia `e3`;
-as recomendações referenciam `e2` e `e3`, respectivamente. IDs únicos,
-recortes corretos e relações preservadas satisfazem C01. Mesclar trechos é
-melhoria opcional de apresentação, não exigência desta revisão. A resposta
-não possui campo explícito de origem da evidência; evite prometer isso.
-
-## B04-R01 — OpenAPI anuncia o schema errado para HTTP 422
-
-**Impeditivo, prioridade média.** Local: `backend/app/api/analises.py:12`.
-O decorador declara somente `response_model=AnaliseTextoResponse`.
-
-Reprodução (em `backend/`):
-
-```python
-from fastapi.testclient import TestClient
-from app.config import Settings
-from app.main import criar_app
-
-app = criar_app(Settings(_env_file=None))
-with TestClient(app) as c:
-    spec = c.get('/openapi.json').json()
-    schema = spec['paths']['/api/analises/texto']['post']['responses']['422']['content']['application/json']['schema']
-    print(schema)
-    r = c.post('/api/analises/texto', json={
-        'titulo': 'x', 'empresa': 'x', 'vinculo': 'cliente', 'transcricao': ''
-    })
-    print(r.status_code, r.json())
+```bash
+sha256sum -c docs/revisoes/2026-09-19-b07-a-entrada-opus.sha256
 ```
 
-Observado: OpenAPI → `#/components/schemas/HTTPValidationError`, formato
-padrão com `detail`; resposta real → 422
-`{"erro":{"codigo":"TRANSCRICAO_VAZIA","mensagem":"Informe a transcrição para continuar."}}`.
-A divergência também foi reproduzida via servidor real em `/openapi.json`.
+Preserve o manifesto de entrada. Se houver divergência, identifique e registre
+antes de editar; depois informe hashes/diff da versão realmente revisada.
 
-Esperado: documentar o 422 com o schema `ErroResposta` de C01. Esse ajuste
-por rota já havia sido reservado para B04 em C01-03/C01-04. Consumidores
-baseados em `/docs` ou geração de tipos recebem o formato errado atualmente.
-O teste existente só confere os caminhos do OpenAPI, não o contrato do erro.
+Também existem alterações locais de planejamento/registro, os roteiros de áudio
+e refinamento e cópias de prompts. São preexistências, não implementação B07-A.
+B11 continua PLANEJADO/NAO_INICIADO; seu prompt foi preservado em
+`docs/planejamento/PROMPT_B11_NEGACAO_SENTIMENTO.md`. Não implemente B11 ou C02-A.
 
-Confirme e declare o modelo de erro no `responses` da rota (ou mecanismo
-mínimo equivalente), preservando o handler e a resposta real. Acrescente
-verificação do schema 422 anunciado e do envelope real; mantenha também o
-200 com `AnaliseTextoResponse`. Rejeitar entrada inválida deve continuar
-422, não exceção 500. Não redefina o contrato para acomodar a documentação.
+Confira status com não rastreados, diff e índice. Correções permanecem nesta
+branch de B07-A; não trocar branch, descartar mudanças ou reescrever commits.
+Destino/principal, publicação e PR remoto atuais são NAO_VERIFICADO. Autorização
+neste encaminhamento: revisão, correção, validação e documentação locais;
+**sem commit, push, abertura de PR remoto, merge ou implantação**.
 
-## B04-R02 — documentação ainda afirma ausência da rota
+## Objetivo e critérios originais
 
-**Baixa prioridade, não impeditivo funcional.** Locais atuais:
-`backend/README.md:116`, `:167`, `:279` e `:295`;
-`docs/contratos/analise-texto.md:24` e `:108`.
+B07-A deve demonstrar transcrição real em português e recomendar configuração
+gratuita reproduzível antes de alterar a API. Inventário de recursos, ambiente
+isolado, modelo identificado, áudio e texto esperado/obtido, tempo/memória,
+tratamento de silêncio e inválido, limitações e recomendação para C02-A.
 
-Apesar da introdução e da seção B04 corretas, as seções B02/B03 dizem que
-nenhuma rota chama os serviços; “Limites conhecidos” diz que nenhuma rota
-usa os schemas e trata a aplicação da regra de prospect por B04 como
-pendente. O contrato ainda usa “Rota prevista” e “quando existir”.
+Amostra falada real é obrigatória para concluir viabilidade/qualidade; voz
+sintética somente como apoio identificado. Sem amostra disponível, relatar
+PARCIAL e o que falta. Não atribuir qualidade ruim do TTS a toda fala humana
+nem generalizar desempenho de um clipe de 12 segundos para reuniões longas.
 
-Atualize essas referências para a rota/composição já existentes, mantendo
-as limitações reais e distinguindo o serviço interno da rota que o consome.
-Não reescreva o histórico do registro nem prometa integração/publicação.
-Revise também a frase de que a resposta “preserva sua origem/propósito”:
-ela preserva IDs/referências, mas não expõe um campo explícito de origem.
-Não é necessário acrescentar campo ao contrato para ajustar essa explicação.
+Preservar: serviços gratuitos, ambiente da API independente, nenhuma dependência
+Whisper em `backend/pyproject.toml`, nenhum peso/venv/cache no versionamento,
+nenhum download ou carregamento de modelo ao importar FastAPI. Não criar rotas,
+executor de produção, banco, frontend ou hospedagem nesta revisão.
+
+## Apontamentos iniciais do Codex
+
+### B07-A-R01 — Instalação reproduzível: confirmar antes de corrigir
+
+O arquivo de requisitos define um único `--index-url` para o índice CPU do
+PyTorch e inclui no mesmo arquivo `torch==2.14.0` e `openai-whisper==20250625`.
+O relatório descreve instalação de torch CPU antes do Whisper, mas o comando
+publicado instala tudo em um passo com esse arquivo. **Codex não executou
+instalação limpa nem confirmou a disponibilidade desses pacotes no índice**;
+é um ponto de verificação, não uma falha de instalação já reproduzida.
+
+Confira se o comando publicado resolve todas as dependências num ambiente
+vazio sem configuração/cache ocultos, se evita pacotes CUDA e se as versões
+relatadas são as realmente instaladas. Se necessário, separar explicitamente
+as fontes/etapas e corrigir instruções/requisitos. Não realizar downloads de
+vários GB sem estimar recursos, não limpar caches globais nem alterar o venv
+`backend/.venv`. Validar em ambiente isolado e registrar limitações de acesso.
+
+### B07-A-R02 — Reprodução incompleta dos experimentos relatados
+
+O relatório apresenta saída com `no_speech_threshold=0.9`, enquanto o script
+entregue chama `transcribe(..., language=idioma, fp16=False)` e não possui
+opção CLI para esse parâmetro. A seção 5 remete a comandos completos no script,
+mas ele também não contém a geração dos arquivos de silêncio/inválido ou a
+conversão citada para 16 kHz. A amostra WAV entregue foi conferida pelo Codex:
+mono, 22.050 Hz e 12,128 s; o relatório menciona ensaios com versão convertida.
+
+Complete comandos exatos e identifique qual arquivo/configuração originou cada
+medição, com hash e resultado. Pode documentar um comando experimental separado
+ou acrescentar opção pequena ao script se fizer sentido; não tornar threshold
+forçado o padrão para obter artificialmente uma boa transcrição. Preserve a
+separação entre configuração padrão e experimento forçado. Não fabricar logs
+antigos: quando faltarem, identificar como relato anterior e registrar nova
+execução, se viável. Este achado é de rastreabilidade, não prova que os ensaios
+relatados não ocorreram.
+
+### B07-A-P01 — Aceite parcial e qualidade ainda pendente
+
+A ausência de gravação real está corretamente declarada pelo Sonnet. Confirmar
+que conclusão, recomendações e ficha não passam de “execução mecânica relatada”
+para “qualidade aprovada”. Se houver amostra falada real adequada e autorizada,
+pode completar o teste dentro de B07-A, registrando origem e condições. Caso
+contrário, concluir a revisão dos artefatos e manter a entrega PARCIAL com essa
+pendência concreta. Não condicionar toda a revisão de código à chegada do áudio.
+
+### Outros pontos a conferir, sem ampliar o escopo
+
+- O texto impresso “idioma detectado” acompanha `language=idioma`, configurado
+  na chamada; apresentar corretamente o que foi configurado e medido.
+- O `try` cobre a transcrição, mas importação, criação de diretório e carga do
+  modelo estão fora dele. Conferir falhas de preparação e mensagem de erro;
+  não prometer que toda falha está tratada só porque arquivo inválido foi testado.
+- Recomendações de concorrência devem distinguir RAM livre de disponível;
+  o relatório cita ambas. O ensaio de 30–60 s é amostra de validação, não
+  duração de reunião aprovada pelo usuário. Formatos/limites finais ficam em C02-A.
+- Não ampliar “--pesos fora do repositório” para uma promessa de validação do
+  caminho que o script não aplica; conferir coerência entre documentação e CLI.
+
+Confirme cada apontamento antes de mudar. Registre concordância, correção ou
+justificativa para não corrigir. Faça sua revisão independente, incluindo pontos
+não encontrados pelo Codex, mas mantenha B07-A pequeno e experimental.
+
+## Evidência já conferida pelo Codex
+
+- Leitura dos quatro arquivos, do escopo e do histórico de revisão.
+- `python3 backend/scripts/verificar_whisper.py --help` → saída 0.
+- Sintaxe Python via `ast.parse` → OK; cabeçalho WAV conferido com `wave`.
+- Hashes dos quatro arquivos fixados no manifesto de entrada.
+- `git diff --name-only -- backend/app backend/tests backend/pyproject.toml docs/contratos`
+  vazio; índice vazio. A aplicação aceita não mudou nesta entrega.
+
+Não reproduzi instalação, carregamento de modelo, inferência, métricas ou suíte
+completa nesta preparação. Os 100 testes e números de recursos de B07-A-01 são
+relato do Sonnet; a última revisão Opus registrada, B04-03, não cobre B07-A.
 
 ## Validação e devolução
 
-Faça revisão própria do conjunto: vínculos, erros do handler, método/versão,
-renumeração e referências semânticas de churn/oportunidades/recomendações,
-recortes e repetições. Corrija problemas comprovados dentro do escopo;
-justifique discordâncias com evidência. Não crie alterações artificiais.
+Reproduzir o que for viável em ambiente isolado, usando recursos disponíveis.
+Correções de lógica relevante devem ter testes proporcionais; simulação de erro
+pode verificar tratamento, mas não comprova qualidade do modelo. Se repetir
+Whisper, registrar execução real, versões, arquivo, configuração e resultado.
+Se não executar uma verificação, informar motivo e impacto no aceite.
 
-Execute os testes pertinentes e a suíte completa em `backend/`:
-`.venv/bin/python -m pytest -q`. Verifique o 422 anunciado no OpenAPI e o
-real após R01. Se tocar no contrato, revalide os exemplos/recortes. Registre
-quais verificações usaram TestClient, servidor real ou somente função/schema.
-No sandbox, sockets podem ser bloqueados; informe a limitação e use o
-fluxo de permissão disponível, sem declarar sucesso de teste não executado.
+Atualizar ficha/índice B07-A e acrescentar evento próprio de Opus em
+`REGISTRO_TRABALHO.md`, preservando B07-A-01/B07-A-02. Separar:
 
-Autorizado: revisão, correções, testes e documentação locais na branch
-atual. Sem autorização de commit, push, abertura de PR, troca de branch ou
-merge nesta passagem. Preserve os manifestos e relatórios de entrada.
+1. Revisão concluída ou parcial e correções de cada apontamento.
+2. Entrega B07-A finalizada ou ainda PARCIAL, sobretudo quanto à fala real.
+3. Arquivos e evidências próprias versus métricas apenas herdadas.
+4. Git: branch, base/HEAD, hashes/diff, arquivos não commitados, publicação,
+   PR remoto e integração, sem atribuir B07-A ao commit 6169fec.
 
-Antes de devolver, atualize índice/ficha B04 e acrescente seu evento em
-`REGISTRO_TRABALHO.md`, preservando eventos anteriores. Responda R01/R02;
-liste arquivos, validações, limitações, novos achados e hashes da versão
-final. Separe execução, revisão, Git da entrega e do registro, publicação,
-PR remoto e integração. Use o relatório da seção 8 da governança.
-
-Aguarde a verificação final do Codex. Não declare B04 aprovado/integrado.
-B05 não é o próximo PR elegível: depende de C02, ainda inexistente; C02
-depende de F06 e das decisões de transcrição/orçamento. A próxima etapa
-após esta revisão é a verificação final e a coordenação da integração por
-texto com a frente frontend, respeitando as dependências do plano.
+Entregar para Codex verificar; não marcar APROVADO/INTEGRADO por conta própria.
+Não iniciar C02-A, B07-B, B11 ou outro PR automaticamente.
