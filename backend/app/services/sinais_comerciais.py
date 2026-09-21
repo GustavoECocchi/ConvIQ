@@ -23,6 +23,18 @@ específico do experimento de referência (`conviq_datascience.py`,
    `upsell = (not churn) and contar(t, SINAIS_UPSELL) >= 1` — uma
    oportunidade só é registrada quando não há churn. Aqui, `churn` e
    `oportunidades` vêm de padrões independentes, sem um suprimir o outro.
+
+Risco de cancelamento com contexto local (B12): "cancelar"/"reavaliar"/
+"rescindir" sozinhos geravam risco com qualquer objeto ("cancelar a
+reunião" tanto quanto "cancelar o contrato") e sem checar negação ("não
+vamos cancelar o contrato" gerava risco igual a "vamos cancelar"). Aqui a
+ação só conta como risco quando tem um objeto da relação comercial
+("contrato", "serviço", "fornecedor") na mesma oração, e é suprimida
+quando negada — reutilizando o escopo de negação de B11
+(`app/services/negacao.py`), não uma regra nova. Negar satisfação atual
+("não estamos satisfeitos") passa a contar como risco, do mesmo jeito que
+"insatisfeitos" já contava; negar "insatisfeito" deixa de contar (a mesma
+regra de B11: negar um problema não prova baixo risco, só suprime o sinal).
 """
 
 from __future__ import annotations
@@ -32,6 +44,7 @@ from dataclasses import dataclass, field
 
 from app.schemas.analise import Churn, Evidencia, Oportunidade
 from app.schemas.comum import ChurnSituacao, Vinculo
+from app.services.negacao import escopos_de_negacao, inicio_da_negacao_mais_proxima
 from app.services.texto import normalizar_preservando_posicoes
 
 # Risco de cancelamento: linguagem que indica avaliação ou intenção de
@@ -41,13 +54,30 @@ from app.services.texto import normalizar_preservando_posicoes
 # perguntas diferentes (sentimento geral vs. risco de cancelamento) e podem
 # gerar evidências próprias para o mesmo trecho; B04 renumera os IDs ao
 # juntar os resultados numa `AnaliseTextoResponse` só.
-_PADROES_RISCO = [
+#
+# B12: "insatisfeit"/"frustrad" continuam risco por si só (independem de
+# objeto), mas agora são suprimidos quando negados — "cancelar"/
+# "reavaliar"/"rescindir" precisam de um objeto da relação comercial na
+# mesma oração (`_PADROES_OBJETO_RISCO`) e são suprimidos quando negados;
+# "satisfeit" (positivo) só é risco quando negado — o espelho de
+# "insatisfeit".
+_PADROES_RISCO_PADRAO = [
+    r"insatisfeit[oa]s?",
+    r"frustrad[oa]s?",
+]
+_PADROES_ACAO_RISCO = [
     r"cancelar",
     r"cancelamento",
     r"reavaliar",
     r"rescindir",
-    r"insatisfeit[oa]s?",
-    r"frustrad[oa]s?",
+]
+_PADROES_OBJETO_RISCO = [
+    r"contratos?",
+    r"servicos?",
+    r"fornecedor(es)?",
+]
+_PADROES_SATISFACAO = [
+    r"satisfeit[oa]s?",
 ]
 
 # Interesse comercial: linguagem que sugere abertura a um novo módulo,
@@ -69,13 +99,17 @@ _PADROES_OPORTUNIDADE = [
 # não fornece informação para avaliar (`informacao_insuficiente`), o que é
 # diferente de ter sido avaliada e não apresentar risco
 # (`sem_sinal_detectado`). Não gera evidência.
+#
+# B12: removido "sistema"/"sistemas" — termo genérico demais ("o sistema
+# solar é extenso" virava conteúdo comercial avaliável). "produto" continua
+# na lista com a mesma ambiguidade conhecida; só o caso de "sistema" citado
+# no cartão B12 foi corrigido, sem prometer resolver todo termo genérico.
 _PADROES_CONTEXTO_COMERCIAL = [
     r"contratos?",
     r"renova(r|cao|coes|mos)",
     r"suporte",
     r"atendimento",
     r"servicos?",
-    r"sistemas?",
     r"produtos?",
     r"implantacao",
     r"licencas?",
@@ -91,7 +125,11 @@ _PADROES_CONTEXTO_COMERCIAL = [
     r"satisfeit[oa]s?",
 ]
 
-_REGEX_RISCO = re.compile(r"\b(?:" + "|".join(_PADROES_RISCO) + r")\b")
+_REGEX_RISCO_PADRAO = re.compile(r"\b(?:" + "|".join(_PADROES_RISCO_PADRAO) + r")\b")
+_REGEX_ACAO_RISCO = re.compile(r"\b(?:" + "|".join(_PADROES_ACAO_RISCO) + r")\b")
+_REGEX_OBJETO_RISCO = re.compile(r"\b(?:" + "|".join(_PADROES_OBJETO_RISCO) + r")\b")
+_REGEX_SATISFACAO = re.compile(r"\b(?:" + "|".join(_PADROES_SATISFACAO) + r")\b")
+_REGEX_FIM_DE_ORACAO = re.compile(r"[.!?;\n]")
 _REGEX_OPORTUNIDADE = re.compile(r"\b(?:" + "|".join(_PADROES_OPORTUNIDADE) + r")\b")
 _REGEX_CONTEXTO_COMERCIAL = re.compile(r"\b(?:" + "|".join(_PADROES_CONTEXTO_COMERCIAL) + r")\b")
 
@@ -134,6 +172,60 @@ def _nomes_unicos_em_ordem(normalizado: str, regex: re.Pattern[str], catalogo: d
     return encontrados
 
 
+def _ocorrencias_risco(normalizado: str, escopos: list[tuple[int, int, int]]) -> list[tuple[int, int]]:
+    """Devolve `(inicio, fim)` de cada ocorrência de risco, já com a negação
+    de B11 aplicada (ver `app/services/negacao.py`).
+
+    Três fontes, cada uma com sua própria regra de negação:
+
+    - `_PADROES_RISCO_PADRAO` ("insatisfeito", "frustrado"): risco por si só,
+      suprimido quando negado — "não estamos insatisfeitos" deixa de ser
+      risco, do mesmo jeito que B11 suprime "sem problemas" no sentimento.
+    - `_PADROES_ACAO_RISCO` ("cancelar", "reavaliar", "rescindir"): só é
+      risco quando há um objeto da relação comercial
+      (`_PADROES_OBJETO_RISCO`) na mesma oração — "cancelar a reunião" não
+      basta, "cancelar o contrato" basta — e é suprimido quando a própria
+      ação está negada. O objeto em si não vira evidência; a evidência é a
+      ação, como já era antes de B12 (`test_evidencia_de_churn_...`).
+    - `_PADROES_SATISFACAO` ("satisfeito"): é o espelho de "insatisfeito" —
+      só é risco quando **negado** ("não estamos satisfeitos"); satisfação
+      afirmada nunca é risco. A evidência cobre o trecho negado inteiro, do
+      marcador ao fim da palavra léxica, como a evidência negada de B11.
+
+    "Mesma oração" aqui é delimitada só por pontuação de fim de frase
+    (`. ! ? ;`/quebra de linha), não por vírgula/conjunção como o escopo de
+    negação — o objeto da ameaça pode estar em qualquer parte da mesma
+    frase ("Se o suporte continuar assim, vamos cancelar o contrato.").
+    """
+
+    fins_de_oracao = [correspondencia.start() for correspondencia in _REGEX_FIM_DE_ORACAO.finditer(normalizado)]
+
+    def _mesma_oracao(posicao_a: int, posicao_b: int) -> bool:
+        inicio, fim = sorted((posicao_a, posicao_b))
+        return not any(inicio <= fronteira < fim for fronteira in fins_de_oracao)
+
+    spans: list[tuple[int, int]] = []
+
+    for correspondencia in _REGEX_RISCO_PADRAO.finditer(normalizado):
+        if inicio_da_negacao_mais_proxima(escopos, correspondencia.start()) is not None:
+            continue
+        spans.append((correspondencia.start(), correspondencia.end()))
+
+    objetos_risco = list(_REGEX_OBJETO_RISCO.finditer(normalizado))
+    for acao in _REGEX_ACAO_RISCO.finditer(normalizado):
+        if inicio_da_negacao_mais_proxima(escopos, acao.start()) is not None:
+            continue
+        if any(_mesma_oracao(acao.start(), objeto.start()) for objeto in objetos_risco):
+            spans.append((acao.start(), acao.end()))
+
+    for correspondencia in _REGEX_SATISFACAO.finditer(normalizado):
+        inicio_negacao = inicio_da_negacao_mais_proxima(escopos, correspondencia.start())
+        if inicio_negacao is not None:
+            spans.append((inicio_negacao, correspondencia.end()))
+
+    return sorted(set(spans), key=lambda span: span[0])
+
+
 def _ha_conteudo_comercial(
     normalizado: str,
     ocorrencias_oportunidade: list[re.Match[str]],
@@ -146,8 +238,10 @@ def _ha_conteudo_comercial(
     oportunidade, produto, concorrente ou termo de contexto comercial basta
     para considerar a conversa avaliável. Limite: usa vocabulário fixo —
     uma conversa sobre a relação comercial que não use nenhum destes termos
-    cai em `informacao_insuficiente`, e um termo genérico ("sistema",
-    "produto") usado fora do sentido comercial conta como contexto.
+    cai em `informacao_insuficiente`, e um termo genérico ("produto") usado
+    fora do sentido comercial ainda conta como contexto ("sistema" foi
+    removido em B12 por ser genérico demais; "produto" permanece, limite
+    conhecido e não resolvido nesta entrega).
     """
 
     return bool(
@@ -164,7 +258,8 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
     `churn.situacao`:
     - `vinculo == prospect`: sempre `nao_aplicavel`, sem evidências — não
       avalia o texto, porque um prospect não tem contrato para cancelar.
-    - algum padrão de risco encontrado: `sinal_detectado`, evidenciado pelas
+    - algum padrão de risco encontrado (ver `_ocorrencias_risco`, com a
+      negação de B11 já aplicada): `sinal_detectado`, evidenciado pelas
       ocorrências.
     - sem risco, mas com **conteúdo comercial avaliável** — oportunidade,
       produto, concorrente ou vocabulário da relação comercial
@@ -190,12 +285,12 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
 
     evidencias: list[Evidencia] = []
 
-    def _nova_evidencia(correspondencia: re.Match[str]) -> Evidencia:
+    def _nova_evidencia(inicio: int, fim: int) -> Evidencia:
         evidencia = Evidencia(
             id=f"e{len(evidencias) + 1}",
-            trecho=transcricao[correspondencia.start():correspondencia.end()],
-            inicio=correspondencia.start(),
-            fim=correspondencia.end(),
+            trecho=transcricao[inicio:fim],
+            inicio=inicio,
+            fim=fim,
         )
         evidencias.append(evidencia)
         return evidencia
@@ -205,9 +300,10 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
     if vinculo is Vinculo.PROSPECT:
         churn = Churn(situacao=ChurnSituacao.NAO_APLICAVEL, evidencias=[])
     else:
-        ocorrencias_risco = sorted(_REGEX_RISCO.finditer(normalizado), key=lambda m: m.start())
+        escopos = escopos_de_negacao(normalizado, transcricao)
+        ocorrencias_risco = _ocorrencias_risco(normalizado, escopos)
         if ocorrencias_risco:
-            ids_risco = [_nova_evidencia(m).id for m in ocorrencias_risco]
+            ids_risco = [_nova_evidencia(inicio, fim).id for inicio, fim in ocorrencias_risco]
             churn = Churn(situacao=ChurnSituacao.SINAL_DETECTADO, evidencias=ids_risco)
         elif _ha_conteudo_comercial(normalizado, ocorrencias_oportunidade, produtos, concorrentes):
             churn = Churn(situacao=ChurnSituacao.SEM_SINAL_DETECTADO, evidencias=[])
@@ -216,7 +312,7 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
 
     oportunidades = []
     for correspondencia in ocorrencias_oportunidade:
-        evidencia = _nova_evidencia(correspondencia)
+        evidencia = _nova_evidencia(correspondencia.start(), correspondencia.end())
         oportunidades.append(
             Oportunidade(
                 descricao=f'Interesse comercial sinalizado por "{evidencia.trecho}".',

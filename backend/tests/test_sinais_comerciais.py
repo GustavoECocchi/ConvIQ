@@ -185,7 +185,13 @@ def test_concorrentes_detectados_sem_duplicar():
 
 
 def test_evidencia_de_churn_aponta_para_trecho_real():
-    transcricao = "No mês passado, decidimos cancelar dois módulos."
+    """B12: "cancelar" só é risco com um objeto da relação comercial na
+    mesma oração (aqui, "contrato"); a versão anterior deste teste usava
+    "cancelar dois módulos", que deixou de ser risco (ver
+    test_acao_de_risco_sem_objeto_comercial_e_insuficiente_isolada) porque
+    "módulo" não é objeto da relação comercial no cartão B12."""
+
+    transcricao = "No mês passado, decidimos cancelar o contrato."
 
     resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
 
@@ -227,3 +233,121 @@ def test_radical_dentro_de_outra_palavra_nao_e_sinal_de_risco(transcricao):
     assert resultado.churn.situacao is not ChurnSituacao.SINAL_DETECTADO
     assert resultado.churn.evidencias == []
     assert resultado.evidencias == []
+
+
+# B12 — risco de cancelamento com contexto local (aceite do cartão) --------
+
+
+def test_acao_de_risco_negada_nao_gera_sinal_mas_contrato_ainda_e_contexto():
+    """"Não vamos cancelar o contrato." não é risco (ação negada), mas
+    "contrato" ainda é vocabulário da relação comercial: avaliado, sem sinal
+    — não confirma baixo risco."""
+
+    resultado = analisar_sinais_comerciais("Não vamos cancelar o contrato.", Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+    assert resultado.churn.evidencias == []
+
+
+def test_acao_de_risco_sem_objeto_comercial_e_insuficiente_isolada():
+    """"Cancelar" sozinho, sem contrato/serviço/fornecedor por perto, não é
+    risco nem vira conteúdo comercial por si só."""
+
+    resultado = analisar_sinais_comerciais("Vamos cancelar a reunião.", Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+    assert resultado.evidencias == []
+
+
+def test_acao_de_risco_com_objeto_comercial_gera_sinal():
+    resultado = analisar_sinais_comerciais("Vamos cancelar o contrato.", Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert len(resultado.churn.evidencias) == 1
+    ev = next(e for e in resultado.evidencias if e.id == resultado.churn.evidencias[0])
+    assert ev.trecho == "cancelar"
+
+
+def test_ameaca_condicional_real_preserva_o_sinal():
+    """A ação e o objeto continuam na mesma oração mesmo numa frase mais
+    longa; uma condicional não precisa de tratamento especial para ser
+    detectada — só não pode ser suprimida por engano."""
+
+    resultado = analisar_sinais_comerciais(
+        "Se o suporte continuar assim, vamos cancelar o contrato.", Vinculo.CLIENTE
+    )
+
+    assert resultado.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert len(resultado.churn.evidencias) == 1
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Vamos reavaliar a pauta.",  # "reavaliar" sem objeto comercial
+        "O sistema solar é extenso.",  # "sistema" fora do sentido comercial
+    ],
+)
+def test_acao_ou_termo_generico_sem_objeto_nao_torna_conversa_comercial(transcricao):
+    """B12: nem toda ocorrência de um radical de risco ou de um termo antes
+    genérico basta para tornar a conversa avaliável."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+    assert resultado.evidencias == []
+
+
+def test_satisfacao_negada_sinaliza_risco_como_insatisfeito():
+    """"Não estamos satisfeitos" continua sinalizando risco, sem exigir
+    sempre a palavra "cancelar" — o espelho de "insatisfeitos"."""
+
+    transcricao = "Não estamos satisfeitos com o suporte."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert len(resultado.churn.evidencias) == 1
+    ev = next(e for e in resultado.evidencias if e.id == resultado.churn.evidencias[0])
+    assert ev.trecho == "Não estamos satisfeitos"
+    assert transcricao[ev.inicio:ev.fim] == ev.trecho
+
+
+def test_satisfacao_afirmada_nunca_e_risco():
+    resultado = analisar_sinais_comerciais("Estamos muito satisfeitos com a implantação.", Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+    assert resultado.churn.evidencias == []
+
+
+def test_insatisfeito_negado_deixa_de_ser_risco():
+    """B12 aplica a mesma regra de negação a "insatisfeito": negar um
+    problema não prova baixo risco, só suprime o sinal (não vira elogio)."""
+
+    resultado = analisar_sinais_comerciais("Não estamos insatisfeitos.", Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+    assert resultado.churn.evidencias == []
+
+
+def test_risco_por_negacao_de_satisfacao_coexiste_com_oportunidade():
+    """Risco e oportunidade continuam podendo coexistir, agora também
+    quando o risco vem da negação de satisfação, não só de "cancelar"."""
+
+    transcricao = "Não estamos satisfeitos com o suporte. Queremos conhecer o Fluig."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert len(resultado.oportunidades) == 1
+    assert resultado.churn.evidencias[0] != resultado.oportunidades[0].evidencias[0]
+
+
+def test_prospect_com_negacao_de_satisfacao_continua_nao_aplicavel():
+    """Regra de produto preservada com a nova fonte de risco: prospect
+    continua `nao_aplicavel`, mesmo com "não satisfeitos" no texto."""
+
+    resultado = analisar_sinais_comerciais("Não estamos satisfeitos com o atendimento.", Vinculo.PROSPECT)
+
+    assert resultado.churn.situacao is ChurnSituacao.NAO_APLICAVEL
+    assert resultado.churn.evidencias == []

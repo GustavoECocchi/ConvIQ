@@ -27,11 +27,49 @@ def test_entrada_valida_responde_200_conforme_o_contrato(configuracao_padrao):
     assert corpo["churn"]["situacao"] == "sinal_detectado"
     assert corpo["produtos"] == ["Fluig"]
     assert corpo["metodo"] == "regras"
-    assert corpo["versao_analise"] == "0.1"
+    assert corpo["versao_analise"] == "0.3"
     assert len(corpo["oportunidades"]) == 1
     assert len(corpo["recomendacoes"]) == 2
     ids_evidencia = {e["id"] for e in corpo["evidencias"]}
     assert set(corpo["churn"]["evidencias"]) <= ids_evidencia
+
+
+def test_negacao_com_virgula_e_mas_chega_pela_rota_com_recortes_literais(configuracao_padrao):
+    """B11/B11-R01 de ponta a ponta: elogio negado vira evidência com o marcador,
+    o elogio depois de ", mas" fica intacto e cada recorte fecha com o eco da
+    transcrição na resposta."""
+
+    transcricao = "Não gostei do atendimento, mas adoramos o produto."
+    payload = _payload_valido(transcricao=transcricao)
+
+    resposta = _cliente(configuracao_padrao).post("/api/analises/texto", json=payload)
+
+    assert resposta.status_code == 200
+    corpo = resposta.json()
+    assert corpo["sentimento"] == "neutro"
+    assert [e["trecho"] for e in corpo["evidencias"]] == ["Não gostei", "adoramos"]
+    assert [e["id"] for e in corpo["evidencias"]] == ["e1", "e2"]
+    for evidencia in corpo["evidencias"]:
+        assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
+    assert corpo["churn"]["situacao"] == "sem_sinal_detectado"
+    assert corpo["versao_analise"] == "0.3"
+
+
+def test_negacao_de_cancelar_pela_rota_gera_sem_sinal_nao_informacao_insuficiente(configuracao_padrao):
+    """B12 de ponta a ponta: "Não vamos cancelar o contrato." não é risco
+    (ação negada), mas "contrato" ainda é contexto comercial — avaliado,
+    sem sinal, não confundido com informação insuficiente."""
+
+    payload = _payload_valido(transcricao="Não vamos cancelar o contrato.")
+
+    resposta = _cliente(configuracao_padrao).post("/api/analises/texto", json=payload)
+
+    assert resposta.status_code == 200
+    corpo = resposta.json()
+    assert corpo["churn"]["situacao"] == "sem_sinal_detectado"
+    assert corpo["churn"]["evidencias"] == []
+    assert corpo["evidencias"] == []
+    assert corpo["versao_analise"] == "0.3"
 
 
 def test_prospect_recebe_churn_nao_aplicavel_pela_rota(configuracao_padrao):

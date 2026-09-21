@@ -1,161 +1,191 @@
-# Revisão e correção de B07-A — Whisper — Claude Opus
+# B12 — Revisão do risco de cancelamento com contexto local — Claude Opus
 
-Revise a última entrega do Claude Sonnet: **B07-A — viabilidade do Whisper**,
-registrada em B07-A-01 em 19/09/2026. O usuário pediu verificar se já houve
-revisão do Opus e, na ausência, preparar este prompt. Codex não encontrou
-revisão do Opus para B07-A; a última registrada era B04-03, de outra entrega.
+Revise e corrija a entrega **B12**, preparada e implementada pelo Sonnet em
+B12-01. Use o cartão B12 e as regras comuns do roteiro como especificação.
+Faça revisão própria do código e dos testes, confirme os apontamentos abaixo
+e corrija falhas comprovadas no escopo. Devolva ao Codex para verificação final.
 
-A entrega B07-A é **PARCIAL**: o Sonnet relatou execução real do Whisper sobre
-áudio sintético, silêncio e arquivo inválido, mas não validou fala humana real.
-Faça revisão própria do código, instalação e relatório; corrija problemas
-confirmados no escopo. A falta dessa amostra não impede revisar o que existe,
-mas impede declarar o aceite integral de viabilidade/qualidade.
-
-## Leitura e versão exata
+## Leitura, versão e preexistências
 
 Leia `AGENTS.md`, `CLAUDE.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md` (4.4–4.5,
-5 e 8), ficha B07-A e eventos B07-A-01/B07-A-02 de `REGISTRO_TRABALHO.md`,
-etapa 4 do plano, cartão B07-A de `docs/planejamento/PRS_BACKEND_AUDIO.md`,
-`docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md` (critérios originais)
-e `docs/decisoes/transcricao-whisper.md` (relatório do executor).
+5, 6 e 8), índice/ficha B12 e eventos B12-01/B12-02 em
+`REGISTRO_TRABALHO.md`, a ficha/evento B11-03 (dependência), a seção B11–B21
+de `PLANO_DESENVOLVIMENTO.md`, as regras comuns, o cartão B12 e a validação
+de `docs/planejamento/PRS_REFINAMENTO_ANALISE.md`, README e C01 em
+`docs/contratos/analise-texto.md`. Não há prompt original separado de execução
+B12: o Sonnet relata autorização do usuário para preparar e executar pelo cartão.
 
 - Pasta: `/home/gustavoecocchi/Documents/CONVIQ`.
-- Branch atual: `spike/b07-a-viabilidade-whisper`.
-- HEAD/base de código: `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, com
-  B01–B04/C01 aceitos. **Esse commit não contém a entrega B07-A.**
-- B07-A está em quatro arquivos locais não rastreados:
-  `backend/scripts/verificar_whisper.py`,
-  `backend/scripts/requirements-whisper.txt`,
-  `docs/decisoes/transcricao-whisper.md` e
-  `docs/decisoes/amostras/amostra_sintetica_pt_espeak.wav`.
-- Confira a versão na raiz com:
+- Branch: `fix/b12-contexto-risco`.
+- HEAD: `cc61925f48d0981517a11480691c6f3f5465dcc0`; pai `6169fec`.
+- Versão entregue: **diff local NAO_COMMITADO**, incluindo
+  `backend/app/services/negacao.py` **não rastreado**.
+- B12 depende do B11 local revisado em B11-03, ainda sem verificação final do
+  Codex. A revisão B12 não concede automaticamente o aceite de B11.
+- As branches B11/B12/B07-A apontam ao mesmo HEAD. B11 e B12 ainda não existem
+  nesses commits: comparar apenas branches não mostra a entrega nem isola B12.
+  O diff contra `cc61925` contém trabalho acumulado; confira o relato de
+  B12-01, os arquivos atuais e as fronteiras de cada tarefa.
+- Principal, destino, PR remoto e integração atuais: `NAO_VERIFICADO`;
+  servidor não consultado nesta preparação.
 
-```bash
-sha256sum -c docs/revisoes/2026-09-19-b07-a-entrada-opus.sha256
+Na conferência havia 14 arquivos rastreados modificados, um não rastreado e
+índice vazio. Os nove arquivos de B12 têm estes SHA-256 de entrada:
+
+```text
+2457adc0d55dcce79416e48fbf97bf257dfce74d62a8d7bb16f55cb1b2537e27  backend/app/services/negacao.py
+f4d4fafbfdba1b8a08511e84ec7d8b7b3e26049015c095419141bc76d259dd21  backend/app/services/sentimento.py
+b86fa464a123a48542beb0363bc619e2842a15b889ada0f8f348733abf923328  backend/app/services/sinais_comerciais.py
+aa1de4d1135d752ede69ec17eb890bc127bc804760569abcfcfd0f9df301ffe4  backend/app/services/analise.py
+8affdfb4fe257b0a072dc034c02142063b2b3cbe42d03042735deb409a6418d5  backend/tests/test_sinais_comerciais.py
+de585b1e5af7dd0b8b47f5b82785ed0ba9c80b9db8861f9f3b5f9a8eed2ae749  backend/tests/test_analise.py
+fc2d9da0aff65870813a130407aacea85b0fdf2a0f1ee3cc87a749cbb1b11aee  backend/tests/test_analises_rota.py
+0e7cd2ecc80fc0a40ae728b2e4b83e85b1544082b202f1eb050add2b4e354629  backend/README.md
+9a3d559479ed36f273f5ba2058884cd293119d5cdd3fd9c1296ae11507f13dde  docs/contratos/analise-texto.md
 ```
 
-Preserve o manifesto de entrada. Se houver divergência, identifique e registre
-antes de editar; depois informe hashes/diff da versão realmente revisada.
+Preserve B11, inclusive suas regressões em `backend/tests/test_sentimento.py`.
+`sentimento.py`, composição/testes, README e C01 acumulam B11/B12: não restaure
+esses arquivos a uma versão anterior. As mudanças de `.gitignore`,
+`backend/scripts/verificar_whisper.py` e
+`docs/decisoes/transcricao-whisper.md` são de B07-A-06 e ficam fora da revisão.
+`REGISTRO_TRABALHO.md` é compartilhado; `prompt.md` é coordenação.
 
-Também existem alterações locais de planejamento/registro, os roteiros de áudio
-e refinamento e cópias de prompts. São preexistências, não implementação B07-A.
-B11 continua PLANEJADO/NAO_INICIADO; seu prompt foi preservado em
-`docs/planejamento/PROMPT_B11_NEGACAO_SENTIMENTO.md`. Não implemente B11 ou C02-A.
+Confira raiz, branch, HEAD, status, índice, arquivos não rastreados e hashes
+antes de editar. Registre eventual divergência sem descartar mudanças. Escopo
+autorizado: revisão, correção, validação e documentação locais nesta branch.
+Não fazer commit, push, PR remoto, merge, reset/stash ou reorganização das
+branches/commits. A coordenação tratará a separação das entregas depois.
 
-Confira status com não rastreados, diff e índice. Correções permanecem nesta
-branch de B07-A; não trocar branch, descartar mudanças ou reescrever commits.
-Destino/principal, publicação e PR remoto atuais são NAO_VERIFICADO. Autorização
-neste encaminhamento: revisão, correção, validação e documentação locais;
-**sem commit, push, abertura de PR remoto, merge ou implantação**.
+## Critérios originais e resultado esperado
 
-## Objetivo e critérios originais
+Regras locais devem distinguir cancelamento/reavaliação/rescisão da relação
+comercial de ações sobre reunião/pauta; respeitar a negação e a insatisfação
+atual com essa relação. Para `cliente`, confirme:
 
-B07-A deve demonstrar transcrição real em português e recomendar configuração
-gratuita reproduzível antes de alterar a API. Inventário de recursos, ambiente
-isolado, modelo identificado, áudio e texto esperado/obtido, tempo/memória,
-tratamento de silêncio e inválido, limitações e recomendação para C02-A.
+| Entrada | Churn esperado |
+|---|---|
+| Não vamos cancelar o contrato. | sem_sinal_detectado |
+| Vamos cancelar a reunião. | informacao_insuficiente |
+| Vamos cancelar o contrato. | sinal_detectado |
+| Se o suporte continuar assim, vamos cancelar o contrato. | sinal_detectado |
+| Vamos reavaliar a pauta. | informacao_insuficiente |
+| O sistema solar é extenso. | informacao_insuficiente |
+| Não estamos satisfeitos com o suporte. | sinal_detectado |
 
-Amostra falada real é obrigatória para concluir viabilidade/qualidade; voz
-sintética somente como apoio identificado. Sem amostra disponível, relatar
-PARCIAL e o que falta. Não atribuir qualidade ruim do TTS a toda fala humana
-nem generalizar desempenho de um clipe de 12 segundos para reuniões longas.
+Cada sinal precisa de evidência literal com o contexto relevante e posições
+corretas no texto devolvido. Negar cancelamento não comprova baixo risco.
+Preserve prospect `nao_aplicavel`, concorrente isolado sem risco presumido,
+vínculo desconhecido sem pressupor baixo risco e coexistência de risco com
+oportunidade. IDs de churn/oportunidades/recomendações devem continuar válidos.
 
-Preservar: serviços gratuitos, ambiente da API independente, nenhuma dependência
-Whisper em `backend/pyproject.toml`, nenhum peso/venv/cache no versionamento,
-nenhum download ou carregamento de modelo ao importar FastAPI. Não criar rotas,
-executor de produção, banco, frontend ou hospedagem nesta revisão.
+Reusar a negação de B11 sem regredir sentimento, “não só”, “nem”, acentos,
+pontuação, repetições ou recortes. Preservar C01, `metodo="regras"` e versão
+`0.3` da entrega B12, com documentação coerente.
 
-## Apontamentos iniciais do Codex
+Fora do escopo: oportunidades B13, Unicode/NFD B14, deduplicação B19,
+ampliação geral de catálogo/vocabulário, probabilidades, classificador novo,
+ironia/negação dupla geral, autoria de falas, história remota, áudio,
+persistência e hospedagem. Mudanças necessárias ao contexto/evidência de churn
+são B12; não substituir o motor por análise gramatical geral.
 
-### B07-A-R01 — Instalação reproduzível: confirmar antes de corrigir
+## Achados do Codex a confirmar
 
-O arquivo de requisitos define um único `--index-url` para o índice CPU do
-PyTorch e inclui no mesmo arquivo `torch==2.14.0` e `openai-whisper==20250625`.
-O relatório descreve instalação de torch CPU antes do Whisper, mas o comando
-publicado instala tudo em um passo com esse arquivo. **Codex não executou
-instalação limpa nem confirmou a disponibilidade desses pacotes no índice**;
-é um ponto de verificação, não uma falha de instalação já reproduzida.
+B12-01 já usa **B12-R01** para o problema original do cartão. Preserve essa
+referência; os apontamentos desta preparação recebem os IDs seguintes.
 
-Confira se o comando publicado resolve todas as dependências num ambiente
-vazio sem configuração/cache ocultos, se evita pacotes CUDA e se as versões
-relatadas são as realmente instaladas. Se necessário, separar explicitamente
-as fontes/etapas e corrigir instruções/requisitos. Não realizar downloads de
-vários GB sem estimar recursos, não limpar caches globais nem alterar o venv
-`backend/.venv`. Validar em ambiente isolado e registrar limitações de acesso.
+### B12-R02 — Palavra comercial próxima é tratada como objeto da ação
 
-### B07-A-R02 — Reprodução incompleta dos experimentos relatados
+Reproduzido na composição real: todos os exemplos abaixo geram
+`sinal_detectado`, evidência apenas da ação e uma recomendação de retenção:
 
-O relatório apresenta saída com `no_speech_threshold=0.9`, enquanto o script
-entregue chama `transcribe(..., language=idioma, fp16=False)` e não possui
-opção CLI para esse parâmetro. A seção 5 remete a comandos completos no script,
-mas ele também não contém a geração dos arquivos de silêncio/inválido ou a
-conversão citada para 16 kHz. A amostra WAV entregue foi conferida pelo Codex:
-mono, 22.050 Hz e 12,128 s; o relatório menciona ensaios com versão convertida.
+- “Vamos cancelar a reunião sobre o contrato.”
+- “Vamos reavaliar a pauta com o fornecedor.”
+- “O contrato continua vigente, vamos cancelar a reunião.”
+- “Vamos cancelar a reunião, mas não o contrato.”
 
-Complete comandos exatos e identifique qual arquivo/configuração originou cada
-medição, com hash e resultado. Pode documentar um comando experimental separado
-ou acrescentar opção pequena ao script se fizer sentido; não tornar threshold
-forçado o padrão para obter artificialmente uma boa transcrição. Preserve a
-separação entre configuração padrão e experimento forçado. Não fabricar logs
-antigos: quando faltarem, identificar como relato anterior e registrar nova
-execução, se viável. Este achado é de rastreabilidade, não prova que os ensaios
-relatados não ocorreram.
+Esperado: nenhuma dessas frases deve gerar sinal de encerramento da relação
+comercial; com contexto comercial avaliável, `sem_sinal_detectado`.
+O objeto cancelado é a reunião; no segundo caso, reavalia-se a pauta.
 
-### B07-A-P01 — Aceite parcial e qualidade ainda pendente
+Localização: `_ocorrencias_risco`/`_mesma_oracao` em
+`backend/app/services/sinais_comerciais.py`: qualquer objeto comercial antes
+ou depois da ação na mesma frase basta, inclusive em outra oração. A negação
+sobre “o contrato” no quarto caso também é ignorada por essa associação.
 
-A ausência de gravação real está corretamente declarada pelo Sonnet. Confirmar
-que conclusão, recomendações e ficha não passam de “execução mecânica relatada”
-para “qualidade aprovada”. Se houver amostra falada real adequada e autorizada,
-pode completar o teste dentro de B07-A, registrando origem e condições. Caso
-contrário, concluir a revisão dos artefatos e manter a entrega PARCIAL com essa
-pendência concreta. Não condicionar toda a revisão de código à chegada do áudio.
+Confirme e corrija a ligação local ação–objeto, com regressões e contraprovas.
+Preserve “cancelar o contrato”, “reavaliar o fornecedor”, “rescindir o contrato”
+e a ameaça condicional original. Não resolva só cortando em toda vírgula nem
+exigindo que ação/objeto sejam sempre palavras adjacentes.
 
-### Outros pontos a conferir, sem ampliar o escopo
+### B12-R03 — Evidência omite o contexto que sustenta a classificação
 
-- O texto impresso “idioma detectado” acompanha `language=idioma`, configurado
-  na chamada; apresentar corretamente o que foi configurado e medido.
-- O `try` cobre a transcrição, mas importação, criação de diretório e carga do
-  modelo estão fora dele. Conferir falhas de preparação e mensagem de erro;
-  não prometer que toda falha está tratada só porque arquivo inválido foi testado.
-- Recomendações de concorrência devem distinguir RAM livre de disponível;
-  o relatório cita ambas. O ensaio de 30–60 s é amostra de validação, não
-  duração de reunião aprovada pelo usuário. Formatos/limites finais ficam em C02-A.
-- Não ampliar “--pesos fora do repositório” para uma promessa de validação do
-  caminho que o script não aplica; conferir coerência entre documentação e CLI.
+Reproduzido: “Vamos cancelar o contrato.” retorna evidência `cancelar`;
+“Se o suporte continuar assim, vamos cancelar o contrato.” também retorna
+somente `cancelar`. “Não estamos satisfeitos com o suporte.” retorna
+`Não estamos satisfeitos`, sem a relação mencionada.
 
-Confirme cada apontamento antes de mudar. Registre concordância, correção ou
-justificativa para não corrigir. Faça sua revisão independente, incluindo pontos
-não encontrados pelo Codex, mas mantenha B07-A pequeno e experimental.
+O cartão exige evidência do contexto relevante. Uma ação solta não explica
+por que se trata de churn em vez de cancelamento de reunião. Os testes atuais
+de serviço/composição chegam a fixar `trecho == "cancelar"`, e README/docstring
+justificam isso pelo comportamento anterior — revise essa expectativa à luz
+do critério B12, preservando o histórico da mudança.
 
-## Evidência já conferida pelo Codex
+A evidência deve incluir a expressão e o objeto/contexto usados para decidir
+o risco; quando necessário, a negação ou condição. Mantenha recortes literais,
+índices exatos, ocorrências repetidas e referências válidas, sem paráfrase nem
+novos campos públicos. Atualize testes/documentação de forma justificada.
 
-- Leitura dos quatro arquivos, do escopo e do histórico de revisão.
-- `python3 backend/scripts/verificar_whisper.py --help` → saída 0.
-- Sintaxe Python via `ast.parse` → OK; cabeçalho WAV conferido com `wave`.
-- Hashes dos quatro arquivos fixados no manifesto de entrada.
-- `git diff --name-only -- backend/app backend/tests backend/pyproject.toml docs/contratos`
-  vazio; índice vazio. A aplicação aceita não mudou nesta entrega.
+### B12-R04 — Insatisfação fora da relação comercial: ponto adicional
 
-Não reproduzi instalação, carregamento de modelo, inferência, métricas ou suíte
-completa nesta preparação. Os 100 testes e números de recursos de B07-A-01 são
-relato do Sonnet; a última revisão Opus registrada, B04-03, não cobre B07-A.
+O Codex também reproduziu `sinal_detectado` e recomendação de retenção em
+“Estamos insatisfeitos com o clima.” e “Não estamos satisfeitos com o almoço.”.
+A primeira regra é herdada; a segunda usa o caminho novo de satisfação negada.
 
-## Validação e devolução
+Avalie contra o objetivo de “insatisfação atual com essa relação” no cartão.
+Não confunda sentimento negativo geral com risco comercial. Corrija casos
+inequivocamente fora da relação quando abrangidos por B12, preservando
+insatisfação com suporte/serviço, e justifique o que considerar limitação
+remanescente. Distinguir herança de B03, comportamento novo e mudança de
+escopo; não invalidar silenciosamente o aceite histórico de B03.
 
-Reproduzir o que for viável em ambiente isolado, usando recursos disponíveis.
-Correções de lógica relevante devem ter testes proporcionais; simulação de erro
-pode verificar tratamento, mas não comprova qualidade do modelo. Se repetir
-Whisper, registrar execução real, versões, arquivo, configuração e resultado.
-Se não executar uma verificação, informar motivo e impacto no aceite.
+## Validação já feita e revisão independente
 
-Atualizar ficha/índice B07-A e acrescentar evento próprio de Opus em
-`REGISTRO_TRABALHO.md`, preservando B07-A-01/B07-A-02. Separar:
+Conferência do Codex em `backend/`:
 
-1. Revisão concluída ou parcial e correções de cada apontamento.
-2. Entrega B07-A finalizada ou ainda PARCIAL, sobretudo quanto à fala real.
-3. Arquivos e evidências próprias versus métricas apenas herdadas.
-4. Git: branch, base/HEAD, hashes/diff, arquivos não commitados, publicação,
-   PR remoto e integração, sem atribuir B07-A ao commit 6169fec.
+- `timeout --signal=INT --kill-after=5s 30s .venv/bin/python -m pytest -q tests/test_sentimento.py tests/test_sinais_comerciais.py tests/test_analise.py`
+  → **99 passed in 0.06s**.
+- Sondagem dos sete exemplos explícitos do cartão → **7/7**, com recortes
+  literais conferidos; dez sondagens adicionais na composição reproduziram os
+  resultados descritos acima e um controle com frases separadas por ponto.
+- Diff vazio em schemas, API, `texto.py` e `pyproject.toml`;
+  `git diff --check` sem diagnóstico. Hashes atuais correspondem aos prefixos
+  registrados em B12-01; `negacao.py` foi lido diretamente.
+- Suíte completa, `timeout --signal=INT --kill-after=5s 45s .venv/bin/python -m pytest -q`,
+  ficou sem progresso após onze pontos e terminou com **137** sob o limite
+  configurado. Causa do travamento não diagnosticada; nenhum resultado final
+  de testes. Os **143 passed** e o servidor real de B12-01 continuam sendo
+  relato do Sonnet, não reprodução do Codex.
 
-Entregar para Codex verificar; não marcar APROVADO/INTEGRADO por conta própria.
-Não iniciar C02-A, B07-B, B11 ou outro PR automaticamente.
+Revise o conjunto B12, não apenas os achados. Confira a extração do módulo
+compartilhado e execute as regressões B11. Teste classificação, evidência e
+referências na composição/rota, com casos positivos, negados, não comerciais,
+condicionais e repetidos. Confirme que oportunidades e catálogos não mudaram.
+
+Depois das correções, rode testes afetados e suíte completa com limite de
+tempo. Registre restrições e testes não executados; não altere código para
+acomodar um travamento de ferramenta sem diagnosticar a causa. Não alegue
+resultado de suíte/HTTP a partir de sondagem direta do serviço.
+
+## Registro e entrega
+
+Atualize índice/ficha B12 e acrescente evento próprio em
+`REGISTRO_TRABALHO.md`, preservando B12-01/B12-02 e o histórico B11/B07-A.
+Responda a R02/R03/R04 como confirmado e corrigido, não confirmado ou pendente,
+com evidência e impacto no aceite. Inclua outros achados que comprovar.
+
+Entregue o relatório da seção 8 da governança: arquivos, critérios,
+comandos/resultados, limites, versão/hashes, entrega finalizada/parcial,
+revisão, Git não commitado (inclusive `negacao.py` e registro), branch/base,
+push, PR e integração. Não marque APROVADO/INTEGRADO nem inicie B13.
+Próximo responsável: Codex verifica a devolução do Opus.

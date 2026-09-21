@@ -4,7 +4,10 @@ Executado por Claude Sonnet em 19/09/2026 (B07-A-01), a partir do prompt
 preparado pelo Codex em PLN01-03; **revisado e corrigido por Claude Opus em
 19/09/2026 (B07-A-03)** — receita de instalação corrigida e verificada em
 venv vazio (R01), ensaios refeitos com comandos exatos, hashes e a flag
-`--experimento-forcado` do script (R02). Cobre só B07-A: verificar se o
+`--experimento-forcado` do script (R02); **revisão independente por Claude
+Opus em 21/09/2026 (B07-A-06)** reproduziu instalação e ensaios a partir
+de venv vazio e corrigiu R03 (`.gitignore`) e R04 (códigos de saída
+documentados) — ver seção 10. Cobre só B07-A: verificar se o
 Whisper (open source) roda de verdade neste ambiente e recomendar uma
 configuração gratuita reproduzível para C02-A. Não altera `backend/app/`,
 o contrato de texto (C01) nem o runtime da API — tudo aqui rodou num
@@ -56,6 +59,14 @@ python3 -m venv .venv-whisper
 sendo o índice primário) e pina `torch==2.14.0+cpu` — o rótulo local `+cpu`
 só existe no índice CPU do PyTorch, então o `pip` não tem como resolver
 para o `torch` padrão com CUDA.
+
+**Revisão B07-A-R03 (Opus, 21/09/2026):** executada na raiz do repositório,
+a receita acima cria `.venv-whisper/` (~2,1 GB) e o `.gitignore` só cobria
+`.venv/` e `venv/` — o diretório aparecia como não rastreado no `git status`
+(reproduzido). Acrescentado `.venv-whisper/` ao `.gitignore`, conforme o
+escopo original de B07-A ("`.gitignore` somente se faltar exclusão específica
+para os novos artefatos"). O diretório de `--pesos` continua escolha de quem
+executa; recomendado fora do repositório.
 
 **Revisão B07-A-R01 (Opus, 19/09/2026):** a primeira versão deste arquivo
 usava `--index-url` (índice único) apontando só para o índice CPU, que não
@@ -205,10 +216,16 @@ Resultados com `verificar_whisper.py transcrever` (padrões do Whisper):
 - **Falha de preparação** (acrescentado na revisão): nome de modelo
   inexistente (`--modelo nao-existe`) → `RuntimeError: Model nao-existe not
   found; available models = [...]`, capturado, **código 2**. Cobre também
-  falha ao criar o diretório de pesos. **Não cobre** falha de importação
-  do `whisper` (venv errado) nem falta de rede na primeira baixa dos pesos
-  — essas saem com o traceback normal do Python; o script não promete que
-  toda falha está tratada.
+  falha ao criar o diretório de pesos e falta de rede na primeira baixa dos
+  pesos — **correção B07-A-R04 (21/09/2026):** a versão anterior deste
+  parágrafo dizia que a falta de rede saía com traceback; verificado com
+  proxy inacessível e diretório de pesos vazio (`--modelo tiny`):
+  `FALHA na preparacao (pesos/modelo): URLError: <urlopen error [Errno 111]
+  Connection refused>`, **código 2**; permissão negada no diretório de pesos
+  → `PermissionError`, **código 2**. **Não cobre** falha de importação do
+  `whisper` (venv errado): `ModuleNotFoundError` com o traceback normal do
+  Python, código 1 do interpretador. O script não promete que toda falha
+  está tratada.
 
 O script imprime o SHA-256 do áudio e os parâmetros usados antes de cada
 execução, para que cada medição fique ligada ao arquivo e à configuração
@@ -305,6 +322,34 @@ corrigida (seção 2), Python 3.14.7, `torch==2.14.0+cpu`,
 foram obtidos pelo Sonnet em venv anterior (instalação em duas etapas) e
 não têm log preservado — estão identificados como relato anterior na
 tabela da seção 3.
+
+## 10. Reprodução independente (B07-A-06, 21/09/2026)
+
+Revisão da versão commitada `cc61925`, sem tratar B07-A-03 como evidência
+por si só. Ambiente: venv vazio novo (`pip 26.0.1`, Python 3.14.7, linux
+x86_64), `--no-cache-dir`, temp do `pip` apontado para disco fora do tmpfs
+com cota; nenhum cache ou venv anterior existia (o `/tmp` é limpo entre
+sessões).
+
+| Verificação | Resultado (21/09/2026) | Confere com B07-A-03? |
+|---|---|---|
+| Receita antiga reconstruída (`--index-url` único) | `No matching distribution found for openai-whisper==20250625` | sim (premissa de R01) |
+| `pip install --dry-run` da receita publicada | resolve 24 pacotes, `torch-2.14.0+cpu`, `openai-whisper-20250625`, `numba-0.67.0`, `llvmlite-0.49.0`, `numpy-2.5.3`, `tiktoken-0.14.0`, `triton-3.8.0`; 0 `nvidia*` | sim |
+| Instalação real | saída 0, 41 s, 2,1 GB, `torch.cuda.is_available()` → `False` | sim |
+| Padrões do Whisper `v20250625` (fonte oficial) | `no_speech_threshold=0.6`, `logprob_threshold=-1.0`, `condition_on_previous_text=True`; fallback de temperatura disparado por `logprob`/`compression_ratio` | sim (seções 4 e 7) |
+| Amostras auxiliares pelos comandos da seção 5 | hashes `45ec296d…ad2d` e `4dd2f50f…a218` idênticos | sim |
+| Ensaio 1 (padrões) | 0 segmentos, saída 0, 1,15 s, RSS 692 MB | sim |
+| Ensaio 2 (`--experimento-forcado`, 2 execuções) | 2 segmentos `[0,0–5,2]` `[5,2–11,8]`, `no_speech_prob` 0,72, texto idêntico à seção 4 nas duas execuções, 1,05–1,13 s | sim |
+| Ensaio 2b (só threshold, snippet, 2 execuções) | 1 segmento até 12,2 s numa; 7 segmentos até 17,2 s com cirílico/inglês na outra — não determinístico | sim (extensão observada menor que os 28–30 s relatados; a natureza do achado é a mesma) |
+| Ensaio 3 (silêncio 3 s) | 0 segmentos, saída 0, 6,74 s | sim (tempo maior que o do áudio de 12 s, como a seção 3 alerta) |
+| Ensaio 4 (inválido) | `RuntimeError: Failed to load audio`, saída 1 | sim |
+| Ensaio 5 (`--modelo nao-existe`) | `RuntimeError: Model nao-existe not found`, saída 2 | sim |
+| Falta de rede no 1.º download / permissão no diretório de pesos | saída 2 nos dois casos | **não** — corrigido (R04) |
+| Receita cria `.venv-whisper/` não ignorado | reproduzido com `git status` | **não coberto** — corrigido (R03) |
+| Suíte da API, `import app.main` sem `whisper`/`torch`, diff de `backend/app`/testes/`pyproject`/contratos | 100/100; nenhum; vazio | sim |
+
+Fala humana real (P01) continua sem amostra: nada nesta reprodução muda a
+entrega de PARCIAL.
 
 ## Fontes oficiais consultadas
 

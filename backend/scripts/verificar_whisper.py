@@ -28,9 +28,11 @@ A flag serve para inspecionar o que o modelo "ouviria", não para obter
 uma transcrição melhor.
 
 Códigos de saída de `transcrever`: 0 sucesso; 1 falha na transcrição
-(ex.: arquivo inválido); 2 falha na preparação (carga do modelo, diretório
-de pesos). Outras falhas (import, permissões) não são capturadas e saem com
-o traceback normal do Python.
+(ex.: arquivo inválido); 2 falha na preparação — nome de modelo inexistente,
+permissão negada no diretório de pesos ou falta de rede no primeiro download
+dos pesos (os três verificados na revisão B07-A-06). Só a importação do
+`whisper` (venv errado) fica fora do `try` e sai com o traceback normal do
+Python.
 """
 
 from __future__ import annotations

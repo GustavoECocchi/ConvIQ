@@ -21,6 +21,28 @@ Os exemplos deste documento continuam ilustrando o contrato — foram gerados
 com as classes Pydantic (`model_dump_json()`), não por uma chamada real à
 API; um exemplo real da rota está em `backend/README.md`.
 
+**Atualizado em 21/09/2026, B11 (revisão B11-R01 incluída):** negação
+simples (`"não"`, `"nem"`, `"sem"`, `"nenhum(a)"`, com escopo fechado por
+pontuação, vírgula e conjunções coordenativas) passou a ser aplicada dentro
+do serviço de sentimento (B02),
+sem mudar o formato deste contrato — os mesmos campos e enums de
+`sentimento`/`Evidencia` continuam valendo. `versao_analise` mudou de
+`"0.1"` para `"0.2"` nos exemplos abaixo; nenhum deles contém as palavras
+de negação tratadas em B11, então as respostas em si não mudaram, só o
+valor de `versao_analise`. Ver `backend/README.md`, seção "Serviço de
+sentimento (B02, negação simples em B11)".
+
+**Atualizado em 21/09/2026, B12:** risco de cancelamento passou a exigir
+contexto local dentro do serviço de sinais comerciais (B03) — "cancelar"/
+"reavaliar"/"rescindir" só contam com um objeto da relação comercial
+("contrato", "serviço", "fornecedor") na mesma oração, e negação (mesmo
+escopo de B11) suprime ou inverte o sinal, sem mudar o formato deste
+contrato. `versao_analise` mudou de `"0.2"` para `"0.3"`; o exemplo 1
+abaixo não contém as construções tratadas em B12 (nenhuma negação, e
+"insatisfeitos" sozinho já era risco antes e continua), então sua resposta
+não muda além do campo de versão. Ver `backend/README.md`, seção "Serviço
+de sinais comerciais (B03, risco com contexto em B12)".
+
 ## Rota
 
 `POST /api/analises/texto` — implementada em B04 (`backend/app/api/analises.py`),
@@ -173,7 +195,7 @@ Resposta:
     {"texto": "Oferecer uma apresentação do Fluig.", "evidencias": ["e2"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.1"
+  "versao_analise": "0.3"
 }
 ```
 
@@ -212,7 +234,7 @@ Resposta:
     {"texto": "Apresentar a documentação de integração via API.", "evidencias": ["e1"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.1"
+  "versao_analise": "0.3"
 }
 ```
 
@@ -249,7 +271,7 @@ Resposta:
   "evidencias": [],
   "recomendacoes": [],
   "metodo": "regras",
-  "versao_analise": "0.1"
+  "versao_analise": "0.3"
 }
 ```
 
