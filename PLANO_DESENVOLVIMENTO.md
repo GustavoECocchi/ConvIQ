@@ -15,7 +15,7 @@ adiante. Essa evolução não amplia os critérios dos PRs atuais.
 
 Este documento será compartilhado com o colega de equipe responsável pelo frontend. Ele reúne a visão geral e um guia de execução para essa frente, incluindo o que pode avançar antes de a API estar disponível.
 
-Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Após a perda da primeira base local, B01–B04/C01 foram implementados e aprovados tecnicamente: saúde, contrato de texto, sentimento, sinais comerciais e `POST /api/analises/texto`. Estão no commit agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, confirmado em 07/10 como ponta da branch padrão `feat/b01-fundacao-api` no GitHub. B11/B12 foram aprovados tecnicamente; suas correções estão no commit local `b14f0a5`, ainda sem integração confirmada. Áudio e persistência ainda não existem; frontend/F06 não foram comprovados nesta cópia. Os materiais Java e Oracle citados no contexto não estão nesta pasta.
+Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Após a perda da primeira base local, B01–B04/C01 foram implementados e aprovados tecnicamente: saúde, contrato de texto, sentimento, sinais comerciais e `POST /api/analises/texto`. Estão no commit agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`. B11/B12 foram aprovados e integrados pelo PR #1 na branch padrão `feat/b01-fundacao-api`, merge `e31e6ba81692c61e0b0615d349972e2b3a0c459d`, verificado em 07/10. Áudio e persistência ainda não existem; frontend/F06 não foram comprovados nesta cópia. Os materiais Java e Oracle citados no contexto não estão nesta pasta.
 
 Em 19/09/2026, B07-A tem entrega parcial do experimento isolado de Whisper
 na branch `spike/b07-a-viabilidade-whisper`, sobre o mesmo commit, ainda sem
@@ -23,7 +23,7 @@ commit próprio. Falta validação com fala real; não há áudio integrado à A
 O usuário também solicitou refinamento das capacidades já existentes:
 B11–B21 abaixo melhoram a análise por texto, aproveitável pelo áudio depois.
 Em 07/10, B07-A continua parcial, com P01 (fala real) pendente; B11/B12
-estão aprovados tecnicamente, e B13 é o próximo refinamento planejado.
+estão integrados, e B13 é o próximo refinamento preparado para execução.
 
 ## Stack proposta
 
@@ -235,9 +235,9 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (07/10/2026):** integrar a versão aprovada de B11/B12
-na branch padrão após conferir o PR; depois iniciar B13. B07-A continua
-parcial por falta da amostra P01 de fala real, e sua instrução de retomada
+**Encaminhamento vigente (07/10/2026):** executar B13 a partir da branch
+padrão que contém o merge de B11/B12, seguindo o [prompt vigente](prompt.md).
+B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes
 de iniciar, uma entrega por vez, preservando os trabalhos existentes.

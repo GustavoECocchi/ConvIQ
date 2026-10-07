@@ -1,193 +1,127 @@
-# Revisão e correção de B04 — endpoint de análise — Claude Opus
+# B13 — Oportunidade somente com intenção comercial — Claude Sonnet
 
-Você revisará e corrigirá B04 do ConvIQ. Examine a entrega completa do
-Sonnet, confirme os achados do Codex antes de corrigir e devolva para a
-verificação final. Não inicie outra entrega nem declare aprovação final.
+Você é o executor de B13 do ConvIQ. Implemente somente este PR lógico e
+entregue a versão para a revisão coordenada pelo Codex. Não inicie B14/B17
+nem declare aprovação final ou integração.
 
-## Leitura e versão a revisar
+## 1. Leitura e versão de partida
 
-Leia `AGENTS.md`, `CLAUDE.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md` (4.4, 5, 6,
-8), índice/fichas B03 e B04 em `REGISTRO_TRABALHO.md`, critérios do plano,
-`docs/contratos/analise-texto.md` e `backend/README.md`.
+Leia `AGENTS.md`, `CLAUDE.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md`,
+`REGISTRO_TRABALHO.md` (índice, INT01, B11/B12 e ficha B13),
+`PLANO_DESENVOLVIMENTO.md` (refinamento B11–B21), o cartão B13 em
+`docs/planejamento/PRS_REFINAMENTO_ANALISE.md`, `backend/README.md` e
+`docs/contratos/analise-texto.md`.
 
-Relato do Sonnet: ficha B04, evento B04-01 e cópia preservada em
-`docs/revisoes/RELATORIO_SONNET_B03_B04_2026-09-18.md`. Essa cópia descreve
-a situação antes desta verificação. Resultados atuais: DOC01-10 (retomada),
-B03-04 (aceite técnico de B03) e B04-02 (análise inicial e este prompt).
+- Projeto: `/home/gustavoecocchi/Documents/CONVIQ`.
+- Branch de trabalho proposta: `fix/b13-intencao-oportunidade`.
+- Base: **branch padrão remota `feat/b01-fundacao-api`**, no HEAD atual que
+  contenha o merge de B11/B12 `e31e6ba81692c61e0b0615d349972e2b3a0c459d`.
+  Confirme o hash atual no servidor e registre o hash usado antes de criar
+  a branch. Não use a referência local `origin/main` como destino.
+- Dependências: B01–B04/C01 estão na branch padrão; B11/B12 foram
+  integrados pelo PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1),
+  merge `e31e6ba`. B07-A permanece parcial e não bloqueia B13.
+- A pasta raiz pode estar em `fix/b12-contexto-risco`, com `prompt.md` e
+  `REGISTRO_TRABALHO.md` modificados e relatório Sonnet não rastreado.
+  Confira o estado real. Preserve tudo. Crie um worktree isolado a partir
+  da branch padrão confirmada, sem trocar a branch ou limpar os arquivos
+  preexistentes.
 
-- Pasta: `/home/gustavoecocchi/Documents/CONVIQ`.
-- Branch: `feat/b01-fundacao-api`; base local: `master`.
-- HEAD/base: `3c52ea3ed0d3c3d38de5b9adf2a4a4ff320a1842`. Esse commit
-  não contém B01–B04: tudo continua na pasta de trabalho, sem commit;
-  índice vazio. Há 31 arquivos backend não rastreados.
-- Versão examinada: 33 arquivos (backend, contrato, `.gitignore`) em
-  `docs/revisoes/2026-09-18-verificacao-b03-b04.sha256`.
-  Confira na raiz com `sha256sum -c` nesse arquivo. Preserve-o como
-  referência de entrada; registre hashes da versão corrigida separadamente.
-  O manifesto antigo de B01–B03 é histórico, não identifica B04.
-- Destino de integração/principal/PR remoto atuais: `NAO_VERIFICADO`;
-  servidor não consultado. Não use `origin/main` local como comprovação.
-- B01/C01/B02 já tinham aceite técnico local; B03 foi verificado e aprovado
-  tecnicamente em B03-04. Nenhuma dessas entregas foi commitada/integrada.
-  B04 está `EM_REVISAO`, execução do Sonnet finalizada, correções pendentes.
+Se branch, base, arquivos ou registro divergirem, documente a divergência
+antes de implementar. Não atribua ao HEAD conteúdo só presente na pasta
+de trabalho. Os estados históricos de B11/B12 em outros commits não
+substituem a verificação da base escolhida.
 
-Confira raiz, branch, HEAD/base, status com arquivos não rastreados, diff
-e índice. Registre divergências antes de editar; preserve mudanças
-preexistentes. A organização de branches/commits e a integração das
-dependências continuam pendentes para a coordenação.
+## 2. Objetivo e escopo
 
-## Objetivo, critérios e escopo
+Hoje `_REGEX_OPORTUNIDADE` em `backend/app/services/sinais_comerciais.py`
+gera uma oportunidade para cada palavra como `interesse`, `conhecer` ou
+`módulo`, mesmo quando o interesse é negado, a palavra é só uma menção ou
+o objeto não tem relação comercial. B13 exige uma **intenção afirmativa e
+local** de conhecer/avaliar/contratar/expandir/integrar uma solução ou uma
+necessidade comercial concreta, sem inferência generativa.
 
-Plano B04: “Recomendações derivadas dos sinais, composição do resultado e
-`POST /api/analises/texto`”. Depende de B03. Critério: “Responde conforme
-C01, com método/versão e erros padronizados; testes HTTP cobrem entrada
-válida e inválida.”
+Implemente a regra em `sinais_comerciais.py`, com testes pertinentes em
+`backend/tests/test_sinais_comerciais.py`, testes de composição/rota onde
+o comportamento público mudar, README e nota no contrato C01. Reutilize,
+quando couber, o escopo de negação de B11 e a normalização atual sem alterar
+seus contratos. Avalie `_ha_conteudo_comercial`: uma ocorrência rejeitada
+como oportunidade não deve, só por essa ocorrência, tornar churn avaliável;
+produto, concorrente ou outro contexto comercial independente continuam
+seguindo as regras existentes.
 
-Arquivos principais:
+Para toda oportunidade, a evidência deve ser um recorte literal contínuo da
+transcrição ecoada, com `inicio`/`fim` e referência válidos, que mostre a
+intenção afirmativa e o contexto que a torna comercial. Preserve a
+independência entre risco e oportunidade. O catálogo de produtos pode
+listar uma marca mencionada mesmo quando a intenção relativa a ela é
+negada; B13 muda a lista de oportunidades, não apaga nomes citados.
 
-- `backend/app/services/analise.py` e `backend/tests/test_analise.py`.
-- `backend/app/api/analises.py`, `backend/tests/test_analises_rota.py` e
-  registro da rota em `backend/app/main.py`.
-- Schemas, `backend/app/erros.py`, serviços B02/B03 relacionados, README e
-  contrato C01. Leia-os para verificar integração, sem ampliar a entrega.
+Atualize `versao_analise` de `0.3` para `0.4` pela mudança observável, sem
+alterar o formato JSON de C01. Atualize README e a nota do contrato com
+exemplos e limites da regra. Comunique a mudança na quantidade e no
+conteúdo das evidências ao frontend F05.
 
-Preserve prospect → `nao_aplicavel`, concorrente isolado sem inferir troca,
-coexistência de risco/oportunidade, distinção entre informação insuficiente
-e ausência de sinal. Recomendações precisam ser sugestões sustentadas pelas
-evidências. Os recortes são relativos à transcrição ecoada após strip, em
-caracteres Python, com fim exclusivo; não invente horários ou falantes.
+## 3. Critérios verificáveis
 
-Fora desta rodada: frontend, persistência, áudio, LLM/treinamento, ampliação
-geral dos léxicos/negação, deduplicação obrigatória de trechos, mudança de
-contrato/enums ou dependências sem necessidade demonstrada. Se uma mudança
-afetar escopo/contrato de outras entregas, devolva à coordenação.
+Cubra no serviço e, quando pertinente, na composição `compor_analise_texto`
+e na rota real:
 
-## Relato e verificações do Codex
+1. `Não temos interesse em conhecer o Fluig.` → nenhuma oportunidade nem
+   recomendação de oportunidade. A menção a Fluig pode permanecer em
+   `produtos`.
+2. `O módulo atual está instalado.` → nenhuma oportunidade. Uma menção
+   nominal isolada não é intenção.
+3. `Queremos conhecer o Fluig.` → oportunidade com evidência da intenção
+   afirmativa e do objeto comercial.
+4. `Precisamos automatizar o faturamento.` → oportunidade com evidência da
+   necessidade comercial.
+5. `Quero conhecer a cidade.` → nenhuma oportunidade.
+6. `Não queremos o Fluig, mas temos interesse no Protheus.` → somente a
+   intenção afirmativa sobre Protheus gera oportunidade; `produtos` pode
+   conter Fluig e Protheus. A negação anterior não alcança a oração após
+   `mas`.
+7. `Estamos insatisfeitos com o suporte. Queremos conhecer o Fluig.` →
+   risco de B12 e oportunidade de B13 coexistem, com evidências e
+   recomendações corretamente referenciadas.
 
-O Sonnet entregou a composição B02+B03, ordenação/renumeração única das
-evidências, remapeamento das referências e recomendações (uma para risco,
-uma por oportunidade). A rota chama esse serviço e reaproveita o handler
-C01. Método/versão são `regras`/`0.1`; análise sem persistência.
+Acrescente contraexemplos próprios para negação, limite de oração,
+repetição e palavras parecidas, sem transformar a suíte numa cópia da
+implementação. Preserve `prospect → churn.nao_aplicavel`, concorrente
+isolado sem risco presumido, ausência de sinal versus informação
+insuficiente e os aceites de B11/B12. Não exija deduplicação de intenções
+na mesma frase: esse agrupamento é B17. Documente falsos positivos e
+negativos residuais de uma regra local, sem prometer interpretação geral.
 
-O Codex verificou nesta versão:
+## 4. Fora do escopo
 
-- **99 testes passaram**, 2 avisos conhecidos de `httpx`/`anyio`, 0,29 s.
-  Executados fora do sandbox devido ao bloqueio de TestClient já observado
-  na sessão anterior; não houve falha da aplicação nessa execução.
-- **B03-R01 resolvido:** código e testes iguais aos hashes finais do Opus.
-  Churn dos três exemplos do contrato confere com B03. Saudação →
-  insuficiente para cliente/vínculo desconhecido; conteúdo comercial sem
-  risco → sem sinal; prospect mantém não aplicável; risco explícito e
-  oportunidade continuam independentes.
-- Sete blocos JSON de C01 válidos, round-trip sem diferenças e recortes
-  corretos; 18 cenários de composição (6 textos × 3 vínculos) verificaram
-  IDs únicos/ordenados, recortes, referências corretas por origem e
-  recomendações ligadas ao sinal correto, inclusive repetição/emoji/strip.
-- Uvicorn real + curl: os três pedidos do contrato responderam 200 e
-  validaram no schema. Exemplo 1: negativo, risco, 3 evidências e 2
-  recomendações; exemplo 2: sentimento insuficiente, churn não aplicável,
-  sem oportunidade/recomendação; exemplo 3: insuficiente e listas vazias.
-  O exemplo 2 ilustra oportunidade com “integração via API”, mas o léxico
-  atual não a detecta; limitação já relatada/aceita em B03, não igualdade
-  entre todos os campos do exemplo ilustrativo e a saída calculada.
-- Servidor real: saúde 200; 11 entradas inválidas (incluindo os sete códigos
-  C01, tipos incorretos, corpo lista e JSON malformado) → 422 no envelope
-  correto. Processo iniciado para a revisão foi encerrado. Prefixo `/v1`
-  registrado para saúde e análise em instância configurada separadamente.
-- O handler existente atende os erros exercitados. Não há motivo demonstrado
-  para reescrevê-lo; há divergência na declaração OpenAPI da rota (R01).
+- B14 (Unicode/NFD e mapa de índices), B17 (agrupar sinais da mesma
+  intenção), B18 (descrição publicamente vinculada a produto/necessidade),
+  B19 (deduplicação de intervalos) e mudanças nas regras de churn de B12.
+- Novo modelo ou serviço pago, probabilidade de venda, diarização,
+  atribuição de fala, histórico remoto, áudio, frontend e persistência.
+- Reestruturar schemas ou alterar o contrato HTTP além da versão e dos
+  exemplos/documentação da análise. Se encontrar uma mudança contratual
+  indispensável, registre e devolva à coordenação antes de aplicá-la.
 
-**Evidências repetidas do mesmo trecho não são impeditivo.** Exemplo 1:
-`e1` e `e2` apontam para “insatisfeitos” em `[8:21]`; churn referencia `e2`;
-`e3` aponta para “conhecer” em `[46:54]`; oportunidade referencia `e3`;
-as recomendações referenciam `e2` e `e3`, respectivamente. IDs únicos,
-recortes corretos e relações preservadas satisfazem C01. Mesclar trechos é
-melhoria opcional de apresentação, não exigência desta revisão. A resposta
-não possui campo explícito de origem da evidência; evite prometer isso.
+## 5. Validação e entrega
 
-## B04-R01 — OpenAPI anuncia o schema errado para HTTP 422
+Rode os testes afetados e a suíte completa do backend. Se o `TestClient`
+travar no sandbox, registre o comando/resultado e reexecute fora dele
+quando permitido; não apresente uma suíte interrompida como aprovada.
+Confira `git diff --check`, o diff contra a base real, o status de arquivos
+não rastreados e os recortes literais/referências da API. Documente
+comandos executados e seus resultados; se não puder executar algo, diga
+explicitamente o que ficou pendente.
 
-**Impeditivo, prioridade média.** Local: `backend/app/api/analises.py:12`.
-O decorador declara somente `response_model=AnaliseTextoResponse`.
+Ações Git autorizadas nesta atribuição: criar branch/worktree isolado e
+trabalhar localmente. **Não faça commit, push, PR remoto ou merge** sem
+orientação posterior do usuário. Preserve alterações preexistentes,
+inclusive `prompt.md`, relatórios e B07-A parcial.
 
-Reprodução (em `backend/`):
-
-```python
-from fastapi.testclient import TestClient
-from app.config import Settings
-from app.main import criar_app
-
-app = criar_app(Settings(_env_file=None))
-with TestClient(app) as c:
-    spec = c.get('/openapi.json').json()
-    schema = spec['paths']['/api/analises/texto']['post']['responses']['422']['content']['application/json']['schema']
-    print(schema)
-    r = c.post('/api/analises/texto', json={
-        'titulo': 'x', 'empresa': 'x', 'vinculo': 'cliente', 'transcricao': ''
-    })
-    print(r.status_code, r.json())
-```
-
-Observado: OpenAPI → `#/components/schemas/HTTPValidationError`, formato
-padrão com `detail`; resposta real → 422
-`{"erro":{"codigo":"TRANSCRICAO_VAZIA","mensagem":"Informe a transcrição para continuar."}}`.
-A divergência também foi reproduzida via servidor real em `/openapi.json`.
-
-Esperado: documentar o 422 com o schema `ErroResposta` de C01. Esse ajuste
-por rota já havia sido reservado para B04 em C01-03/C01-04. Consumidores
-baseados em `/docs` ou geração de tipos recebem o formato errado atualmente.
-O teste existente só confere os caminhos do OpenAPI, não o contrato do erro.
-
-Confirme e declare o modelo de erro no `responses` da rota (ou mecanismo
-mínimo equivalente), preservando o handler e a resposta real. Acrescente
-verificação do schema 422 anunciado e do envelope real; mantenha também o
-200 com `AnaliseTextoResponse`. Rejeitar entrada inválida deve continuar
-422, não exceção 500. Não redefina o contrato para acomodar a documentação.
-
-## B04-R02 — documentação ainda afirma ausência da rota
-
-**Baixa prioridade, não impeditivo funcional.** Locais atuais:
-`backend/README.md:116`, `:167`, `:279` e `:295`;
-`docs/contratos/analise-texto.md:24` e `:108`.
-
-Apesar da introdução e da seção B04 corretas, as seções B02/B03 dizem que
-nenhuma rota chama os serviços; “Limites conhecidos” diz que nenhuma rota
-usa os schemas e trata a aplicação da regra de prospect por B04 como
-pendente. O contrato ainda usa “Rota prevista” e “quando existir”.
-
-Atualize essas referências para a rota/composição já existentes, mantendo
-as limitações reais e distinguindo o serviço interno da rota que o consome.
-Não reescreva o histórico do registro nem prometa integração/publicação.
-Revise também a frase de que a resposta “preserva sua origem/propósito”:
-ela preserva IDs/referências, mas não expõe um campo explícito de origem.
-Não é necessário acrescentar campo ao contrato para ajustar essa explicação.
-
-## Validação e devolução
-
-Faça revisão própria do conjunto: vínculos, erros do handler, método/versão,
-renumeração e referências semânticas de churn/oportunidades/recomendações,
-recortes e repetições. Corrija problemas comprovados dentro do escopo;
-justifique discordâncias com evidência. Não crie alterações artificiais.
-
-Execute os testes pertinentes e a suíte completa em `backend/`:
-`.venv/bin/python -m pytest -q`. Verifique o 422 anunciado no OpenAPI e o
-real após R01. Se tocar no contrato, revalide os exemplos/recortes. Registre
-quais verificações usaram TestClient, servidor real ou somente função/schema.
-No sandbox, sockets podem ser bloqueados; informe a limitação e use o
-fluxo de permissão disponível, sem declarar sucesso de teste não executado.
-
-Autorizado: revisão, correções, testes e documentação locais na branch
-atual. Sem autorização de commit, push, abertura de PR, troca de branch ou
-merge nesta passagem. Preserve os manifestos e relatórios de entrada.
-
-Antes de devolver, atualize índice/ficha B04 e acrescente seu evento em
-`REGISTRO_TRABALHO.md`, preservando eventos anteriores. Responda R01/R02;
-liste arquivos, validações, limitações, novos achados e hashes da versão
-final. Separe execução, revisão, Git da entrega e do registro, publicação,
-PR remoto e integração. Use o relatório da seção 8 da governança.
-
-Aguarde a verificação final do Codex. Não declare B04 aprovado/integrado.
-B05 não é o próximo PR elegível: depende de C02, ainda inexistente; C02
-depende de F06 e das decisões de transcrição/orçamento. A próxima etapa
-após esta revisão é a verificação final e a coordenação da integração por
-texto com a frente frontend, respeitando as dependências do plano.
+Antes de devolver, atualize a ficha B13, o índice e um evento próprio em
+`REGISTRO_TRABALHO.md`, identificando agente, data, branch/base/HEAD,
+arquivos, validação, limites, pendências e próximo responsável. Informe
+separadamente implementação finalizada ou parcial, revisão pendente,
+alterações commitadas ou não, publicação e integração. Entregue o relatório
+da seção 8 da governança e aguarde a análise do Codex.

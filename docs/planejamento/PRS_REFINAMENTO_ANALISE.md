@@ -3,9 +3,9 @@
 Planejamento do Codex em 19/09/2026, a pedido do usuário (PLN02).
 Objetivo: melhorar a confiabilidade e a utilidade da análise já implementada,
 sem depender do áudio, de banco ou de serviços pagos. Os identificadores
-B11–B21 são identificadores de PRs lógicos. B11/B12 foram aprovados
-tecnicamente; os demais seguem planejados. O estado remoto atual fica no
-registro de trabalho.
+B11–B21 são identificadores de PRs lógicos. B11/B12 foram integrados pelo
+PR #1; B13 está preparado para execução e os demais seguem planejados. O
+estado remoto atual fica no registro de trabalho.
 
 ## Base e problemas reproduzidos
 
@@ -324,7 +324,9 @@ documental desta rodada não autoriza commit, push, PR remoto ou integração.
   ampla. Caso necessário, planejar avaliação de modelo aberto em outra tarefa,
   comparando ganhos e recursos; não há decisão de substituir as regras agora.
 
-Próxima implementação desta frente: **B13**, após a integração de B11/B12.
+Próxima implementação desta frente: **B13**, agora com B11/B12 integrados
+no merge `e31e6ba` da branch padrão. O prompt vigente está em
+[prompt.md](../../prompt.md).
 O [prompt de B11](PROMPT_B11_NEGACAO_SENTIMENTO.md) permanece como histórico
 da execução já aprovada tecnicamente. A instrução original de B07-A está
 preservada em [cópia de retomada](PROMPT_B07_A_VIABILIDADE_WHISPER.md),
