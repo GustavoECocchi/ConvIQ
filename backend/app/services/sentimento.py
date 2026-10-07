@@ -15,6 +15,13 @@ de "satisfeit" dentro de "insatisfeito" — as duas listas pontuam a mesma
 palavra. Aqui, cada padrão é ancorado por fronteira de palavra (`\\b`), e
 "insatisfeito" não tem fronteira de palavra antes de "satisfeito" (o "in"
 está colado, sem separador), então o padrão positivo não casa dentro dele.
+
+Negação simples (B11): "não", "nem", "sem" e "nenhum(a)" invertem ou
+suprimem um sinal léxico dentro da mesma expressão/oração — ver
+`app/services/negacao.py` (extraído em B12 para reúso pelo risco de
+cancelamento). Escopo maior de frase/ironia/negação dupla continua fora do
+alcance; ver `backend/README.md`, seção "Serviço de sentimento (B02,
+negação simples em B11)", limitações.
 """
 
 from __future__ import annotations
@@ -24,6 +31,7 @@ from dataclasses import dataclass
 
 from app.schemas.analise import Evidencia
 from app.schemas.comum import Sentimento
+from app.services.negacao import escopos_de_negacao, inicio_da_negacao_mais_proxima
 from app.services.texto import normalizar_preservando_posicoes
 
 _PADROES_NEGATIVOS = [
@@ -55,6 +63,15 @@ class ResultadoSentimento:
     evidencias: list[Evidencia]
 
 
+@dataclass(frozen=True)
+class _Ocorrencia:
+    """Um sinal já resolvido (negação aplicada ou não), pronto para contagem."""
+
+    inicio: int
+    fim: int
+    sentimento: Sentimento
+
+
 def analisar_sentimento(transcricao: str) -> ResultadoSentimento:
     """Classifica o sentimento geral da transcrição, com evidências localizadas.
 
@@ -72,34 +89,60 @@ def analisar_sentimento(transcricao: str) -> ResultadoSentimento:
     Cada ocorrência da regex vira uma evidência própria — inclusive quando a
     mesma palavra aparece mais de uma vez na transcrição, cada aparição fica
     em uma posição distinta, sem confundir uma repetição com outra.
+
+    Negação (B11): dentro do escopo de "não"/"nem"/"sem"/"nenhum(a)" (mesma
+    expressão/oração, ver `app/services/negacao.py`), um sinal positivo vira negativo — "não
+    gostei" é insatisfação, não elogio anulado — e sua evidência cobre o
+    trecho negado inteiro, do marcador ao fim da palavra léxica, recortado
+    literalmente da transcrição original. Um sinal negativo dentro do escopo
+    é só suprimido, não vira positivo — negar um problema ("sem problemas",
+    "não foi ruim") não é prova de elogio, então essa ocorrência não gera
+    evidência. Sem outro sinal na oração, o resultado é
+    `informacao_insuficiente`, não `neutro`.
     """
 
     normalizado = normalizar_preservando_posicoes(transcricao)
+    escopos = escopos_de_negacao(normalizado, transcricao)
 
-    negativos = list(_REGEX_NEGATIVO.finditer(normalizado))
-    positivos = list(_REGEX_POSITIVO.finditer(normalizado))
+    ocorrencias: list[_Ocorrencia] = []
+
+    for correspondencia in _REGEX_POSITIVO.finditer(normalizado):
+        inicio_negacao = inicio_da_negacao_mais_proxima(escopos, correspondencia.start())
+        if inicio_negacao is None:
+            ocorrencias.append(_Ocorrencia(correspondencia.start(), correspondencia.end(), Sentimento.POSITIVO))
+        else:
+            ocorrencias.append(_Ocorrencia(inicio_negacao, correspondencia.end(), Sentimento.NEGATIVO))
+
+    for correspondencia in _REGEX_NEGATIVO.finditer(normalizado):
+        inicio_negacao = inicio_da_negacao_mais_proxima(escopos, correspondencia.start())
+        if inicio_negacao is not None:
+            continue
+        ocorrencias.append(_Ocorrencia(correspondencia.start(), correspondencia.end(), Sentimento.NEGATIVO))
+
+    negativos = [ocorrencia for ocorrencia in ocorrencias if ocorrencia.sentimento is Sentimento.NEGATIVO]
+    positivos = [ocorrencia for ocorrencia in ocorrencias if ocorrencia.sentimento is Sentimento.POSITIVO]
 
     if not negativos and not positivos:
         return ResultadoSentimento(sentimento=Sentimento.INFORMACAO_INSUFICIENTE, evidencias=[])
 
     if len(negativos) > len(positivos):
         sentimento = Sentimento.NEGATIVO
-        ocorrencias = negativos
+        selecionadas = negativos
     elif len(positivos) > len(negativos):
         sentimento = Sentimento.POSITIVO
-        ocorrencias = positivos
+        selecionadas = positivos
     else:
         sentimento = Sentimento.NEUTRO
-        ocorrencias = negativos + positivos
+        selecionadas = negativos + positivos
 
-    ocorrencias_ordenadas = sorted(ocorrencias, key=lambda correspondencia: correspondencia.start())
+    ocorrencias_ordenadas = sorted(selecionadas, key=lambda ocorrencia: ocorrencia.inicio)
     evidencias = [
         Evidencia(
             id=f"e{indice}",
-            trecho=transcricao[correspondencia.start():correspondencia.end()],
-            inicio=correspondencia.start(),
-            fim=correspondencia.end(),
+            trecho=transcricao[ocorrencia.inicio:ocorrencia.fim],
+            inicio=ocorrencia.inicio,
+            fim=ocorrencia.fim,
         )
-        for indice, correspondencia in enumerate(ocorrencias_ordenadas, start=1)
+        for indice, ocorrencia in enumerate(ocorrencias_ordenadas, start=1)
     ]
     return ResultadoSentimento(sentimento=sentimento, evidencias=evidencias)
