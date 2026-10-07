@@ -43,6 +43,24 @@ abaixo não contém as construções tratadas em B12 (nenhuma negação, e
 não muda além do campo de versão. Ver `backend/README.md`, seção "Serviço
 de sinais comerciais (B03, risco com contexto em B12)".
 
+**Revisão B12 (Opus), ainda na versão `"0.3"`:** a ação só se liga ao
+objeto que é núcleo do seu complemento ("cancelar a reunião sobre o
+contrato" deixou de ser risco), e a evidência de churn passou a trazer o
+contexto que sustenta o risco — ação e objeto ("cancelar o contrato"), a
+condição que abre a frase ("Se o suporte continuar assim, vamos cancelar o
+contrato") e o complemento da insatisfação ("insatisfeitos com o
+suporte"). Formato, campos e enums inalterados; muda o conteúdo e o
+tamanho dos recortes de churn, que o frontend deve esperar. Com o texto do
+exemplo 1, a API real devolve `"insatisfeitos"` (sentimento) e
+`"insatisfeitos com o suporte"` (churn), na mesma posição inicial. Os
+recortes por frase do exemplo continuam ilustrativos, como avisado acima.
+Na segunda rodada (B12-R04/R06), insatisfação com tema da lista fechada de
+temas alheios à relação ("Estamos insatisfeitos com o clima.") deixou de
+gerar churn e recomendação de retenção — isolada, `churn` passa a
+`informacao_insuficiente` —, e o substantivo depois de "e" que é sujeito de
+outra oração ("Vamos cancelar a reunião e o contrato continua vigente.")
+deixou de ser lido como objeto cancelado. Formato inalterado.
+
 ## Rota
 
 `POST /api/analises/texto` — implementada em B04 (`backend/app/api/analises.py`),

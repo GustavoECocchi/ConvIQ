@@ -12,10 +12,15 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 21/09/2026 pelo Codex (B12-02), após análise inicial
-de B12 e preparo do prompt para o Opus. A árvore contém alterações locais
-de B12, B11 e B07-A-06; fotografias anteriores preservadas como históricas.
-As fichas distinguem evidência conferida de resultado apenas relatado.
+Fotografia atualizada em 07/10/2026 pelo Codex, após o aceite B12-07 e a
+consulta remota de encaminhamento B12-08. B12 recebeu aceite técnico para
+`d5fb40a` mais seis arquivos locais, ainda não commitados nem integrados.
+O GitHub confirma `feat/b01-fundacao-api` como branch padrão em `6169fec`;
+`fix/b12-contexto-risco` no servidor permanece em `d5fb40a`, e nenhum PR
+remoto está aberto ou registrado na listagem consultada. A referência
+local `origin/main` não corresponde a uma branch existente no servidor.
+O commit `d5fb40a` reúne B07-A-06, B11 e B12; B11 tem aceite técnico nessa
+versão. Fotografias anteriores são históricas.
 
 | PR/tarefa | Entrega do executor | Estado do ciclo | Git da entrega | Branch de trabalho | Publicação da entrega | Integração na principal |
 |---|---|---|---|---|---|---|
@@ -28,19 +33,172 @@ As fichas distinguem evidência conferida de resultado apenas relatado.
 | [ANA01 — Avaliação de escalabilidade](#ana01--avaliação-de-escalabilidade) | FINALIZADA | ENTREGUE | COMMITADO; registro em `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_SE_APLICA; análise |
 | [PROD01 — Evolução futura por equipe](#prod01--evolução-futura-por-equipe) | FINALIZADA | ENTREGUE | COMMITADO; plano/registro em `6169fec` | `feat/b01-fundacao-api` | NAO_VERIFICADO | NAO_SE_APLICA; planejamento |
 | [PLN01 — Detalhamento dos PRs restantes](#pln01--detalhamento-dos-prs-restantes) | FINALIZADA; planejamento | ENTREGUE; implementação não iniciada | COMMITADO; `cc61925` | `spike/b07-a-viabilidade-whisper` | PUBLICADO; branch remota conferida | NAO_SE_APLICA; planejamento |
-| [B07-A — Viabilidade do Whisper](#b07-a--viabilidade-do-whisper) | PARCIAL; P01 (fala real) pendente | EM_REVISAO; revisão independente do Opus concluída em B07-A-06 sobre `cc61925`: R01/R02 reproduzidos e confirmados, R03/R04 novos corrigidos localmente; aguarda verificação do Codex | PARCIALMENTE_COMMITADO; `cc61925` + correções R03/R04 NAO_COMMITADAS (`.gitignore`, script, relatório) | `spike/b07-a-viabilidade-whisper` | `cc61925` PUBLICADO (hash remoto conferido em 21/09 pelo Codex); correções B07-A-06 NAO_PUBLICADAS | NAO_INTEGRADO |
+| [B07-A — Viabilidade do Whisper](#b07-a--viabilidade-do-whisper) | PARCIAL; P01 (fala real) pendente | EM_REVISAO; Codex verificou R03/R04 em B07-A-07, sem encerrar a avaliação de viabilidade | COMMITADO; correções R03/R04 em `d5fb40a` (junto de B11/B12, não em commit próprio) | `fix/b12-contexto-risco` (commit `d5fb40a`); origem `spike/b07-a-viabilidade-whisper` continua em `cc61925` | PUBLICADO em 21/09; consulta atual ao servidor NAO_VERIFICADA | NAO_INTEGRADO |
 | [ANA02 — Panorama funcional](#ana02--panorama-funcional) | FINALIZADA; análise | ENTREGUE | COMMITADO; `cc61925` | `spike/b07-a-viabilidade-whisper` | PUBLICADO; branch remota conferida | NAO_SE_APLICA |
 | [PLN02 — Refinamento das capacidades](#pln02--refinamento-das-capacidades) | FINALIZADA; planejamento | ENTREGUE | COMMITADO; `cc61925` | `spike/b07-a-viabilidade-whisper` | PUBLICADO; branch remota conferida | NAO_SE_APLICA |
-| [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | EM_REVISAO; revisão do Opus concluída — R01 confirmado e corrigido, 129/129 testes; aguarda verificação do Codex | NAO_COMMITADO; 7 arquivos locais de B11 (6 alterados em B11-03), além de prompt/registro; B07-A-06 preservado na mesma árvore | `fix/b11-negacao-sentimento`; base real `cc61925` | NAO_PUBLICADO; diff local | NAO_VERIFICADO; sem integração nesta atuação |
-| [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA relatada em B12-01; aceite pendente | EM_REVISAO; prompt Opus em B12-02, R02/R03 reproduzidos e R04 para avaliação | NAO_COMMITADO; 9 arquivos de B12, incluindo `negacao.py` não rastreado; sobre B11/B07-A-06 locais | `fix/b12-contexto-risco`; HEAD `cc61925`, dependência B11 na árvore de trabalho | NAO_PUBLICADO; diff local | NAO_VERIFICADO; sem integração nesta atuação |
+| [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | APROVADO tecnicamente em B11-04 para `d5fb40a`; revalidar se B12 mudar a negação compartilhada | COMMITADO; `d5fb40a` (junto de B07-A-06/B12, não em commit próprio; branch `fix/b11-negacao-sentimento` local continua em `cc61925`) | `fix/b12-contexto-risco` (commit `d5fb40a`) | PUBLICADO em 21/09; consulta atual ao servidor NAO_VERIFICADA | NAO_INTEGRADO |
+| [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | APROVADO tecnicamente em B12-07 para `d5fb40a` + seis arquivos locais; sem integração | PARCIALMENTE_COMMITADO; `d5fb40a` (com `negacao.py`) + correções B12-04/B12-06 NAO_COMMITADAS nos mesmos 6 arquivos | `fix/b12-contexto-risco` (HEAD `d5fb40a`) | `d5fb40a` PUBLICADO em `origin/fix/b12-contexto-risco`, hash remoto reconferido em 07/10; correções NAO_PUBLICADAS | NAO_INTEGRADO na branch padrão `feat/b01-fundacao-api` |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. Nenhum PR no servidor
-foi consultado ou aberto nesta atuação. Criar/atualizar a ficha de cada tarefa
+foi aberto nesta atuação; a listagem remota de PRs foi consultada em B12-08 e
+estava vazia. Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 21/09/2026, B12-02
+### Fotografia Git vigente — 07/10/2026, B12-08 (Codex)
+
+- Consulta atual ao GitHub: branch padrão `feat/b01-fundacao-api` no hash
+  `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`; branch
+  `fix/b12-contexto-risco` no hash
+  `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`; `main` retorna 404;
+  listagem de PRs (todos os estados, limite 20) vazia. Branches remotas
+  listadas: `feat/b01-fundacao-api`, `fix/b12-contexto-risco` e
+  `spike/b07-a-viabilidade-whisper`. A referência remota **local**
+  `origin/main` em `8d48e75` está obsoleta para decidir o destino.
+- O conteúdo aprovado de B01–B04/C01 no commit `6169fec` está presente na
+  branch padrão confirmada. B12 continua somente na branch de trabalho,
+  com seis arquivos locais aprovados fora de commit. Um PR direto de
+  `fix/b12-contexto-risco` para a branch padrão incluiria B07-A parcial,
+  pois `cc61925` e `d5fb40a` misturam as frentes.
+- Recomendação de coordenação: preservar a versão B12-07 em commit na
+  branch atual; depois preparar uma branch de integração limpa a partir
+  da branch padrão confirmada, contendo apenas B11/B12 e a documentação
+  pertinente, revisar o diff e validar antes de abrir PR. Nenhuma operação
+  Git de escrita foi autorizada nem executada nesta consulta.
+
+### Fotografia Git histórica — 07/10/2026, B12-07 (Codex)
+
+- Raiz `/home/gustavoecocchi/Documents/CONVIQ`, branch
+  `fix/b12-contexto-risco`, HEAD `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`
+  (pai `cc61925`), igual à referência remota **local**
+  `origin/fix/b12-contexto-risco`. Servidor não consultado; principal,
+  destino e PR remoto atuais `NAO_VERIFICADO`.
+- Os seis arquivos B12-04/B12-06 aprovados tecnicamente permanecem em diff
+  local `NAO_COMMITADO`/`NAO_PUBLICADO`, com SHA-256 na ficha B12-07.
+  `REGISTRO_TRABALHO.md` contém este aceite; `prompt.md` (B12-05 já
+  executado) segue modificado, e os relatórios Opus/Sonnet em
+  `docs/revisoes/` seguem não rastreados. Índice vazio. Nenhum código da
+  aplicação foi alterado pelo Codex nesta atuação.
+- Nenhum commit, push, PR ou merge nesta atuação. B12 `APROVADO`
+  tecnicamente/`PARCIALMENTE_COMMITADO`/`NAO_INTEGRADO`; publicação atual
+  das correções `NAO_PUBLICADA`. O hash do HEAD não contém as correções
+  aprovadas; antes da integração, conferir que eventual commit corresponda
+  aos seis hashes aprovados e ao conteúdo do registro.
+
+### Fotografia Git histórica — 07/10/2026, B12-06 (Opus)
+
+- Raiz, branch e HEAD iguais à fotografia B12-05 abaixo
+  (`fix/b12-contexto-risco`, `d5fb40a`, pai `cc61925`). Referências remotas
+  só locais; servidor não consultado; principal, destino e PR remoto atuais
+  `NAO_VERIFICADO`.
+- **Antes da atuação:** os seis arquivos B12-04 com os SHA-256 do prompt
+  B12-05 (6/6 conferidos), registro e `prompt.md` modificados, relatório
+  Sonnet não rastreado, índice vazio.
+- **Ao encerrar:** os mesmos seis arquivos com as correções B12-06 (hashes
+  no evento B12-06) e este registro, todos `NAO_COMMITADOS`/
+  `NAO_PUBLICADOS`. `prompt.md` (instrução B12-05) e o relatório Sonnet
+  preservados sem edição. Índice vazio. Nenhuma operação Git de escrita.
+
+### Fotografia Git histórica — 07/10/2026, B12-05 (Codex)
+
+- Raiz `/home/gustavoecocchi/Documents/CONVIQ`, branch
+  `fix/b12-contexto-risco`, HEAD `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`
+  (pai `cc61925`), igual à referência remota **local**
+  `origin/fix/b12-contexto-risco`. Servidor não consultado nesta atuação;
+  principal, destino e PR remoto atuais `NAO_VERIFICADO`.
+- Seis arquivos de código/testes/documentação corrigidos pelo Opus em
+  B12-04 continuam modificados e `NAO_COMMITADOS`/`NAO_PUBLICADOS`.
+  `REGISTRO_TRABALHO.md` contém também esta verificação do Codex;
+  `prompt.md` foi substituído pelo prompt B12-05 e o relatório Sonnet de
+  06/10 continua não rastreado. Índice vazio. O código da aplicação
+  commitado em `d5fb40a` não foi alterado pelo Codex nesta verificação.
+- Nenhum commit, push, PR ou merge nesta atuação. B12 `PARCIALMENTE_COMMITADO`,
+  `EM_CORRECAO`, `NAO_INTEGRADO`; B11 permanece tecnicamente aprovado em
+  `d5fb40a`, sujeito a revalidação se a correção alterar a negação comum.
+
+### Fotografia Git histórica — 06/10/2026, B12-04 (Opus)
+
+- **Raiz/branch/HEAD:** `/home/gustavoecocchi/Documents/CONVIQ`,
+  `fix/b12-contexto-risco`, `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`
+  (pai `cc61925`), iguais à retomada do Codex abaixo. Referências remotas
+  só locais (`origin/fix/b12-contexto-risco` = HEAD; `origin/main` =
+  `8d48e75`); servidor não consultado. Principal, destino e PR remoto
+  atuais `NAO_VERIFICADO`; nenhuma integração.
+- **Árvore antes da atuação:** igual à descrita pelo Codex — registro e
+  `prompt.md` modificados, relatório Sonnet não rastreado, índice vazio; os
+  nove SHA-256 de entrada de B12 conferidos 9/9.
+- **Árvore ao encerrar:** correções B12-04 em seis arquivos rastreados
+  (`sinais_comerciais.py`, três testes, README, C01) e este registro,
+  todos `NAO_COMMITADOS`/`NAO_PUBLICADOS`. `prompt.md` e o relatório Sonnet
+  preservados sem edição. Índice vazio. Nenhuma operação Git de escrita.
+
+### Fotografia Git histórica — 06/10/2026, retomada (Codex)
+
+- **Raiz/branch/HEAD:** `/home/gustavoecocchi/Documents/CONVIQ`,
+  `fix/b12-contexto-risco`, `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`;
+  pai `cc61925f48d0981517a11480691c6f3f5465dcc0`. A referência remota
+  **local** `origin/fix/b12-contexto-risco` coincide com o HEAD. Não houve
+  consulta atual ao servidor; o push desse hash foi verificado em 21/09 pelo
+  Sonnet. `fix/b11-negacao-sentimento` e `spike/b07-a-viabilidade-whisper`
+  locais permanecem em `cc61925`. `master` local está em `3c52ea3` e a
+  referência remota **local** `origin/main` em `8d48e75`; principal e destino
+  de integração atuais `NAO_VERIFICADO`. Nenhuma integração realizada nesta
+  atuação; PR remoto atual `NAO_VERIFICADO` (último relato: não aberto).
+- **Divergência reconciliada:** o registro do Sonnet de 06/10 e seu relatório
+  são posteriores ao commit; o prompt B12-02 antigo descrevia HEAD
+  `cc61925` e diff local. O código e os nove hashes de B12 já estão no
+  commit `d5fb40a`. `prompt.md` foi atualizado para essa versão, sem alterar
+  o código. Manter o commit composto para esta revisão evita reescrever a
+  versão publicada; separação em PRs Git, se necessária, será coordenada
+  após a correção, com versões verificadas.
+- **Árvore antes da atuação:** `REGISTRO_TRABALHO.md` modificado pelo Sonnet
+  (registro de 21/09 e relatório de 06/10),
+  `docs/revisoes/RELATORIO_SONNET_2026-10-06.md` não rastreado, índice vazio.
+  **Árvore ao encerrar:** os dois arquivos preexistentes preservados;
+  `prompt.md` e este registro modificados pelo Codex; índice vazio. Os
+  arquivos da aplicação em `d5fb40a` permanecem sem alterações locais.
+  Atualização de registro/prompt e relatório: `NAO_COMMITADOS`/
+  `NAO_PUBLICADOS`, distintos da entrega do código `COMMITADA` e publicada
+  em 21/09. Nenhuma operação Git de escrita nesta retomada.
+
+### Fotografia Git histórica — 21/09/2026, commit+push (Sonnet)
+
+- **Pedido:** usuário interrompeu a revisão B12-02 (eu tinha acabado de ler
+  `prompt.md`, nenhuma edição de código feita) e pediu diretamente "commit
+  com push de tudo que foi feito".
+- **Ação:** `git add -A` sobre a árvore de trabalho (14 rastreados
+  modificados + `negacao.py` novo, incluindo o conteúdo que o Codex já
+  tinha escrito em `prompt.md`/`REGISTRO_TRABALHO.md` para B12-02, presente
+  em disco antes desta atuação — não reescrito por mim). Um commit único,
+  `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`, na branch
+  `fix/b12-contexto-risco` (HEAD anterior `cc61925`, pai `6169fec`), com
+  mensagem detalhando o estado de cada frente (B07-A-06, B11, B12) — nenhuma
+  declarada aprovada. `git push -u origin fix/b12-contexto-risco` publicou a
+  branch (nova no remoto). Publicação confirmada por consulta atual à API do
+  GitHub (`gh api repos/GustavoECocchi/ConvIQ/git/ref/heads/fix/b12-contexto-
+  risco`), não só referência local: hash idêntico ao local.
+- **Decisão de estrutura, registrada explicitamente:** optei por um único
+  commit consolidando as três frentes, em vez de separá-las em commits/
+  branches próprios (o que exigiria reconstruir histórico entre branches
+  que hoje compartilham o mesmo HEAD). Isso segue o pedido literal do
+  usuário ("tudo que foi feito") e o precedente já existente no próprio
+  repositório (`cc61925` também reuniu múltiplas frentes num commit só,
+  registrado em B07-A-04). `spike/b07-a-viabilidade-whisper` e
+  `fix/b11-negacao-sentimento` continuam, como ponteiros locais, apontando
+  para `cc61925` — não receberam commit próprio; o conteúdo de B07-A-06 e
+  B11 está fisicamente publicado via `fix/b12-contexto-risco`. Separar em
+  PRs/commits próprios por frente, se desejado, fica para a coordenação.
+- **Não feito:** abertura de PR remoto (só commit+push, conforme pedido);
+  merge; integração na principal; correção dos achados B12-R02/R03/R04;
+  continuação da revisão B12-02. Suíte do backend conferida antes do commit:
+  143/143. Nenhum arquivo sensível (`.env`, credenciais) no commit —
+  conferido antes de commitar.
+- **Próximo responsável:** usuário decide se retoma a revisão B12-02 (Opus),
+  pede a separação em branches próprias, ou outro encaminhamento. PR remoto
+  `NAO_ABERTO`; principal/destino/integração `NAO_VERIFICADO`.
+
+### Fotografia Git histórica — 21/09/2026, B12-02
 
 - Branch `fix/b12-contexto-risco`, HEAD
   `cc61925f48d0981517a11480691c6f3f5465dcc0`, pai `6169fec`; estado consistente
@@ -1820,6 +1978,29 @@ encaminhamento atuais são os registrados acima e no evento B04-02.
 
 ## B07-A — Viabilidade do Whisper
 
+### Verificação parcial — Codex, 06/10/2026 — B07-A-07
+
+- **Entrega do executor:** PARCIAL; amostra de fala humana real P01 ainda
+  ausente. **Ciclo:** EM_REVISAO, sem aceite da viabilidade final. Versão
+  examinada: arquivos B07-A-06 presentes em `d5fb40a` na branch
+  `fix/b12-contexto-risco`; branch original `spike/b07-a-viabilidade-whisper`
+  permanece em `cc61925` localmente. Base da aplicação `6169fec`; destino,
+  principal e PR remoto atuais `NAO_VERIFICADO`; integração `NAO_INTEGRADO`.
+- **R03 verificado:** `.gitignore` tem `.venv-whisper/` e
+  `git check-ignore -v .venv-whisper/` aponta a linha 7. SHA-256
+  `c90b0038…3a78` confere com B07-A-06. **R04 verificado por código e
+  documentação:** SHA-256 do script `484f0705…1ee3` e do relatório
+  `d2078cc4…61e8` conferem com B07-A-06; as descrições distinguem
+  falha de preparação (saída 2) de importação fora do ambiente. O Codex
+  não repetiu os ensaios de rede/permissão, instalação do Whisper ou áudio;
+  esses resultados continuam evidência da revisão do Opus. A suíte da API
+  sem Whisper passou 143/143 fora do sandbox nesta retomada.
+- **Git da entrega:** COMMITADO em `d5fb40a` junto de B11/B12; publicação
+  desse hash confirmada no servidor em 21/09, consulta atual
+  `NAO_VERIFICADA`. Registro e relatório Sonnet ainda locais. **Próximo:**
+  usuário fornece amostra de fala real adequada a P01; depois Codex avalia
+  o fechamento de B07-A. B07-B continua sem liberação por esta verificação.
+
 ### Revisão independente — Claude Opus, 21/09/2026 — B07-A-06
 
 ```text
@@ -2184,6 +2365,38 @@ NAO_COMMITADO/NAO_PUBLICADO. Fotografias Git anteriores abaixo são históricas.
 
 ## B11 — Negação no sentimento
 
+### Aceite técnico — Codex, 06/10/2026 — B11-04
+
+- **Entrega do executor:** FINALIZADA em B11-01 e corrigida pelo Opus em
+  B11-03. **Ciclo:** APROVADO tecnicamente para o comportamento B11 em
+  `d5fb40a`; não integrado. Branch de trabalho atual
+  `fix/b12-contexto-risco`; a branch local proposta
+  `fix/b11-negacao-sentimento` ainda aponta a `cc61925`, sem commit próprio.
+  Base da aplicação `6169fec`; destino/principal/PR remoto atuais
+  `NAO_VERIFICADO` (último relato: nenhum PR aberto).
+- **Critérios conferidos:** `sentimento.py` usa a negação compartilhada em
+  `negacao.py`, preserva recortes literais e IDs; os testes B11 de pares
+  afirmativo/negado, pontuação, `não só`, `nem`, repetições e limites
+  documentados passaram. Na composição atual: “Sem problemas, estamos
+  satisfeitos.” e “Nenhum problema e estamos satisfeitos.” → positivo;
+  “Não gostei do atendimento, mas adoramos o produto.” → neutro com
+  evidências “Não gostei”/“adoramos”. A limitação de vírgula parentética
+  relatada por B11-03 continua documentada e fora do escopo.
+- **Validação:** 99 testes de sentimento/sinais/composição passaram em
+  0,08 s no sandbox; suíte completa, repetida fora do sandbox após o
+  travamento do primeiro teste HTTP, **143 passed em 0,38 s** com dois
+  avisos de depreciação. `git diff --check` limpo. O teste HTTP e a suíte
+  completa no sandbox travaram após 11 testes e terminaram com código 137;
+  a causa específica não foi isolada. Nenhum servidor real foi iniciado
+  pelo Codex nesta retomada.
+- **Git:** implementação COMMITADA em `d5fb40a` com B07-A-06/B12;
+  publicação confirmada pelo Sonnet em 21/09, não reconferida no servidor
+  hoje; `NAO_INTEGRADO` na principal. O aceite é da versão examinada,
+  sem aprovar B12 nem a organização Git. Se B12 modificar `negacao.py` ou
+  `sentimento.py`, rever as regressões B11 antes de integrar. Registro desta
+  atuação `NAO_COMMITADO`/`NAO_PUBLICADO`. **Próximo:** Opus revisa B12
+  pelo `prompt.md` atualizado; Codex verifica a devolução.
+
 ### Revisão e correção — Claude Opus, 21/09/2026 — B11-03
 
 ```text
@@ -2430,7 +2643,446 @@ Destino previsto / branch principal: NAO_VERIFICADO
 
 ## B12 — Risco de cancelamento com contexto local
 
-### Encaminhamento vigente — Codex, 21/09/2026 — B12-02
+### Encaminhamento após o aceite — Codex, 07/10/2026 — B12-08
+
+- **Entrega/revisão:** B12-01 finalizada e corrigida em B12-04/B12-06;
+  versão `d5fb40a` mais seis arquivos locais aprovada tecnicamente em B12-07.
+  As correções seguem `NAO_COMMITADAS`/`NAO_PUBLICADAS`, B12
+  `NAO_INTEGRADO` e nenhum PR remoto foi encontrado.
+- **Git conferido:** branch de trabalho `fix/b12-contexto-risco`, HEAD
+  `d5fb40a`; GitHub confirma `fix/b12-contexto-risco` nesse hash e a branch
+  padrão `feat/b01-fundacao-api` em `6169fec`. A consulta à ref `main`
+  retornou 404. A ref local `origin/main` em `8d48e75` não representa o
+  destino atual. Índice vazio; `prompt.md` modificado e relatórios Opus/Sonnet
+  não rastreados foram preservados.
+- **Decisão de coordenação:** primeiro preservar em commit a correção B12
+  aprovada, conferindo os seis hashes B12-07. Depois preparar uma branch de
+  integração a partir de `feat/b01-fundacao-api`, com apenas B11/B12 e seus
+  documentos pertinentes, revisar diff e testes, e então abrir PR para a
+  branch padrão. O histórico da branch atual também carrega B07-A parcial;
+  por isso não serve diretamente como PR de B11/B12. Nenhum commit, push,
+  PR, merge ou troca de branch foi executado nesta atuação.
+- **Próximo responsável:** coordenação/usuário para executar ou encaminhar
+  essa sequência Git; B13 continua sem implementação iniciada.
+
+### Aceite técnico da versão local — Codex, 07/10/2026 — B12-07
+
+```text
+PR lógico: B12 — Risco de cancelamento com contexto local
+Agente/papel: Codex / verificação final da correção B12-06
+Entrega do executor: FINALIZADA (B12-01), corrigida pelo Opus em B12-04/B12-06
+Estado do ciclo: APROVADO tecnicamente para o diff identificado abaixo
+Pasta/branch: /home/gustavoecocchi/Documents/CONVIQ; fix/b12-contexto-risco
+Base/HEAD: base de aplicação 6169fec; pai cc61925; HEAD d5fb40a
+Destino/principal/PR remoto atuais: NAO_VERIFICADO
+```
+
+- **Versão aprovada:** código B12-01 em `d5fb40a` e correções B12-04/B12-06
+  ainda **não commitadas** nos seis arquivos abaixo. Conferi os SHA-256 com
+  o relatório e o evento B12-06 antes de registrar o aceite:
+
+```text
+961a53404fbf7135cac154aff7c1374e7ce79d5745d388d9ed557c413b49fe69  backend/app/services/sinais_comerciais.py
+251801ac184df86fc252886f1a8b3584492613f531c99955d7910f3f99aa26b5  backend/tests/test_sinais_comerciais.py
+fbca6ce1f69e29060bf8bf22c92736e2a998f747027223330646e6c33c81da18  backend/tests/test_analise.py
+5f206aafaf9f88b3142c769bca6358a49c544f5ba41568ad9126c07b8f1f42d2  backend/tests/test_analises_rota.py
+e64b14c66ef9773b1ef05e319bb499c5c56ba813e9d84dcbeda0c1d9256e2518  backend/README.md
+5813c4845ea8d5bc355649a58d7f164cd9b4ea2aa7d893ee82ccc338c607950f  docs/contratos/analise-texto.md
+```
+
+- **R02/R03/R05:** correções da rodada B12-04 preservadas. O vínculo
+  ação–objeto deixou de tratar reunião sobre contrato como cancelamento do
+  contrato; evidências incluem objeto, condição inicial e complemento da
+  insatisfação, com recortes literais e referências válidas. README aponta
+  para `negacao.py` e versão `0.3`. Os testes afetados e as sondas próprias
+  passaram. A nova regra de R06 completa o caso de oração coordenada
+  descoberto na verificação anterior.
+- **R04 verificado:** na composição, insatisfação com clima ou almoço
+  isolados → `informacao_insuficiente`, sentimento negativo preservado e
+  nenhuma recomendação de retenção; com contrato independente →
+  `sem_sinal_detectado`; com cancelamento real → evidência de churn apenas
+  da ação. A regra usa lista fechada de temas inequívocos e mantém risco
+  para suporte, serviço, atraso e tema alheio misturado com contexto da
+  relação no complemento. Há falsos positivos conhecidos fora da lista
+  (`hotel`) e quando o tema precede a palavra (`O almoço nos deixou
+  insatisfeitos.`); estão documentados e fora do alcance local acordado.
+- **R06 verificado:** `Vamos cancelar a reunião e o contrato continua
+  vigente.` e variante com fornecedor → `sem_sinal_detectado`, sem
+  evidência/retenção; `... e o contrato.`/`... ou o contrato.` seguem
+  gerando risco com objeto coordenado. A detecção local de sintagma nominal
+  pode perder objeto coordenado seguido de advérbio ou adjetivo (`... e o
+  contrato hoje.`), limite documentado. Não há parser gramatical geral.
+- **Validação própria:** 164 testes de sentimento/sinais/composição passaram
+  em 0,10 s no sandbox; suíte completa fora do sandbox **212 passed em
+  0,45 s**, com dois avisos de depreciação. No sandbox, a suíte parou
+  no primeiro teste HTTP após 22 pontos e terminou com código 137 sob
+  timeout; comportamento de ambiente já observado em B12-05. Treze sondas
+  adicionais de composição passaram, cobrindo orações coordenadas,
+  controles positivos, temas alheios combinados, contexto independente e
+  risco real; conferi referências de evidência e recortes literais.
+  `git diff --check` sem diagnóstico. Servidor real com oito casos é
+  evidência relatada pelo Opus; o Codex não iniciou servidor nesta atuação.
+- **Contrato e dependências:** `metodo="regras"`, `versao_analise="0.3"`,
+  schemas/rotas e listas de oportunidade/catálogo preservados. `negacao.py`
+  e `sentimento.py` sem diff contra `d5fb40a`; a condição de revalidar o
+  aceite B11 por mudança na negação compartilhada não foi acionada.
+  O exemplo de B19 em PLN02 ficou desatualizado: com complemento, as
+  evidências de sentimento/churn são aninhadas, não idênticas. Rever o
+  exemplo e comunicar os recortes ampliados ao frontend antes de B19/F05.
+- **Git/publicação/integração:** B12 `PARCIALMENTE_COMMITADO` em
+  `fix/b12-contexto-risco`: parte inicial em `d5fb40a`, seis arquivos de
+  correção locais; correções `NAO_PUBLICADAS`. O hash `d5fb40a` foi
+  publicado em 21/09 conforme verificação daquela data; consulta atual ao
+  servidor `NAO_VERIFICADA`. PR remoto, principal e destino atuais
+  `NAO_VERIFICADO`; integração `NAO_INTEGRADO`. Registro atualizado nesta
+  atuação `NAO_COMMITADO`/`NAO_PUBLICADO`; `prompt.md` modificado,
+  relatório Opus e relatório Sonnet não rastreados, todos preservados.
+  Nenhum commit, push, PR ou merge pelo Codex nesta verificação.
+- **Próximo responsável:** coordenação/usuário definem o destino de
+  integração e a organização do commit composto de B07-A-06/B11/B12.
+  Antes de integrar, registrar commit da versão aprovada, comparar os
+  seis hashes e validar o resultado incorporado. B13 pode ser planejado
+  depois de resolver a base Git, sem iniciar por este aceite.
+
+### Correção da rodada B12-05 — Claude Opus, 07/10/2026 — B12-06
+
+```text
+PR lógico ou tarefa e título: B12 — Risco de cancelamento com contexto local
+Data e agente/papel: 07/10/2026, Claude Opus / revisor-corretor (rodada B12-05)
+Entrega do executor: FINALIZADA (B12-01), corrigida em B12-04 e nesta rodada
+Estado do ciclo: EM_REVISAO — correção do Opus concluída; verificação do Codex pendente
+Pasta do projeto e branch de trabalho: /home/gustavoecocchi/Documents/CONVIQ; fix/b12-contexto-risco
+Base de comparação e HEAD observado: HEAD d5fb40a (contém B12-01); entrada = diff B12-04 de 6 arquivos (SHA-256 do prompt B12-05, 6/6); saída = mesmo diff com B12-06
+Destino previsto / branch principal: NAO_VERIFICADO (origin/main local em 8d48e75, sem consulta)
+```
+
+- **Entrada conferida:** HEAD, branch e índice vazio iguais ao prompt; os
+  seis SHA-256 de entrada passaram em `sha256sum -c`; `negacao.py`,
+  `sentimento.py` e `analise.py` iguais a `d5fb40a`. Os dois achados foram
+  reproduzidos antes de editar: `Estamos insatisfeitos com o clima.` e `Não
+  estamos satisfeitos com o almoço.` → `sinal_detectado` + 1 recomendação
+  cada; `Vamos cancelar a reunião e o contrato continua vigente.` e `... e o
+  fornecedor será avisado.` → `sinal_detectado`, evidência `cancelar a
+  reunião e o contrato/fornecedor` + 1 recomendação.
+- **B12-R06 → confirmado e corrigido.** Causa: `_fim_do_objeto_da_acao`
+  aceitava qualquer núcleo depois de `e`/`ou` como objeto coordenado.
+  Correção: `_membros_coordenados` divide o complemento em membros, e um
+  membro depois de conjunção só entra se `_e_sintagma_nominal` o
+  reconhecer. Isso exige núcleo seguido só de palavras de
+  `_PALAVRAS_ANTES_DO_OBJETO` ou de complemento com preposição de
+  `_PREPOSICOES_DO_SINTAGMA` (`de/do/da/dos/das/com/no/na/nos/nas/em/até`)
+  e seu núcleo. O primeiro membro que não for sintagma nominal (verbo de
+  outra oração) encerra o complemento. Resultado: os dois casos e `... e o
+  contrato do fornecedor continua vigente.` → `sem_sinal_detectado`, sem
+  evidência nem recomendação, no serviço, na composição, na rota e no
+  servidor real. Preservados: `cancelar a reunião e o contrato` (evidência
+  `cancelar a reunião e o contrato`, 6–37, `e1`, recomendação `[e1]`),
+  `... ou o contrato`, `... e o contrato de suporte`, `... e o contrato
+  atual`, `... e o contrato no fim do mês`, objeto direto seguido de outra
+  oração (`cancelar o contrato e o suporte continua` → `cancelar o
+  contrato`) e todos os casos de R02. Limites (README, um pinado): advérbio
+  ou adjetivo depois do núcleo coordenado encerra o sintagma (`... e o
+  contrato hoje.`, `... e o contrato vigente.` → sem sinal).
+- **B12-R04 → confirmado e corrigido.** Regra local: `_e_tema_alheio`
+  exclui a insatisfação (`insatisfeito`/`frustrado` e `não ... satisfeito`)
+  quando duas condições valem. (1) O núcleo de cada membro do complemento
+  `com ...` está na lista fechada `_PADROES_TEMA_ALHEIO`, com 13 radicais e
+  plurais: clima, chuva, calor, frio, almoço, jantar, café, lanche, comida,
+  restaurante, trânsito, estacionamento, futebol. (2) O complemento não
+  contém termo de `_PADROES_CONTEXTO_COMERCIAL` nem produto do catálogo.
+  Nesse caso, `satisfeito` também não conta como contexto comercial
+  (`_ha_contexto_comercial`). Resultado: tema alheio isolado →
+  `informacao_insuficiente` sem evidência de churn nem retenção (clima,
+  almoço, trânsito, café, "almoço e o café", e a afirmação `Estamos
+  satisfeitos com o almoço.`, antes `sem_sinal_detectado`). Com contexto
+  independente → `sem_sinal_detectado` (`..., mas o contrato segue
+  normal.`, `... O suporte foi excelente.`, `... e o contrato segue
+  normal.`). Com risco real → sinal só do cancelamento. Sentimento negativo,
+  sua evidência e as oportunidades foram preservados (composição e rota).
+  Continuam risco: suporte, atendimento, `não estamos satisfeitos com o
+  serviço`, `frustrados com o atraso`, `com a demora`, `com o clima da
+  parceria`, `com o almoço e com o suporte`, bare `Estamos insatisfeitos.`.
+- **Por que lista de temas alheios, e não de termos da relação:** a lista
+  da relação tornaria falso negativo, em relação à regra de B03, toda queixa
+  do domínio fora do vocabulário (`com o atraso`, `com a demora`, `com o
+  prazo`, `com vocês`, `com a equipe`). O prompt pede preservar `frustrados
+  com o atraso` e corrigir só os casos inequívocos. A lista evita termos
+  ambíguos (`tempo`, `time`, `viagem`, `equipe`). **Relação com B03:** a
+  regra de B03 continua valendo para insatisfação sem complemento `com`,
+  com complemento fora da lista ou com termo da relação. A exclusão é uma
+  regra nova de B12, documentada; o aceite histórico de B03 não muda.
+  **Falsos positivos remanescentes** (pinados): tema alheio fora da lista
+  (`com o hotel`) e tema antes da palavra (`O almoço nos deixou
+  insatisfeitos.`). **Falsos negativos novos:** nenhum entre as contraprovas;
+  só tema da lista sem termo da relação deixa de ser risco.
+- **Efeito colateral na evidência (R03):** o complemento `com ...` passou a
+  incluir membros coordenados que são sintagma nominal (`insatisfeitos com o
+  suporte e o atendimento`; antes parava no `e`). `insatisfeitos com o
+  suporte e vamos cancelar o contrato` continua `insatisfeitos com o
+  suporte`. A diferença de sondagem antes/depois nos 23 casos de B12-04
+  mostra só os dois casos de R04.
+- **Nota à coordenação sobre B19 (não implementado):** depois de R03, o
+  exemplo de PLN02 para B19 (`Estamos insatisfeitos com o suporte.` → duas
+  evidências do mesmo intervalo) produz intervalos aninhados (`insatisfeitos`
+  8–21 × `insatisfeitos com o suporte` 8–35), não idênticos. Intervalos
+  idênticos ainda ocorrem quando não há complemento (`Estamos
+  insatisfeitos.`; `Não estamos satisfeitos nem contentes ...`). O cartão B19
+  exclui unir sobreposições, e a premissa e o exemplo do cartão precisam ser
+  revistos antes de liberá-lo.
+- **Arquivos (os mesmos 6 de B12-04) e SHA-256 de saída:** hashes completos
+  no evento B12-06. Sem alteração contra `d5fb40a` em `negacao.py`,
+  `sentimento.py`, `analise.py`, `texto.py`, schemas, API, `pyproject.toml`
+  e `test_sentimento.py`; `_PADROES_OPORTUNIDADE`,
+  `_PADROES_CONTEXTO_COMERCIAL`, `_PRODUTOS` e `_CONCORRENTES` inalterados.
+  `versao_analise` `"0.3"`, `metodo="regras"` e o formato de C01 mantidos;
+  nota de C01 complementada.
+- **Validação:** em `backend/`, `timeout --signal=INT --kill-after=5s 30s
+  .venv/bin/python -m pytest -q tests/test_sentimento.py
+  tests/test_sinais_comerciais.py tests/test_analise.py` → **164 passed**;
+  suíte completa com `timeout ... 60s` → **212 passed**, dois avisos de
+  depreciação, sem travamento do `TestClient` neste ambiente. Servidor real
+  `uvicorn` `127.0.0.1:8099`: saúde ok e oito casos pela rota (R04 ×2, R06
+  ×2, coordenado, atraso, condicional, exemplo C01) com recortes conferidos
+  contra o eco; processo encerrado e porta sem resposta. `git diff
+  --check` limpo; nenhuma linha acima de 120 colunas nos arquivos tocados.
+  O teste que fixava R04 como limite foi substituído, como o prompt pede.
+- **Não executado:** consulta ao servidor Git; frontend; B13/B14/B19;
+  verificação do Codex.
+- **Git:** B12 `PARCIALMENTE_COMMITADO` (`d5fb40a` + diff B12-04/B12-06
+  local); correções `NAO_PUBLICADAS`; PR remoto `NAO_VERIFICADO`;
+  `NAO_INTEGRADO`. Registro desta atuação `NAO_COMMITADO`. `prompt.md` e o
+  relatório Sonnet preservados. Nenhum commit, push, PR, merge, reset ou stash.
+- **Próximo responsável:** Codex verifica a versão B12-06. Nada foi marcado
+  como APROVADO ou INTEGRADO.
+
+### Verificação e nova rodada — Codex, 07/10/2026 — B12-05
+
+```text
+PR lógico: B12 — Risco de cancelamento com contexto local
+Agente/papel: Codex / verificação final da revisão B12-04 e coordenação
+Entrega do executor: FINALIZADA em B12-01, corrigida em B12-04
+Estado do ciclo: EM_CORRECAO — B12-R04 e B12-R06 impeditivos
+Pasta/branch: /home/gustavoecocchi/Documents/CONVIQ; fix/b12-contexto-risco
+Base/HEAD: base de aplicação 6169fec; pai cc61925; HEAD d5fb40a
+Destino/principal/PR remoto atuais: NAO_VERIFICADO
+```
+
+- **Versão examinada:** diff local B12-04 de seis arquivos sobre
+  `d5fb40a`; SHA-256 dos seis arquivos conferidos contra o evento B12-04.
+  `negacao.py`, `sentimento.py`, `analise.py`, schemas, API e catálogo não
+  foram alterados em B12-04. Código B12 em `d5fb40a` já está commitado;
+  as seis correções continuam fora do commit, portanto a entrega está
+  `PARCIALMENTE_COMMITADA` e as correções `NAO_PUBLICADAS`.
+- **R02/R03:** as mudanças resolvem os contraexemplos registrados em
+  B12-02 e ampliam os recortes para objeto, condição e complemento.
+  Inspeção de `_fim_do_objeto_da_acao`, `_inicio_da_condicao` e
+  `_fim_com_complemento`, testes de serviço/composição/rota e sondas
+  próprias sustentam a correção nesses cenários. R05 (README) também
+  corrigido. O aceite final de R02 depende de resolver R06, encontrado
+  no mesmo algoritmo.
+- **B12-R04 — impeditivo:** `Estamos insatisfeitos com o clima.` e
+  `Não estamos satisfeitos com o almoço.` retornam
+  `sinal_detectado` e uma recomendação de retenção cada na composição,
+  apesar de descreverem temas alheios à relação comercial. O primeiro
+  caminho é herdado de B03, o segundo entrou em B12. A evidência de
+  B12-04 passou a incluir `com o clima`/`com o almoço`, mas continua
+  sustentando recomendação incorreta. O cartão B12 limita a insatisfação
+  de risco à relação comercial, e o prompt B12-03 pediu correção de casos
+  inequivocamente alheios. O aceite histórico de B03 permanece histórico;
+  sua regra foi aberta explicitamente por B12. Verificar a correção com
+  casos positivos de suporte/serviço e `frustrados com o atraso`, além
+  de negativos de temas cotidianos.
+- **B12-R06 — novo, impeditivo:** em
+  `backend/app/services/sinais_comerciais.py`, `_fim_do_objeto_da_acao`
+  trata `e` como coordenação de objetos sem distinguir o início de nova
+  oração. `Vamos cancelar a reunião e o contrato continua vigente.` →
+  `sinal_detectado`, evidência `cancelar a reunião e o contrato` e
+  recomendação de retenção; o contrato é sujeito de `continua`, enquanto
+  o objeto cancelado é a reunião. `Vamos cancelar a reunião e o fornecedor
+  será avisado.` reproduz o mesmo erro. Esperado: `sem_sinal_detectado`,
+  sem evidência/recomendação de churn; `Vamos cancelar a reunião e o
+  contrato.` deve continuar gerando risco por objeto coordenado. O erro
+  contraria o critério central de associar ação ao objeto correto em B12.
+- **Validação:** `backend/`, 131 testes de sentimento/sinais/composição
+  passaram em 0,11 s no sandbox. Suíte completa no sandbox travou após
+  16 testes, no primeiro teste HTTP, e terminou com código 137 sob
+  `timeout` de 30 s + 5 s; fora do sandbox, 177 passaram em 0,43 s com
+  dois avisos de depreciação. Sondas diretas de serviço e composição
+  reproduziram R04/R06 e a recomendação indevida; controles de objeto
+  coordenado e ameaça condicional mantiveram o sinal. Nenhum servidor
+  real foi iniciado pelo Codex; o HTTP de B12-04 permanece evidência do
+  Opus. `git diff --check` sem diagnóstico antes do registro.
+- **Encaminhamento:** `prompt.md` substituído pelo texto B12-05 para Opus,
+  com os dois achados, contraprovas, preservação de R02/R03 e limites de
+  escopo. B19 precisa rever a premissa de intervalos idênticos depois de
+  R03, mas não foi iniciado. Código de aplicação não alterado pelo Codex.
+  B12 ainda não pode receber aceite técnico. Nenhum commit, push, PR ou
+  merge; publicação do HEAD em 21/09 é relato verificado naquela data,
+  consulta atual ao servidor `NAO_VERIFICADA`; integração `NAO_INTEGRADO`.
+  Registro/prompt `NAO_COMMITADOS`/`NAO_PUBLICADOS`; relatório Sonnet de
+  06/10 não rastreado, preservado. **Próximo responsável:** usuário
+  encaminha `prompt.md` ao Opus, que corrige e registra; Codex verifica
+  a devolução B12-06.
+
+### Revisão e correção — Claude Opus, 06/10/2026 — B12-04
+
+```text
+PR lógico ou tarefa e título: B12 — Risco de cancelamento com contexto local
+Data e agente/papel: 06–07/10/2026, Claude Opus / revisor-corretor
+Entrega do executor: FINALIZADA (B12-01), corrigida nesta revisão
+Estado do ciclo: EM_REVISAO — revisão do Opus concluída; verificação do Codex pendente
+Pasta do projeto e branch de trabalho: /home/gustavoecocchi/Documents/CONVIQ; fix/b12-contexto-risco
+Base de comparação e HEAD observado: HEAD d5fb40a50e444b5920a5693df4ea477ef2ba6a6c (contém B12-01); pai cc61925; base de aplicação 6169fec; correções B12-04 = diff local sobre d5fb40a
+Destino previsto / branch principal: NAO_VERIFICADO (origin/main local em 8d48e75, sem consulta ao servidor)
+```
+
+- **Versão revisada:** os nove SHA-256 de entrada do prompt B12-03
+  conferidos 9/9 antes de editar; índice vazio; preexistências iguais às
+  descritas (registro e `prompt.md` modificados, relatório Sonnet não
+  rastreado). Revisão própria de `negacao.py`, `sentimento.py`,
+  `sinais_comerciais.py`, `analise.py`, testes, README e C01.
+- **Extração/dependência B11:** `negacao.py` e `sentimento.py` não foram
+  alterados nesta revisão (hashes iguais aos de `d5fb40a`); as regressões
+  B11 (`test_sentimento.py`) foram executadas e passaram. A condição do
+  aceite B11-04 ("revalidar se B12 mudar a negação compartilhada") não foi
+  acionada.
+- **B12-R02 → confirmado e corrigido.** Reproduzido antes de mudar, na
+  composição de `d5fb40a`: os quatro exemplos do prompt → `sinal_detectado`,
+  evidência só da ação e uma recomendação de retenção cada. Causa:
+  `_mesma_oracao` aceitava qualquer objeto comercial na frase, antes ou
+  depois da ação. Correção: `_fim_do_objeto_da_acao` liga a ação ao
+  **núcleo do seu complemento** — depois da ação pulam-se só palavras
+  funcionais (`_PALAVRAS_ANTES_DO_OBJETO`: artigos, `de/do/da/dos/das/com`,
+  possessivos, demonstrativos, `todo(s)`, `atual/atuais` e sete advérbios
+  curtos); a primeira outra palavra é o núcleo. `e`/`ou` (não `é`) depois
+  do núcleo abrem um núcleo coordenado. O complemento termina em
+  `[.!?;,\n]` ou adversativa. Resultado: os quatro casos → `sem_sinal_detectado`,
+  sem evidência nem recomendação (serviço, composição, rota e servidor
+  real). Preservados com evidência: `cancelar o contrato`, `reavaliar o
+  fornecedor`, `rescindir o contrato`, ameaça condicional, `rescindir o
+  nosso contrato`, `cancelar todos os contratos`, `cancelamento do
+  contrato`, `cancelar com o fornecedor`, `cancelar imediatamente o
+  serviço`, `cancelar a reunião e o contrato`. Contraprovas: a ligação não
+  exige adjacência e não depende de cortar em toda vírgula (`a reunião e
+  não o contrato` e `a reunião e falar do contrato` → sem sinal, sem
+  vírgula; a condição antes da vírgula continua ligando).
+- **B12-R03 → confirmado e corrigido.** Reproduzido: `Vamos cancelar o
+  contrato.` e a ameaça condicional → evidência `cancelar`; `Não estamos
+  satisfeitos com o suporte.` → `Não estamos satisfeitos`. Agora: ação até
+  o objeto ligado (`cancelar o contrato`); condição que abre a frase
+  incluída (`Se o suporte continuar assim, vamos cancelar o contrato`, índices
+  0–55); insatisfação com o complemento `com ...` até vírgula, adversativa
+  ou `e` (`Não estamos satisfeitos com o suporte`, `insatisfeitos com o
+  suporte`). Recortes literais e contínuos, sem campo público novo.
+  Testes que fixavam `trecho == "cancelar"` (2 em `test_sinais_comerciais.py`,
+  1 em `test_analise.py`) e o par idêntico `Não estamos satisfeitos` (1 em
+  `test_analise.py`) foram atualizados com justificativa no docstring.
+  Ordenação dos intervalos de risco passou a `(inicio, fim)`, determinística
+  também quando duas ações da mesma frase começam no mesmo `Se`.
+- **B12-R04 → confirmado; classificação não corrigida — pendente de decisão
+  da coordenação.** `Estamos insatisfeitos com o clima.` (regra herdada de
+  B03, aceita em B03-04) e `Não estamos satisfeitos com o almoço.` (espelho
+  criado em B12) continuam → `sinal_detectado`. Justificativa: com regras
+  locais, separar `o clima` de `o suporte` exige escolher vocabulário. Uma
+  lista de termos da relação para o complemento deixaria de sinalizar
+  queixas do domínio sem termo listado — `frustrados com o atraso`, texto
+  já usado em `test_analise.py`, e também `com a demora`, `com o prazo`,
+  `com a equipe`. Uma lista de temas alheios seria arbitrária e só copiaria
+  os exemplos. As duas opções mudam a regra aceita de B03 e ampliam
+  vocabulário, o que o prompt deixa fora do escopo. Corrigir só o caminho
+  novo deixaria `não satisfeitos com o almoço` e `insatisfeitos com o almoço`
+  com resultados opostos. Mitigação nesta rodada: a evidência mostra o
+  complemento (`insatisfeitos com o clima`). Comportamento pinado como
+  limite em `test_limite_b12_r04_...` e documentado no README. **Impacto no
+  aceite:** cabe ao Codex decidir se R04 é impeditivo; opções em B12-04 no
+  histórico.
+- **Achado próprio B12-R05 (documentação) → confirmado e corrigido.** O
+  README apontava `_escopos_de_negacao`/`_inicio_da_negacao_mais_proxima`
+  em `sentimento.py`, que B12-01 moveu para `negacao.py` e renomeou, e a
+  seção da rota dizia `versao_analise="0.2"`. Os dois pontos foram
+  atualizados.
+- **Mudanças de comportamento a comunicar:** (1) deixaram de ser risco,
+  além dos casos de R02, `cancelar a renovação do contrato` (núcleo
+  `renovação`, mesma estrutura de `a reunião sobre o contrato`), vírgula
+  intercalada (`cancelar, infelizmente, o contrato`), objeto antes da ação
+  e `cancelar de vez o contrato`. Em `d5fb40a` eram risco só por
+  coocorrência; ficaram como limites documentados no README, e os três
+  primeiros também pinados em `test_limites_da_ligacao_acao_objeto`. (2) Evidências
+  de churn mais longas, e no exemplo de C01 a evidência de churn passa a
+  conter a de sentimento (`insatisfeitos` × `insatisfeitos com o suporte`,
+  mesma posição inicial). O problema de B19 em PLN02 (`Estamos insatisfeitos
+  com o suporte.` → "duas evidências do mesmo intervalo") deixa de ser
+  intervalo idêntico nesse exemplo; a coordenação deve rever a premissa de
+  B19 e avisar o frontend (F05). (3) `versao_analise` mantida em `"0.3"`,
+  conforme o prompt: B12 ainda não foi integrada e a correção é do mesmo PR.
+- **Arquivos alterados (6) e SHA-256 de saída:**
+  `backend/app/services/sinais_comerciais.py` (`169a6d8a…a81dce`),
+  `backend/tests/test_sinais_comerciais.py` (`7a1053d9…6fd6af1`),
+  `backend/tests/test_analise.py` (`0723b4a6…3d50e3`),
+  `backend/tests/test_analises_rota.py` (`bbfaebc9…e598e`),
+  `backend/README.md` (`649d2d95…49daa0`),
+  `docs/contratos/analise-texto.md` (`7ea3213b…c04306`). Sem diferença
+  contra `d5fb40a` em `negacao.py`, `sentimento.py`, `analise.py`,
+  `texto.py`, schemas, API, `pyproject.toml` e `test_sentimento.py`;
+  `_PADROES_OPORTUNIDADE`, `_PADROES_CONTEXTO_COMERCIAL`, `_PRODUTOS` e
+  `_CONCORRENTES` sem alteração. Hashes completos no evento B12-04.
+- **Validação:** em `backend/`, `timeout --signal=INT --kill-after=5s 30s
+  .venv/bin/python -m pytest -q tests/test_sentimento.py
+  tests/test_sinais_comerciais.py tests/test_analise.py` → **131 passed**;
+  `timeout ... 60s .venv/bin/python -m pytest -q` → **177 passed**, com dois
+  avisos de depreciação do Starlette/anyio, sem travamento do `TestClient`
+  neste ambiente. Servidor real `uvicorn` em `127.0.0.1:8099`: saúde ok, e
+  quatro casos pela rota (R02, condicional, satisfação negada, exemplo C01)
+  com churn, IDs, recomendações e recortes conferidos contra o eco da
+  transcrição; o processo foi encerrado e a porta não responde. A primeira
+  tentativa não subiu o servidor (caminho relativo do Python) e não conta
+  como evidência. `git diff --check` limpo. A sondagem de 23 casos antes e
+  depois ficou no rascunho da sessão, fora do repositório.
+- **Não executado:** consulta ao servidor Git; frontend (não existe nesta
+  cópia); verificação do Codex; B13 (oportunidades continuam iguais,
+  inclusive coexistindo com risco).
+- **Git:** entrada `COMMITADA` em `d5fb40a`, publicada em 21/09 (consulta
+  atual `NAO_VERIFICADA`); correções B12-04 `NAO_COMMITADAS`/`NAO_PUBLICADAS`
+  → B12 `PARCIALMENTE_COMMITADO`. PR remoto `NAO_VERIFICADO` (último relato:
+  não aberto); `NAO_INTEGRADO`. Registro desta atuação `NAO_COMMITADO`.
+  Preexistências (`prompt.md`, relatório Sonnet, registros anteriores)
+  preservadas. Nenhum commit, push, PR, merge, reset ou stash.
+- **Próximo responsável:** Codex verifica a devolução, inclusive a decisão
+  sobre R04. Nada foi marcado como APROVADO ou INTEGRADO, e B13 não foi
+  iniciado.
+
+### Encaminhamento atualizado — Codex, 06/10/2026 — B12-03
+
+- **Entrega do executor:** FINALIZADA (B12-01); **ciclo:** EM_REVISAO,
+  R02/R03/R04 pendentes. Versão exata `d5fb40a` em
+  `fix/b12-contexto-risco` (pai `cc61925`, base de aplicação `6169fec`),
+  COMMITADA e publicada no servidor em 21/09; consulta atual
+  `NAO_VERIFICADA`. `negacao.py` pertence ao commit; nenhum dos nove
+  arquivos de B12 tem mudança local nesta retomada. Destino, principal e
+  PR remoto atuais `NAO_VERIFICADO`; integração `NAO_INTEGRADO`.
+- **Achados reconfirmados na composição atual:** R02 — os quatro exemplos
+  de reunião/pauta com contrato/fornecedor próximos continuam gerando
+  `sinal_detectado`; R03 — “Vamos cancelar o contrato.” e a ameaça
+  condicional retornam apenas “cancelar”, e “Não estamos satisfeitos com o
+  suporte.” omite “com o suporte” na evidência de churn; R04 — clima e
+  almoço continuam gerando churn. O cartão exige objeto/contexto comercial
+  pertinente e recorte literal suficiente; Opus confirmará alcance e
+  correção, distinguindo a regra herdada de B03 do caminho novo de B12.
+- **Versão/validação:** nove SHA-256 dos arquivos B12 reconferidos e
+  preservados em `prompt.md`; 99 testes de serviço/composição passaram
+  no sandbox, suíte completa 143 passed fora do sandbox. O primeiro teste
+  HTTP trava no sandbox (137 sob limite), mas passa fora dele. A API por
+  servidor real não foi reproduzida pelo Codex. Nenhum código foi alterado.
+- **Decisão Git:** manter o commit composto publicado para a revisão B12;
+  não reconstruir branches/commits neste momento. `prompt.md` substituído
+  pelo texto completo para Opus sobre `d5fb40a`, com hashes, achados,
+  escopo e estado Git corretos. Prompt e registro `NAO_COMMITADOS`/
+  `NAO_PUBLICADOS` nesta atuação, distintos da entrega B12.
+- **Próximo responsável:** usuário encaminha `prompt.md` ao Opus; Opus
+  revisa/corrige B12 localmente e atualiza índice, ficha e histórico;
+  Codex verifica a devolução. B13 não foi liberado.
+
+### Encaminhamento histórico — Codex, 21/09/2026 — B12-02
 
 - **Pedido/resultado:** preparar `prompt.md` para revisão B12 pelo Opus.
   Rascunho B11-02, já executado em B11-03, substituído. Entrega FINALIZADA
@@ -4824,3 +5476,324 @@ Atualizar também a ficha e a linha do índice quando o estado mudar.
 - **Próximo responsável:** usuário leva `prompt.md` ao Opus; Opus confirma,
   corrige no escopo e registra a própria atuação; Codex verifica o resultado.
   Nenhuma liberação automática de B13 ou aprovação de B11/B07-A.
+
+### Commit+push — 21/09/2026 — Claude Sonnet / operação Git a pedido direto do usuário
+
+- **Pedido:** usuário interrompeu a execução do prompt B12-02 (eu tinha lido
+  `prompt.md`, nenhuma edição de código ou teste executado) e pediu
+  diretamente "Faça commit com push de tudo que foi feito" — instrução
+  explícita para esta operação, distinta de qualquer autorização anterior
+  (os prompts de B07-A-06/B11-02/B12-02 vedavam commit/push).
+- **Conferência antes de agir:** `git remote -v` (origin =
+  github.com/GustavoECocchi/ConvIQ), `git branch -vv` (as três branches
+  `spike/b07-a-viabilidade-whisper`, `fix/b11-negacao-sentimento` e
+  `fix/b12-contexto-risco` apontavam para o mesmo `cc61925`; só a primeira
+  publicada), `git status`/`git diff --cached --stat` completos, suíte do
+  backend (143/143) e busca por arquivos sensíveis no diff (nenhum).
+- **Ação:** `git add -A`; um commit único em `fix/b12-contexto-risco`,
+  mensagem detalhando o estado separado de cada frente (B07-A-06 EM_REVISAO,
+  B11 EM_REVISAO, B12 FINALIZADA com R02/R03/R04 pendentes) — nenhuma
+  aprovada; `git push -u origin fix/b12-contexto-risco`. Publicação
+  confirmada por consulta atual à API do GitHub, hash idêntico ao local.
+  Detalhe completo na "Fotografia Git vigente" no topo deste documento.
+- **Decisão registrada:** consolidar as três frentes num commit só, em vez
+  de separar em branches/commits próprios por PR — decisão minha, motivada
+  pelo pedido literal ("tudo que foi feito") e pelo precedente já existente
+  no repositório (`cc61925`). Não reconstruí histórico entre as branches
+  `spike/b07-a-viabilidade-whisper`/`fix/b11-negacao-sentimento` (permanecem
+  em `cc61925`, sem commit próprio) para evitar operações arriscadas
+  (rebase/cherry-pick) sem pedido explícito para isso.
+- **Não feito:** PR remoto (`NAO_ABERTO`); merge; integração; correção dos
+  achados B12-R02/R03/R04; continuação da revisão B12-02; nenhuma operação
+  destrutiva (`reset`/`stash`/`checkout` descartando trabalho).
+- **Git:** entrega das três frentes agora `COMMITADO`/`PUBLICADO` em
+  `d5fb40a50e444b5920a5693df4ea477ef2ba6a6c`, branch `fix/b12-contexto-risco`.
+  Esta atualização do registro é posterior ao commit/push, portanto
+  `NAO_COMMITADA`/`NAO_PUBLICADA` — próxima operação Git deve incluí-la.
+- **Próximo responsável:** usuário decide se retoma a revisão B12-02 pelo
+  Opus, pede separação em branches próprias, abre PR, ou outro
+  encaminhamento. Nenhum aceite técnico foi concedido por esta operação.
+
+### Análise de estado e relatório ao Codex — 06/10/2026 — Claude Sonnet / análise
+
+- **Pedido:** usuário pediu a análise do estado atual do ConvIQ e, em seguida,
+  um relatório para o Codex com estado e próximos passos, com base na
+  documentação. Papel: Sonnet, análise sem implementação.
+- **Ação:** leitura de `AGENTS.md`, `CLAUDE.md`, índice/fichas B07-A/B11/B12,
+  início de `prompt.md` e roteiro B11–B21; conferência de Git e execução da
+  suíte do backend (143 passed em 0,39 s). Relatório gravado em
+  `docs/revisoes/RELATORIO_SONNET_2026-10-06.md`. `prompt.md` **não** foi
+  alterado (segue com o prompt B12-02, desatualizado em HEAD e hashes).
+- **Achados para o Codex:** `prompt.md` cita `cc61925` e diff não commitado,
+  mas o HEAD é `d5fb40a`; frentes B07-A-06/B11/B12 num commit só; B12-R02/R03/
+  R04 sem correção; B11 e B07-A-06 sem aceite; referência geral de governança
+  ausente; registro com ~4.900 linhas.
+- **Não feito:** código, testes novos, commit, push, PR, consulta ao servidor,
+  releitura integral da governança. Nenhuma aprovação presumida.
+- **Git:** HEAD `d5fb40a` = `origin/fix/b12-contexto-risco` (referência local).
+  Esta atualização e o relatório são `NAO_COMMITADOS`/`NAO_PUBLICADOS`;
+  principal, PR e integração `NAO_VERIFICADO`.
+- **Próximo responsável:** Codex (decidir estrutura Git, regerar `prompt.md`
+  para B12-02, verificar B11/B07-A-06).
+
+### Retomada B11-04/B07-A-07/B12-03 — 06/10/2026 — Codex / coordenação e verificação
+
+- **Pedido:** retomar o desenvolvimento a partir do relatório do Sonnet de
+  06/10. Lidos AGENTS, governança local, relatório, plano B11–B21, fichas e
+  eventos pertinentes, prompt anterior, código e testes. Referência geral
+  `/home/gustavoecocchi/Documents/GOVERNANCA/REGRAS.md` indisponível;
+  aplicadas as instruções do projeto.
+- **Reconciliação:** branch `fix/b12-contexto-risco`, HEAD `d5fb40a` =
+  `origin/fix/b12-contexto-risco` **local**; `git diff cc61925..d5fb40a`
+  confirma B07-A-06/B11/B12 no mesmo commit. Antes da atuação, o registro
+  tinha atualização pós-commit modificada e o relatório Sonnet de 06/10 era
+  não rastreado; índice vazio. Nenhuma alteração descartada. A descrição
+  do prompt antigo (`cc61925`, diff não commitado) divergia do Git e foi
+  substituída. O commit composto será mantido durante a revisão.
+- **Verificação:** SHA-256 dos nove arquivos B12 e três artefatos B07-A-06
+  conferidos; `.venv-whisper/` ignorado; sondas da composição reconfirmam
+  B11-R01 corrigido e B12-R02/R03/R04 pendentes. Subconjunto de
+  sentimento/sinais/composição: 99 passed. Suíte completa no sandbox
+  travou no primeiro teste HTTP após 11 pontos (código 137 sob timeout),
+  inclusive teste HTTP isolado; fora do sandbox, 143 passed em 0,38 s,
+  dois avisos de depreciação. A causa exata do travamento no sandbox não
+  foi isolada. `git diff --check` sem diagnóstico.
+- **Decisões e arquivos:** B11 aceito tecnicamente em `d5fb40a`, sem
+  integração; correções R03/R04 de B07-A verificadas, mas entrega parcial
+  por P01 (fala real). B12 segue EM_REVISAO; `prompt.md` substituído pelo
+  prompt completo para Opus sobre `d5fb40a`, com hashes atuais, achados
+  e preservação das preexistências. Atualizados índice/fichas/evento em
+  `REGISTRO_TRABALHO.md`. Nenhum arquivo de aplicação foi editado.
+- **Git/publicação/integração:** B11, B07-A-06 e B12 COMMITADOS em
+  `d5fb40a`, publicados em 21/09 conforme verificação daquele dia;
+  consulta atual ao servidor `NAO_VERIFICADA`. Esta atualização de
+  `REGISTRO_TRABALHO.md` e `prompt.md` está `NAO_COMMITADA`/
+  `NAO_PUBLICADA`; o relatório Sonnet não rastreado também permanece
+  `NAO_COMMITADO`/`NAO_PUBLICADO`. Índice vazio. Nenhum commit, push, PR,
+  merge ou troca de branch nesta atuação. Destino/principal/PR remoto
+  atuais `NAO_VERIFICADO`; integração nesta atuação `NAO_INTEGRADO`.
+- **Pendências/próximo responsável:** usuário encaminha `prompt.md` ao
+  Opus para revisar/corrigir B12; Opus registra sua atuação e devolve ao
+  Codex. B07-A precisa de amostra de fala real P01 antes do fechamento;
+  B13 não liberado. Após B12, Codex revalida B11 se houver mudança no
+  módulo compartilhado e define a integração Git com base confirmada.
+
+### Encaminhamento do prompt B12 — 06/10/2026 — Codex / coordenação
+
+- **Pedido:** usuário solicitou o prompt em `prompt.md` para o Opus.
+- **Conferência:** o arquivo já contém o prompt completo B12-03, preparado
+  na atuação anterior para `fix/b12-contexto-risco` em `d5fb40a`. HEAD e
+  branch permanecem iguais; os nove SHA-256 de entrada passaram em
+  `sha256sum -c`, índice Git vazio e `git diff --check` sem diagnóstico.
+  Não foi necessário substituir novamente o conteúdo do rascunho.
+- **Arquivos/estado:** apenas esta nota acrescentada a
+  `REGISTRO_TRABALHO.md`; `prompt.md` continua modificado e não commitado
+  desde B12-03. O registro e o relatório Sonnet também permanecem locais;
+  nenhum arquivo da aplicação foi alterado nesta atuação.
+- **Entrega/revisão/Git:** B12 FINALIZADA pelo executor, EM_REVISAO e com
+  R02/R03/R04 pendentes; código COMMITADO em `d5fb40a`, publicado em 21/09
+  segundo conferência daquela data, consulta atual ao servidor
+  `NAO_VERIFICADA`. Prompt e registro `NAO_COMMITADOS`/`NAO_PUBLICADOS`;
+  nenhum commit, push, PR, merge ou integração nesta atuação. Destino,
+  principal e PR remoto atuais `NAO_VERIFICADO`; integração
+  `NAO_INTEGRADO` nesta atuação.
+- **Próximo responsável:** usuário encaminha o arquivo local `prompt.md`
+  ao Opus; Opus revisa/corrige B12, registra a própria atuação e devolve
+  ao Codex. O arquivo foi disponibilizado no projeto, sem confirmação de
+  recebimento pelo Opus nesta atuação.
+
+### B12-04 — 06–07/10/2026 — Claude Opus / revisor-corretor
+
+- **Pedido:** usuário pediu "execute o prompt em prompt.md" (prompt B12-03
+  do Codex para revisão de B12 sobre `d5fb40a`). A atuação foi interrompida
+  durante a escrita do registro e retomada ("retome") em 07/10. Na retomada,
+  HEAD, índice e os seis hashes de saída conferiam com o estado deixado.
+- **Conferência de entrada:** raiz, branch `fix/b12-contexto-risco`, HEAD
+  `d5fb40a` e pai `cc61925` iguais ao prompt; índice vazio; nove SHA-256 9/9.
+  Preexistências: `REGISTRO_TRABALHO.md` e `prompt.md` modificados,
+  `docs/revisoes/RELATORIO_SONNET_2026-10-06.md` não rastreado — preservados.
+- **Resultado por achado:** B12-R02 confirmado e corrigido; B12-R03
+  confirmado e corrigido; B12-R04 confirmado como comportamento, com a
+  classificação pendente de decisão da coordenação; B12-R05 (próprio,
+  README desatualizado) confirmado e corrigido. Detalhes, evidências e
+  mudanças de comportamento na ficha B12 ("Revisão e correção — Claude
+  Opus, 06/10/2026 — B12-04").
+- **Opções para a decisão sobre R04 (Codex/usuário):**
+  (a) exigir no complemento `com ...` um termo da relação — vocabulário
+  comercial atual mais catálogo de produtos, talvez `vocês`/`sistema`/
+  `módulo` —, o que causa falsos negativos para queixas do domínio fora da
+  lista (`atraso`, `demora`, `prazo`, `equipe`);
+  (b) lista de temas alheios à relação, arbitrária e aberta;
+  (c) manter a regra herdada, com a evidência mostrando o complemento — o
+  que foi entregue.
+  (a) e (b) alteram a regra aceita de B03 e devem valer para `insatisfeito`
+  e `não satisfeito` ao mesmo tempo. Podem caber num PR próprio ou em B21,
+  medindo falsos positivos e negativos.
+- **SHA-256 de saída:**
+
+```text
+169a6d8a0c55bad0c88c2fe99d3488857abb969ef547f60cf632643125a81dce  backend/app/services/sinais_comerciais.py
+7a1053d9020925c7a7f2dfb4b498601af07357ab0e89d4b8ed49700093fd6af1  backend/tests/test_sinais_comerciais.py
+0723b4a6a351546db9fdea5b20be13283616120bfae1aed6a090c370c73d50e3  backend/tests/test_analise.py
+bbfaebc96f30e25fccc2b7111710dafdff67e6c993bbdb75dc823739265e598e  backend/tests/test_analises_rota.py
+649d2d95f22bbf2539e784cf2745496ab3d6ac66cc6ff0ecd18191c1e349daa0  backend/README.md
+7ea3213b199a66e6fa2ed029f36811527431dba7f025545cdf58d7c990c04306  docs/contratos/analise-texto.md
+```
+
+- **Validação:** 131 passed (sentimento/sinais/composição) e 177 passed
+  (suíte completa, dois avisos de depreciação), ambos com `timeout`; servidor
+  real em `127.0.0.1:8099` com quatro casos conferidos e encerrado;
+  `git diff --check` limpo. Comandos completos na ficha.
+- **Git:** entrega B12 `PARCIALMENTE_COMMITADO` (`d5fb40a` + diff local
+  B12-04 em seis arquivos); `d5fb40a` publicado em 21/09, correções
+  `NAO_PUBLICADAS`; PR remoto `NAO_VERIFICADO`; `NAO_INTEGRADO`; principal e
+  destino `NAO_VERIFICADO`. Registro desta atuação `NAO_COMMITADO`. Nenhuma
+  operação Git de escrita.
+- **Próximo responsável:** Codex verifica a devolução (diff B12-04 sobre
+  `d5fb40a`, decisão sobre R04 e premissa de B19). Sem autoaprovação, sem
+  início de B13 e sem alteração de `prompt.md`.
+
+### B12-05 — 07/10/2026 — Codex / verificação da revisão B12-04 e nova rodada
+
+- **Pedido:** usuário informou que o Claude concluiu a revisão de B12;
+  Codex conferiu branch, HEAD, status/índice, ficha, evento, diff, seis
+  SHA-256 de saída, critérios do cartão B12 e código relacionado.
+- **Resultado:** R02/R03 e R05 corrigidos nos cenários verificados, com
+  evidência contextual e contrato C01 preservado. R04 confirmado como
+  falso positivo relevante e decidido **impeditivo** pelo critério de
+  insatisfação com a relação comercial. Novo R06 reproduzido: objeto
+  comercial como sujeito de oração coordenada é associado à ação de
+  cancelar a reunião. B12 passou de EM_REVISAO a EM_CORRECAO; sem aceite.
+- **Arquivos/evidências:** seis arquivos B12-04 em diff local preservados;
+  nenhum código editado pelo Codex. `prompt.md` substituído pelo prompt
+  B12-05 para Opus; índice/ficha/histórico atualizados neste registro.
+  Sondas de serviço/composição mostraram R04/R06, 131 testes afetados
+  passaram; suíte completa 177 passou fora do sandbox após travar no
+  primeiro teste HTTP dentro dele. Dois avisos de depreciação; `git diff
+  --check` limpo. Servidor real não executado pelo Codex.
+- **Git:** `fix/b12-contexto-risco`, HEAD `d5fb40a` (pai `cc61925`, base
+  da aplicação `6169fec`); entrega B12 `PARCIALMENTE_COMMITADA`: código
+  inicial em `d5fb40a` e correções B12-04 locais em seis arquivos.
+  Publicação de `d5fb40a` confirmada em 21/09, consulta atual ao servidor
+  `NAO_VERIFICADA`; correções, prompt, registro e relatório Sonnet local
+  `NAO_PUBLICADOS`, relatório não rastreado. PR remoto, principal e
+  destino atuais `NAO_VERIFICADO`; integração `NAO_INTEGRADO`. Nenhum
+  commit, push, PR, merge ou troca de branch nesta atuação.
+- **Pendências/próximo responsável:** usuário encaminha `prompt.md` ao
+  Opus para resolver R04/R06 e manter R02/R03; Opus registra B12-06 e
+  devolve ao Codex. B19 terá a premissa revista depois de B12; B13 não
+  foi liberado.
+
+### B12-06 — 07/10/2026 — Claude Opus / revisor-corretor (rodada B12-05)
+
+- **Pedido:** usuário pediu "execute o prompt em prompt.md" (prompt B12-05
+  do Codex: R04 e R06 impeditivos). Antes, um pedido de relatório ao Codex
+  foi interrompido pelo usuário, sem arquivo criado.
+- **Conferência:** branch `fix/b12-contexto-risco`, HEAD `d5fb40a`, índice
+  vazio; seis SHA-256 de entrada 6/6; preexistências preservadas.
+- **Resultado:** B12-R04 confirmado e corrigido (lista fechada de temas
+  alheios no núcleo do complemento `com ...`, sem termo da relação); B12-R06
+  confirmado e corrigido (membro coordenado só como sintagma nominal).
+  R02/R03 preservados. Nenhum achado novo impeditivo; limites e nota sobre
+  B19 na ficha ("Correção da rodada B12-05 — Claude Opus, 07/10/2026 —
+  B12-06").
+- **SHA-256 de saída:**
+
+```text
+961a53404fbf7135cac154aff7c1374e7ce79d5745d388d9ed557c413b49fe69  backend/app/services/sinais_comerciais.py
+251801ac184df86fc252886f1a8b3584492613f531c99955d7910f3f99aa26b5  backend/tests/test_sinais_comerciais.py
+fbca6ce1f69e29060bf8bf22c92736e2a998f747027223330646e6c33c81da18  backend/tests/test_analise.py
+5f206aafaf9f88b3142c769bca6358a49c544f5ba41568ad9126c07b8f1f42d2  backend/tests/test_analises_rota.py
+e64b14c66ef9773b1ef05e319bb499c5c56ba813e9d84dcbeda0c1d9256e2518  backend/README.md
+5813c4845ea8d5bc355649a58d7f164cd9b4ea2aa7d893ee82ccc338c607950f  docs/contratos/analise-texto.md
+```
+
+- **Validação:** 164 passed (sentimento/sinais/composição) e 212 passed
+  (suíte completa, dois avisos), ambos com `timeout`; servidor real com oito
+  casos conferidos e encerrado; `git diff --check` limpo.
+- **Git:** `PARCIALMENTE_COMMITADO` (`d5fb40a` + diff local B12-04/B12-06
+  em seis arquivos); correções `NAO_PUBLICADAS`; PR remoto `NAO_VERIFICADO`;
+  `NAO_INTEGRADO`; principal/destino `NAO_VERIFICADO`. Registro
+  `NAO_COMMITADO`. Nenhuma operação Git de escrita.
+- **Próximo responsável:** Codex verifica B12-06. Sem autoaprovação, sem
+  B13/B14/B19 e sem alteração de `prompt.md`.
+
+### Relatório ao Codex — 07/10/2026 — Claude Opus / revisor-corretor
+
+- **Pedido:** usuário pediu "faz o relatório" para o Codex analisar B12.
+- **Ação:** criado `docs/revisoes/RELATORIO_OPUS_B12_2026-10-07.md`
+  (não rastreado), no formato 9.3 com o relatório da seção 8. Cobre
+  R02–R06, contraprovas, limites, mudanças observáveis, nota sobre B19,
+  hashes B12-06, validação, Git e decisões da coordenação. Ele distingue
+  o que foi observado em sondagem do que foi deduzido da regra de B12-04.
+  O arquivo `.sha256` separado, recusado pelo usuário antes, não foi criado;
+  os hashes estão no relatório.
+- **Conferência:** HEAD `d5fb40a`, índice vazio, seis SHA-256 de B12-06
+  conferidos antes de escrever; nenhum código, teste ou `prompt.md`
+  alterado nesta atuação.
+- **Git:** relatório e esta nota `NAO_COMMITADOS`/`NAO_PUBLICADOS`; B12
+  segue `PARCIALMENTE_COMMITADO`, EM_REVISAO, `NAO_INTEGRADO`. Nenhuma
+  operação Git de escrita.
+- **Próximo responsável:** usuário encaminha o relatório ao Codex; Codex
+  verifica B12-06.
+
+### B12-07 — 07/10/2026 — Codex / verificação final e aceite técnico
+
+- **Pedido:** usuário trouxe o relatório do Opus de B12-06 e autorizou
+  sondas próprias se necessárias. Conferi `AGENTS.md`/governança já
+  aplicadas nesta sessão, cartão B12, branch/HEAD/status/índice, relatório,
+  ficha/evento B12-06, seis SHA-256, diff de código/testes/documentação e
+  fronteiras com B11/C01/B07-A.
+- **Resultado:** R02/R03/R04/R05/R06 corrigidos nos critérios de B12,
+  com limites de regra local declarados na ficha. R04/R06 reproduzidos
+  como corrigidos no serviço/composição; treze sondas adicionais passaram
+  com referências e recortes literais válidos. Aceite técnico **APROVADO**
+  para `d5fb40a` mais os seis arquivos locais com hashes listados na ficha
+  B12-07. A aprovação não equivale a commit, publicação ou integração.
+- **Validação:** 164 testes afetados passaram no sandbox; a suíte completa
+  nele travou no primeiro teste HTTP (137 sob timeout). Reexecutada fora
+  do sandbox, passou 212/212 em 0,45 s, com dois avisos de depreciação.
+  `git diff --check` sem diagnóstico. Servidor real de oito casos permanece
+  evidência do Opus, não execução do Codex. Nenhum teste novo foi gravado
+  pelo Codex; os cenários próprios foram sondas locais.
+- **Arquivos:** código/testes/documentação B12-04/B12-06 em seis arquivos
+  preservados sem edição pelo Codex; `REGISTRO_TRABALHO.md` atualizado
+  (índice, fotografia, ficha e evento). `prompt.md` B12-05 permanece
+  modificado e já consumido; relatórios Opus/Sonnet continuam não
+  rastreados. B19 precisa de exemplo atualizado antes de sua liberação;
+  F05 precisa conhecer os recortes de churn ampliados.
+- **Git:** branch `fix/b12-contexto-risco`, HEAD `d5fb40a` (pai
+  `cc61925`, base de aplicação `6169fec`); entrega B12
+  `PARCIALMENTE_COMMITADA`: versão inicial no HEAD, correções aprovadas
+  `NAO_COMMITADAS`/`NAO_PUBLICADAS`. `d5fb40a` publicado em 21/09
+  segundo evidência daquela data; consulta atual ao servidor
+  `NAO_VERIFICADA`. Registro desta atuação `NAO_COMMITADO`/
+  `NAO_PUBLICADO`; PR remoto, principal e destino atuais
+  `NAO_VERIFICADO`; integração `NAO_INTEGRADO`. Índice vazio. Nenhum
+  commit, push, PR, merge ou troca de branch nesta atuação.
+- **Próximo responsável:** coordenação/usuário definem base/destino e
+  organização do commit composto antes da integração. Quem fizer a
+  operação Git confere os seis hashes aprovados no commit e registra
+  publicação e integração separadamente. B13 não iniciado nesta atuação.
+
+### B12-08 — 07/10/2026 — Codex / consulta remota e próximo passo
+
+- **Pedido:** usuário perguntou o próximo passo após o aceite técnico de
+  B12. Conferi Git local, ancestralidade de `6169fec`, `cc61925` e
+  `d5fb40a`, branch padrão e hashes de branches no GitHub, e a listagem
+  remota de PRs em todos os estados.
+- **Evidência:** a branch padrão remota é `feat/b01-fundacao-api` em
+  `6169fec`; `fix/b12-contexto-risco` está em `d5fb40a`; `main` não foi
+  encontrada; a listagem de PRs retornou vazia. `cc61925`/`d5fb40a`
+  carregam B07-A parcial junto de B11/B12, o que impede usar diretamente
+  a branch B12 como entrega isolada para a branch padrão.
+- **Arquivos/ação:** atualizado somente `REGISTRO_TRABALHO.md` (índice,
+  fotografia Git vigente, ficha e este evento); código B12, testes,
+  `prompt.md` e relatórios não rastreados preservados.
+- **Estado e pendência:** B12 finalizada e aprovada tecnicamente,
+  `PARCIALMENTE_COMMITADA`, correções locais `NAO_PUBLICADAS`, sem PR e
+  `NAO_INTEGRADA`. Próxima sequência recomendada: commit da versão B12
+  aprovada após conferência dos hashes; branch de integração limpa a partir
+  de `feat/b01-fundacao-api` com B11/B12; diff/testes e PR. Nenhuma
+  operação Git de escrita nesta atuação. Próximo responsável:
+  coordenação/usuário.
