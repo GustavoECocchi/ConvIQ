@@ -25,7 +25,7 @@ def test_exemplo_do_contrato_c01_risco_e_oportunidade_coexistindo():
     assert resposta.produtos == ["Fluig"]
     assert resposta.concorrentes == []
     assert resposta.metodo == "regras"
-    assert resposta.versao_analise == "0.3"
+    assert resposta.versao_analise == "0.4"
     # uma recomendação para o risco, uma para a oportunidade
     assert len(resposta.recomendacoes) == 2
 
@@ -106,7 +106,8 @@ def test_vinculo_nao_informado_mantem_regra_de_churn_de_b03():
 def test_elogio_negado_entra_na_composicao_com_recorte_literal_e_ids_renumerados():
     """B11 na composição: a evidência do elogio negado (com o marcador) convive
     com a evidência comercial, renumerada por posição, e as referências de
-    oportunidade apontam para o ID novo."""
+    oportunidade apontam para o ID novo. B13: a evidência da oportunidade é
+    a intenção inteira ("queremos conhecer o Fluig"), não só "conhecer"."""
 
     transcricao = "Não gostei do atendimento, mas queremos conhecer o Fluig."
     pedido = _pedido(transcricao, "cliente")
@@ -114,7 +115,10 @@ def test_elogio_negado_entra_na_composicao_com_recorte_literal_e_ids_renumerados
     resposta = compor_analise_texto(pedido)
 
     assert resposta.sentimento is Sentimento.NEGATIVO
-    assert [(e.id, e.trecho) for e in resposta.evidencias] == [("e1", "Não gostei"), ("e2", "conhecer")]
+    assert [(e.id, e.trecho) for e in resposta.evidencias] == [
+        ("e1", "Não gostei"),
+        ("e2", "queremos conhecer o Fluig"),
+    ]
     for evidencia in resposta.evidencias:
         assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
     assert resposta.oportunidades[0].evidencias == ["e2"]
@@ -122,7 +126,7 @@ def test_elogio_negado_entra_na_composicao_com_recorte_literal_e_ids_renumerados
     # "atendimento" é contexto comercial; nenhum padrão de risco → avaliado, sem sinal
     assert resposta.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
     assert resposta.produtos == ["Fluig"]
-    assert resposta.versao_analise == "0.3"
+    assert resposta.versao_analise == "0.4"
 
 
 def test_negacao_fechada_na_virgula_nao_inverte_elogio_nem_apaga_oportunidade():
@@ -135,7 +139,10 @@ def test_negacao_fechada_na_virgula_nao_inverte_elogio_nem_apaga_oportunidade():
     resposta = compor_analise_texto(pedido)
 
     assert resposta.sentimento is Sentimento.POSITIVO
-    assert [(e.id, e.trecho) for e in resposta.evidencias] == [("e1", "satisfeitos"), ("e2", "conhecer")]
+    assert [(e.id, e.trecho) for e in resposta.evidencias] == [
+        ("e1", "satisfeitos"),
+        ("e2", "queremos conhecer o Fluig"),
+    ]
     for evidencia in resposta.evidencias:
         assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
     assert resposta.oportunidades[0].evidencias == ["e2"]
@@ -159,7 +166,7 @@ def test_satisfacao_negada_gera_risco_com_evidencia_propria_que_inclui_o_complem
     assert [(e.id, e.trecho) for e in resposta.evidencias] == [
         ("e1", "Não estamos satisfeitos"),
         ("e2", "Não estamos satisfeitos com o suporte"),
-        ("e3", "conhecer"),
+        ("e3", "Queremos conhecer o Fluig"),
     ]
     assert resposta.churn.evidencias == ["e2"]
     assert resposta.oportunidades[0].evidencias == ["e3"]
@@ -200,7 +207,7 @@ def test_exemplo_c01_evidencia_de_churn_inclui_o_complemento():
     assert [(e.id, e.trecho, e.inicio, e.fim) for e in resposta.evidencias] == [
         ("e1", "insatisfeitos", 8, 21),
         ("e2", "insatisfeitos com o suporte", 8, 35),
-        ("e3", "conhecer", 46, 54),
+        ("e3", "Queremos conhecer o Fluig", 37, 62),
     ]
     assert resposta.churn.evidencias == ["e2"]
     assert [r.evidencias for r in resposta.recomendacoes] == [["e2"], ["e3"]]
@@ -257,7 +264,10 @@ def test_tema_alheio_com_oportunidade_mantem_so_a_recomendacao_da_oportunidade()
 
     assert resposta.sentimento is Sentimento.NEGATIVO
     assert resposta.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
-    assert [(e.id, e.trecho) for e in resposta.evidencias] == [("e1", "insatisfeitos"), ("e2", "conhecer")]
+    assert [(e.id, e.trecho) for e in resposta.evidencias] == [
+        ("e1", "insatisfeitos"),
+        ("e2", "Queremos conhecer o Fluig"),
+    ]
     assert resposta.oportunidades[0].evidencias == ["e2"]
     assert [r.evidencias for r in resposta.recomendacoes] == [["e2"]]
     assert resposta.produtos == ["Fluig"]
@@ -292,3 +302,79 @@ def test_objeto_coordenado_gera_risco_com_evidencia_e_recomendacao():
     ]
     assert resposta.churn.evidencias == ["e1"]
     assert [r.evidencias for r in resposta.recomendacoes] == [["e1"]]
+
+
+def test_interesse_negado_nao_gera_oportunidade_nem_recomendacao_na_composicao():
+    """B13 na composição: antes, "Não temos interesse em conhecer o Fluig."
+    gerava duas oportunidades e duas recomendações. O produto continua no
+    catálogo e o churn é avaliado, sem sinal."""
+
+    resposta = compor_analise_texto(_pedido("Não temos interesse em conhecer o Fluig.", "cliente"))
+
+    assert resposta.oportunidades == []
+    assert resposta.recomendacoes == []
+    assert resposta.evidencias == []
+    assert resposta.produtos == ["Fluig"]
+    assert resposta.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+
+
+def test_modulo_citado_sem_intencao_nao_gera_oportunidade():
+    resposta = compor_analise_texto(_pedido("O módulo atual está instalado.", "cliente"))
+
+    assert resposta.oportunidades == []
+    assert resposta.recomendacoes == []
+    assert resposta.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+
+
+def test_so_a_intencao_afirmativa_depois_do_mas_gera_oportunidade_e_recomendacao():
+    transcricao = "Não queremos o Fluig, mas temos interesse no Protheus."
+
+    resposta = compor_analise_texto(_pedido(transcricao, "cliente"))
+
+    assert [(e.id, e.trecho) for e in resposta.evidencias] == [("e1", "interesse no Protheus")]
+    assert len(resposta.oportunidades) == 1
+    assert resposta.oportunidades[0].evidencias == ["e1"]
+    assert [r.evidencias for r in resposta.recomendacoes] == [["e1"]]
+    assert resposta.produtos == ["Fluig", "Protheus"]
+    for evidencia in resposta.evidencias:
+        assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+def test_necessidade_comercial_gera_oportunidade_na_composicao():
+    transcricao = "Precisamos automatizar o faturamento."
+
+    resposta = compor_analise_texto(_pedido(transcricao, "cliente"))
+
+    assert [(e.id, e.trecho, e.inicio, e.fim) for e in resposta.evidencias] == [
+        ("e1", "Precisamos automatizar o faturamento", 0, 36)
+    ]
+    assert resposta.oportunidades[0].evidencias == ["e1"]
+    assert [r.evidencias for r in resposta.recomendacoes] == [["e1"]]
+    assert resposta.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO  # "faturamento" é contexto comercial
+
+
+def test_acao_alheia_posterior_nao_apaga_oportunidade_nem_recomendacao():
+    """B13-R01 na composição: antes, "Queremos o Fluig e conhecer a cidade."
+    não tinha oportunidade nem recomendação, embora "Queremos o Fluig." tivesse."""
+
+    transcricao = "Queremos o Fluig e conhecer a cidade."
+
+    resposta = compor_analise_texto(_pedido(transcricao, "cliente"))
+
+    assert [(e.id, e.trecho, e.inicio, e.fim) for e in resposta.evidencias] == [("e1", "Queremos o Fluig", 0, 16)]
+    assert resposta.oportunidades[0].evidencias == ["e1"]
+    assert [r.evidencias for r in resposta.recomendacoes] == [["e1"]]
+    assert resposta.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+
+
+def test_sistema_solar_nao_gera_oportunidade_nem_torna_churn_avaliavel():
+    """B13-R02 na composição: sem oportunidade, evidência ou recomendação, e
+    churn `informacao_insuficiente` (antes, sem_sinal_detectado por causa da
+    oportunidade indevida)."""
+
+    resposta = compor_analise_texto(_pedido("Queremos integrar o sistema solar.", "cliente"))
+
+    assert resposta.oportunidades == []
+    assert resposta.evidencias == []
+    assert resposta.recomendacoes == []
+    assert resposta.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE

@@ -12,14 +12,12 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 07/10/2026 pelo Codex, após INT01-06 e a
-preparação de B13. O PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
-foi integrado à branch padrão `feat/b01-fundacao-api` no merge
-`e31e6ba81692c61e0b0615d349972e2b3a0c459d`. O conteúdo integrado
-é idêntico ao head aprovado `ae71f84`, e a suíte pós-merge passou 212
-testes. B11/B12 estão integrados; B13 está apenas preparado em `prompt.md`
-e ainda não foi implementado. B07-A continua parcial. A referência local
-`origin/main` não corresponde a uma branch existente no servidor.
+Fotografia atualizada em 07/10/2026 pelo Codex (B13-04). B13 foi finalizada
+localmente pelo Sonnet em B13-01, corrigida pelo Opus em B13-03 e recebeu
+aceite técnico após a verificação final do Codex. A entrega continua em diff
+local sobre `9921f57`, NAO_COMMITADA/NAO_PUBLICADA/NAO_INTEGRADA, sem PR
+remoto. B11/B12 estão integrados pelo PR #1 em `feat/b01-fundacao-api`;
+B07-A segue parcial.
 Fotografias anteriores são históricas.
 
 | PR/tarefa | Entrega do executor | Estado do ciclo | Git da entrega | Branch de trabalho | Publicação da entrega | Integração na principal |
@@ -39,16 +37,97 @@ Fotografias anteriores são históricas.
 | [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | INTEGRADO após aceite B11-04; PR #1 MERGEADO | Origem `d5fb40a`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | INTEGRADO após aceite B12-07; PR #1 MERGEADO | Origem `d5fb40a` + `b14f0a5`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | Conteúdo PUBLICADO no PR #1; `b14f0a5` permanece local na origem | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
-| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | NAO_INICIADA; prompt preparado | PLANEJADO, dependência B11 integrada | SEM_ALTERACOES de implementação; `prompt.md` preparado localmente | `fix/b13-intencao-oportunidade` proposta, ainda não criada | NAO_PUBLICADA | NAO_INTEGRADA |
+| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | FINALIZADA (B13-01, Sonnet) e corrigida pelo Opus (B13-03): R01/R02 corrigidos | APROVADO tecnicamente em B13-04 (Codex); integração pendente | NAO_COMMITADO; diff local de 7 arquivos sobre `9921f57` (B13-01 + B13-03, README corrigido em B13-04), mais registro/prompt locais e relatório não rastreado | `fix/b13-intencao-oportunidade`, HEAD `9921f57` | NAO_PUBLICADA; branch remota ausente em consulta 07/10 (Codex) | NAO_INTEGRADA; PR remoto NAO_ABERTO |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
-integrado em INT01-06; B13 tem prompt pronto, implementação pendente.
+integrado em INT01-06; B13 tem aceite técnico local e aguarda a decisão de
+publicação e integração.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 07/10/2026, INT01-06/B13-00 (Codex)
+### Fotografia Git vigente — 07/10/2026, B13-04 (Codex)
+
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
+  `fix/b13-intencao-oportunidade`, HEAD/base `9921f57`, índice vazio.
+  Entrega aprovada = diff local dos mesmos sete arquivos de B13-03,
+  com correção documental de uma referência no `backend/README.md` pelo
+  Codex em B13-04. Seis hashes de B13-03 permanecem iguais; README final
+  `14dd5a86571e7ab0897b36131ad338f60f6136d9ae7684a614cc9f565ace965d`.
+  `REGISTRO_TRABALHO.md` e `prompt.md` modificados localmente; relatório
+  Sonnet não rastreado. Nenhum commit/push/PR/merge nesta verificação.
+- Consulta atual: branch padrão/destino `feat/b01-fundacao-api` em
+  `9921f579481fdfac098576de425b7ed19df8ef8d` no servidor; branch B13
+  remota ausente e lista de PRs B13 vazia. B13 NAO_PUBLICADA/
+  NAO_INTEGRADA, PR remoto NAO_ABERTO.
+- Verificação própria: suíte completa 271 passed, dois avisos; 21 sondas
+  de composição com `app.__file__` do worktree, recortes e referências
+  conferidos; funções centrais de risco B12 iguais à base integrada por
+  AST; `git diff --check` limpo. Os 13 casos em servidor real são relato
+  do Opus, não reexecução do Codex.
+- A cópia do registro na pasta raiz `/home/gustavoecocchi/Documents/CONVIQ`
+  foi sincronizada com esta fotografia; a pasta raiz continua em outra
+  branch com suas alterações preexistentes. O código B13 está só no worktree.
+
+### Fotografia Git histórica — 07/10/2026, B13-03 (Opus)
+
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
+  `fix/b13-intencao-oportunidade`, HEAD e base `9921f57`, índice vazio.
+  Consulta atual ao servidor nesta atuação: `feat/b01-fundacao-api` =
+  `9921f57` (`git ls-remote`); branch remota B13 inexistente; único PR do
+  repositório é o #1 (B11/B12, MERGED) — PR B13 `NAO_ABERTO`.
+- **Antes:** sete SHA-256 de B13-01 do prompt conferidos 7/7; registro e
+  `prompt.md` modificados pelo Codex; relatório Sonnet não rastreado.
+- **Ao encerrar:** os mesmos sete arquivos com as correções B13-03 (hashes
+  no evento B13-03) e este registro, `NAO_COMMITADOS`/`NAO_PUBLICADOS`.
+  `prompt.md` e o relatório Sonnet preservados sem edição. A pasta raiz
+  `/home/gustavoecocchi/Documents/CONVIQ` não foi tocada. Nenhum commit,
+  push, PR, merge, reset ou stash.
+
+### Fotografia Git histórica — 07/10/2026, B13-02 (Codex)
+
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
+  `fix/b13-intencao-oportunidade`, HEAD/base `9921f57`. Sete arquivos de
+  implementação/testes/documentação com diff local NAO_COMMITADO e
+  SHA-256 conferidos com B13-01; `REGISTRO_TRABALHO.md` e `prompt.md`
+  modificados localmente; relatório Sonnet não rastreado. Índice vazio.
+- GitHub: branch padrão `feat/b01-fundacao-api` em `9921f57`, branch
+  remota B13 ausente (404), listagem de PRs B13 vazia. B13
+  NAO_PUBLICADA/NAO_INTEGRADA; nenhum commit/push/PR/merge nesta revisão.
+- Suíte completa no worktree: 255/255 fora do sandbox, dois avisos;
+  execução no sandbox parou no primeiro teste HTTP e terminou 137 pelo
+  timeout. Sondas próprias com `app.__file__` apontando ao worktree
+  confirmaram B13-R01/R02 e os critérios principais. Servidor real e
+  comparação de 48 falhas na base permanecem evidências relatadas pelo
+  Sonnet, não executadas pelo Codex.
+- A pasta raiz `/home/gustavoecocchi/Documents/CONVIQ` segue na branch
+  `fix/b12-contexto-risco` com alterações preexistentes preservadas;
+  seu evento local INT01-07/B13-01 foi reconciliado abaixo sem apagar
+  B13-01 do Sonnet. Prompt de revisão Opus substitui o prompt de
+  execução B13 neste worktree e na pasta raiz.
+
+### Fotografia Git histórica — 07/10/2026, B13-01 (Sonnet)
+
+- **Worktree/branch/base:** `/home/gustavoecocchi/Documents/CONVIQ-b13`,
+  branch `fix/b13-intencao-oportunidade`, criada com `git worktree add -b`
+  de `9921f579481fdfac098576de425b7ed19df8ef8d`. A branch padrão
+  `feat/b01-fundacao-api` foi confirmada **no servidor** nesta atuação
+  (`gh repo view` e `git ls-remote origin`): mesmo hash `9921f57`, que
+  contém o merge `e31e6ba` de B11/B12. HEAD do worktree = base; índice vazio.
+- **Alterações:** sete arquivos modificados no worktree, `NAO_COMMITADOS`
+  (lista e SHA-256 no evento B13-01). Nenhum arquivo não rastreado.
+- **Pasta raiz preservada:** `/home/gustavoecocchi/Documents/CONVIQ` continua
+  em `fix/b12-contexto-risco` (HEAD `b14f0a5`, à frente do remoto), com
+  `PLANO_DESENVOLVIMENTO.md`, `REGISTRO_TRABALHO.md`, o cartão de refinamento
+  e `prompt.md` modificados e `PROMPT_B12_05_OPUS.md` e o relatório Sonnet
+  não rastreados — nada disso foi tocado. Este registro é o do worktree
+  (base `9921f57`); a cópia da pasta raiz tem modificações próprias do Codex
+  que não foram incorporadas aqui.
+- Publicação `NAO_PUBLICADA`; PR remoto `NAO_ABERTO`; `NAO_INTEGRADO`.
+  Nenhum commit, push, PR, merge, reset ou stash.
+
+### Fotografia Git histórica — 07/10/2026, INT01-06/B13-00 (Codex)
 
 - GitHub confirmou o PR #1 `MERGED` em 07/10/2026 19:50:03 UTC, merge
   `e31e6ba81692c61e0b0615d349972e2b3a0c459d`, na branch padrão
@@ -3474,6 +3553,330 @@ Destino previsto / branch principal: NAO_VERIFICADO
 
 ## B13 — Intenção comercial para oportunidade
 
+### Verificação final e aceite técnico — Codex, 07/10/2026 — B13-04
+
+`B13-01` (Sonnet) está FINALIZADA; `B13-03` (Opus) concluiu a revisão e
+corrigiu os dois impeditivos de `B13-02`. Examinei os sete arquivos do diff,
+a ficha, os testes e os limites. O ciclo B13 fica `APROVADO` tecnicamente
+para a versão local abaixo, ainda sem commit, publicação, PR ou integração.
+
+- **B13-R01 resolvido:** `Queremos o Fluig e conhecer a cidade.` mantém
+  apenas `Queremos o Fluig`; idem para ação posterior negada. `Precisamos
+  de um módulo e conhecer o Fluig.` gera as duas intenções comerciais.
+  `Queremos conhecer o Fluig.` continua uma só oportunidade. Sondas
+  próprias verificaram oportunidade, recomendação, recortes e referências.
+- **B13-R02 resolvido:** `Queremos integrar o sistema solar.` e
+  `... o sistema nervoso.` não geram oportunidade/recomendação e deixam
+  churn em `informacao_insuficiente`; `sistema ERP`, `sistema de faturamento`
+  e objeto comercial coordenado seguem gerando oportunidade. A lista de
+  modificadores alheios é fechada e descrita como heurística, sem promessa
+  de classificar todos os usos de `sistema`.
+- **Preservação:** os sete critérios do cartão B13 e os contraexemplos de
+  negação, prospect e coexistência de risco/oportunidade passaram nas
+  sondas e/ou suíte. `_fim_do_objeto_da_acao`, `_ocorrencias_risco`,
+  `_membros_coordenados`, `_e_sintagma_nominal`, `_complemento_com` e
+  `_e_tema_alheio` têm AST igual ao de `9921f57` (B12 integrada); a
+  parametrização de `_nucleo` preserva o padrão de B12. `versao_analise`
+  `0.4` e formato C01 preservados. Código de negação, sentimento, texto,
+  schemas e API sem diff.
+- **Limites aceitos nesta etapa:** `Queremos conhecer a filial de São
+  Paulo.` e `Vocês querem conhecer o Fluig?` ainda geram oportunidade.
+  O primeiro exigiria pares verbo–objeto para separar visita de expansão;
+  o segundo exigiria contexto de fala/pergunta. Estão documentados no
+  README e ficam para refinamento posterior, sem ampliar o cartão B13.
+  `Queremos conhecer a cidade e o Fluig.` contém objeto comercial
+  coordenado e é aceito como intenção sobre Fluig. Agrupar gatilhos da
+  mesma intenção continua em B17.
+- **Documentação ajustada pelo Codex:** o README ainda apontava
+  `_fim_do_objeto_da_acao` como função usada pela oportunidade após a
+  separação B13-03. Corrigi só essa referência para
+  `_fim_do_objeto_da_oportunidade`; nenhuma mudança de código ou teste.
+  Hash final do README:
+  `14dd5a86571e7ab0897b36131ad338f60f6136d9ae7684a614cc9f565ace965d`.
+- **Evidências próprias:** os sete hashes B13-03 conferidos antes da
+  correção documental; `271 passed` na suíte completa, dois avisos de
+  depreciação; 21 sondas de composição (incluindo R01/R02, sete critérios,
+  contraprovas e prospect) com `app.__file__` apontando ao worktree,
+  recortes literais, IDs de evidência e referências das recomendações
+  válidos; `git diff --check` limpo. Os 220 testes afetados, 23 comparações
+  de churn e 13 casos em servidor real são evidências **relatadas pelo
+  Opus**, não reproduzidas com esses mesmos procedimentos pelo Codex.
+- **Git:** branch `fix/b13-intencao-oportunidade`, HEAD/base `9921f57`;
+  sete arquivos B13 NAO_COMMITADOS (seis hashes B13-03 e README final
+  acima), registro e prompt locais NAO_COMMITADOS, relatório Sonnet não
+  rastreado. Destino/branch padrão `feat/b01-fundacao-api` confirmado no
+  servidor em `9921f57`; branch B13 remota ausente e PR B13 NAO_ABERTO.
+  Entrega NAO_PUBLICADA/NAO_INTEGRADA. Nenhum commit/push/PR/merge pelo
+  Codex; pasta raiz em outra branch preservada.
+- **Próximo responsável:** usuário decide commit, push, abertura do PR e
+  integração da versão aprovada. Após qualquer commit, conferir que o
+  conteúdo corresponde a este diff; após integração, verificar a branch de
+  destino. B14 depende de B13 e não foi iniciado.
+
+### Revisão e correção — Claude Opus, 07/10/2026 — B13-03
+
+```text
+PR lógico ou tarefa e título: B13 — Oportunidade somente com intenção comercial
+Data e agente/papel: 07/10/2026, Claude Opus / revisor-corretor
+Entrega do executor: FINALIZADA (B13-01, Sonnet), corrigida nesta revisão
+Estado do ciclo: EM_REVISAO — revisão/correção do Opus concluída; verificação final do Codex pendente
+Pasta do projeto e branch de trabalho: /home/gustavoecocchi/Documents/CONVIQ-b13 (worktree); fix/b13-intencao-oportunidade
+Base de comparação e HEAD observado: base e HEAD 9921f57; entrada = diff B13-01 (7 SHA-256 do prompt, 7/7); saída = mesmo diff com B13-03
+Destino previsto / branch principal: feat/b01-fundacao-api (9921f57 no servidor, consulta desta atuação)
+```
+
+- **Reprodução antes de editar** (composição real, `app.__file__` do
+  worktree): `Queremos o Fluig.` → 1 oportunidade; `Queremos o Fluig e
+  conhecer a cidade.` → nenhuma; `Precisamos de um módulo.` → 1; `Precisamos
+  de um módulo e conhecer a cidade.` → nenhuma, churn insuficiente; `Queremos
+  o Fluig e não conhecer o Protheus.` → nenhuma; `Precisamos de um módulo e
+  conhecer o Fluig.` → só `conhecer o Fluig`; `Queremos integrar o sistema
+  solar.` → `Queremos integrar o sistema` + recomendação, churn sem sinal.
+  Nenhum teste de B13-01 cobria R01.
+- **B13-R01 → confirmado e corrigido.** Causa: o laço de `quereres`
+  descartava o querer quando havia qualquer gatilho posterior na oração,
+  aceito ou não. Correção: o querer é sempre avaliado como intenção própria
+  pelo seu complemento. Quando ele só introduz o gatilho seguinte, chega ao
+  mesmo núcleo e ao mesmo recorte do gatilho estendido, e o conjunto de
+  intervalos conta uma vez (`Queremos conhecer o Fluig`, `Gostaríamos de
+  avaliar a plataforma`, `Queremos e precisamos conhecer o Fluig` → 1).
+  Resultado: as seis linhas da tabela do prompt se comportam como
+  esperado; `Precisamos de um módulo e conhecer o Fluig.` gera as duas
+  intenções, sem agrupá-las (B17). Gatilho negado ou sem objeto continua sem
+  oportunidade (`Queremos não conhecer o Fluig.` → nada).
+- **B13-R02 → confirmado e corrigido.** `_e_sistema_alheio`: `sistema(s)`
+  seguido imediatamente de modificador astronômico ou biológico
+  (`_PADROES_SISTEMA_ALHEIO`: solar, planetário, nervoso, imunológico,
+  digestivo, respiratório, circulatório, cardiovascular, reprodutor,
+  linfático, endócrino) não é objeto comercial. `Queremos integrar o sistema
+  solar.` → nada, churn `informacao_insuficiente`; idem `sistema nervoso`,
+  `sistema imunológico`. Preservados: `sistema ERP`, `sistema de
+  faturamento`, `o sistema` sem modificador, e `o sistema solar e o Fluig`,
+  que liga ao Fluig. O teste que fixava o falso positivo foi substituído.
+- **Mudança estrutural:** a ligação da oportunidade passou para
+  `_fim_do_objeto_da_oportunidade`, que precisa rejeitar um membro (R02) e
+  seguir para o próximo. `_fim_do_objeto_da_acao` voltou a ser **idêntica à
+  versão integrada de B12** (a parametrização de B13-01 foi desfeita). Só
+  `_nucleo` mantém o parâmetro `pulaveis` com o padrão de B12. Churn de B12
+  verificado: sondagem de 23 casos de B12-06 com saída idêntica.
+- **Revisão independente do restante do diff:** negação B11 (escopo,
+  `não só`, `nem`, fecho na vírgula/`mas`/`e`), `_ha_conteudo_comercial` só
+  com oportunidades aceitas, prospect, catálogos, coexistência
+  risco/oportunidade, recortes literais e referências, C01 e versão `0.4`
+  conferidos sem defeito novo. `Queremos conhecer a cidade e o Fluig.` foi
+  reavaliado: declara intenção sobre Fluig, então é comportamento aceito e
+  não falso positivo (o teste e o README foram reclassificados).
+  **Observações sem correção, documentadas no README:** (a) `filial`,
+  `unidade` e `usuário` com `conhecer` podem ser visita ou encontro
+  (`Queremos conhecer a filial de São Paulo.` → oportunidade). Os mesmos
+  substantivos são alvos legítimos de expansão (`integrar as filiais`,
+  `precisamos de mais usuários`), e separar os dois exige pares
+  verbo–objeto. Fica para decisão da coordenação, não impeditivo. (b)
+  Pergunta do fornecedor (`Vocês querem conhecer o Fluig?`) vira
+  oportunidade (autoria/fala, fora do escopo). Os demais limites listados
+  no prompt foram reconferidos sem regressão.
+- **Arquivos:** os mesmos sete de B13-01; hashes no evento B13-03.
+  `analise.py` inalterado nesta rodada (só a versão `0.4` de B13-01). Sem
+  diferença contra `9921f57` em `negacao.py`, `sentimento.py`, `texto.py`,
+  schemas, API, `pyproject.toml` e `test_sentimento.py`.
+- **Testes:** +16 casos (255 → 271): R01 antes/depois em três pares, duas
+  intenções, querer que conta uma vez; R02 alheios e contraprovas
+  comerciais; composição (2) e rota (1). Os testes não foram rodados contra
+  o arquivo B13-01, que não ficou preservado em disco; o comportamento
+  anterior de cada caso está na reprodução acima.
+- **Validação (em `backend/` do worktree):** `timeout --signal=INT
+  --kill-after=5s 30s .../python -m pytest -q tests/test_sentimento.py
+  tests/test_sinais_comerciais.py tests/test_analise.py` → **220 passed**;
+  suíte completa com `timeout ... 60s` → **271 passed**, dois avisos de
+  depreciação, sem travamento do `TestClient` neste ambiente. Servidor real
+  `uvicorn` `127.0.0.1:8099` (`PYTHONPATH` do worktree; `versao_analise`
+  `0.4`): 13 casos (R01 ×4, R02 ×2 e os 7 critérios) com recortes e
+  referências conferidos contra o eco; processo encerrado, porta sem
+  resposta. `git diff --check` limpo; nenhuma linha acima de 120 colunas nos
+  arquivos tocados.
+- **Git:** B13 `NAO_COMMITADO` (diff local sobre `9921f57`);
+  `NAO_PUBLICADA`; PR remoto `NAO_ABERTO`; `NAO_INTEGRADA`. Registro
+  `NAO_COMMITADO`. Nenhum commit, push, PR, merge, reset ou stash.
+- **Próximo responsável:** Codex verifica B13-03. Nada foi marcado como
+  APROVADO ou INTEGRADO; B14/B17/B18 não iniciados.
+
+### Análise inicial e encaminhamento ao Opus — Codex, 07/10/2026 — B13-02
+
+`B13-01` (Sonnet) finalizou a implementação local sobre `9921f57`.
+Após conferir Git, hashes, diff, critérios, testes e contraprovas,
+o ciclo fica `EM_REVISAO`, com correção necessária antes do aceite técnico.
+A revisão independente do Opus foi preparada em `prompt.md`.
+
+- **B13-R01 — impeditivo confirmado:** em `_ocorrencias_oportunidade`,
+  uma forma de querer/precisar é descartada quando existe qualquer gatilho
+  posterior na mesma oração, inclusive gatilho negado ou sem objeto
+  comercial. `Queremos o Fluig.` gera uma oportunidade e recomendação;
+  `Queremos o Fluig e conhecer a cidade.` não gera nenhuma. O mesmo
+  ocorre com `Precisamos de um módulo.` versus `Precisamos de um módulo
+  e conhecer a cidade.`. Na composição, também desaparece a recomendação.
+  `Queremos o Fluig e não conhecer o Protheus.` perde a intenção válida
+  sobre Fluig. Esperado: preservar a primeira intenção afirmativa e
+  rejeitar apenas a segunda quando não comercial ou negada. Corrigir sem
+  agrupar intenções (B17).
+- **B13-R02 — impeditivo confirmado:** `Queremos integrar o sistema
+  solar.` gera oportunidade/evidência `Queremos integrar o sistema`.
+  `sistema solar` é tema inequivocamente alheio à relação comercial;
+  B12 já removeu `sistema` do contexto de churn por esse risco.
+  Esperado para a frase isolada: nenhuma oportunidade/recomendação,
+  `churn.informacao_insuficiente`, preservando intenções por sistemas
+  comerciais como ERP/faturamento. O teste que fixa o falso positivo
+  como limite deve ser revisto se a correção for confirmada pelo Opus.
+- **Vocabulário e demais limites:** gatilhos adicionais
+  `avaliar/contratar/adquirir/implantar/ampliar` e formas de
+  querer/precisar são compatíveis com o cartão B13; a lista de objetos
+  é aceitável como heurística local, salvo termos genéricos em contexto
+  inequivocamente alheio como R02. Autoria não identificada,
+  `avaliar o serviço` ambíguo, vírgula intercalada, objetos fora da
+  lista e negação encerrada no `e` permanecem limites documentados para
+  revisão independente; não foram promovidos a correções obrigatórias
+  nesta rodada. `Queremos conhecer a cidade e o Fluig.` pode expressar
+  intenção real sobre Fluig, então não o trato como falso positivo
+  comprovado sem análise do Opus.
+- **Verificações próprias:** sete hashes B13-01 conferidos; 18 sondas de
+  serviço, incluindo os sete critérios principais e contraprovas, e quatro
+  composições focadas em R01, conferindo recortes
+  literais. Suíte completa `255 passed` fora do sandbox, dois avisos de
+  depreciação; dentro do sandbox travou no primeiro teste HTTP e o
+  timeout encerrou com 137. `git diff --check` limpo. Código de
+  `negacao.py`, `sentimento.py`, `texto.py`, schemas, API e catálogo
+  sem diff; `analise.py` só muda versão `0.3`→`0.4`.
+  O servidor real e os 48 testes falhando contra a base foram
+  relatados pelo Sonnet, não reproduzidos pelo Codex.
+- **Git:** branch `fix/b13-intencao-oportunidade`, HEAD/base `9921f57`;
+  sete arquivos B13 NAO_COMMITADOS, relatório Sonnet não rastreado,
+  registro/prompt também NAO_COMMITADOS. Branch remota B13 ausente e
+  PR remoto NAO_ABERTO na consulta atual; NAO_PUBLICADA/NAO_INTEGRADA.
+  Nenhum commit, push, PR ou merge pelo Codex. A pasta raiz e os seus
+  arquivos preexistentes foram preservados.
+- **Próximo responsável:** usuário encaminha `prompt.md` ao Opus;
+  Opus revisa a entrega completa e corrige R01/R02 se confirmados,
+  registra a própria atuação e devolve para verificação final do Codex.
+
+### Registro local anterior da coordenação — Codex, 07/10/2026 — INT01-07/B13-01
+
+O prompt de B13 e a cópia histórica B12-05 foram commitados no documental
+`9921f57` e publicados na branch padrão `feat/b01-fundacao-api`; o hash
+remoto foi conferido. A implementação B13 permanecia NAO_INICIADA/
+SEM_ALTERACOES, a branch `fix/b13-intencao-oportunidade` não havia sido
+criada, PR remoto NAO_ABERTO e integração NAO_INTEGRADA. Esta nota
+pós-publicação estava apenas na pasta raiz e foi incorporada aqui para
+preservar o registro local anterior. O identificador B13-01 também foi
+usado depois pelo Sonnet para a execução; agente e título distinguem os
+dois eventos históricos.
+
+### Entrega do executor — Claude Sonnet, 07/10/2026 — B13-01
+
+```text
+PR lógico ou tarefa e título: B13 — Oportunidade somente com intenção comercial
+Data e agente/papel: 07/10/2026, Claude Sonnet / executor
+Entrega do executor: FINALIZADA
+Estado do ciclo: ENTREGUE — aguarda análise do Codex (revisão ainda não feita)
+Pasta do projeto e branch de trabalho: /home/gustavoecocchi/Documents/CONVIQ-b13 (worktree); fix/b13-intencao-oportunidade
+Base de comparação e HEAD observado: base e HEAD 9921f579481fdfac098576de425b7ed19df8ef8d (branch padrão feat/b01-fundacao-api, confirmada no servidor; contém e31e6ba); entrega = diff local não commitado
+Destino previsto / branch principal: branch padrão feat/b01-fundacao-api (confirmada no servidor); origin/main local (8d48e75) não é destino
+```
+
+- **Entrega:** `_ocorrencias_oportunidade` em `sinais_comerciais.py`
+  substitui `_REGEX_OPORTUNIDADE`. Um gatilho (`interesse`, `interessado`,
+  `conhecer`, `avaliar`, `contratar`, `adquirir`, `implantar`, `expandir`,
+  `ampliar`, `integrar`, `automatizar`) gera oportunidade quando (1) não está
+  no escopo de negação de B11 e (2) um objeto comercial — produto do catálogo
+  ou substantivo de solução/necessidade — é o núcleo do seu complemento, na
+  mesma oração, pela ligação ação–objeto de B12 (`_fim_do_objeto_da_acao`,
+  agora parametrizada por regex de objeto e palavras puláveis). Expressões
+  de querer/precisar (`quero`, `queremos`, `precisamos`...) logo antes do
+  gatilho entram no recorte e, sem gatilho depois na oração, valem como
+  gatilho (`Queremos o Fluig`, `Precisamos de um módulo`). `módulo` deixou de
+  ser gatilho. A evidência é a intenção inteira (`Queremos conhecer o Fluig`),
+  recorte literal contínuo. Oportunidade rejeitada não torna o churn
+  avaliável (`_ha_conteudo_comercial` recebe só as aceitas). `versao_analise`
+  `0.3` → `0.4`.
+- **Arquivos (7), SHA-256:**
+
+```text
+4a7ba07abd1abf47ae54048bb7f1b8eb8b8b0fb46128689d569bc26875328b69  backend/app/services/sinais_comerciais.py
+061454cdf42d31cc386c97986524ef9c2b8db35fe03de9d62cb6699515c87b5c  backend/app/services/analise.py
+8dc2815b482cf3a9b49ef5244898f0f683ff17ba9833c4c10689b1ce2e06a4f3  backend/tests/test_sinais_comerciais.py
+3f0eadbc4ce6bae9264f10b49b1a66166cedba7a71ac7fb44a814866f7cc202e  backend/tests/test_analise.py
+adb9aca44a8b59956e5d3475e4d88479b9d33de3f520114f04d399614b422ab9  backend/tests/test_analises_rota.py
+90391c157fc9a03b414f85ff4bb042451bea1ff780bcf137b72bab3c04e24264  backend/README.md
+dd10657803301d7bd8beb111d42f96501e71ea987447971b76a59d6c9c094475  docs/contratos/analise-texto.md
+```
+
+  `analise.py` mudou só a versão. Sem diferença contra `9921f57` em
+  `negacao.py`, `sentimento.py`, `texto.py`, schemas, API, `pyproject.toml` e
+  `test_sentimento.py`. Churn de B12 (`_ocorrencias_risco`) e catálogos não
+  foram alterados.
+- **Critérios do prompt (seção 3):** 1 a 7 atendidos, verificados no serviço,
+  na composição e na rota real. 1: `Não temos interesse em conhecer o Fluig.`
+  → sem oportunidade/evidência/recomendação, `produtos == ["Fluig"]`, churn
+  `sem_sinal_detectado`. 2: `O módulo atual está instalado.` → nada, churn
+  `informacao_insuficiente`. 3: `Queremos conhecer o Fluig.` → evidência
+  `Queremos conhecer o Fluig`. 4: `Precisamos automatizar o faturamento.` →
+  evidência `Precisamos automatizar o faturamento` (0–36). 5: `Quero conhecer
+  a cidade.` → nada. 6: `Não queremos o Fluig, mas temos interesse no
+  Protheus.` → só `interesse no Protheus`, `produtos == ["Fluig",
+  "Protheus"]`. 7: `Estamos insatisfeitos com o suporte. Queremos conhecer
+  o Fluig.` → churn `insatisfeitos com o suporte` (e2) e oportunidade
+  `Queremos conhecer o Fluig` (e3), recomendações `[e2]` e `[e3]`.
+- **Testes:** 43 novos no total, entre serviço (negação, limites de oração,
+  repetição, palavras parecidas, prospect, concorrente, coexistência,
+  falsos positivos/negativos pinados), composição (4) e rota (2). Rodados
+  contra uma cópia da base `9921f57`, **48 testes falham** (novos e
+  atualizados), confirmando que discriminam a mudança; os que passam nos dois
+  são as preservações. Nove testes existentes falharam por mudança
+  intencional e foram atualizados com justificativa no docstring: versão
+  `0.3` → `0.4` (5 asserts, em 4 testes de composição/rota) e o recorte da
+  oportunidade (`conhecer` → intenção inteira, 5 testes de composição).
+  Nenhum teste removido; os 255 − 212 = 43 são os novos.
+- **Mudanças observáveis a comunicar ao frontend F05:** (1) interesse negado
+  e menção solta deixam de gerar oportunidade, evidência e recomendação; (2)
+  evidência da oportunidade é a intenção inteira e a `descricao` cita esse
+  trecho; (3) texto cuja única ocorrência era oportunidade rejeitada passa de
+  `sem_sinal_detectado` a `informacao_insuficiente` em `churn`; (4) o exemplo
+  de C01 `Temos interesse em conhecer o Fluig.` mantém duas oportunidades,
+  agora com recortes distintos (B17 não feito). Formato JSON inalterado.
+- **Limites e riscos (README e testes):** falsos positivos — objeto
+  coordenado (`Queremos conhecer a cidade e o Fluig.`), `sistema` fora do
+  sentido comercial (`sistema solar`), autoria não identificada (`O analista
+  vai conhecer o Fluig.`), `avaliar o serviço`; falsos negativos — vírgula
+  entre gatilho e objeto, objetos fora da lista (`suporte técnico`,
+  `processo`); a negação fecha no `e` (`Não queremos o Fluig e conhecer o
+  Protheus.` → `conhecer o Protheus`). Vocabulário novo além do que já
+  existia: gatilhos `avaliar`, `contratar`, `adquirir`, `implantar`,
+  `ampliar`, as formas de querer/precisar e a lista de 19 objetos — escolha
+  do executor a partir do cartão (avaliação, contratação, expansão), sujeita
+  à análise do Codex.
+- **Validação (em `backend/` do worktree, com o Python da pasta raiz
+  — `PYTHONPATH`/`pythonpath=["."]` apontando o worktree; origem dos
+  imports conferida):** base antes de editar `212 passed`; depois,
+  `timeout --signal=INT --kill-after=5s 30s .../python -m pytest -q
+  tests/test_sentimento.py tests/test_sinais_comerciais.py
+  tests/test_analise.py` → **205 passed**; suíte completa com `timeout ...
+  60s` → **255 passed**, dois avisos de depreciação, sem travamento do
+  `TestClient` neste ambiente. Servidor real `uvicorn` `127.0.0.1:8099`
+  (serviu `versao_analise` `0.4`, logo o worktree): saúde ok e os 7 critérios
+  pela rota, com recortes conferidos contra o eco da transcrição e
+  referências válidas; processo encerrado e porta sem resposta. `git diff
+  --check` limpo; nenhuma linha acima de 120 colunas nos arquivos tocados.
+  Um primeiro script de sondagem importou o código da pasta raiz (instalação
+  editável do venv) e mostrou o comportamento antigo; foi descartado e
+  refeito com o worktree no `PYTHONPATH`.
+- **Não executado:** verificação do Codex; B14/B17/B18/B19; frontend;
+  SHA-256 do registro (este arquivo).
+- **Git:** B13 `NAO_COMMITADO` (diff local de 7 arquivos sobre `9921f57`);
+  `NAO_PUBLICADA`; PR remoto `NAO_ABERTO`; `NAO_INTEGRADA`. Este registro
+  também `NAO_COMMITADO`. Nenhum commit, push, PR, merge, reset ou stash.
+  Alterações preexistentes da pasta raiz preservadas.
+- **Próximo responsável:** Codex analisa B13 (diff `git diff 9921f57` no
+  worktree) e decide aceite, nova rodada ou revisão do Opus. O usuário
+  decide commit/push/PR depois. B14/B17 não iniciados.
+
 ### Preparação do executor — Codex, 07/10/2026 — B13-00
 
 `prompt.md` foi substituído pelo prompt completo para Claude Sonnet,
@@ -6195,3 +6598,153 @@ e64b14c66ef9773b1ef05e319bb499c5c56ba813e9d84dcbeda0c1d9256e2518  backend/README
   locais ainda não commitados nesta fotografia. Próximo responsável:
   Codex publica a preparação documental; usuário encaminha o prompt ao
   Sonnet para implementação local.
+
+### B13-01 — 07/10/2026 — Claude Sonnet / executor
+
+- **Pedido:** usuário pediu "execute o prompt em prompt.md" (prompt B13 do
+  Codex, executor Sonnet). A pasta raiz já estava em `fix/b12-contexto-risco`
+  (`b14f0a5`) com o `prompt.md` B13 e outras modificações do Codex.
+- **Conferência de partida:** branch padrão `feat/b01-fundacao-api` =
+  `9921f57` no servidor (consulta atual); worktree criado de `9921f57` sem
+  trocar a pasta raiz nem limpar arquivos; suíte da base `212 passed`.
+- **Resultado:** B13 implementado e FINALIZADO localmente; critérios 1–7
+  atendidos; 255 testes passando; servidor real conferido. Detalhes,
+  SHA-256, limites e mudanças a comunicar na ficha B13 ("Entrega do
+  executor — Claude Sonnet, 07/10/2026 — B13-01").
+- **Git:** diff local `NAO_COMMITADO` em `/home/gustavoecocchi/Documents/CONVIQ-b13`
+  (`fix/b13-intencao-oportunidade`, base `9921f57`); `NAO_PUBLICADA`; PR
+  `NAO_ABERTO`; `NAO_INTEGRADA`. Registro `NAO_COMMITADO`.
+- **Próximo responsável:** Codex analisa a entrega. Sem autoaprovação e sem
+  B14/B17.
+
+### Relatório ao Codex — 07/10/2026 — Claude Sonnet / executor
+
+- **Pedido:** usuário pediu o relatório de B13 para o Codex analisar.
+- **Ação:** criado `docs/revisoes/RELATORIO_SONNET_B13_2026-10-07.md` no
+  worktree (não rastreado), no formato 9.3 com a seção 8: entrega, critérios
+  1–7, mudanças para o frontend, limites, decisões do Codex, SHA-256 (7/7
+  reconferidos antes de escrever), validação e Git. Nenhum código, teste ou
+  `prompt.md` alterado.
+- **Git:** relatório e esta nota `NAO_COMMITADOS`; B13 segue ENTREGUE,
+  `NAO_COMMITADO`, `NAO_INTEGRADA`. Nenhuma operação Git de escrita.
+- **Próximo responsável:** usuário encaminha o relatório ao Codex.
+
+### INT01-07/B13-01 — 07/10/2026 — Codex / reconciliação de nota local anterior
+
+- **Origem:** nota pós-publicação de `9921f57` que permanecia
+  não commitada em `REGISTRO_TRABALHO.md` da pasta raiz e não estava no
+  HEAD que criou o worktree B13. Incorporada aqui sem apagar os eventos
+  B13-01 do Sonnet; o ID repetido é distinguido pelo agente e pelo título.
+- **Ação histórica registrada:** Codex criou `9921f57` com cinco arquivos
+  documentais: registro pós-merge, plano geral, roteiro de refinamento,
+  `prompt.md` B13 e cópia nomeada do prompt B12-05. Publicou por avanço
+  direto da branch padrão, de `e31e6ba` para `9921f57`; o hash remoto foi
+  confirmado. PR #1 permaneceu MERGEADO; B11/B12 INTEGRADOS; na época,
+  B13 tinha prompt publicado, implementação NAO_INICIADA e branch/PR B13
+  inexistentes.
+- **Estado atual:** a nota histórica foi reconciliada no registro local
+  deste worktree, ainda NAO_COMMITADO/NAO_PUBLICADO. B13 já recebeu a
+  entrega B13-01 do Sonnet e está na análise B13-02 abaixo.
+
+### B13-02 — 07/10/2026 — Codex / análise inicial e prompt para o Opus
+
+- **Pedido:** usuário trouxe o relatório do Sonnet e pediu análise inicial
+  de B13, atualização do registro e decisão sobre revisão do Opus.
+  Conferi `AGENTS.md`, governança específica, cartão B13, ficha/eventos,
+  relatório, branch/base/HEAD, status/índice, diff e os sete SHA-256.
+  A referência geral `docs/governanca/REGRAS.md` e a alternativa em
+  `/home/gustavoecocchi/Documents/GOVERNANCA/REGRAS.md` não estavam
+  disponíveis; segui as instruções específicas do projeto.
+- **Resultado:** os sete critérios principais funcionam nas sondas de
+  serviço; a entrega do Sonnet está FINALIZADA, mas o ciclo passa a
+  EM_REVISAO, sem aceite técnico. R01 confirmado: gatilho posterior
+  rejeitado/negado suprime intenção válida anterior de querer/precisar.
+  R02 confirmado: `sistema solar` gera oportunidade comercial. Ambos
+  são impeditivos e estão detalhados na ficha B13-02.
+- **Evidências próprias:** `app.__file__` apontou ao worktree B13; 18
+  sondas de serviço (incluindo os sete critérios e contraprovas) e quatro
+  composições de R01 confirmaram recortes, perda da oportunidade e da
+  recomendação. Suíte completa: `255 passed` fora do sandbox, dois
+  avisos; tentativa no sandbox ficou sem progresso no primeiro teste
+  HTTP e terminou 137 pelo timeout. `git diff --check` limpo.
+  Servidor real e 48 falhas contra cópia da base são relatos do Sonnet,
+  não verificações do Codex.
+- **Arquivos/encaminhamento:** código/testes/documentação B13 preservados
+  sem edição pelo Codex; `prompt.md` substituído pelo prompt de revisão
+  completa/correção B13 para o Opus; índice, ficha e este evento
+  atualizados em `REGISTRO_TRABALHO.md`. Relatório Sonnet não rastreado
+  preservado. Nenhum commit/push/PR/merge; B13 continua NAO_COMMITADO/
+  NAO_PUBLICADA/NAO_INTEGRADA, branch `fix/b13-intencao-oportunidade`,
+  HEAD/base `9921f57`, destino `feat/b01-fundacao-api` confirmado;
+  branch B13 remota ausente e PR remoto NAO_ABERTO.
+- **Próximo responsável:** usuário encaminha `prompt.md` ao Claude Opus;
+  Opus revisa independentemente, corrige R01/R02 se confirmados e devolve
+  evidências ao Codex. B14/B17/B18 não iniciados.
+
+### B13-03 — 07/10/2026 — Claude Opus / revisor-corretor
+
+- **Pedido:** usuário pediu "execute o prompt em prompt.md" (prompt B13-02
+  do Codex para revisão e correção pelo Opus).
+- **Conferência:** worktree B13, HEAD/base `9921f57`, índice vazio; sete
+  SHA-256 de entrada 7/7; servidor: branch padrão `9921f57`, branch B13
+  remota inexistente, PR B13 não aberto.
+- **Resultado:** B13-R01 e B13-R02 confirmados e corrigidos; revisão
+  independente sem defeito novo impeditivo; duas observações (filial/
+  usuário com `conhecer`; pergunta do fornecedor) documentadas como
+  limites. Detalhes na ficha B13 ("Revisão e correção — Claude Opus,
+  07/10/2026 — B13-03").
+- **SHA-256 de saída:**
+
+```text
+70ae18b36ea7f05c8d7defc1626543bae91a18ae614bcddd98612629d6b26a85  backend/app/services/sinais_comerciais.py
+061454cdf42d31cc386c97986524ef9c2b8db35fe03de9d62cb6699515c87b5c  backend/app/services/analise.py
+0e90bb5e3fc725c3941920656a83c874c11ec36732a83176e33917a8a13cc89e  backend/tests/test_sinais_comerciais.py
+1be454915d280131feee5589c3970379f8a48a51690cf6e5280d62fa45f094bc  backend/tests/test_analise.py
+73b1781caafc8e9e69e8b2618eb6124dd359c1f7270bd0c5e682be55c34c0630  backend/tests/test_analises_rota.py
+40d867bec1d70b671f577d2079a99600c0473d11c1eb6c43a8390bef5fec910b  backend/README.md
+b927f77042908021ca691f234ab424417989808f6c7c6fed632c7a65afe3e17a  docs/contratos/analise-texto.md
+```
+
+- **Validação:** 220 passed (afetados) e 271 passed (suíte completa, dois
+  avisos), com `timeout`; servidor real com 13 casos conferidos e
+  encerrado; `git diff --check` limpo; churn B12 idêntico em 23 casos.
+- **Git:** `NAO_COMMITADO`, `NAO_PUBLICADA`, PR `NAO_ABERTO`,
+  `NAO_INTEGRADA`; registro `NAO_COMMITADO`. Nenhuma operação Git de escrita.
+- **Próximo responsável:** Codex faz a verificação final. Sem autoaprovação.
+
+### B13-04 — 07/10/2026 — Codex / verificação final e aceite técnico
+
+- **Pedido e versão:** usuário trouxe a correção B13-03 do Opus para
+  verificação final. Conferi branch `fix/b13-intencao-oportunidade`,
+  HEAD/base `9921f579481fdfac098576de425b7ed19df8ef8d`, índice
+  vazio, status, diff, ficha, cartão B13, código, testes e sete hashes
+  de saída de B13-03. A referência geral `REGRAS.md` não está disponível;
+  segui `AGENTS.md` e a governança específica do ConvIQ.
+- **Resultado:** R01 e R02 corrigidos nos cenários próprios e na
+  composição; sete critérios preservados; `APROVADO` tecnicamente.
+  Aceitei como limites documentados a ambiguidade de `conhecer a filial`
+  e a pergunta `Vocês querem conhecer o Fluig?`. Detalhes na ficha B13-04.
+- **Verificações próprias:** `timeout --signal=INT --kill-after=5s 60s
+  /home/gustavoecocchi/Documents/CONVIQ/backend/.venv/bin/python -m
+  pytest -q` em `backend/` → **271 passed, 2 avisos**. Sonda própria com
+  `PYTHONPATH` do worktree e `app.__file__` conferido → **21 casos de
+  composição** com recortes/referências válidos, incluindo R01/R02,
+  contraprovas, limites e prospect. Comparação por AST com `9921f57`:
+  seis funções de risco/ligação B12 idênticas. `git diff --check` limpo.
+  Servidor real, 220 afetados e 23 casos de churn são relatos do Opus.
+- **Documentação:** corrigi apenas uma referência no `backend/README.md`
+  para o nome `_fim_do_objeto_da_oportunidade`, mantendo código/testes
+  de B13-03 intactos. Revalidei `git diff --check` após a edição. Hash
+  final do README:
+  `14dd5a86571e7ab0897b36131ad338f60f6136d9ae7684a614cc9f565ace965d`.
+  `REGISTRO_TRABALHO.md` atualizado em índice, fotografia, ficha e evento;
+  cópia da pasta raiz sincronizada com este registro. `prompt.md` e
+  relatório Sonnet preservados.
+- **Git e próximo responsável:** sete arquivos da entrega B13
+  NAO_COMMITADOS sobre `9921f57`, mais registro/prompt locais e relatório
+  Sonnet não rastreado. Branch padrão/destino
+  `feat/b01-fundacao-api` confirmado em `9921f57` no servidor; branch
+  B13 remota ausente, PR B13 NAO_ABERTO, entrega NAO_PUBLICADA e
+  NAO_INTEGRADA. Nenhum commit/push/PR/merge nesta atuação. Usuário
+  decide a publicação/integração; depois, Codex confere a equivalência
+  do conteúdo commitado/integrado. B14 ainda não iniciado.

@@ -27,7 +27,7 @@ def test_entrada_valida_responde_200_conforme_o_contrato(configuracao_padrao):
     assert corpo["churn"]["situacao"] == "sinal_detectado"
     assert corpo["produtos"] == ["Fluig"]
     assert corpo["metodo"] == "regras"
-    assert corpo["versao_analise"] == "0.3"
+    assert corpo["versao_analise"] == "0.4"
     assert len(corpo["oportunidades"]) == 1
     assert len(corpo["recomendacoes"]) == 2
     ids_evidencia = {e["id"] for e in corpo["evidencias"]}
@@ -52,7 +52,7 @@ def test_negacao_com_virgula_e_mas_chega_pela_rota_com_recortes_literais(configu
     for evidencia in corpo["evidencias"]:
         assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
     assert corpo["churn"]["situacao"] == "sem_sinal_detectado"
-    assert corpo["versao_analise"] == "0.3"
+    assert corpo["versao_analise"] == "0.4"
 
 
 def test_negacao_de_cancelar_pela_rota_gera_sem_sinal_nao_informacao_insuficiente(configuracao_padrao):
@@ -69,7 +69,7 @@ def test_negacao_de_cancelar_pela_rota_gera_sem_sinal_nao_informacao_insuficient
     assert corpo["churn"]["situacao"] == "sem_sinal_detectado"
     assert corpo["churn"]["evidencias"] == []
     assert corpo["evidencias"] == []
-    assert corpo["versao_analise"] == "0.3"
+    assert corpo["versao_analise"] == "0.4"
 
 
 def test_reuniao_sobre_o_contrato_pela_rota_nao_gera_risco(configuracao_padrao):
@@ -136,6 +136,63 @@ def test_insatisfacao_com_tema_alheio_pela_rota_nao_gera_churn(configuracao_padr
     evidencia = corpo["evidencias"][0]
     assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
     assert corpo["recomendacoes"] == []
+
+
+def test_interesse_negado_pela_rota_nao_gera_oportunidade(configuracao_padrao):
+    """B13 de ponta a ponta: o interesse negado deixa de gerar oportunidade,
+    evidência e recomendação; o produto segue em `produtos`."""
+
+    payload = _payload_valido(transcricao="Não temos interesse em conhecer o Fluig.")
+
+    resposta = _cliente(configuracao_padrao).post("/api/analises/texto", json=payload)
+
+    assert resposta.status_code == 200
+    corpo = resposta.json()
+    assert corpo["oportunidades"] == []
+    assert corpo["evidencias"] == []
+    assert corpo["recomendacoes"] == []
+    assert corpo["produtos"] == ["Fluig"]
+    assert corpo["churn"] == {"situacao": "sem_sinal_detectado", "evidencias": []}
+    assert corpo["versao_analise"] == "0.4"
+
+
+def test_risco_e_intencao_coexistem_pela_rota_com_referencias_validas(configuracao_padrao):
+    """B13 de ponta a ponta (critério 7): risco de B12 e oportunidade de B13
+    na mesma transcrição, cada um com a sua evidência e recomendação."""
+
+    payload = _payload_valido()  # "Estamos insatisfeitos com o suporte. Queremos conhecer o Fluig."
+
+    resposta = _cliente(configuracao_padrao).post("/api/analises/texto", json=payload)
+
+    assert resposta.status_code == 200
+    corpo = resposta.json()
+    por_id = {e["id"]: e for e in corpo["evidencias"]}
+    assert corpo["churn"]["situacao"] == "sinal_detectado"
+    assert [por_id[i]["trecho"] for i in corpo["churn"]["evidencias"]] == ["insatisfeitos com o suporte"]
+    assert [por_id[o["evidencias"][0]]["trecho"] for o in corpo["oportunidades"]] == ["Queremos conhecer o Fluig"]
+    assert [r["evidencias"] for r in corpo["recomendacoes"]] == [
+        corpo["churn"]["evidencias"],
+        corpo["oportunidades"][0]["evidencias"],
+    ]
+    for evidencia in corpo["evidencias"]:
+        assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
+
+
+def test_intencao_preservada_com_acao_alheia_posterior_pela_rota(configuracao_padrao):
+    """B13-R01 de ponta a ponta: a intenção sobre o módulo continua, com
+    evidência literal e recomendação que a referencia."""
+
+    payload = _payload_valido(transcricao="Precisamos de um módulo e conhecer a cidade.")
+
+    resposta = _cliente(configuracao_padrao).post("/api/analises/texto", json=payload)
+
+    assert resposta.status_code == 200
+    corpo = resposta.json()
+    assert [e["trecho"] for e in corpo["evidencias"]] == ["Precisamos de um módulo"]
+    evidencia = corpo["evidencias"][0]
+    assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
+    assert [o["evidencias"] for o in corpo["oportunidades"]] == [[evidencia["id"]]]
+    assert [r["evidencias"] for r in corpo["recomendacoes"]] == [[evidencia["id"]]]
 
 
 def test_prospect_recebe_churn_nao_aplicavel_pela_rota(configuracao_padrao):

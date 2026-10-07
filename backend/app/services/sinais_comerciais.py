@@ -144,16 +144,68 @@ _PADROES_TEMA_ALHEIO = [
     r"futebol",
 ]
 
-# Interesse comercial: linguagem que sugere abertura a um novo módulo,
-# produto ou expansão — não confirma venda, só sinaliza a evidência.
-_PADROES_OPORTUNIDADE = [
+# Oportunidade por intenção (B13): linguagem que sugere abertura a um novo
+# módulo, produto ou expansão — não confirma venda, só sinaliza a evidência.
+# Uma palavra sozinha não basta (antes de B13, "módulo" e "interesse" geravam
+# oportunidade em qualquer contexto): o gatilho precisa estar fora de uma
+# negação e ter um objeto comercial como núcleo do seu complemento
+# (`_ocorrencias_oportunidade`).
+_PADROES_GATILHO_OPORTUNIDADE = [
     r"interessad[oa]s?",
     r"interesse",
     r"conhecer",
+    r"avaliar",
+    r"contratar",
+    r"adquirir",
+    r"implantar",
     r"expandir",
+    r"ampliar",
     r"integrar",
     r"automatizar",
-    r"modulo|modulos",
+]
+# Expressões de querer ou precisar ("Queremos conhecer o Fluig", "Precisamos
+# de um módulo"): estendem o recorte do gatilho que vem logo depois e, sem
+# gatilho depois na oração, valem como gatilho próprio ("Queremos o Fluig").
+_PADROES_QUERER_OPORTUNIDADE = [
+    r"quero",
+    r"queremos",
+    r"queria",
+    r"queriamos",
+    r"quer",
+    r"querem",
+    r"preciso",
+    r"precisa",
+    r"precisam",
+    r"precisamos",
+    r"necessitamos",
+    r"gostaria",
+    r"gostariamos",
+    r"pretendemos",
+    r"buscamos",
+]
+# Objetos comerciais de uma intenção: os produtos do catálogo e substantivos
+# de solução ou necessidade. Lista pequena e fechada; "Quero conhecer a
+# cidade" e "O módulo atual está instalado" não passam.
+_PADROES_OBJETO_OPORTUNIDADE = [
+    r"modulos?",
+    r"solucao",
+    r"solucoes",
+    r"sistemas?",
+    r"plataformas?",
+    r"softwares?",
+    r"ferramentas?",
+    r"produtos?",
+    r"servicos?",
+    r"licencas?",
+    r"integracao",
+    r"integracoes",
+    r"automacao",
+    r"faturamento",
+    r"propostas?",
+    r"filiais",
+    r"filial",
+    r"unidades?",
+    r"usuarios?",
 ]
 
 # Contexto comercial (B03-R01): vocabulário que mostra que a conversa trata
@@ -205,7 +257,8 @@ _REGEX_FIM_DE_COMPLEMENTO = re.compile(r"[.!?;,\n]|\b(?:mas|porem|contudo|todavi
 _REGEX_INICIO_DE_FRASE = re.compile(r"[.!?;:\n]")
 _REGEX_COMPLEMENTO_COM = re.compile(r"\s+com\b")
 _REGEX_TEMA_ALHEIO = re.compile(r"(?:" + "|".join(_PADROES_TEMA_ALHEIO) + r")")
-_REGEX_OPORTUNIDADE = re.compile(r"\b(?:" + "|".join(_PADROES_OPORTUNIDADE) + r")\b")
+_REGEX_GATILHO_OPORTUNIDADE = re.compile(r"\b(?:" + "|".join(_PADROES_GATILHO_OPORTUNIDADE) + r")\b")
+_REGEX_QUERER_OPORTUNIDADE = re.compile(r"\b(?:" + "|".join(_PADROES_QUERER_OPORTUNIDADE) + r")\b")
 _REGEX_CONTEXTO_COMERCIAL = re.compile(r"\b(?:" + "|".join(_PADROES_CONTEXTO_COMERCIAL) + r")\b")
 
 # Nome canônico por radical normalizado (minúsculo, sem acento). Reaproveita
@@ -226,7 +279,43 @@ _CONCORRENTES = {
 }
 
 _REGEX_PRODUTOS = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in _PRODUTOS) + r")\b")
+_REGEX_OBJETO_OPORTUNIDADE = re.compile(
+    r"\b(?:" + "|".join([re.escape(k) for k in _PRODUTOS] + _PADROES_OBJETO_OPORTUNIDADE) + r")\b"
+)
+# Palavras que podem ficar entre o gatilho de uma oportunidade e o núcleo do
+# seu complemento (B13): as funcionais de risco, mais preposições de regência
+# de "interesse"/"expandir", determinantes de quantidade ou novidade e os
+# próprios gatilhos encadeados ("interesse em conhecer o Fluig").
+_PALAVRAS_ANTES_DO_OBJETO_OPORTUNIDADE = _PALAVRAS_ANTES_DO_OBJETO | frozenset(
+    {
+        "em", "no", "na", "nos", "nas", "pelo", "pela", "pelos", "pelas", "por", "para", "pra",
+        "outro", "outra", "outros", "outras", "novo", "nova", "novos", "novas",
+        "mais", "muito", "algum", "alguma", "alguns", "algumas",
+        "conhecer", "avaliar", "contratar", "adquirir", "implantar", "expandir", "ampliar",
+        "integrar", "automatizar",
+    }
+)
 _REGEX_CONCORRENTES = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in _CONCORRENTES) + r")\b")
+# "sistema" é o objeto de oportunidade mais genérico (B12 já o retirou do
+# contexto de churn por "o sistema solar"). Modificadores logo depois dele que
+# o tornam inequivocamente alheio à relação comercial (revisão B13-R02):
+# astronômico e biológico. Lista fechada; outros usos genéricos de "sistema"
+# ficam como limite documentado.
+_PADROES_SISTEMA_ALHEIO = [
+    r"solar(es)?",
+    r"planetari[oa]s?",
+    r"nervos[oa]s?",
+    r"imunologic[oa]s?",
+    r"digestiv[oa]s?",
+    r"respiratori[oa]s?",
+    r"circulatori[oa]s?",
+    r"cardiovascular(es)?",
+    r"reprodutor(es)?",
+    r"linfatic[oa]s?",
+    r"endocrin[oa]s?",
+]
+_REGEX_SISTEMA = re.compile(r"sistemas?")
+_REGEX_SISTEMA_ALHEIO = re.compile(r"(?:" + "|".join(_PADROES_SISTEMA_ALHEIO) + r")")
 
 
 @dataclass(frozen=True)
@@ -260,10 +349,12 @@ def _e_conjuncao(palavra: re.Match[str], transcricao: str) -> bool:
     return palavra.group() in _CONJUNCOES_COORDENATIVAS and transcricao[palavra.start()] not in "éÉ"
 
 
-def _nucleo(membro: list[re.Match[str]]) -> re.Match[str] | None:
-    """Primeira palavra do membro fora de `_PALAVRAS_ANTES_DO_OBJETO`."""
+def _nucleo(
+    membro: list[re.Match[str]], pulaveis: frozenset[str] = _PALAVRAS_ANTES_DO_OBJETO
+) -> re.Match[str] | None:
+    """Primeira palavra do membro fora de `pulaveis`."""
 
-    return next((palavra for palavra in membro if palavra.group() not in _PALAVRAS_ANTES_DO_OBJETO), None)
+    return next((palavra for palavra in membro if palavra.group() not in pulaveis), None)
 
 
 def _e_sintagma_nominal(membro: list[re.Match[str]]) -> bool:
@@ -336,6 +427,43 @@ def _fim_do_objeto_da_acao(normalizado: str, transcricao: str, fim_acao: int) ->
         nucleo = _nucleo(membro)
         if nucleo is not None and _REGEX_OBJETO_RISCO.fullmatch(nucleo.group()):
             return nucleo.end()
+    return None
+
+
+def _e_sistema_alheio(membro: list[re.Match[str]], nucleo: re.Match[str]) -> bool:
+    """"sistema" seguido de modificador inequivocamente alheio (revisão B13-R02).
+
+    "Queremos integrar o sistema solar." não é intenção comercial: o
+    modificador logo depois do núcleo (`_PADROES_SISTEMA_ALHEIO`) mostra que
+    "sistema" é astronômico ou biológico. "o sistema ERP", "o sistema de
+    faturamento" e "o sistema" sem modificador continuam objetos comerciais.
+    """
+
+    if not _REGEX_SISTEMA.fullmatch(nucleo.group()):
+        return False
+    posicao = membro.index(nucleo)
+    return posicao + 1 < len(membro) and bool(_REGEX_SISTEMA_ALHEIO.fullmatch(membro[posicao + 1].group()))
+
+
+def _fim_do_objeto_da_oportunidade(normalizado: str, transcricao: str, fim_gatilho: int) -> int | None:
+    """Fim do objeto comercial ligado a um gatilho de oportunidade, ou `None` (B13).
+
+    Mesma ligação local de `_fim_do_objeto_da_acao` (núcleo do complemento,
+    membros coordenados que são sintagma nominal), com o vocabulário da
+    oportunidade: pula `_PALAVRAS_ANTES_DO_OBJETO_OPORTUNIDADE` e aceita
+    núcleos de `_REGEX_OBJETO_OPORTUNIDADE`, exceto "sistema" alheio
+    (`_e_sistema_alheio`). Um membro rejeitado não impede o seguinte
+    ("Queremos integrar o sistema solar e o Fluig" liga ao Fluig).
+    """
+
+    palavras = list(_REGEX_PALAVRA.finditer(normalizado, fim_gatilho, _fim_do_complemento(normalizado, fim_gatilho)))
+    for membro in _membros_coordenados(palavras, transcricao):
+        nucleo = _nucleo(membro, _PALAVRAS_ANTES_DO_OBJETO_OPORTUNIDADE)
+        if nucleo is None or not _REGEX_OBJETO_OPORTUNIDADE.fullmatch(nucleo.group()):
+            continue
+        if _e_sistema_alheio(membro, nucleo):
+            continue
+        return nucleo.end()
     return None
 
 
@@ -457,6 +585,76 @@ def _ocorrencias_risco(
     return sorted(set(spans))
 
 
+def _ocorrencias_oportunidade(
+    normalizado: str, transcricao: str, escopos: list[tuple[int, int, int]]
+) -> list[tuple[int, int]]:
+    """Devolve `(inicio, fim)` de cada intenção comercial afirmativa (B13).
+
+    Antes, cada palavra de `_PADROES_GATILHO_OPORTUNIDADE` (e "módulo")
+    virava oportunidade, mesmo negada ou sem objeto comercial. Agora um
+    gatilho só conta quando:
+
+    - não está no escopo de uma negação de B11 (`app/services/negacao.py`):
+      "Não temos interesse em conhecer o Fluig." não gera nada, e "Não
+      queremos o Fluig, mas temos interesse no Protheus." gera só a segunda
+      oração, porque a vírgula fecha o escopo; e
+    - tem um objeto comercial (`_REGEX_OBJETO_OPORTUNIDADE`: produto do
+      catálogo ou substantivo de solução/necessidade) como núcleo do seu
+      complemento, na mesma oração (`_fim_do_objeto_da_oportunidade`, a
+      ligação de B12 com vocabulário próprio): "conhecer o Fluig",
+      "automatizar o faturamento", "interesse em conhecer o Fluig";
+      "conhecer a cidade" e "integrar o sistema solar" não.
+
+    Uma expressão de querer ou precisar (`_PADROES_QUERER_OPORTUNIDADE`) logo
+    antes do gatilho entra no recorte ("Queremos conhecer o Fluig"). Ela
+    também é avaliada como intenção própria, com o seu complemento
+    ("Precisamos de um módulo de faturamento", "Queremos o Fluig"), haja ou
+    não outro gatilho depois na oração (revisão B13-R01: antes, qualquer
+    gatilho posterior a descartava, e "Queremos o Fluig e conhecer a cidade."
+    perdia a intenção sobre Fluig). Quando ela só introduz o gatilho
+    seguinte, os dois recortes coincidem e contam uma vez. A evidência é um
+    recorte literal e contínuo, do início da intenção ao fim do objeto. Não
+    agrupa gatilhos da mesma intenção: "Temos interesse em conhecer o Fluig."
+    continua gerando duas oportunidades, uma por gatilho (B17).
+    """
+
+    def _negado(posicao: int) -> bool:
+        return inicio_da_negacao_mais_proxima(escopos, posicao) is not None
+
+    gatilhos = list(_REGEX_GATILHO_OPORTUNIDADE.finditer(normalizado))
+    quereres = [querer for querer in _REGEX_QUERER_OPORTUNIDADE.finditer(normalizado) if not _negado(querer.start())]
+
+    def _fim_do_objeto(fim: int) -> int | None:
+        return _fim_do_objeto_da_oportunidade(normalizado, transcricao, fim)
+
+    def _inicio_com_querer(gatilho: re.Match[str]) -> int:
+        anteriores = [querer for querer in quereres if querer.end() <= gatilho.start()]
+        if not anteriores:
+            return gatilho.start()
+        querer = anteriores[-1]
+        entre = _REGEX_PALAVRA.finditer(normalizado, querer.end(), gatilho.start())
+        mesma_oracao = _fim_do_complemento(normalizado, querer.end()) >= gatilho.start()
+        if mesma_oracao and all(palavra.group() in _PALAVRAS_ANTES_DO_OBJETO_OPORTUNIDADE for palavra in entre):
+            return querer.start()
+        return gatilho.start()
+
+    spans: list[tuple[int, int]] = []
+
+    for gatilho in gatilhos:
+        if _negado(gatilho.start()):
+            continue
+        fim_objeto = _fim_do_objeto(gatilho.end())
+        if fim_objeto is not None:
+            spans.append((_inicio_com_querer(gatilho), fim_objeto))
+
+    for querer in quereres:
+        fim_objeto = _fim_do_objeto(querer.end())
+        if fim_objeto is not None:
+            spans.append((querer.start(), fim_objeto))
+
+    return sorted(set(spans))
+
+
 def _ha_contexto_comercial(normalizado: str, transcricao: str) -> bool:
     """Algum termo de `_PADROES_CONTEXTO_COMERCIAL` fala da relação comercial.
 
@@ -477,7 +675,7 @@ def _ha_contexto_comercial(normalizado: str, transcricao: str) -> bool:
 def _ha_conteudo_comercial(
     normalizado: str,
     transcricao: str,
-    ocorrencias_oportunidade: list[re.Match[str]],
+    ocorrencias_oportunidade: list[tuple[int, int]],
     produtos: list[str],
     concorrentes: list[str],
 ) -> bool:
@@ -519,9 +717,11 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
       `vinculo == nao_informado` segue a mesma regra que `cliente`: não é
       presumido como baixo risco nem como prospect.
 
-    `oportunidades` vem de `_REGEX_OPORTUNIDADE`, cada ocorrência gerando uma
-    entrada própria, **independente** do resultado de `churn` — os dois
-    podem coexistir. `produtos` e `concorrentes` são listas de nomes únicos,
+    `oportunidades` vem de `_ocorrencias_oportunidade` (B13): intenção
+    afirmativa com objeto comercial, uma entrada por gatilho, **independente**
+    do resultado de `churn` — os dois podem coexistir. Uma ocorrência
+    rejeitada (negada, sem objeto comercial) não conta como conteúdo
+    comercial para o churn. `produtos` e `concorrentes` são listas de nomes únicos,
     na ordem em que aparecem, sem evidência associada (o contrato de C01 não
     prevê evidência para esses dois campos) e sem influenciar `churn` ou
     `oportunidades`.
@@ -544,12 +744,12 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
         evidencias.append(evidencia)
         return evidencia
 
-    ocorrencias_oportunidade = sorted(_REGEX_OPORTUNIDADE.finditer(normalizado), key=lambda m: m.start())
+    escopos = escopos_de_negacao(normalizado, transcricao)
+    ocorrencias_oportunidade = _ocorrencias_oportunidade(normalizado, transcricao, escopos)
 
     if vinculo is Vinculo.PROSPECT:
         churn = Churn(situacao=ChurnSituacao.NAO_APLICAVEL, evidencias=[])
     else:
-        escopos = escopos_de_negacao(normalizado, transcricao)
         ocorrencias_risco = _ocorrencias_risco(normalizado, transcricao, escopos)
         if ocorrencias_risco:
             ids_risco = [_nova_evidencia(inicio, fim).id for inicio, fim in ocorrencias_risco]
@@ -560,8 +760,8 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
             churn = Churn(situacao=ChurnSituacao.INFORMACAO_INSUFICIENTE, evidencias=[])
 
     oportunidades = []
-    for correspondencia in ocorrencias_oportunidade:
-        evidencia = _nova_evidencia(correspondencia.start(), correspondencia.end())
+    for inicio, fim in ocorrencias_oportunidade:
+        evidencia = _nova_evidencia(inicio, fim)
         oportunidades.append(
             Oportunidade(
                 descricao=f'Interesse comercial sinalizado por "{evidencia.trecho}".',
