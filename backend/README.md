@@ -99,8 +99,8 @@ backend/
 │   ├── test_health.py    # Saúde na configuração padrão, alternativa e CORS
 │   ├── test_erros.py      # Envelope de erro, via rota descartável só do teste
 │   ├── test_schemas.py
-│   ├── test_sentimento.py       # B02: insatisfeito, ausência de sinal, trechos repetidos
-│   ├── test_sinais_comerciais.py # B03: prospect, concorrente isolado, coexistência
+│   ├── test_sentimento.py       # B02: insatisfeito, ausência de sinal, trechos repetidos; B11: negação e seus limites
+│   ├── test_sinais_comerciais.py # B03: prospect, concorrente isolado, coexistência; B12: risco com objeto/negação
 │   ├── test_analise.py           # B04: composição, renumeração de evidências, recomendações
 │   └── test_analises_rota.py     # B04: POST /api/analises/texto, entrada válida e inválida
 └── pyproject.toml
@@ -109,7 +109,7 @@ backend/
 `app/integrations/` e `app/db/` ainda não existem — o plano pede para criar
 cada pasta apenas quando a etapa correspondente precisar dela (B05 em diante).
 
-## Serviço de sentimento (B02)
+## Serviço de sentimento (B02, negação simples em B11)
 
 `app/services/sentimento.py` expõe `analisar_sentimento(transcricao: str) ->
 ResultadoSentimento` (`sentimento: Sentimento`, `evidencias: list[Evidencia]`),
@@ -119,7 +119,8 @@ contagem de padrões negativos/positivos (regex com fronteira de palavra
 `\b`, texto normalizado para minúsculas/sem acento preservando o
 comprimento e as posições originais):
 
-- Nenhum sinal encontrado → `informacao_insuficiente`, sem evidências.
+- Nenhum sinal encontrado (após a negação) → `informacao_insuficiente`, sem
+  evidências.
 - Mais sinais negativos → `negativo`. Mais positivos → `positivo`. Empate
   (e maior que zero) → `neutro`, com as evidências dos dois lados.
 - Cada ocorrência vira uma evidência própria, então a mesma palavra repetida
@@ -132,26 +133,77 @@ de `"insatisfeito"`. Aqui, `\bsatisfeit[oa]s?\b` não casa dentro de
 `"insatisfeito"` porque não há fronteira de palavra entre `"in"` e
 `"satisfeito"` (letras coladas, sem separador).
 
-**Limitações desta versão**, deliberadamente fora do escopo de B02:
+**Negação simples (B11).** `"não"`, `"nem"`, `"sem"` e `"nenhum(a)"` abrem
+um escopo de negação que vai do marcador até o primeiro **fim de escopo**
+depois dele, ou o fim do texto. Fecham o escopo (revisão B11-R01):
+pontuação `. ! ? ; ,` e quebra de linha; as conjunções adversativas
+`"mas"`, `"porém"`, `"contudo"`, `"todavia"`, `"entretanto"`; e a conjunção
+`"e"` isolada por espaços. Assim `"sem problemas, estamos satisfeitos"`
+alcança `"problemas"` (antes da vírgula) e não `"satisfeitos"` (depois
+dela) → positivo; `"não gostei do atendimento, mas adoramos o produto"` não
+inverte `"adoramos"` → neutro; `"nenhum problema e estamos satisfeitos"` →
+positivo. O `"é"` do verbo também vira `"e"` na normalização, então o
+serviço confere o caractere original e `"é"`/`"É"` **não** fecha escopo
+(`"não é ruim, é ótimo"` → positivo, com `"ruim"` suprimido). A negação
+nunca é estendida até a próxima palavra do léxico — não se presume onde a
+expressão termina. Dentro do escopo:
+
+- Um sinal **positivo** vira **negativo** — `"não gostei"` é insatisfação,
+  não elogio anulado. A evidência cobre o trecho negado inteiro, do
+  marcador ao fim da palavra léxica (`"Não estamos satisfeitos"`, recorte
+  literal da transcrição original).
+- Um sinal **negativo** é só **suprimido**, nunca vira positivo — negar um
+  problema (`"sem problemas"`, `"não foi ruim"`) não é prova de elogio,
+  então essa ocorrência não gera evidência. Sem outro sinal na oração, o
+  resultado é `informacao_insuficiente`, não `neutro`.
+- **Exceção `"não só"`:** não abre negação — `"não só X, como/mas também
+  Y"` afirma X e Y, não nega X (`"Não só estamos satisfeitos, como adoramos
+  o atendimento."` → positivo, 2 evidências).
+- **Conjunção não corta a negação pertinente:** `"Não gostei do suporte e
+  do produto."` → negativo (`"gostei"` vem antes do `"e"`); `"Não estamos
+  satisfeitos nem contentes."` → negativo com duas evidências,
+  `"Não estamos satisfeitos"` e `"nem contentes"` — `"nem"` é marcador
+  próprio, por isso funciona também com vírgula antes.
+
+Ver `escopos_de_negacao`/`inicio_da_negacao_mais_proxima` em
+`app/services/negacao.py` (extraídos de `sentimento.py` em B12, sem mudança
+de comportamento) e os casos em `test_sentimento.py`.
+
+**Limitações desta versão**, deliberadamente fora do escopo de B02/B11:
 
 - **Léxico pequeno**, sem sinônimos exaustivos: por exemplo, `"frustrante"`,
   `"reclamou"` e `"satisfeitíssimo"` não são reconhecidos (falso negativo,
   nunca sinal trocado).
-- **Negação e contexto de frase não são tratados** — o serviço conta a
-  palavra, não a frase. Casos verificados na revisão B02-03, pinados em
-  `test_sentimento.py` como comportamento atual: `"Não estamos satisfeitos."`
-  → **positivo**; `"Sem problemas, tudo certo."` e `"Nenhum problema até
-  agora."` → **negativo**; `"Não foi ruim."` → **negativo**; `"Não gostei."`
-  → **positivo**; `"O problema foi resolvido, ficamos satisfeitos."` →
-  **neutro** (1 × 1). `"Sem problemas"` é frase comum em português, então
-  este é o limite mais visível para quem ler o card. Tratar negação é
-  melhoria futura, a decidir na coordenação, não uma correção de B02.
+- **Só quatro marcadores de negação** (`"não"`, `"nem"`, `"sem"`,
+  `"nenhum(a)"`); outras formas (`"jamais"`, `"nunca"`, `"não obstante"`)
+  não abrem escopo.
+- **Vírgula parentética dentro da mesma expressão** fecha o escopo cedo
+  demais: `"Não estamos, hoje, satisfeitos."` → **positivo**. A regra de
+  B11-R01 fecha em toda vírgula, sem análise sintática; pinado em
+  `test_sentimento.py`.
+- **Adjetivos coordenados por `"e"` sob uma só negação** deixam o segundo
+  sem negação: `"Não estamos satisfeitos e contentes."` → **neutro**. Em
+  português a forma natural é `"nem"`, que é marcador e funciona. Pinado
+  em `test_sentimento.py`.
+- **Só as conjunções listadas fecham escopo**; `"ou"`, `"como"`, `"porque"`
+  e outras não — `"não gostei do azul ou do verde"` mantém a negação, o
+  que costuma ser o sentido pretendido, mas não é análise gramatical.
+- **Ironia não é detectada** — `"Ótimo, mais um problema."` conta `"ótimo"`
+  como sinal positivo genuíno (empate → neutro), pinado em
+  `test_sentimento.py`.
+- **`"O problema foi resolvido"` não é reconhecido como neutralização do
+  problema** — comportamento inalterado desde B02:
+  `"O problema foi resolvido, ficamos satisfeitos."` → **neutro** (1 × 1).
+- **Negação dupla geral não é corrigida** — cada marcador nega o sinal mais
+  próximo dentro do escopo, sem compor duas negações numa afirmação:
+  `"Não é verdade que não gostamos do produto."` → **negativo** (a negação
+  linguisticamente correta seria afirmativa).
 - **Entrada em forma NFD** (acento como código combinante separado, ex.:
   `"péssimo"`) não casa sinais acentuados: a normalização preserva o
   índice de cada código e não pode fundir dois códigos em um sem quebrar as
   posições das evidências. Transcrições em NFC (o padrão de editores e
   APIs) não são afetadas. Falso negativo, sem correção sem remapear índices.
-- Não distingue intensidade nem ironia; não considera quem fala.
+- Não distingue intensidade; não considera quem fala.
 - `analisar_sentimento` é função interna: espera `str` já validado pelo
   contrato C01 e não faz coerção de tipo (`None`/número → `TypeError`).
   Quem chama pela API é B04, depois de `AnaliseTextoRequest` validar.
@@ -160,7 +212,7 @@ A normalização (`_normalizar_preservando_posicoes`) foi extraída para
 `app/services/texto.py` em B03, para reúso — comportamento idêntico, sem
 mudança de resultado (suíte de B02 continua passando sem alteração).
 
-## Serviço de sinais comerciais (B03)
+## Serviço de sinais comerciais (B03, risco com contexto em B12)
 
 `app/services/sinais_comerciais.py` expõe `analisar_sinais_comerciais(
 transcricao: str, vinculo: Vinculo) -> ResultadoSinaisComerciais` (`churn`,
@@ -179,11 +231,120 @@ referência (`conviq_datascience.py`, `analisar_reuniao`):
   `churn = bool(concorrente) or (...)` — citar um concorrente, sozinho, já
   classificava risco `ALTO`; reproduzido e confirmado na revisão de B03.
 - **Risco e oportunidade podem coexistir.** `churn` e `oportunidades` vêm de
-  padrões independentes (`_REGEX_RISCO` e `_REGEX_OPORTUNIDADE`), sem um
-  suprimir o outro. O experimento faz `upsell = (not churn) and (...)` —
-  uma oportunidade só era registrada quando não havia churn; reproduzido com
-  um texto de risco real que também teria oportunidade (o experimento zera
-  o `upsell` nesse caso; B03 mantém as duas).
+  padrões independentes (risco em `_ocorrencias_risco` e oportunidade em
+  `_REGEX_OPORTUNIDADE`), sem um suprimir o outro. O experimento faz
+  `upsell = (not churn) and (...)` — uma oportunidade só era registrada
+  quando não havia churn; reproduzido com um texto de risco real que também
+  teria oportunidade (o experimento zera o `upsell` nesse caso; B03 mantém
+  as duas).
+
+**Risco de cancelamento com contexto local (B12).** Antes, `"cancelar"` /
+`"reavaliar"` / `"rescindir"` geravam risco sozinhos, com qualquer objeto —
+`"cancelar a reunião"` valia tanto quanto `"cancelar o contrato"` — e sem
+checar negação — `"não vamos cancelar o contrato"` gerava o mesmo risco que
+`"vamos cancelar"`. `_ocorrencias_risco` (`app/services/sinais_comerciais.py`)
+combina três fontes, reaproveitando o escopo de negação de B11
+(`app/services/negacao.py`, extraído de `sentimento.py` para os dois
+serviços usarem):
+
+- `"insatisfeito"`/`"frustrado"` continuam risco por si só, mas agora
+  **suprimidos quando negados** — `"Não estamos insatisfeitos."` deixa de
+  ser risco (negar um problema não prova baixo risco; a mesma regra de B11
+  para sentimento) — e **quando a insatisfação é com tema alheio à relação
+  comercial** (revisão B12-R04, ver abaixo).
+- `"cancelar"`/`"cancelamento"`/`"reavaliar"`/`"rescindir"` só são risco
+  quando um **objeto da relação comercial** (`"contrato"`, `"serviço"`,
+  `"fornecedor"`) é o **núcleo do complemento da ação** e são **suprimidos
+  quando a própria ação está negada**. Ligação ação–objeto (revisão
+  B12-R02, `_fim_do_objeto_da_acao`): depois da ação, pulam-se só palavras
+  funcionais (artigos, preposições como `"do"`/`"com"`, possessivos,
+  demonstrativos, `"todos"`, alguns advérbios curtos como `"já"` e
+  `"imediatamente"`); a primeira outra palavra é o núcleo. `"cancelar o
+  contrato"`, `"rescindir o nosso contrato"`, `"cancelamento do contrato"`,
+  `"cancelar com o fornecedor"` → sinal. `"Vamos cancelar a reunião sobre
+  o contrato."` e `"Vamos reavaliar a pauta com o fornecedor."` → sem sinal:
+  o núcleo é a reunião/pauta, e o contrato só a modifica. `"e"`/`"ou"`
+  coordenam um segundo membro do complemento (`"cancelar a reunião e o
+  contrato"` → sinal; `"a reunião e não o contrato"` → sem sinal). O
+  complemento termina em vírgula, pontuação de frase ou adversativa
+  (`"mas"`, `"porém"`...); objeto antes da ação ou em outra oração (`"O
+  contrato continua vigente, vamos cancelar a reunião."`) não se liga. A
+  condição antes da vírgula não atrapalha: `"Se o suporte continuar assim,
+  vamos cancelar o contrato."` → sinal.
+- **Sujeito de outra oração não é objeto coordenado (revisão B12-R06,
+  `_membros_coordenados`).** Depois de `"e"`/`"ou"`, o membro só entra no
+  complemento se terminar como sintagma nominal: núcleo seguido apenas de
+  palavras funcionais ou de complemento preposicionado (`de`, `do`, `com`,
+  `no`, `em`, `até`...). `"cancelar a reunião e o contrato de suporte"`,
+  `"... e o contrato atual"` e `"... e o contrato no fim do mês"` → sinal;
+  `"Vamos cancelar a reunião e o contrato continua vigente."` e `"... e o
+  fornecedor será avisado."` → sem sinal, porque `"continua"`/`"será"` não
+  modifica o substantivo e mostra outra oração. O objeto **direto** não
+  passa por essa verificação: `"Vamos cancelar o contrato e o suporte
+  continua."` → sinal, com evidência `"cancelar o contrato"`.
+- `"satisfeito"` (positivo) é o espelho de `"insatisfeito"`: só é risco
+  **quando negado** — `"Não estamos satisfeitos com o suporte."` → sinal;
+  satisfação afirmada nunca é risco. A exceção de tema alheio vale igual.
+
+**Insatisfação com tema alheio à relação comercial (revisão B12-R04,
+`_e_tema_alheio`).** A regra de B03 tratava qualquer `"insatisfeito"` como
+risco de churn, e B12 espelhou isso em `"não ... satisfeito"`; `"Estamos
+insatisfeitos com o clima."` e `"Não estamos satisfeitos com o almoço."`
+geravam churn e recomendação de retenção. O cartão B12 pede insatisfação
+com a relação comercial, e a regra agora exclui os casos inequívocos:
+
+- o **núcleo** de cada membro do complemento `"com ..."` está na lista
+  fechada `_PADROES_TEMA_ALHEIO` — clima (`clima`, `chuva`, `calor`,
+  `frio`), refeições (`almoço`, `jantar`, `café`, `lanche`, `comida`,
+  `restaurante`), deslocamento (`trânsito`, `estacionamento`) e lazer
+  (`futebol`), com plurais; **e**
+- o complemento não cita termo da relação (vocabulário de contexto
+  comercial ou produto do catálogo).
+
+Satisfeitas as duas condições, a insatisfação não é risco e o
+`"satisfeito"` dessa expressão não conta como contexto comercial. Isolada,
+a frase dá `informacao_insuficiente` (`"Estamos satisfeitos com o
+almoço."` também, antes `sem_sinal_detectado`); com contexto comercial
+independente (`"Estamos insatisfeitos com o clima, mas o contrato segue
+normal."`), `sem_sinal_detectado`; com outro risco real (`"... com o clima
+e vamos cancelar o contrato."`), o sinal vem só do cancelamento. O
+sentimento negativo e as oportunidades não mudam. Continuam risco, como em
+B03: `"insatisfeitos com o suporte"`, `"frustrados com o atendimento"`,
+`"não estamos satisfeitos com o serviço"`, complementos fora da lista
+(`"frustrados com o atraso"`, `"com a demora"`) e tema da lista com termo
+da relação (`"com o clima da parceria"`, `"com o almoço e com o suporte"`).
+A lista evita de propósito termos ambíguos numa reunião comercial
+(`tempo`, `time`, `viagem`, `equipe`). A alternativa de exigir um termo da
+relação no complemento foi descartada, porque tornaria falso negativo
+queixas do domínio fora do vocabulário (`"com o atraso"`, `"com o prazo"`,
+`"com vocês"`).
+
+**Evidência com o contexto que sustenta o risco (revisão B12-R03).** Até a
+revisão, a evidência de ação era só `"cancelar"` — não mostrava por que era
+risco comercial e não cancelamento de reunião — e a satisfação negada
+omitia com o que era a insatisfação. Agora, sempre recorte literal e
+contínuo da transcrição:
+
+- ação → da ação ao objeto ligado: `"cancelar o contrato"`, `"cancelar a
+  reunião e o contrato"`;
+- condição que abre a frase → a evidência começa no `"Se"`: `"Se o suporte
+  continuar assim, vamos cancelar o contrato"` (a ameaça condicional não
+  parece decisão tomada); `"se"` em outra posição (`"Decidiu-se"`) não
+  estende;
+- insatisfação (`"insatisfeito"`, `"frustrado"`, `"não ... satisfeito"`) →
+  inclui o complemento `"com ..."` até vírgula ou adversativa, com os
+  membros coordenados que são sintagma nominal (B12-R06): `"insatisfeitos
+  com o suporte"`, `"Não estamos satisfeitos com o suporte"`,
+  `"insatisfeitos com o suporte e o atendimento"`; `"insatisfeitos com o
+  suporte e vamos cancelar o contrato"` → `"insatisfeitos com o suporte"`
+  (o resto é outra oração). Sem `"com"` logo depois, só a expressão
+  (`"insatisfeitos"`).
+
+Como `"insatisfeito"`/`"satisfeito"` também alimentam o sentimento de B02,
+o mesmo trecho aparece em duas evidências: a do sentimento é a expressão
+(`"insatisfeitos"`) e a do churn inclui o complemento (`"insatisfeitos com
+o suporte"`), começando na mesma posição. Sem complemento, os intervalos
+são idênticos. B04 renumera as duas ao compor (ver seção seguinte).
 
 **Ausência de sinal vs. informação insuficiente (revisão B03-R01).** Sem
 risco explícito, o serviço decide entre dois estados distintos do contrato:
@@ -191,10 +352,14 @@ risco explícito, o serviço decide entre dois estados distintos do contrato:
 - `sem_sinal_detectado` quando há **conteúdo comercial avaliável**:
   oportunidade, produto, concorrente **ou** vocabulário da relação
   comercial (`_PADROES_CONTEXTO_COMERCIAL`: contrato, renovação, suporte,
-  atendimento, serviço, sistema, produto, implantação, licença, preço,
-  custo, proposta, parceria, fornecedor, plataforma, pagamento,
-  faturamento, mensalidade, satisfeito). Foi avaliado e nada indica risco —
-  o que não é o mesmo que confirmar baixo risco.
+  atendimento, serviço, produto, implantação, licença, preço, custo,
+  proposta, parceria, fornecedor, plataforma, pagamento, faturamento,
+  mensalidade, satisfeito — `"sistema"` removido em B12, ver limites
+  abaixo; `"satisfeito"` com tema alheio não conta, B12-R04). Foi avaliado
+  e nada indica risco — o que não é o mesmo que
+  confirmar baixo risco. Uma ação de risco sem objeto (`"cancelar a
+  reunião"`) **não** conta como contexto por si só —
+  `"informacao_insuficiente"` quando isolada.
 - `informacao_insuficiente` quando não há nada disso: saudação, pauta,
   encerramento, texto vazio. Ex.: `"Bom dia a todos. Vamos seguir a pauta
   de hoje."` (exemplo 3 do contrato) → insuficiente; `"O suporte foi
@@ -204,9 +369,11 @@ Antes de B03-R01, `informacao_insuficiente` só saía para texto vazio, que
 o contrato rejeita antes de chamar o serviço — o estado era inalcançável
 para qualquer entrada válida. **Limites da heurística:** vocabulário fixo;
 uma conversa sobre a relação comercial que não use nenhum desses termos cai
-em insuficiente, e um termo genérico (`"sistema"`, `"produto"`) usado fora
-do sentido comercial conta como contexto. `vinculo == nao_informado` segue
-a mesma regra que `cliente` (não é presumido prospect nem baixo risco).
+em insuficiente, e um termo genérico (`"produto"`) usado fora do sentido
+comercial ainda conta como contexto — `"sistema"` foi corrigido em B12
+(`"O sistema solar é extenso."` → insuficiente), `"produto"` permanece,
+limite conhecido e não resolvido nesta entrega. `vinculo == nao_informado`
+segue a mesma regra que `cliente` (não é presumido prospect nem baixo risco).
 
 `produtos` (Protheus, Datasul, Fluig, Analytics, RM) e `concorrentes`
 (Senior, SAP, Oracle, Sankhya) reaproveitam os catálogos do experimento —
@@ -220,13 +387,62 @@ dados factuais de nome de produto/mercado, não a lógica de contagem com bug.
   sinalizado por "<trecho>".'`), sem nomear a qual produto ou contexto se
   refere — correlacionar com `produtos` mencionados é melhoria futura.
 - **Sobreposição proposital com o léxico de B02** (`"insatisfeit"`,
-  `"frustrad"` aparecem nos dois): sentimento geral e risco de cancelamento
-  respondem perguntas diferentes; os dois serviços podem gerar evidência
-  própria para o mesmo trecho, com IDs de namespace separado — B04 renumera
-  ao juntar num `AnaliseTextoResponse` só (ver seção seguinte).
-- Não trata negação/contexto de frase, pelo mesmo motivo documentado em B02.
+  `"frustrad"`, `"satisfeit"` aparecem nos dois): sentimento geral e risco
+  de cancelamento respondem perguntas diferentes; os dois serviços podem
+  gerar evidência própria para o mesmo trecho, com IDs de namespace
+  separado — B04 renumera ao juntar num `AnaliseTextoResponse` só (ver
+  seção seguinte).
 - `analisar_sinais_comerciais` é função interna: espera `str` e `Vinculo`
   já validados pelo contrato C01.
+
+**Limites da negação de B12**, herdados de B11 (mesmo módulo
+`app/services/negacao.py`, ver "Serviço de sentimento" acima para exemplos):
+só quatro marcadores (`"não"`, `"nem"`, `"sem"`, `"nenhum(a)"`); vírgula
+parentética fecha escopo cedo demais; adjetivos coordenados por `"e"` sob
+uma só negação deixam o segundo sem negação; negação dupla geral e ironia
+não são tratadas.
+
+- **Objeto de risco é vocabulário fixo e pequeno** (`"contrato"`,
+  `"serviço"`, `"fornecedor"`): `"cancelar a assinatura"` ou `"cancelar o
+  plano"` não viram risco, mesmo quando o sentido é o mesmo. Ampliar essa
+  lista é melhoria futura, não corrigida nesta entrega. Com a ligação ao
+  núcleo (B12-R02), isso vale também para um núcleo intermediário:
+  `"cancelar a renovação do contrato"` não é risco (era em `d5fb40a`, só
+  por haver `"contrato"` na frase) — a mesma estrutura de `"cancelar a
+  reunião sobre o contrato"`; separar as duas exige decidir quais núcleos
+  são da relação comercial.
+- **Ligação ação–objeto é local e simples, não análise gramatical**:
+  palavra fora da lista funcional entre ação e objeto (`"cancelar de vez o
+  contrato"`), vírgula intercalada (`"cancelar, infelizmente, o
+  contrato"`) ou objeto antes da ação (`"O contrato, vamos cancelar."`)
+  impedem a ligação — falso negativo, pinado em `test_sinais_comerciais.py`.
+  Formas como `"cancelado"`/`"cancelaremos"` não são ações de risco (léxico
+  de B03).
+- **Membro coordenado reconhecido sem identificar verbos (B12-R06)**:
+  qualquer palavra fora das listas funcionais depois do núcleo coordenado
+  encerra o sintagma, inclusive advérbio ou adjetivo. `"Vamos cancelar a
+  reunião e o contrato hoje."` (pinado) e `"... e o contrato vigente."` →
+  sem sinal, falso negativo; `"... e o contrato atual."` e `"... e o
+  contrato também."` são sinal, porque `"atual"`/`"também"` estão na lista
+  funcional.
+- **Condição só no início da frase**: `"Vamos cancelar o contrato se nada
+  mudar."` é risco, mas a evidência é `"cancelar o contrato"`, sem a
+  condição posposta.
+- **Tema alheio é lista fechada, só no complemento `"com ..."` (B12-R04)**:
+  tema alheio fora da lista continua risco (`"Estamos insatisfeitos com o
+  hotel."` → sinal, falso positivo, pinado), assim como o tema antes da
+  palavra (`"O almoço nos deixou insatisfeitos."`) ou sem complemento
+  (`"Estamos insatisfeitos."`, regra de B03). Um termo da relação em
+  qualquer lugar do complemento mantém o risco, mesmo que só de passagem.
+  Não é um classificador de assuntos.
+- **Complemento da insatisfação só com `"com"`**: `"insatisfeitos em
+  relação ao suporte"` continua risco, com evidência `"insatisfeitos"`;
+  `"Não estamos satisfeitos nem contentes com o suporte."` → evidência
+  `"Não estamos satisfeitos"`.
+- **Evidências podem se sobrepor**: com a condição, `"Se continuarmos
+  insatisfeitos com o suporte, vamos cancelar o contrato."` gera duas
+  evidências de churn, uma contida na outra. Unir intervalos sobrepostos
+  não é feito aqui (B19 trata só intervalos idênticos).
 
 ## Rota de análise (B04)
 
@@ -249,15 +465,19 @@ persistência é B05.
    `oportunidades[].evidencias`. Consequência esperada, não um bug: quando
    B02 e B03 detectam o mesmo radical (ex.: `"insatisfeito"`, sinal de
    sentimento negativo **e** de risco de churn), a resposta tem duas
-   evidências distintas apontando para o mesmo trecho — verificado com
-   servidor real (`uvicorn`) no exemplo do contrato C01.
+   evidências distintas para o mesmo trecho — verificado com servidor real
+   (`uvicorn`) no exemplo do contrato C01. Desde a revisão B12-R03, a de
+   churn inclui o complemento (`"insatisfeitos"` e `"insatisfeitos com o
+   suporte"`, mesma posição inicial); sem complemento, os intervalos são
+   idênticos. Empate de posição mantém a ordem sentimento → comercial.
 3. **Deriva `recomendacoes`:** uma recomendação genérica para
    `churn.situacao == sinal_detectado` (evidenciada pelas evidências de
    churn) e uma por oportunidade (evidenciada pela evidência daquela
    oportunidade). Sem risco nem oportunidade, a lista fica vazia — nenhuma
    recomendação é inventada sem evidência.
-4. Usa `metodo="regras"` e `versao_analise="0.1"`, os mesmos valores do
-   exemplo do contrato.
+4. Usa `metodo="regras"` e `versao_analise="0.3"` (`0.1` em B04, `0.2`
+   com a negação de B11, `0.3` com o risco em contexto de B12; contrato C01
+   inalterado), os mesmos valores dos exemplos do contrato.
 
 **Limitações desta versão:** as recomendações são genéricas (não citam o
 produto/trecho específico, mesmo estilo já documentado para a descrição de

@@ -160,17 +160,184 @@ def test_maioria_negativa_com_um_positivo_e_negativo_so_com_evidencias_negativas
 
 
 @pytest.mark.parametrize(
-    "transcricao, sentimento_atual",
+    "transcricao, sentimento_esperado",
     [
-        ("Não estamos satisfeitos.", Sentimento.POSITIVO),
-        ("Sem problemas, tudo certo.", Sentimento.NEGATIVO),
-        ("Não foi ruim.", Sentimento.NEGATIVO),
+        ("Estamos satisfeitos.", Sentimento.POSITIVO),
+        ("Não estamos satisfeitos.", Sentimento.NEGATIVO),
+        ("Gostei do atendimento.", Sentimento.POSITIVO),
+        ("Não gostei do atendimento.", Sentimento.NEGATIVO),
     ],
 )
-def test_negacao_de_frase_nao_e_tratada_limitacao_documentada(transcricao, sentimento_atual):
-    """Pina a limitação registrada no README: negação inverte o sentido, mas o
-    serviço só conta a palavra. Se este teste falhar, a limitação foi resolvida
-    e o README precisa ser atualizado junto.
+def test_negacao_simples_inverte_par_afirmativo_negado(transcricao, sentimento_esperado):
+    """B11: negar satisfação/agrado explícito conta como insatisfação."""
+
+    assert analisar_sentimento(transcricao).sentimento is sentimento_esperado
+
+
+@pytest.mark.parametrize(
+    "transcricao, sentimento_esperado",
+    [
+        ("Estamos insatisfeitos.", Sentimento.NEGATIVO),
+        ("Não estamos insatisfeitos.", Sentimento.INFORMACAO_INSUFICIENTE),
+        ("Sem problemas.", Sentimento.INFORMACAO_INSUFICIENTE),
+        ("Nenhum problema até agora.", Sentimento.INFORMACAO_INSUFICIENTE),
+        ("Não foi ruim.", Sentimento.INFORMACAO_INSUFICIENTE),
+    ],
+)
+def test_negacao_de_termo_negativo_nao_vira_elogio_fica_insuficiente(transcricao, sentimento_esperado):
+    """Política conservadora do cartão B11: negar um problema não é prova de
+    elogio. Sem outro sinal na oração, o resultado é informação insuficiente,
+    nunca positivo nem neutro (que exigiria sinal positivo e negativo reais)."""
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is sentimento_esperado
+    if sentimento_esperado is Sentimento.INFORMACAO_INSUFICIENTE:
+        assert resultado.evidencias == []
+
+
+def test_negacao_nao_vaza_para_oracao_independente():
+    """Duas orações: a negação de uma não apaga o sinal independente da outra."""
+
+    resultado = analisar_sentimento("Não houve atraso. Estamos satisfeitos.")
+
+    assert resultado.sentimento is Sentimento.POSITIVO
+    assert [e.trecho for e in resultado.evidencias] == ["satisfeitos"]
+
+
+def test_negacao_nao_vaza_quando_ambas_as_oracoes_tem_sinal_lexico():
+    """Se o escopo vazasse para a 2ª oração, "adoramos" viraria negativo também
+    (2 negativos, 0 positivos → negativo). O resultado correto é empate."""
+
+    resultado = analisar_sentimento("Não gostamos do atendimento. Adoramos o produto.")
+
+    assert resultado.sentimento is Sentimento.NEUTRO
+    trechos = {e.trecho for e in resultado.evidencias}
+    assert trechos == {"Não gostamos", "Adoramos"}
+
+
+@pytest.mark.parametrize(
+    "transcricao, sentimento_esperado, trechos_esperados",
+    [
+        ("Sem problemas, estamos satisfeitos.", Sentimento.POSITIVO, ["satisfeitos"]),
+        ("Nenhum problema e estamos satisfeitos.", Sentimento.POSITIVO, ["satisfeitos"]),
+        ("Não gostei do atendimento, mas adoramos o produto.", Sentimento.NEUTRO, ["Não gostei", "adoramos"]),
+        ("Não é ruim, é ótimo.", Sentimento.POSITIVO, ["ótimo"]),
+    ],
+)
+def test_negacao_fecha_na_virgula_ou_conjuncao_e_nao_inverte_elogio_independente(
+    transcricao, sentimento_esperado, trechos_esperados
+):
+    """B11-R01: o escopo da negação termina na vírgula, em "mas"/"porém"/...
+    ou na conjunção "e" — o elogio da outra expressão/oração fica intacto."""
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is sentimento_esperado
+    assert [e.trecho for e in resultado.evidencias] == trechos_esperados
+    for evidencia in resultado.evidencias:
+        assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+@pytest.mark.parametrize(
+    "transcricao, trechos_esperados",
+    [
+        # "e" liga objetos, não orações: a negação pertinente ("gostei") continua
+        ("Não gostei do suporte e do produto.", ["Não gostei"]),
+        # "nem" é marcador próprio, então o segundo adjetivo também é negado
+        ("Não estamos satisfeitos nem contentes.", ["Não estamos satisfeitos", "nem contentes"]),
+        ("Não estamos satisfeitos, nem contentes.", ["Não estamos satisfeitos", "nem contentes"]),
+        ("Nem gostei.", ["Nem gostei"]),
+    ],
+)
+def test_conjuncao_nao_corta_negacao_pertinente_e_nem_e_marcador(transcricao, trechos_esperados):
+    """Contraexemplos de B11-R01: fechar escopo em vírgula/conjunção não pode
+    apagar a negação que de fato alcança a palavra."""
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is Sentimento.NEGATIVO
+    assert [e.trecho for e in resultado.evidencias] == trechos_esperados
+
+
+@pytest.mark.parametrize("transcricao", ["Não é ruim.", "NÃO É RUIM."])
+def test_e_com_acento_e_verbo_e_nao_fecha_o_escopo(transcricao):
+    """"é" normaliza para "e"; só a conjunção sem acento fecha escopo. Se o
+    verbo fechasse, "ruim" ficaria fora da negação e o resultado seria negativo."""
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is Sentimento.INFORMACAO_INSUFICIENTE
+    assert resultado.evidencias == []
+
+
+def test_nao_so_e_excecao_afirma_os_dois_lados():
+    """"Não só X, como Y" afirma X e Y — não é negação de X."""
+
+    resultado = analisar_sentimento("Não só estamos satisfeitos, como adoramos o atendimento.")
+
+    assert resultado.sentimento is Sentimento.POSITIVO
+    trechos = [e.trecho for e in resultado.evidencias]
+    assert trechos == ["satisfeitos", "adoramos"]
+    # a exceção não deixa "não" grudado em nenhuma evidência
+    assert all("não" not in trecho.lower() for trecho in trechos)
+
+
+def test_evidencia_negada_inclui_o_marcador_e_e_recorte_literal():
+    """A evidência de um sinal negado cobre o trecho negado inteiro, incluindo
+    "não", recortado literalmente da transcrição original (sem paráfrase)."""
+
+    transcricao = "Não estamos satisfeitos."
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert len(resultado.evidencias) == 1
+    evidencia = resultado.evidencias[0]
+    assert evidencia.trecho == "Não estamos satisfeitos"
+    assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+    assert evidencia.trecho.lower().startswith("não")
+
+
+def test_negacao_repetida_gera_evidencias_em_posicoes_distintas():
+    transcricao = "Não gostei do produto. Não gostei do suporte."
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is Sentimento.NEGATIVO
+    assert len(resultado.evidencias) == 2
+    primeira, segunda = resultado.evidencias
+    assert primeira.trecho == segunda.trecho == "Não gostei"
+    assert primeira.inicio < segunda.inicio
+    assert transcricao[primeira.inicio:primeira.fim] == "Não gostei"
+    assert transcricao[segunda.inicio:segunda.fim] == "Não gostei"
+    assert [e.id for e in resultado.evidencias] == ["e1", "e2"]
+
+
+@pytest.mark.parametrize(
+    "transcricao, sentimento_atual",
+    [
+        # Ironia não é detectada: "ótimo" continua contando como sinal positivo
+        # genuíno mesmo em uso sarcástico. Fora do escopo de B11 (prompt).
+        ("Ótimo, mais um problema.", Sentimento.NEUTRO),
+        # "O problema foi resolvido" não é reconhecido como neutralização do
+        # problema — comportamento já documentado desde B02, inalterado por B11.
+        ("O problema foi resolvido, ficamos satisfeitos.", Sentimento.NEUTRO),
+        # Negação dupla geral não é corrigida: cada "não" tenta negar o sinal
+        # mais próximo, sem compor as duas negações numa afirmação.
+        ("Não é verdade que não gostamos do produto.", Sentimento.NEGATIVO),
+        # Vírgula parentética dentro da mesma expressão fecha o escopo cedo
+        # demais (B11-R01 fecha em toda vírgula; não há análise sintática).
+        ("Não estamos, hoje, satisfeitos.", Sentimento.POSITIVO),
+        # Adjetivos coordenados por "e" sob uma só negação: o segundo fica
+        # sem negação. A forma natural em português é "nem", que é marcador.
+        ("Não estamos satisfeitos e contentes.", Sentimento.NEUTRO),
+    ],
+)
+def test_construcoes_fora_do_escopo_de_b11_permanecem_limitacao(transcricao, sentimento_atual):
+    """Pina construções que o cartão B11 explicitamente não cobre (ironia,
+    "problema resolvido", negação dupla geral) e os limites da regra de
+    escopo de B11-R01. Se este teste falhar, uma dessas limitações foi
+    resolvida e o README precisa ser atualizado junto.
     """
 
     assert analisar_sentimento(transcricao).sentimento is sentimento_atual

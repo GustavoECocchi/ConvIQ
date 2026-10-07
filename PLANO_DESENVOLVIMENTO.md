@@ -1,10 +1,10 @@
 # ConvIQ — Stack e etapas de desenvolvimento
 
-Atualizado em: 17/09/2026.
+Atualizado em: 07/10/2026.
 
 ## Estado e objetivo
 
-Python no backend e React no frontend foram confirmados pelo usuário. Os demais componentes abaixo são recomendações técnicas para organizar a implementação. Provedor de transcrição, orçamento e hospedagem continuam em aberto.
+Python no backend e React no frontend foram confirmados pelo usuário. Em 18/09/2026, o usuário definiu transcrição somente gratuita, permitindo Whisper, e dispensou persistência na primeira apresentação, desejando-a depois. Acesso por link no navegador é o objetivo; execução/hospedagem ficam **A_RESOLVER**. Whisper aberto em máquina disponível é a primeira candidata técnica, sujeita ao ensaio B07-A; não há escolha de API paga ou garantia de hospedagem gratuita.
 
 Objetivo: uma demonstração em que o usuário envia o áudio de uma reunião fictícia, acompanha o processamento e consulta a transcrição e um card de inteligência com evidências.
 
@@ -15,7 +15,15 @@ adiante. Essa evolução não amplia os critérios dos PRs atuais.
 
 Este documento será compartilhado com o colega de equipe responsável pelo frontend. Ele reúne a visão geral e um guia de execução para essa frente, incluindo o que pode avançar antes de a API estar disponível.
 
-Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Uma base local em `backend/` (FastAPI, configuração, endpoint de saúde, schemas e teste de saúde) chegou a ser criada, mas foi apagada por descuido antes de qualquer commit; nada disso está recuperável. A implementação do backend recomeça do zero a partir da etapa 1. A análise pela API, a interface web e a transcrição continuam pendentes. Os materiais Java e Oracle citados no contexto não estão nesta pasta.
+Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Após a perda da primeira base local, B01–B04/C01 foram implementados e aprovados tecnicamente: saúde, contrato de texto, sentimento, sinais comerciais e `POST /api/analises/texto`. Estão no commit agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`, confirmado em 07/10 como ponta da branch padrão `feat/b01-fundacao-api` no GitHub. B11/B12 foram aprovados tecnicamente; suas correções estão no commit local `b14f0a5`, ainda sem integração confirmada. Áudio e persistência ainda não existem; frontend/F06 não foram comprovados nesta cópia. Os materiais Java e Oracle citados no contexto não estão nesta pasta.
+
+Em 19/09/2026, B07-A tem entrega parcial do experimento isolado de Whisper
+na branch `spike/b07-a-viabilidade-whisper`, sobre o mesmo commit, ainda sem
+commit próprio. Falta validação com fala real; não há áudio integrado à API.
+O usuário também solicitou refinamento das capacidades já existentes:
+B11–B21 abaixo melhoram a análise por texto, aproveitável pelo áudio depois.
+Em 07/10, B07-A continua parcial, com P01 (fala real) pendente; B11/B12
+estão aprovados tecnicamente, e B13 é o próximo refinamento planejado.
 
 ## Stack proposta
 
@@ -28,14 +36,15 @@ Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Uma 
 | Frontend | React + TypeScript + Vite | Construir a aplicação no navegador e verificar tipos no desenvolvimento |
 | Estilos | CSS com variáveis e componentes reutilizáveis | Manter consistência visual e adaptação a telas menores |
 | Comunicação | HTTP/JSON com `fetch`; multipart para áudio | Conectar interface e backend |
-| Persistência local, na etapa 4 | SQLite + SQLAlchemy; Alembic para migrações | Guardar reuniões, transcrições, resultados e estados do processamento |
+| Estado da demonstração, na etapa 4 | Memória e arquivos de áudio temporários | Consultar tentativas e resultados enquanto o backend estiver ativo |
+| Persistência posterior, na etapa 5 | SQLite + SQLAlchemy; Alembic como proposta a confirmar | Guardar reuniões, transcrições, resultados e estados entre reinícios |
 | Testes | pytest no backend; Vitest e React Testing Library no frontend | Verificar regras, contratos e interações relevantes |
 | Validação integrada | Playwright, na etapa final | Exercitar a jornada pelo navegador |
-| Transcrição | Adaptador Python para o provedor escolhido | Converter áudio em texto sem vincular a interface a um fornecedor |
+| Transcrição | Adaptador para Whisper aberto, após viabilidade B07-A | Converter áudio em texto usando somente solução gratuita |
 
 A escolha de FastAPI aproveita Python no processamento e oferece contratos e documentação da API. React com Vite atende à proposta de uma interface que consome essa API. TypeScript ajuda a explicitar os dados usados pelos componentes.
 
-SQLite é a proposta para desenvolvimento e demonstração local. Antes da hospedagem, verificar persistência de disco e concorrência; PostgreSQL pode ser necessário conforme a infraestrutura. Conferir eventuais exigências acadêmicas de Oracle antes de fechar a entrega de banco.
+SQLite é uma proposta para a fase posterior de persistência, não um requisito da demonstração. Antes de escolher o banco publicado, verificar disco e concorrência; a infraestrutura pode exigir outra solução. Não introduzir Oracle sem exigência confirmada. Na demonstração sem banco, reiniciar o backend perde estados/resultados e exige novo envio do áudio.
 
 O experimento acadêmico permanece como referência. Extrair e revisar funções úteis em um serviço próprio, evitando executar treinamento, downloads ou gráficos ao iniciar a API. A adoção do classificador supervisionado depende de avaliação separada; a primeira entrega pode usar regras identificadas como tal.
 
@@ -50,7 +59,7 @@ CONVIQ/
 │   │   ├── schemas/       # Entradas e saídas
 │   │   ├── services/      # Análise e processamento
 │   │   ├── integrations/ # Transcrição
-│   │   └── db/            # Persistência, a partir da etapa 4
+│   │   └── db/            # Persistência posterior, etapa 5
 │   ├── tests/
 │   └── pyproject.toml
 ├── frontend/
@@ -69,7 +78,7 @@ Criar as pastas conforme cada etapa precisar delas. Fixar versões compatíveis 
 
 ## Etapas de desenvolvimento
 
-As etapas abaixo descrevem a sequência de entregas. A fundação do backend precisa ser recriada em B01; a base anterior foi perdida antes de commit. O colega de equipe é responsável pelo frontend. A pessoa responsável pelo backend e as datas ainda precisam ser registradas. Os dois responsáveis devem alinhar o contrato antes de integrar as entregas.
+As etapas abaixo descrevem a sequência de entregas, incluindo as já concluídas tecnicamente no backend (B01–B04/C01). O colega de equipe é responsável pelo frontend; Claude executa os PRs de backend e Codex coordena/verifica. O responsável humano pelo backend e as datas ainda precisam ser registrados. As duas frentes devem alinhar o contrato antes da integração.
 
 ### 1. Fundação e contrato de dados
 
@@ -96,21 +105,21 @@ Ao concluir a etapa 3, teremos a primeira versão utilizável: texto → anális
 
 ### 4. Áudio, transcrição e estado do processamento
 
-- **Pré-requisito específico:** escolher serviço ou modelo local de transcrição, recursos necessários, limites de arquivo e orçamento quando houver custos.
-- **Python:** implementar upload validado, adaptador de transcrição e persistência de reunião e processamento; encadear transcrição e o mesmo serviço de análise usado no texto.
+- **Pré-requisito específico:** verificar Whisper gratuito no ambiente disponível, medir recursos e definir limites de arquivo. Hospedagem permanece a resolver, sem bloquear o ensaio local.
+- **Python:** implementar upload validado, adaptador de transcrição e estado em memória; encadear transcrição e o mesmo serviço de análise usado no texto. Guardar áudio temporariamente conforme retenção explícita.
 - **Python:** oferecer consulta de estado e resultado; registrar falhas e permitir nova tentativa sem confundir tentativas distintas. Definir o executor de tarefas conforme o transcritor e o ambiente escolhidos.
 - **React:** adicionar seleção de áudio, envio, acompanhamento das etapas e recuperação de falhas. Consultar periodicamente o estado usando o identificador devolvido pela API.
-- **Entrega verificável:** um áudio fictício percorre transcrição real e análise até o card; arquivos inválidos e falhas de transcrição produzem mensagens úteis. Reiniciar o backend não pode deixar processamentos indefinidamente como ativos: recuperar ou marcar como interrompidos.
+- **Entrega verificável:** um áudio fictício percorre transcrição real e análise até o card; arquivos inválidos, falhas e timeout produzem mensagens úteis. Após reinício, registros em memória deixam de existir e a interface encerra a consulta e orienta novo envio; recuperação durável fica para B09-C, após persistência.
 
 Estados previstos: recebido → transcrevendo → analisando → concluído, com falha ou interrupção quando aplicável. Mostrar etapas reais; percentual somente quando houver medição disponível.
 
 ### 5. Consulta de resultados salvos
 
-- **Python:** implementar listagem e consulta das reuniões persistidas na etapa 4, com data, estado e resultado.
+- **Python:** implementar persistência em B05-A/B, recuperação após reinício em B09-C e depois listagem em B10, com data, estado e resultado.
 - **React:** criar lista de reuniões e navegação para os detalhes, permitindo reabrir uma análise.
 - **Entrega verificável:** após recarregar a página e reiniciar o backend, os resultados concluídos continuam disponíveis.
 
-Esta etapa é uma extensão proposta para facilitar a demonstração. Pode ficar para depois da primeira apresentação se o prazo exigir; a persistência mínima de processamento continua na etapa 4.
+Esta etapa fica depois da primeira apresentação conforme a decisão do usuário de 18/09/2026. Banco, recuperação durável e histórico não bloqueiam a demonstração de áudio.
 
 ### 6. Validação e preparação da demonstração
 
@@ -129,7 +138,7 @@ Cada PR deve entregar um comportamento ou artefato revisável, incluir sua valid
 
 Codex e Claude registram cada atuação e o estado de cada PR em [REGISTRO_TRABALHO.md](REGISTRO_TRABALHO.md), conforme [SISTEMA_GOVERNANCIA_CONVIQ.md](SISTEMA_GOVERNANCIA_CONVIQ.md). Entrega finalizada, aprovação, commit na branch de trabalho, push e integração na principal são informações separadas; consultar a ficha e o Git antes de retomar.
 
-**Responsáveis:** PRs `F` ficam com o colega do frontend; PRs `B`, com o responsável pelo backend ainda a registrar. Nos PRs `C` e `I`, escolher um autor e solicitar revisão da outra frente, evitando edições simultâneas dos mesmos arquivos.
+**Responsáveis:** PRs `F` ficam com o colega do frontend; Claude Sonnet executa os PRs `B`, Codex coordena/verifica e Opus revisa. O responsável humano pelo backend permanece a registrar. Nos PRs `C` e `I`, definir um autor e solicitar participação da outra frente quando houver integração.
 
 ### Primeira entrega: texto → análise → card
 
@@ -147,25 +156,57 @@ Codex e Claude registram cada atuação e o estado de cada PR em [REGISTRO_TRABA
 | F05 — Consulta de evidências | `EvidenceViewer` e `TranscriptViewer` | F04 | Sinal leva ao trecho correto, inclusive quando há texto repetido; interação utilizável por teclado |
 | F06 — Integração real por texto | Conectar formulário, card e evidências ao backend | F03, F05, B04 | Uma transcrição digitada percorre a API real e gera o card; indisponibilidade e erro de validação são tratados |
 
-B01 recria a fundação do zero, já que a base anterior foi perdida antes de qualquer commit. C01 complementa os schemas iniciais antes de o frontend depender deles.
+B01–B04/C01 já têm aceite técnico; seus critérios acima permanecem como referência. Confirmar integração e base Git antes de abrir os próximos PRs. C01 é o contrato vigente para o frontend.
 
 F03 e F04 podem avançar em paralelo ao serviço Python após F02. **O marco de primeira versão utilizável é F06**, sem depender de transcrição de áudio ou histórico.
+
+### Refinamento da análise existente — B11 a B21
+
+Solicitado pelo usuário em 19/09/2026, após o panorama ANA02. Esses PRs
+evoluem as limitações aceitas de B02–B04, mantendo a primeira versão de texto
+como base. Não dependem de Whisper, persistência ou hospedagem. O roteiro
+[Refinamento da análise](docs/planejamento/PRS_REFINAMENTO_ANALISE.md) contém
+problemas reproduzidos, cartões completos, exclusões, exemplos e validação.
+
+| Ordem sugerida | PR | Refinamento | Depende de |
+|---|---|---|---|
+| 1 | B11 | Negação simples no sentimento, com evidência do sentido completo | B04, C01 |
+| 2 | B12 | Risco de cancelamento: negação e contexto da relação comercial | B11 |
+| 3 | B13 | Oportunidade baseada em intenção, evitando menção ou interesse negado | B11 |
+| 4 | B14 | Unicode/NFD com mapeamento correto para os trechos originais | B11, B12, B13 |
+| 5 | B19 | Evidência única por intervalo, com referências preservadas | B14 |
+| 6 | B15 | Vocabulário de sentimento ampliado com contraexemplos | B11 |
+| 7 | B16 | Catálogo com contexto para marcas/siglas ambíguas | B04, C01 |
+| 8 | B17 | Uma oportunidade por intenção local, sem duplicar palavras do mesmo pedido | B13 |
+| 9 | B18 | Descrição ligada ao produto ou necessidade explícita | B16, B17 |
+| 10 | B20 | Recomendações específicas, sustentadas e sem repetição | B12, B18, B19 |
+| 11 | B21 | Avaliação pequena e reproduzível de ganhos e erros remanescentes | B15, B20 |
+
+Prioridade inicial: B11–B14, seguidos de B19. Manter regras locais gratuitas,
+formato C01 compatível e versionar mudanças observáveis da análise. Não
+prometer compreensão geral, probabilidades calibradas ou ironia resolvida.
+Cada PR terá testes próprios e revisão; B21 complementa, não adia, a validação.
+Todos estão planejados, sem implementação/branch nova nesta preparação.
 
 ### Segunda entrega: áudio → transcrição → análise → card
 
 | PR | Escopo e arquivos principais | Depende de | Critério de aceite |
 |---|---|---|---|
-| C02 — Contrato e decisão de áudio | `docs/contratos/audio.md`: provedor, limites, executor, estados, respostas e nova tentativa | F06 e decisão de transcrição/orçamento | Contrato inclui identificadores, falhas, interrupção, política de arquivos temporários e exemplos; recursos necessários definidos |
-| B05 — Persistência mínima | `backend/app/db/`, migrações e testes | C02 | Salva e recupera reunião, tentativa, transcrição e resultado; dados persistem após reabrir a conexão |
-| B06 — Recepção de áudio | Validador, armazenamento temporário e serviço de recebimento | B05 | Arquivo válido gera registro recebido; inválido é rejeitado; falhas não deixam arquivos órfãos. Rota pública entra com B08 |
-| B07 — Adaptador de transcrição | `backend/app/integrations/` e testes do adaptador | C02 | Retorna texto real de áudio fictício no ambiente escolhido; trata falha do transcritor; distingue testes simulados da verificação real |
-| F07 — Seleção e envio de áudio | `AudioUpload` e cliente de upload com exemplos | C02, F06 | Aplica limites definidos, mostra arquivo selecionado e trata rejeição; uso de exemplos permanece identificado |
-| B08 — Processamento e consulta | Ligar recebimento, transcrição e análise; expor rotas de upload, estado e detalhe | B04, B06, B07 | Upload inicia execução e devolve identificador; consulta reflete etapas reais e retorna resultado persistido ou falha |
-| F08 — Acompanhamento real | `ProcessingStatus`, consulta periódica e resultado | F07, B08 | Áudio enviado pela interface chega ao card real; consulta termina em estado final ou saída da tela |
-| B09 — Interrupção e nova tentativa | Recuperação após reinício, nova tentativa e limpeza de arquivos | B08 | Processo interrompido não fica ativo indefinidamente; nova tentativa tem identidade própria; limpeza segue C02 |
-| F09 — Recuperação de falhas | Interface de interrupção e nova tentativa | F08, B09 | Usuário entende a falha e pode tentar novamente; resultado antigo não é confundido com nova execução |
+| C02-A — Contrato técnico | `docs/contratos/audio.md`, schemas: limites, executor, estados, respostas e nova tentativa | B07-A, C01 | Contrato explícito para estado temporário, falhas, expiração, reinício e exemplos |
+| C02-B — Alinhamento entre frentes | Conferência de exemplos e consumo após integração de texto | C02-A, F06 | Compatibilidade confirmada pelo responsável do frontend antes de concluir integração de áudio |
+| B06-A/B — Recepção de áudio | Validação; depois recebimento e armazenamento temporário | A: C02-A; B: B06-A e B08-A | Validação efetiva e recebimento não deixam órfãos; sem dependência de banco |
+| B07-A/B — Transcrição gratuita | A: viabilidade isolada; B: adaptador na aplicação | A: B04/C01 como referência; B: B07-A e C02-A | Áudio fictício transcrito realmente; erros tratados; simulação identificada |
+| F07 — Seleção e envio de áudio | `AudioUpload` e cliente com exemplos | C02-B, F06 | Limites e rejeições tratados; resultados temporários claramente comunicados |
+| B08-A/B/C — Processamento e consulta | A: repositório em memória; B: executor; C: rotas | A: C02-A; B: B04, B06-B, B07-B, B08-A; C: B08-B | Upload devolve IDs; etapas reais; consulta retorna resultado temporário ou falha |
+| F08 — Acompanhamento real | `ProcessingStatus`, consulta periódica e resultado | F07, B08-C | Áudio chega ao card real; consulta para em estado final, ID perdido ou saída da tela |
+| B09-A/B — Nova tentativa e limpeza | A: retry; B: expiração e limpeza | A: B08-C; B: B09-A | Timeout tratado, nova identidade por tentativa, retenção respeitada |
+| F09 — Recuperação de falhas | Interface de erro, nova tentativa e reenvio | F08, B09-A/B | Falha explica próxima ação; após reinício/expiração solicita reenvio quando necessário |
 
-B06 entrega um serviço interno testável. A interface pública de upload só entra em B08, quando houver execução conectada. A decisão de transcrição pode ser pesquisada antes de F06; C02 consolida o acordo antes da implementação do fluxo de áudio.
+Os cartões completos, branches propostas, exclusões e validações estão em
+[PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md). Os sufixos
+subdividem os IDs antigos. C02-A permite backend independente; a antiga
+dependência de C02 em F06 fica em C02-B, preservando o acordo entre frentes
+antes da integração de áudio. B06 entrega serviço interno; HTTP entra em B08-C.
 
 **O marco da demonstração com áudio é F09**, com o fluxo de falha e recuperação também integrado.
 
@@ -173,12 +214,17 @@ B06 entrega um serviço interno testável. A interface pública de upload só en
 
 | PR | Escopo e arquivos principais | Depende de | Critério de aceite |
 |---|---|---|---|
-| B10 — Listagem de reuniões | `GET /api/reunioes`, ordenação e limite de resultados | B09 | Lista registros persistidos de modo previsível; detalhe continua disponível |
+| B05-A/B — Persistência posterior | A: banco/migração; B: repositório persistente | A: C02-A, B08-A e escolha de banco; B: B05-A, B09-B | Resultados e tentativas persistem após reabrir/reiniciar; fora da primeira demonstração |
+| B09-C — Recuperação durável | Reconciliação de estados após queda/reinício | B05-B | Ativos interrompidos não ficam eternos; concluídos preservados |
+| B10 — Listagem de reuniões | `GET /api/reunioes`, ordenação e limite de resultados | B09-C | Lista registros persistidos de modo previsível; detalhe continua disponível |
 | F10 — Histórico | `MeetingList` e navegação para detalhes | F09, B10 | Reabre análises salvas após recarregar a página |
 | F11 — Revisão visual e acessibilidade | Ajustes pontuais de layout, foco, teclado e mensagens | F09; F10 se incluído | Jornada utilizável em computador e tela menor; sem falhas de interação identificadas na revisão |
-| I01 — Ensaio da demonstração | Teste integrado, instruções e exemplo de apoio identificado | F11, B09 | Jornada real validada no ambiente de apresentação; comandos e resultados registrados; distinguir teste com transcritor simulado do ensaio real |
+| I01-A — Ensaio real do backend | Áudio fictício → Whisper → API/análise, falhas e reenvio | B09-B | Transcrição real e evidências reproduzíveis no ambiente de desenvolvimento |
+| I01 — Ensaio da demonstração | Jornada no navegador, instruções e exemplo de apoio identificado | F11, I01-A e ambiente definido em H01 | Jornada real validada no ambiente de apresentação; distinguir simulação, ensaio local e acesso por link |
 
-B10 e F10 podem ser adiados juntos sem bloquear a apresentação. Problemas encontrados no ensaio que exijam mudanças independentes devem gerar PRs de correção próprios, em vez de ampliar I01.
+B05-A/B, B09-C, B10 e F10 ficam posteriores à apresentação. H01 é a decisão
+de execução/hospedagem **A_RESOLVER**, sem PR de implantação liberado. Problemas
+independentes encontrados no ensaio devem gerar PRs de correção próprios.
 
 ### Como abrir e revisar cada PR
 
@@ -189,7 +235,12 @@ B10 e F10 podem ser adiados juntos sem bloquear a apresentação. Problemas enco
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Próximo passo:** implementar B01 do zero e encaminhar F01 ao responsável pelo frontend. Depois da revisão e integração de B01, consolidar C01 para liberar o desenvolvimento independente das duas frentes. Consultar o registro de trabalho para saber o que já foi preparado, iniciado ou entregue.
+**Encaminhamento vigente (07/10/2026):** integrar a versão aprovada de B11/B12
+na branch padrão após conferir o PR; depois iniciar B13. B07-A continua
+parcial por falta da amostra P01 de fala real, e sua instrução de retomada
+permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
+Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes
+de iniciar, uma entrega por vez, preservando os trabalhos existentes.
 
 ## Guia de trabalho do responsável pelo frontend
 
@@ -248,9 +299,12 @@ O frontend precisa apenas da URL pública da API. Chaves do serviço de transcri
 
 ## Contrato inicial entre Python e React
 
-**Situação:** proposta de contrato para alinhar as duas frentes. Nenhuma rota está implementada; `GET /api/health` e os demais endpoints abaixo continuam planejados, a começar pela etapa 1. Em C01, consolidar os schemas e exemplos de texto; em C02, os de áudio. Comunicar mudanças ao outro responsável antes de alterar o formato compartilhado.
+**Situação:** `GET /api/health` e `POST /api/analises/texto` existem. O contrato
+vigente de texto é [C01](docs/contratos/analise-texto.md), com schemas e exemplos
+verificáveis. Áudio continua planejado em C02-A/B. Comunicar alterações de
+formato compartilhado à outra frente antes da integração.
 
-Na etapa 1, detalhar estes campos em schemas e exemplos compartilhados:
+Campos de referência (consultar C01 para os detalhes já implementados):
 
 - **Entrada por texto:** título da reunião, empresa, vínculo (`cliente`, `prospect` ou `nao_informado`) e transcrição.
 - **Resultado:** sentimento, situação do risco de churn, oportunidades, produtos e concorrentes, evidências, recomendações, método e versão da análise.
@@ -258,7 +312,7 @@ Na etapa 1, detalhar estes campos em schemas e exemplos compartilhados:
 - **Churn:** `nao_aplicavel` para prospect; `informacao_insuficiente` quando não for possível avaliar. Ausência de sinais detectados não garante baixo risco real.
 - **Processamento de áudio:** identificador, estado, erro quando houver e referência ao resultado quando concluído.
 
-Rotas propostas, a implementar nas respectivas etapas:
+Rotas existentes nas etapas 1/2; propostas para as etapas 4/5:
 
 | Etapa | Rota | Finalidade |
 |---|---|---|
@@ -266,10 +320,15 @@ Rotas propostas, a implementar nas respectivas etapas:
 | 2 | `POST /api/analises/texto` | Analisar uma transcrição |
 | 4 | `POST /api/reunioes/audio` | Receber áudio e devolver identificador de processamento |
 | 4 | `GET /api/processamentos/{id}` | Consultar andamento e referência ao resultado |
-| 4 | `GET /api/reunioes/{id}` | Recuperar transcrição e análise persistidas |
+| 4 | `GET /api/reunioes/{id}` | Recuperar transcrição e análise disponíveis na instância atual |
+| 4 | `POST /api/processamentos/{id}/tentativas` | Criar nova tentativa elegível enquanto houver áudio |
 | 5 | `GET /api/reunioes` | Listar reuniões salvas |
 
-### Exemplo para iniciar o formulário e o card
+### Exemplo histórico para iniciar o formulário e o card
+
+O exemplo abaixo é um rascunho histórico, não o contrato atual: não contém
+todos os campos de C01 (como posições das evidências). Para implementar,
+usar os exemplos completos em [C01](docs/contratos/analise-texto.md).
 
 Entrada fictícia proposta para `POST /api/analises/texto`:
 
@@ -313,7 +372,9 @@ Resposta fictícia correspondente, destinada ao desenvolvimento da interface:
 }
 ```
 
-Esse exemplo não representa saída já validada do analisador. A classificação é um sinal para investigação, sem probabilidade de cancelamento. As posições das evidências serão detalhadas na etapa 1 para permitir localizar trechos repetidos sem ambiguidade.
+Esse exemplo não representa saída validada do analisador. A classificação é
+um sinal para investigação, sem probabilidade de cancelamento. As posições
+das evidências já estão definidas em C01 para localizar trechos sem ambiguidade.
 
 Valores propostos para os tipos do frontend:
 
@@ -333,7 +394,9 @@ Proposta de erro padronizado pela API, inclusive com adaptação dos erros de va
 }
 ```
 
-Na etapa 1, combinar os códigos HTTP e de erro. Na etapa 4, acrescentar exemplos completos de upload, estados, resultado e nova tentativa. Esses formatos de áudio ainda não devem ser tratados como contratos fechados.
+Os códigos HTTP e de erro de texto constam de C01; o rascunho acima não os
+substitui. C02-A acrescentará exemplos completos de upload, estados, resultado
+e nova tentativa; os formatos de áudio ainda não são contratos implementados.
 
 ## Evolução futura — grupos, memória da equipe e compromissos
 
@@ -420,16 +483,20 @@ e [ajuste de modelos](https://docs.cloud.google.com/gemini-enterprise-agent-plat
 
 ## Decisões ainda abertas
 
-- Provedor de transcrição, processamento local ou externo e orçamento.
+- Viabilidade/configuração do Whisper aberto em B07-A; somente transcrição
+  gratuita está autorizada. Recursos da hospedagem seguem a resolver em H01.
 - Método de análise além das regras, com interesse do usuário em modelos
   pré-treinados; fornecedor, custo e avaliação ainda a definir. Grupos,
   memória da equipe, tarefas e encaminhamento ficam para a evolução futura
   acima; resumos continuam a detalhar.
 - Formatos, duração e tamanho máximos dos áudios, conforme a solução escolhida.
 - Prazo, responsável pelo backend e exigências acadêmicas aplicáveis; o frontend já tem responsável definido pelo usuário.
-- Hospedagem, banco no ambiente publicado e política de acesso caso a aplicação seja disponibilizada publicamente.
+- Execução por link, hospedagem e política de acesso em H01; banco do ambiente
+  publicado apenas na fase posterior de persistência.
 
-Essas decisões não impedem a etapa 1. Login e grupos acompanham a evolução
+Essas decisões não impedem B07-A nem o planejamento dos PRs. Os limites
+concretos devem ser fechados em C02-A antes de implementar seus consumidores.
+Login e grupos acompanham a evolução
 futura definida acima. Dashboards agregados, gravação ao vivo e integrações
 com plataformas de reuniões também permanecem fora dos PRs atuais.
 
@@ -449,6 +516,27 @@ Validação: confronto com o contexto, leitura da análise existente no Python e
 
 ### Atualização em 17/09/2026 (Claude)
 
+Nota histórica: descreve o estado em 17/09, sucedido pela implementação
+B01–B04/C01 e pela atualização de 18/09 acima.
+
 A base local em `backend/` citada acima foi apagada por descuido antes de qualquer commit; não há nada versionado ou recuperável. As referências a "revisar" ou "código existente" no backend foram corrigidas neste documento para refletir que a implementação recomeça do zero a partir de B01, sem mudar o restante do planejamento (stack, etapas, PRs e contrato seguem os mesmos).
 
 Também foi corrigida a estrutura de pastas do repositório local: existia um `.git` aninhado dentro de uma subpasta `ConvIQ/`, sem nenhum commit, separado do repositório principal (que já tem remote no GitHub e um commit inicial com `conviq_datascience.py` e a documentação de contexto). Esse `.git` aninhado foi removido e este plano passou a viver na raiz do repositório principal, ao lado de `conviq_datascience.py`, conforme a árvore da seção "Estrutura prevista".
+
+### Atualização em 18/09/2026 (Codex, PLN01)
+
+Decisões do usuário incorporadas: transcrição gratuita com Whisper permitido,
+persistência posterior e execução por link a resolver. Famílias C02/B05–B10
+divididas em cartões pequenos no roteiro vinculado; C02-B conserva a conferência
+com F06, sem bloquear o backend independente. `prompt.md` prepara somente
+B07-A. Nenhuma implementação, instalação, execução de teste da aplicação,
+abertura de PR, commit, push ou integração nesta atualização documental.
+
+### Atualização em 19/09/2026 (Codex, PLN02)
+
+Acrescentados B11–B21 para refinar as capacidades atuais, com base em dez
+sondagens da composição real que reproduzem limitações de sentido, contexto,
+vocabulário, catálogo, oportunidades e evidências. Roteiro detalhado e prompt
+B11 preparados; prompt B07-A preservado para a tarefa parcial. Implementação,
+testes de aceitação e revisão dos novos PRs continuam futuros. Sem alteração
+de código ou operação Git de escrita nesta preparação.
