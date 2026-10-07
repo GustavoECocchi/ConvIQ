@@ -12,11 +12,11 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 07/10/2026 pelo Codex (B13-04). B13 foi finalizada
-localmente pelo Sonnet em B13-01, corrigida pelo Opus em B13-03 e recebeu
-aceite técnico após a verificação final do Codex. A entrega continua em diff
-local sobre `9921f57`, NAO_COMMITADA/NAO_PUBLICADA/NAO_INTEGRADA, sem PR
-remoto. B11/B12 estão integrados pelo PR #1 em `feat/b01-fundacao-api`;
+Fotografia atualizada em 07/10/2026 pelo Codex (B13-05). B13 foi finalizada
+pelo Sonnet em B13-01, corrigida pelo Opus em B13-03 e aprovada tecnicamente
+pelo Codex em B13-04. A versão aprovada foi commitada em `ebed307`,
+publicada e apresentada no PR #2, aberto para `feat/b01-fundacao-api`.
+Ainda NAO_INTEGRADA. B11/B12 estão integrados pelo PR #1;
 B07-A segue parcial.
 Fotografias anteriores são históricas.
 
@@ -37,17 +37,34 @@ Fotografias anteriores são históricas.
 | [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | INTEGRADO após aceite B11-04; PR #1 MERGEADO | Origem `d5fb40a`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | INTEGRADO após aceite B12-07; PR #1 MERGEADO | Origem `d5fb40a` + `b14f0a5`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | Conteúdo PUBLICADO no PR #1; `b14f0a5` permanece local na origem | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
-| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | FINALIZADA (B13-01, Sonnet) e corrigida pelo Opus (B13-03): R01/R02 corrigidos | APROVADO tecnicamente em B13-04 (Codex); integração pendente | NAO_COMMITADO; diff local de 7 arquivos sobre `9921f57` (B13-01 + B13-03, README corrigido em B13-04), mais registro/prompt locais e relatório não rastreado | `fix/b13-intencao-oportunidade`, HEAD `9921f57` | NAO_PUBLICADA; branch remota ausente em consulta 07/10 (Codex) | NAO_INTEGRADA; PR remoto NAO_ABERTO |
+| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | FINALIZADA (B13-01, Sonnet) e corrigida pelo Opus (B13-03): R01/R02 corrigidos | APROVADO tecnicamente em B13-04; PR [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) ABERTO | COMMITADO em `ebed307` (sete arquivos B13, registro B13-04 e relatório Sonnet); atualização B13-05 do registro local; `prompt.md` local fora do PR | `fix/b13-intencao-oportunidade`, HEAD `ebed307`, base `9921f57` | PUBLICADA em `origin/fix/b13-intencao-oportunidade`, `ebed307` conferido no servidor | NAO_INTEGRADA em `feat/b01-fundacao-api` (`9921f57`); PR #2 ABERTO |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
-integrado em INT01-06; B13 tem aceite técnico local e aguarda a decisão de
-publicação e integração.
+integrado em INT01-06; B13 tem aceite técnico e PR #2 aberto, aguardando
+integração.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 07/10/2026, B13-04 (Codex)
+### Fotografia Git vigente — 07/10/2026, B13-05 (Codex)
+
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
+  `fix/b13-intencao-oportunidade`, base `9921f57`. A versão aprovada de
+  B13 (sete arquivos), o registro até B13-04 e o relatório Sonnet estão
+  COMMITADOS em `ebed307d0861b54de6f1f7664d02b4f64a0fb407`.
+  Conferi os sete hashes dos arquivos aprovados após o commit. A atualização
+  B13-05 deste registro ainda é local; `prompt.md` é rascunho local
+  preexistente, fora do commit/PR. Índice vazio após o primeiro commit.
+- `origin/fix/b13-intencao-oportunidade` publicado em `ebed307`;
+  PR [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) ABERTO,
+  `head=ebed307`, `base=feat/b01-fundacao-api` em `9921f57`.
+  Servidor informou `mergeable=MERGEABLE` e nenhuma verificação automática
+  listada nesta consulta. B13 NAO_INTEGRADA. Nenhum merge executado.
+- O registro da pasta raiz será sincronizado após o fechamento documental
+  desta atuação. As alterações preexistentes de sua branch foram preservadas.
+
+### Fotografia Git histórica — 07/10/2026, B13-04 (Codex)
 
 - Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
   `fix/b13-intencao-oportunidade`, HEAD/base `9921f57`, índice vazio.
@@ -3553,6 +3570,36 @@ Destino previsto / branch principal: NAO_VERIFICADO
 
 ## B13 — Intenção comercial para oportunidade
 
+### Publicação e abertura do PR — Codex, 07/10/2026 — B13-05
+
+O usuário autorizou seguir com a publicação após o aceite técnico B13-04.
+A versão aprovada, o registro até B13-04 e o relatório histórico Sonnet
+foram commitados em `ebed307d0861b54de6f1f7664d02b4f64a0fb407`,
+pai/base `9921f579481fdfac098576de425b7ed19df8ef8d`, na branch
+`fix/b13-intencao-oportunidade`. O commit contém exatamente nove arquivos:
+os sete arquivos da entrega B13, `REGISTRO_TRABALHO.md` e
+`docs/revisoes/RELATORIO_SONNET_B13_2026-10-07.md`. `prompt.md` permaneceu
+modificado apenas localmente como rascunho oficial, fora do PR.
+
+- **Entrega/revisão:** Sonnet FINALIZADA, Opus concluiu correção R01/R02,
+  Codex APROVOU tecnicamente em B13-04; nenhum código novo nesta atuação.
+- **Git da entrega:** COMMITADO em `ebed307`, hashes dos sete arquivos
+  aprovados reconferidos após o commit. `git diff --check 9921f57..HEAD`
+  limpo. Registro B13-05 preparado localmente para commit documental
+  subsequente; `prompt.md` permanece modificado e fora do PR.
+- **Publicação:** `git push -u origin fix/b13-intencao-oportunidade`
+  publicou `ebed307`, confirmado por `git ls-remote` e PR remoto.
+- **PR remoto:** [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2)
+  ABERTO, `head=fix/b13-intencao-oportunidade` em `ebed307` e
+  `base=feat/b01-fundacao-api` em `9921f57`; não é draft. Consulta
+  mostrou `MERGEABLE`, sem verificações automáticas listadas e sem
+  decisão de revisão registrada.
+- **Integração:** NAO_INTEGRADA no destino; nenhum merge realizado.
+  B14 continua dependente de B13 e não foi iniciado.
+- **Próximo responsável:** coordenação/usuário avaliam o PR e decidem
+  integração. Após merge autorizado, conferir o commit resultante e a
+  branch padrão; manter o registro atualizado.
+
 ### Verificação final e aceite técnico — Codex, 07/10/2026 — B13-04
 
 `B13-01` (Sonnet) está FINALIZADA; `B13-03` (Opus) concluiu a revisão e
@@ -6748,3 +6795,31 @@ b927f77042908021ca691f234ab424417989808f6c7c6fed632c7a65afe3e17a  docs/contratos
   NAO_INTEGRADA. Nenhum commit/push/PR/merge nesta atuação. Usuário
   decide a publicação/integração; depois, Codex confere a equivalência
   do conteúdo commitado/integrado. B14 ainda não iniciado.
+
+### B13-05 — 07/10/2026 — Codex / commit, push e PR remoto
+
+- **Pedido:** usuário autorizou seguir após o aceite técnico B13-04,
+  cujo próximo passo registrado era publicar a branch B13 e abrir o PR.
+  Conferi antes: worktree B13, branch `fix/b13-intencao-oportunidade`,
+  HEAD/base `9921f57`, índice vazio, sete hashes aprovados e destino
+  `feat/b01-fundacao-api` no mesmo `9921f57` remoto.
+- **Commit:** preparei somente os sete arquivos B13 aprovados,
+  `REGISTRO_TRABALHO.md` até B13-04 e o relatório histórico Sonnet;
+  `prompt.md` ficou fora do índice. `git diff --cached --check` limpo.
+  Criei `ebed307d0861b54de6f1f7664d02b4f64a0fb407`
+  (`fix: exigir intenção comercial para oportunidades (B13)`), pai
+  `9921f57`. Conferi a lista dos nove arquivos, pai, status e os sete
+  hashes após o commit. Código/testes não mudaram nesta atuação.
+- **Push e PR:** publiquei `ebed307` em
+  `origin/fix/b13-intencao-oportunidade`; `git ls-remote` confirmou o
+  hash remoto. Abri o PR
+  [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) com destino
+  `feat/b01-fundacao-api`; `gh pr view` confirmou `OPEN`, não draft,
+  head `ebed307`, base `9921f57`, `MERGEABLE` e lista vazia de checks.
+  Nenhum merge ou integração.
+- **Arquivos/pendências:** esta atualização do índice, fotografia,
+  ficha e evento em `REGISTRO_TRABALHO.md` está local neste momento;
+  `prompt.md` é alteração local preexistente, excluída do PR. A cópia
+  do registro na pasta raiz será sincronizada após a atualização final.
+  O próximo passo é registrar esta publicação no PR, conferir o novo
+  head e aguardar a decisão de integração do usuário.
