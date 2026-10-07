@@ -12,14 +12,15 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 07/10/2026 pelo Codex, durante INT01. A branch
-`integrate/b11-b12-analise` parte de `6169fec` e contém, ainda sem commit
-próprio nesta fotografia, B11/B12 aprovados e documentos de acompanhamento.
-B12 foi preservado no commit de origem `b14f0a5`; a cópia isolada passou
-na suíte completa (212 testes). Nenhuma integração ocorreu.
+Fotografia atualizada em 07/10/2026 pelo Codex, após INT01-04. A branch
+`integrate/b11-b12-analise` parte de `6169fec` e preserva B11/B12
+aprovados e documentos de acompanhamento no commit publicado `45e1e76`.
+B12 também está no commit de origem `b14f0a5`; a cópia isolada passou
+na suíte completa (212 testes). O PR remoto #1 está ABERTO para
+`feat/b01-fundacao-api`; nenhuma integração ocorreu.
 O GitHub confirma `feat/b01-fundacao-api` como branch padrão em `6169fec`;
-`fix/b12-contexto-risco` no servidor permanece em `d5fb40a`, e nenhum PR
-remoto está aberto ou registrado na listagem consultada. A referência
+`fix/b12-contexto-risco` no servidor permanece em `d5fb40a`. O PR #1
+foi aberto depois da listagem vazia de B12-08. A referência
 local `origin/main` não corresponde a uma branch existente no servidor.
 O commit `d5fb40a` reúne B07-A-06, B11 e B12; B11 tem aceite técnico nessa
 versão. Fotografias anteriores são históricas.
@@ -38,18 +39,48 @@ versão. Fotografias anteriores são históricas.
 | [B07-A — Viabilidade do Whisper](#b07-a--viabilidade-do-whisper) | PARCIAL; P01 (fala real) pendente | EM_REVISAO; Codex verificou R03/R04 em B07-A-07, sem encerrar a avaliação de viabilidade | COMMITADO; correções R03/R04 em `d5fb40a` (junto de B11/B12, não em commit próprio) | `fix/b12-contexto-risco` (commit `d5fb40a`); origem `spike/b07-a-viabilidade-whisper` continua em `cc61925` | PUBLICADO em 21/09; consulta atual ao servidor NAO_VERIFICADA | NAO_INTEGRADO |
 | [ANA02 — Panorama funcional](#ana02--panorama-funcional) | FINALIZADA; análise | ENTREGUE | COMMITADO; `cc61925` | `spike/b07-a-viabilidade-whisper` | PUBLICADO; branch remota conferida | NAO_SE_APLICA |
 | [PLN02 — Refinamento das capacidades](#pln02--refinamento-das-capacidades) | FINALIZADA; planejamento | ENTREGUE | COMMITADO; `cc61925` | `spike/b07-a-viabilidade-whisper` | PUBLICADO; branch remota conferida | NAO_SE_APLICA |
-| [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | APROVADO tecnicamente em B11-04; composição isolada validada em INT01 | Origem `d5fb40a` COMMITADA; reaplicação byte a byte em `integrate/b11-b12-analise` ainda NAO_COMMITADA nesta fotografia | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | Origem `d5fb40a` publicada; branch de integração NAO_PUBLICADA | NAO_INTEGRADO em `feat/b01-fundacao-api` |
-| [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | APROVADO tecnicamente em B12-07; composição isolada validada em INT01 | Origem COMMITADA em `d5fb40a` + `b14f0a5`; reaplicação byte a byte em `integrate/b11-b12-analise` ainda NAO_COMMITADA nesta fotografia | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `b14f0a5` NAO_PUBLICADO; branch de integração NAO_PUBLICADA | NAO_INTEGRADO em `feat/b01-fundacao-api` |
-| [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | Preparada, validação concluída | PREPARADA para commit e PR; sem merge | NAO_COMMITADA nesta fotografia; base `6169fec` | `integrate/b11-b12-analise` | NAO_PUBLICADA | NAO_INTEGRADA |
+| [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | APROVADO tecnicamente em B11-04; PR #1 ABERTO | Origem `d5fb40a`; reaplicação byte a byte COMMITADA em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO e hash remoto conferido em 07/10 | NAO_INTEGRADO em `feat/b01-fundacao-api` |
+| [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | APROVADO tecnicamente em B12-07; PR #1 ABERTO | Origem `d5fb40a` + `b14f0a5`; reaplicação byte a byte COMMITADA em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO e hash remoto conferido; `b14f0a5` não publicado na origem | NAO_INTEGRADO em `feat/b01-fundacao-api` |
+| [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | Preparada, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) ABERTO; sem merge | `45e1e76` sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. Nenhum PR no servidor
-foi aberto nesta atuação; a listagem remota de PRs foi consultada em B12-08 e
-estava vazia. Criar/atualizar a ficha de cada tarefa
+foi aberto antes de INT01; a listagem remota de B12-08 estava vazia e o PR
+#1 foi aberto nesta atuação. Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 07/10/2026, INT01-01 (Codex)
+### Fotografia Git vigente — 07/10/2026, INT01-04 (Codex)
+
+- PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) confirmado
+  `OPEN`, não rascunho, head `integrate/b11-b12-analise` em `45e1e76`,
+  base `feat/b01-fundacao-api`, `MERGEABLE`, sem checks de CI listados na
+  consulta. Nenhum merge feito; B11/B12 continuam APROVADAS tecnicamente,
+  PUBLICADAS na branch de integração e NAO_INTEGRADAS na branch padrão.
+  Esta atualização do registro é local, posterior à abertura do PR.
+
+### Fotografia Git histórica — 07/10/2026, INT01-03 (Codex)
+
+- GitHub confirmou `integrate/b11-b12-analise` em
+  `45e1e7665b8a6c2e8cdd8ad2fdc1e729d7fa84af`. A comparação remota com
+  `feat/b01-fundacao-api` mostrou `ahead_by=1`, um único commit e 18
+  arquivos esperados, sem script, requisitos, WAV ou decisão experimental
+  de B07-A. PR ainda não aberto e nenhum merge realizado. Esta atualização
+  de registro é local, posterior ao push.
+
+### Fotografia Git histórica — 07/10/2026, INT01-02 (Codex)
+
+- Commit local `45e1e76` em `integrate/b11-b12-analise`, base `6169fec`,
+  contém 18 arquivos de B11/B12 e documentação de coordenação. O diff
+  preparado passou `git diff --cached --check`; a suíte completa da
+  composição passou 212/212 antes do commit. Nenhum artefato executável de
+  B07-A entrou. Esta atualização de registro é local e posterior ao commit.
+- Sem push, PR ou merge nesta fotografia. A branch padrão confirmada na
+  última consulta é `feat/b01-fundacao-api` em `6169fec`. O worktree de
+  origem continua com `prompt.md` modificado e relatório Sonnet não
+  rastreado, ambos preservados.
+
+### Fotografia Git histórica — 07/10/2026, INT01-01 (Codex)
 
 - Worktree `/tmp/conviq-b11-b12-analise`, branch
   `integrate/b11-b12-analise`, HEAD/base `6169fec`. Arquivos da aplicação
@@ -2395,6 +2426,21 @@ NAO_COMMITADO/NAO_PUBLICADO. Fotografias Git anteriores abaixo são históricas.
 
 ## INT01 — Entrega isolada B11/B12
 
+### PR remoto aberto — Codex, 07/10/2026 — INT01-04
+
+- **PR:** [#1 — B11/B12: negação no sentimento e risco com contexto local](https://github.com/GustavoECocchi/ConvIQ/pull/1), `OPEN`, não rascunho,
+  `MERGEABLE`, sem checks de CI listados na consulta. Head publicado
+  `integrate/b11-b12-analise` em `45e1e76`; base confirmada
+  `feat/b01-fundacao-api` em `6169fec`.
+- **Entrega/revisão/Git:** B11/B12 FINALIZADAS e APROVADAS tecnicamente;
+  reaplicação isolada COMMITADA/PUBLICADA, 212 testes aprovados. O commit
+  de origem B12 `b14f0a5` continua local na outra branch; o conteúdo foi
+  publicado no PR por reaplicação byte a byte. Este registro posterior ao
+  PR ainda está local e não commitado nesta fotografia.
+- **Integração/próximo responsável:** NAO_INTEGRADO; coordenação/usuário
+  acompanham revisão do PR e decidem o merge. B13 é a próxima implementação
+  planejada após integrar B11/B12.
+
 ### Preparação e validação — Codex, 07/10/2026 — INT01-01
 
 ```text
@@ -2426,6 +2472,13 @@ PR remoto: NAO_ABERTO na consulta B12-08; integração NAO_INTEGRADA
   branch, abre PR para `feat/b01-fundacao-api` e registra o resultado.
 
 ## B11 — Negação no sentimento
+
+### PR de integração — Codex, 07/10/2026 — INT01-04
+
+B11 FINALIZADA/APROVADA tecnicamente, COMMITADA e PUBLICADA na branch
+`integrate/b11-b12-analise` (commit `45e1e76`); PR remoto [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
+ABERTO para `feat/b01-fundacao-api`, ainda NAO_INTEGRADO. Próximo
+responsável: coordenação/usuário após revisão do PR.
 
 ### Reaplicação isolada — Codex, 07/10/2026 — INT01-01
 
@@ -2713,6 +2766,15 @@ Destino previsto / branch principal: NAO_VERIFICADO
   ainda não criada nessa época. Git da implementação: SEM_ALTERACOES.
 
 ## B12 — Risco de cancelamento com contexto local
+
+### PR de integração — Codex, 07/10/2026 — INT01-04
+
+B12 FINALIZADA/APROVADA tecnicamente, COMMITADA na origem (`d5fb40a` e
+`b14f0a5`) e reaplicada sem alteração de conteúdo no commit publicado
+`45e1e76`. PR remoto [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
+ABERTO para `feat/b01-fundacao-api`, ainda NAO_INTEGRADO. O commit de origem
+`b14f0a5` permanece local; o conteúdo B12 está publicado no PR. Próximo
+responsável: coordenação/usuário após revisão do PR.
 
 ### Reaplicação isolada — Codex, 07/10/2026 — INT01-01
 
@@ -5929,3 +5991,43 @@ e64b14c66ef9773b1ef05e319bb499c5c56ba813e9d84dcbeda0c1d9256e2518  backend/README
   B11/B12 NAO_INTEGRADOS. `prompt.md` modificado e relatório Sonnet não
   rastreado foram preservados no worktree de origem. Próximo responsável:
   Codex conclui commit, push e PR, registrando cada resultado.
+
+### INT01-02 — 07/10/2026 — Codex / commit da branch isolada
+
+- **Ação:** conferi o índice com 18 arquivos de B11/B12, contrato, testes,
+  registro, governança, plano, roteiros e relatório Opus; `git diff
+  --cached --check` limpo. Criei `45e1e76` em
+  `integrate/b11-b12-analise` sobre `6169fec`.
+- **Estado:** B11/B12 continuam FINALIZADAS/APROVADAS, agora também
+  COMMITADAS na branch isolada. Este evento posterior ao commit está local
+  e ainda não commitado. A branch ainda não foi publicada; PR NAO_ABERTO,
+  integração NAO_REALIZADA.
+- **Próximo responsável:** Codex confirma o destino remoto, publica a
+  branch e abre PR após conferir o resultado no servidor.
+
+### INT01-03 — 07/10/2026 — Codex / publicação da branch isolada
+
+- **Ação/evidência:** antes do push, confirmei no GitHub que a branch padrão
+  `feat/b01-fundacao-api` ainda estava em `6169fec`. Publiquei
+  `integrate/b11-b12-analise`; a consulta ao servidor confirmou o hash
+  `45e1e7665b8a6c2e8cdd8ad2fdc1e729d7fa84af`.
+- **Comparação remota:** um commit à frente, 18 arquivos, sem artefatos
+  executáveis de B07-A. B11/B12 FINALIZADAS/APROVADAS/COMMITADAS/
+  PUBLICADAS nessa branch; PR ainda NAO_ABERTO e integração
+  NAO_REALIZADA. Esta nota posterior ao push está local e não commitada.
+- **Próximo responsável:** Codex abre o PR para `feat/b01-fundacao-api` e
+  registra o número e o estado observado.
+
+### INT01-04 — 07/10/2026 — Codex / abertura do PR remoto
+
+- **Ação:** aberto [PR #1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
+  de `integrate/b11-b12-analise` para a branch padrão confirmada
+  `feat/b01-fundacao-api`. A descrição informa escopo B11/B12, composição,
+  validação, limites de B12 e que B07-A experimental não entra.
+- **Conferência remota:** `OPEN`, não rascunho, `MERGEABLE`, head
+  `45e1e7665b8a6c2e8cdd8ad2fdc1e729d7fa84af`, sem checks de CI
+  listados. Nenhum merge. B11/B12 permanecem APROVADAS/PUBLICADAS/
+  NAO_INTEGRADAS; este evento é atualização local após a abertura do PR.
+- **Próximo responsável:** Codex publica esta atualização do registro;
+  coordenação/usuário acompanham revisão e decidem integração. B13 ainda
+  não iniciado.
