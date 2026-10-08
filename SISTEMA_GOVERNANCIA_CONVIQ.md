@@ -2,6 +2,8 @@
 
 Versão: 1.1 — 17/09/2026. Registro compartilhado obrigatório solicitado pelo usuário.
 
+**Versão 1.2 — 07/10/2026 (modo ágil):** a seção 11 reduz leitura, escrita e cerimônia de Git. Onde ela divergir das seções 1, 5.1, 5.2, 8, 9 e 10, a seção 11 prevalece; o ciclo de papéis, os estados e os critérios de aceite não mudam.
+
 ## 1. Objetivo e funcionamento
 
 Organizar o desenvolvimento do ConvIQ em PRs pequenos, com escopo definido, execução pelo Claude, revisão com evidências e coordenação pelo Codex junto ao usuário.
@@ -391,3 +393,42 @@ Permanecem abertas as decisões do plano sobre transcrição, custos, limites de
 ### Atualização em 17/09/2026 — versão 1.1
 
 A pedido do usuário, Codex e Claude passam a registrar a própria atuação no arquivo compartilhado, com conclusão, revisão, commit, branch, push e integração separados. Foram criados os pontos de entrada `AGENTS.md` e `CLAUDE.md`. O estado atual, inclusive o preparo de B01 e a situação Git desta atualização documental, está em `REGISTRO_TRABALHO.md`.
+
+## 11. Modo ágil (versão 1.2, proposta EST01 de 07/10/2026)
+
+Esta seção entra em vigor depois do aceite técnico e da integração de EST01 na branch padrão. Até lá, é proposta em revisão. As instruções do usuário e as autorizações da sessão prevalecem. O registro de 7.000 linhas era lido e reescrito em toda atuação; o mesmo fato aparecia no registro, num relatório separado, no prompt e na resposta do chat.
+
+### 11.1. Onde está cada coisa
+
+- [STATUS.md](STATUS.md): estado atual, próximo passo, decisões abertas e armadilhas. **É a primeira leitura** de qualquer agente.
+- [REGISTRO_TRABALHO.md](REGISTRO_TRABALHO.md): somente o índice (uma linha por PR) e a **única** fotografia Git vigente.
+- `docs/registro/<ID>.md`: a ficha do PR e todos os seus eventos. `GERAL.md` guarda eventos de várias frentes; o conteúdo anterior a esta versão foi movido sem alteração, e o guia está em [docs/registro/README.md](docs/registro/README.md).
+
+Ao retomar: STATUS → linha do PR → `docs/registro/<ID>.md` → Git e código da versão indicada. A conferência de raiz, branch, HEAD, status e alterações locais da seção 10 continua obrigatória.
+
+### 11.2. Escrever uma vez
+
+- Cada atuação acrescenta **um evento curto** (até ~25 linhas, formato em `docs/registro/README.md`) ao arquivo do PR. O evento é o relatório da seção 8: não se cria arquivo de relatório separado nem se repete o evento no chat, que traz até 10 linhas e aponta para o evento.
+- A ficha só muda quando o estado do ciclo muda; a linha do índice e o `STATUS.md` idem. A fotografia Git vigente é **substituída**, sem acumular histórica.
+- Prompts citam caminhos, commit e evento; não colam listas de hashes nem eventos anteriores. Quando o usuário precisa levar o resultado a outro agente, cola o evento (ou o link).
+
+### 11.3. Git
+
+- Com autorização do usuário para a entrega, executor e revisor podem commitar e dar push na branch de trabalho depois dos testes passarem, e devem incluir o registro no mesmo commit. A autorização dada na sessão continua válida dentro do seu escopo; registrar trabalho não concede autorização.
+- Entrega commitada é identificada pelo hash do commit e por `git diff base..commit`. Enquanto houver alterações locais, registre HEAD, `git status`, diff local e arquivos não rastreados. Use SHA-256 quando necessário para fixar a versão de um arquivo ainda sem commit.
+- Continuam dependendo de ordem do usuário: abrir ou fechar PR, merge, escrever na branch padrão, reescrever histórico, reset, stash e apagar branches. Registrar o hash do próprio commit do registro não exige novo commit.
+- Trabalho em paralelo usa worktree isolado. O venv compartilhado pode ter instalação editável apontando para outra pasta: use `python backend/scripts/sondar.py ...` ou `PYTHONPATH=<checkout>/backend`, e rode `pytest` dentro de `backend/` do checkout.
+
+### 11.4. Revisão proporcional ao risco
+
+- **Nível A (lógica nova de associação, negação, índices, contrato público, segurança):** Sonnet executa, Opus revisa e corrige, Codex verifica. Exemplos: B14, B16, B17, B19, rotas de áudio.
+- **Nível B (vocabulário, documentação, testes, scripts, ajustes sem regra nova):** Sonnet executa e Codex verifica; o Opus entra se o Codex encontrar achado impeditivo. Exemplo: B15.
+- O Codex indica o nível no cartão ou no prompt. PRs podem compartilhar branch somente por decisão expressa da coordenação, após conferir dependências, base e critérios de aceite separados. Igual nível ou arquivos em comum não bastam. A premissa de B19 deve ser revista à luz das evidências aninhadas de B12 antes de liberá-lo.
+
+### 11.5. Contraprovas obrigatórias nos cartões
+
+Todo cartão que cria ou muda uma regra que **suprime, rejeita ou limita** um sinal traz uma lista de contraprovas, e o executor escreve o teste de cada uma: (1) o sinal válido vizinho sobrevive (ex.: B13-R01, uma ação alheia depois não pode apagar a intenção anterior); (2) a mesma entrada afirmativa curta continua produzindo o sinal; (3) a regra não altera outro serviço (churn, sentimento, catálogo). Achado desse tipo na revisão é falha do cartão e do teste, não só do código.
+
+### 11.6. Sondagem reproduzível
+
+`python backend/scripts/sondar.py "frase" ...` passa pela composição real, imprime sentimento, churn, oportunidades e recomendações, e falha se algum recorte de evidência não for literal ou se uma referência não existir. Use-o em vez de escrever scripts avulsos; `--vinculo` e `--json` estão disponíveis.
