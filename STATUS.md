@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 08/10/2026 (Codex, B13-10). Quem muda o estado de um PR atualiza este
+Atualizado em 08/10/2026 (Codex, EST01-04). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -13,15 +13,15 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   sete hashes, 271 testes e casos críticos na árvore integrada.
 - **Frontend (F01–F06):** responsável é outra pessoa; não há código na cópia.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
-- **EST01:** corrigida e aprovada tecnicamente em EST01-03; ainda sem commit,
-  push, PR ou integração. Seção 11 entra em vigor após integração.
+- **EST01:** aprovada tecnicamente, entrega em `53823a1`, publicada no
+  [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3), ainda não
+  integrada. Seção 11 entra em vigor após integração.
 
 ## Próximo passo
-1. Usuário decide commit, push e abertura do PR de EST01; B13 já está
-   integrado, então EST01 pode seguir para integração após seu PR.
-2. B14 está liberado. Fila do refinamento: B14 → B19 (rever a premissa: desde B12 as evidências de
-   risco e sentimento são intervalos aninhados, não idênticos) → B15 → B16
-   → B17 → B18 → B20 → B21.
+1. Usuário revisa o PR #3 e decide a integração de EST01. Depois, o Codex
+   verifica o destino e registra a entrada em vigor da seção 11.
+2. B14 está liberado; a fila é B14 → B19 (rever a premissa após B12) →
+   B15 → B16 → B17 → B18 → B20 → B21.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

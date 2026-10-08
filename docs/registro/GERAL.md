@@ -185,3 +185,26 @@ Eventos que não pertencem a um único PR (operações Git e retomadas que cobre
   Nenhum commit, push, merge, reset ou stash nesta atuação.
 - **Próximo:** usuário decide publicação/PR de EST01; integrar depois do
   PR #2 e verificar o destino antes de declarar EST01 integrada.
+
+### EST01-04 — 08/10/2026 — Codex / commit, publicação e PR
+
+- **Pedido/versão:** usuário mandou dar sequência após a recomendação de
+  publicar EST01. Branch `chore/estrutura-agil`, base `6d8bcfa`; o
+  merge B13 `2811d84` tem árvore idêntica à base, então o diff do PR
+  contém só EST01.
+- **Validação própria:** 273 testes aprovados, dois avisos conhecidos;
+  43 links relativos válidos, zero quebrados. `git diff --cached --check`
+  limpo após remover linhas em branco finais de 17 arquivos migrados.
+  O PR remoto lista os 28 arquivos esperados, sem código B13 extra.
+- **Git:** entrega commitada em `53823a17adf5199f3a117abba9a8535b3aca193f`,
+  enviada a `origin/chore/estrutura-agil`. PR
+  [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) aberto para
+  `feat/b01-fundacao-api` em `2811d84`; na conferência inicial,
+  `OPEN`, não draft, `MERGEABLE/CLEAN`, sem checks ou revisão
+  impeditiva. Este evento, índice, fotografia e STATUS formam o
+  commit documental HEAD posterior, enviado à mesma branch.
+- **Estado/próximo:** EST01 FINALIZADA, APROVADA tecnicamente,
+  COMMITADA e PUBLICADA; PR ABERTO, NAO_INTEGRADA. Nenhum merge,
+  reset ou stash. Usuário decide a integração do PR #3; Codex
+  verifica o destino antes de declarar a seção 11 vigente. B14
+  permanece liberado e não foi iniciado nesta atuação.
