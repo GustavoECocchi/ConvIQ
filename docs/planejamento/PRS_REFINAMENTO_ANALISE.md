@@ -291,6 +291,17 @@ não testes que apenas copiem a implementação. Rodar os testes afetados e a
 suíte de backend antes da entrega, pois os serviços compartilham texto e evidências.
 Não esconder regressão removendo testes sem justificar a regra que mudou.
 
+**Contraprovas obrigatórias (governança 11.5).** Todo cartão que cria ou muda
+uma regra que suprime, rejeita ou limita um sinal traz o teste de: (1) o sinal
+válido vizinho sobrevive à regra (uma ação alheia, negada ou sem objeto no
+mesmo texto não apaga outra intenção ou sinal legítimos); (2) a entrada
+afirmativa curta continua produzindo o sinal, com e sem o contexto extra; (3)
+serviços e regras não relacionados (churn, sentimento, catálogo) não mudam.
+Cartões de nível A (11.4) são revisados pelo Opus; os de nível B seguem só
+com o Codex, salvo achado impeditivo. B14, B16, B17 e B19 são nível A; B15 é
+nível B. Agrupamento depende de decisão expressa do Codex após conferir
+dependências e critérios; B18, B20 e B21 são classificados ao preparar o prompt.
+
 As invariantes de produto continuam: prospect sem churn aplicável; concorrente
 isolado sem risco de troca presumido; risco e oportunidade podem coexistir;
 ausência de sinal difere de informação insuficiente; sugestões são sugestões;
