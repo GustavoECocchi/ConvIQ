@@ -25,7 +25,7 @@ def test_exemplo_do_contrato_c01_risco_e_oportunidade_coexistindo():
     assert resposta.produtos == ["Fluig"]
     assert resposta.concorrentes == []
     assert resposta.metodo == "regras"
-    assert resposta.versao_analise == "0.4"
+    assert resposta.versao_analise == "0.5"
     # uma recomendação para o risco, uma para a oportunidade
     assert len(resposta.recomendacoes) == 2
 
@@ -126,7 +126,7 @@ def test_elogio_negado_entra_na_composicao_com_recorte_literal_e_ids_renumerados
     # "atendimento" é contexto comercial; nenhum padrão de risco → avaliado, sem sinal
     assert resposta.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
     assert resposta.produtos == ["Fluig"]
-    assert resposta.versao_analise == "0.4"
+    assert resposta.versao_analise == "0.5"
 
 
 def test_negacao_fechada_na_virgula_nao_inverte_elogio_nem_apaga_oportunidade():
@@ -378,3 +378,72 @@ def test_sistema_solar_nao_gera_oportunidade_nem_torna_churn_avaliavel():
     assert resposta.evidencias == []
     assert resposta.recomendacoes == []
     assert resposta.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+
+
+# B14 — acento decomposto (NFD) na composição ----------------------------------
+
+
+def _nfd(texto: str) -> str:
+    import unicodedata
+
+    return unicodedata.normalize("NFD", texto)
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "O suporte é péssimo. Queremos conhecer o Fluig.",
+        "Não estamos satisfeitos com o suporte. Queremos conhecer o Fluig.",
+        "Estamos insatisfeitos com o suporte, mas vamos cancelar o contrato.",
+    ],
+)
+def test_nfc_e_nfd_geram_a_mesma_analise_completa(transcricao):
+    """B14 na composição: sentimento, churn, oportunidades, recomendações e IDs
+    iguais nas duas formas; só os recortes e índices mudam, e todo recorte NFD
+    é literal sobre o eco devolvido."""
+
+    nfc = compor_analise_texto(_pedido(transcricao, "cliente"))
+    decomposto = _nfd(transcricao)
+    nfd = compor_analise_texto(_pedido(decomposto, "cliente"))
+
+    assert nfd.transcricao == decomposto
+    assert nfd.sentimento is nfc.sentimento
+    assert nfd.churn == nfc.churn
+    assert [o.evidencias for o in nfd.oportunidades] == [o.evidencias for o in nfc.oportunidades]
+    assert [r.evidencias for r in nfd.recomendacoes] == [r.evidencias for r in nfc.recomendacoes]
+    assert [e.id for e in nfd.evidencias] == [e.id for e in nfc.evidencias]
+    assert [_nfd(e.trecho) for e in nfc.evidencias] == [e.trecho for e in nfd.evidencias]
+    for evidencia in nfd.evidencias:
+        assert nfd.transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+def test_ordem_das_evidencias_nfd_segue_a_posicao_na_transcricao():
+    transcricao = _nfd("Não estamos satisfeitos com o suporte. Queremos conhecer o Fluig.")
+
+    resposta = compor_analise_texto(_pedido(transcricao, "cliente"))
+
+    posicoes = [e.inicio for e in resposta.evidencias]
+    assert posicoes == sorted(posicoes)
+    assert [e.id for e in resposta.evidencias] == ["e1", "e2", "e3"]
+    assert resposta.evidencias[-1].trecho == "Queremos conhecer o Fluig"
+    assert resposta.evidencias[-1].inicio == transcricao.index("Queremos")
+
+
+def test_espaco_inicial_e_removido_do_eco_e_os_indices_valem_para_o_eco():
+    """O contrato C01 remove espaços das pontas; os índices são relativos ao
+    eco devolvido, não à entrada bruta."""
+
+    bruta = "   " + _nfd("O suporte é péssimo.   ")
+
+    resposta = compor_analise_texto(_pedido(bruta, "cliente"))
+
+    assert resposta.transcricao == bruta.strip()
+    evidencia = resposta.evidencias[0]
+    assert evidencia.trecho == _nfd("péssimo")
+    assert evidencia.inicio == resposta.transcricao.index(evidencia.trecho)
+    assert bruta[evidencia.inicio:evidencia.fim] != evidencia.trecho
+    assert resposta.transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+def test_versao_da_analise_com_nfd_e_0_5():
+    assert compor_analise_texto(_pedido(_nfd("O suporte é péssimo."), "cliente")).versao_analise == "0.5"

@@ -48,7 +48,8 @@ continua no Git.
 | [B12 — Risco com contexto local](docs/registro/B12.md) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | INTEGRADO após aceite B12-07; PR #1 MERGEADO | Origem `d5fb40a` + `b14f0a5`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | Conteúdo PUBLICADO no PR #1; `b14f0a5` permanece local na origem | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [INT01 — Entrega isolada B11/B12](docs/registro/INT01.md) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B13 — Intenção comercial para oportunidade](docs/registro/B13.md) | FINALIZADA (B13-01, Sonnet), corrigida pelo Opus em B13-03 | APROVADA tecnicamente em B13-04; INTEGRADA e verificada em B13-10 | Entrega COMMITADA em `ebed307`; registro remoto COMMITADO em `6d8bcfa`; eventos posteriores locais | `fix/b13-intencao-oportunidade`, head `6d8bcfa`, base `9921f57` | PUBLICADA; origem remota preservada em `6d8bcfa` | INTEGRADA em `feat/b01-fundacao-api` pelo PR #2, merge `2811d84` |
-| [EST01 — Estrutura ágil](docs/registro/GERAL.md) | FINALIZADA (EST01-01, Opus), corrigida em EST01-03 | APROVADA tecnicamente; PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) ABERTO | Entrega COMMITADA em `53823a1`; este registro no HEAD documental | `chore/estrutura-agil`, base `6d8bcfa`, destino `feat/b01-fundacao-api` | PUBLICADA em `origin/chore/estrutura-agil` | NAO_INTEGRADA; B13 integrado em `2811d84` |
+| [EST01 — Estrutura ágil](docs/registro/GERAL.md) | FINALIZADA (EST01-01, Opus), corrigida em EST01-03 | APROVADA e INTEGRADA; PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) MERGEADO | Entrega COMMITADA em `53823a1`; registro COMMITADO em `5c2c421` | `chore/estrutura-agil`, base `6d8bcfa` | PUBLICADA; branch remota preservada em `5c2c421` | INTEGRADA em `feat/b01-fundacao-api`, merge `4063830` |
+| [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet); local | APROVADO tecnicamente pelo Codex em B14-04; Opus B14-03 sem achados | Diff local de 11 arquivos + `test_texto.py` sobre `4063830`, NAO_COMMITADOS | `fix/b14-unicode-evidencias`, HEAD/base `4063830` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
@@ -58,43 +59,17 @@ B14 está liberado.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 08/10/2026, EST01-04 (Codex)
+### Fotografia Git vigente — 08/10/2026, B14-04 (Codex)
 
-- EST01 entregue no commit `53823a1` em `chore/estrutura-agil`,
-  publicado no servidor. PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3)
-  `OPEN`, não draft, destino `feat/b01-fundacao-api` em `2811d84`,
-  `MERGEABLE/CLEAN`, sem checks listados ou revisão impeditiva.
-  A atualização documental EST01-04 está no próprio HEAD da branch
-  após o push de fechamento; a entrega técnica permanece em `53823a1`.
-- B13 integrada no merge `2811d84`. EST01 APROVADA tecnicamente,
-  COMMITADA e PUBLICADA, PR ABERTO, NAO_INTEGRADA.
-- Pasta raiz e worktree B13 continuam com alterações locais
-  preexistentes; nenhum merge da EST01 nesta atuação.
-
-### Fotografia Git histórica — 08/10/2026, B13-10 (Codex)
-
-- PR #2 `MERGED` por merge commit `2811d84`, com pais `9921f57`
-  e `6d8bcfa`. A branch padrão remota aponta ao merge; a origem B13
-  permanece em `6d8bcfa`. B13 INTEGRADA e verificada.
-- Este worktree EST01 permanece em `chore/estrutura-agil`, HEAD/base
-  `6d8bcfa`, com diff local e arquivos não rastreados; EST01
-  APROVADA tecnicamente, NAO_COMMITADA, NAO_PUBLICADA, PR NAO_ABERTO,
-  NAO_INTEGRADA. Destino previsto `feat/b01-fundacao-api` em `2811d84`.
-- Pasta raiz e worktree B13 preservados com alterações preexistentes;
-  `prompt.md` de integração B13 consumido permanece local.
-
-### Fotografia Git histórica — 07/10/2026, EST01-03 (Codex)
-
-- Worktree `/home/gustavoecocchi/Documents/CONVIQ-estrutura`, branch
-  `chore/estrutura-agil`, HEAD/base `6d8bcfa` (head do PR #2). EST01
-  está em diff local e arquivos não rastreados: STATUS, script/teste de
-  sondagem e `docs/registro/`; índice e governança também modificados.
-- EST01 FINALIZADA e APROVADA tecnicamente em EST01-03; NAO_COMMITADA,
-  NAO_PUBLICADA, PR próprio NAO_ABERTO, NAO_INTEGRADA. Destino previsto:
-  `feat/b01-fundacao-api`, após integrar o PR #2.
-- Consulta atual ao servidor: PR #2 `OPEN`, head `6d8bcfa`, base
-  `feat/b01-fundacao-api`, `MERGEABLE`; B13 aprovada tecnicamente e
-  NAO_INTEGRADA. A tentativa de merge do Opus foi bloqueada conforme
-  B13-09; nenhuma nova tentativa nesta atuação.
-- Pasta raiz e worktree B13 mantêm suas alterações locais preexistentes.
-  `prompt.md` continua com o prompt de integração do PR #2, não executado.
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b14`, branch
+  `fix/b14-unicode-evidencias`, HEAD e base `4063830` (= `feat/b01-fundacao-api`
+  no servidor, conferido 08/10). Índice Git sem alterações preparadas.
+- **Entrega B14 = diff local** de 11 arquivos de `backend/` e `docs/contratos/`
+  mais `backend/tests/test_texto.py` não rastreado; **preparação do Codex
+  (B14-00)** em `REGISTRO_TRABALHO.md`, `STATUS.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md`,
+  roteiro, `docs/registro/GERAL.md`, `docs/registro/B14.md` (não rastreado) e
+  `prompt.md`, também locais. Nenhum commit, push, PR ou merge.
+- Servidor Git: branch padrão `feat/b01-fundacao-api` em `4063830`; branch
+  B14 ausente; `gh pr list --head` sem PR B14. PRs #1, #2 e #3 mesclados.
+  Aprovação técnica B14-04 registrada localmente; `prompt.md` de revisão do Opus
+  permanece como último rascunho, espelhado na pasta raiz. Outros worktrees preservados.

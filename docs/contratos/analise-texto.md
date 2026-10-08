@@ -86,6 +86,20 @@ a oportunidade "Queremos o Fluig"), e "sistema" seguido de modificador
 astronômico ou biológico ("o sistema solar") deixou de ser objeto
 comercial. Formato inalterado.
 
+**Atualizado em 08/10/2026, B14:** a análise passou a tratar o acento
+decomposto (Unicode NFD, por exemplo `e` + código combinante) como a forma
+composta (NFC). Antes, `"pe\u0301ssimo"` não casava o sinal e `"Na\u0303o"` não
+valia como negação. `versao_analise` passou de `"0.4"` para `"0.5"`; formato,
+campos, enums e a convenção de índices não mudam: `inicio`/`fim` continuam
+sendo caracteres Python (fim exclusivo) do `transcricao` devolvido, e
+`transcricao[inicio:fim] == trecho` vale nas duas formas. O que o frontend deve
+esperar: (1) em NFD o `trecho` **inclui** o código combinante, então é mais
+longo que o equivalente NFC, e destacar deve usar os índices, não o tamanho da
+palavra; (2) texto em NFD que antes ficava `informacao_insuficiente` passa a
+ter os mesmos sinais, evidências e recomendações que em NFC. O eco da
+transcrição não é normalizado. Ver `backend/README.md`, "Normalização e
+índices (B14)".
+
 ## Rota
 
 `POST /api/analises/texto` — implementada em B04 (`backend/app/api/analises.py`),
@@ -238,7 +252,7 @@ Resposta:
     {"texto": "Oferecer uma apresentação do Fluig.", "evidencias": ["e2"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.4"
+  "versao_analise": "0.5"
 }
 ```
 
@@ -277,7 +291,7 @@ Resposta:
     {"texto": "Apresentar a documentação de integração via API.", "evidencias": ["e1"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.4"
+  "versao_analise": "0.5"
 }
 ```
 
@@ -314,7 +328,7 @@ Resposta:
   "evidencias": [],
   "recomendacoes": [],
   "metodo": "regras",
-  "versao_analise": "0.4"
+  "versao_analise": "0.5"
 }
 ```
 

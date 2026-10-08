@@ -89,7 +89,7 @@ backend/
 │   │   ├── analise.py      # Saída de POST /api/analises/texto (contrato C01)
 │   │   └── erro.py         # Envelope padronizado de erro
 │   └── services/
-│       ├── texto.py             # normalizar_preservando_posicoes(texto), usada por B02 e B03
+│       ├── texto.py             # normalizar_com_mapa(texto): texto de busca + mapa para a transcrição (B14)
 │       ├── sentimento.py         # B02: analisar_sentimento(transcricao) -> ResultadoSentimento
 │       ├── sinais_comerciais.py  # B03: analisar_sinais_comerciais(transcricao, vinculo) -> ResultadoSinaisComerciais
 │       └── analise.py            # B04: compor_analise_texto(pedido) -> AnaliseTextoResponse
@@ -116,8 +116,8 @@ ResultadoSentimento` (`sentimento: Sentimento`, `evidencias: list[Evidencia]`),
 serviço interno, consumido pela rota de B04 via `compor_analise_texto`
 (`app/services/analise.py`), não diretamente pela rota. Classifica por
 contagem de padrões negativos/positivos (regex com fronteira de palavra
-`\b`, texto normalizado para minúsculas/sem acento preservando o
-comprimento e as posições originais):
+`\b`, texto normalizado para minúsculas/sem acento, com um mapa de volta às
+posições da transcrição — ver "Normalização e índices (B14)" abaixo):
 
 - Nenhum sinal encontrado (após a negação) → `informacao_insuficiente`, sem
   evidências.
@@ -199,18 +199,54 @@ de comportamento) e os casos em `test_sentimento.py`.
   `"Não é verdade que não gostamos do produto."` → **negativo** (a negação
   linguisticamente correta seria afirmativa).
 - **Entrada em forma NFD** (acento como código combinante separado, ex.:
-  `"péssimo"`) não casa sinais acentuados: a normalização preserva o
-  índice de cada código e não pode fundir dois códigos em um sem quebrar as
-  posições das evidências. Transcrições em NFC (o padrão de editores e
-  APIs) não são afetadas. Falso negativo, sem correção sem remapear índices.
+  `"pe\u0301ssimo"`) é tratada desde B14 como a forma NFC (ver abaixo).
 - Não distingue intensidade; não considera quem fala.
 - `analisar_sentimento` é função interna: espera `str` já validado pelo
   contrato C01 e não faz coerção de tipo (`None`/número → `TypeError`).
   Quem chama pela API é B04, depois de `AnaliseTextoRequest` validar.
 
-A normalização (`_normalizar_preservando_posicoes`) foi extraída para
-`app/services/texto.py` em B03, para reúso — comportamento idêntico, sem
-mudança de resultado (suíte de B02 continua passando sem alteração).
+A normalização foi extraída para `app/services/texto.py` em B03, para reúso,
+e passou a devolver também um mapa de posições em B14.
+
+### Normalização e índices (B14)
+
+`normalizar_com_mapa(texto)` (`app/services/texto.py`) devolve um
+`TextoNormalizado`: o texto de busca (`texto`, minúsculas e sem acento) e, para
+cada caractere dele, o intervalo da transcrição de onde veio. Antes, a saída
+tinha um caractere por caractere de entrada, o que impedia casar palavras com
+acento decomposto (NFD): `"O suporte é pe\u0301ssimo."` dava sentimento
+`informacao_insuficiente`, e `"Na\u0303o estamos satisfeitos"` perdia a
+negação (sentimento positivo, churn sem sinal).
+
+- **Combinantes** (acento decomposto) são absorvidos pelo caractere anterior:
+  `"pe\u0301ssimo"` vira `"pessimo"` (7 caracteres) e o mapa sabe que o `"e"`
+  ocupa 2 posições da transcrição. Por isso os índices do texto normalizado
+  **não** coincidem com os da transcrição; só ficam dentro dos serviços.
+- **`intervalo_original(inicio, fim)`** converte `[inicio, fim)` normalizado em
+  `[inicio, fim)` da transcrição: o início é o do primeiro caractere e o fim
+  (exclusivo) é o do último **mais os combinantes que o seguem**. Por isso o
+  recorte de uma evidência NFD contém o código combinante, e
+  `transcricao[inicio:fim] == trecho` vale para toda `Evidencia`, nas duas
+  formas. Os offsets continuam sendo caracteres Python do eco devolvido (que já
+  vem sem espaços nas pontas, C01), não bytes nem UTF-16.
+- **Expansão:** um caractere que vira vários na normalização (`"ﬁ"` → `"fi"`)
+  gera vários caracteres normalizados com o mesmo intervalo; um casamento que
+  cubra só parte deles devolve o caractere inteiro.
+- **`é` do verbo × `e` conjunção:** viram o mesmo `"e"` no texto normalizado;
+  `caractere_original` devolve o trecho original composto (NFC), válido para
+  `e\u0301`, e é o que `negacao.py` e `sinais_comerciais.py` consultam.
+- **Combinante órfão** (início do texto ou depois de outro órfão) não gera
+  caractere e fica fora de qualquer recorte; pontuação, emoji e quebras de linha
+  continuam no texto, um caractere cada.
+- Nenhuma posição é recuperada com `str.find`. Sentimento, escopos de negação,
+  risco, oportunidades e catálogo trabalham em coordenadas normalizadas e só
+  convertem ao criar a `Evidencia`.
+
+Limites: recortes NFD têm mais caracteres que os NFC equivalentes (o frontend
+deve destacar por índice, não pelo tamanho da palavra); a normalização de
+compatibilidade (NFKD) também funde, por exemplo, `"ª"` em `"a"`, como antes;
+combinantes de classe 0 (alguns sinais de línguas fora do português) não são
+absorvidos.
 
 ## Serviço de sinais comerciais (B03, risco com contexto em B12)
 
@@ -579,10 +615,10 @@ persistência é B05.
    churn) e uma por oportunidade (evidenciada pela evidência daquela
    oportunidade). Sem risco nem oportunidade, a lista fica vazia — nenhuma
    recomendação é inventada sem evidência.
-4. Usa `metodo="regras"` e `versao_analise="0.4"` (`0.1` em B04, `0.2`
+4. Usa `metodo="regras"` e `versao_analise="0.5"` (`0.1` em B04, `0.2`
    com a negação de B11, `0.3` com o risco em contexto de B12, `0.4` com a
-   oportunidade por intenção de B13; contrato C01 inalterado), os mesmos
-   valores dos exemplos do contrato.
+   oportunidade por intenção de B13, `0.5` com o Unicode NFD de B14; contrato
+   C01 inalterado), os mesmos valores dos exemplos do contrato.
 
 **Limitações desta versão:** as recomendações são genéricas (não citam o
 produto/trecho específico, mesmo estilo já documentado para a descrição de
