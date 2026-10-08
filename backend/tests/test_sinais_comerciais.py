@@ -643,3 +643,308 @@ def test_limites_da_ligacao_acao_objeto(transcricao):
 
     assert resultado.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
     assert resultado.evidencias == []
+
+
+# B13 — oportunidade somente com intenção comercial -------------------------
+
+
+def _trechos_das_oportunidades(resultado) -> list[str]:
+    por_id = {e.id: e for e in resultado.evidencias}
+    return [por_id[o.evidencias[0]].trecho for o in resultado.oportunidades]
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Não temos interesse em conhecer o Fluig.",
+        "Não queremos conhecer o Fluig.",
+        "Sem interesse no Protheus.",
+        "O módulo atual está instalado.",
+        "Quero conhecer a cidade.",
+        "Quero conhecer o novo diretor.",
+        "Interessante o módulo atual.",
+        "Queremos conhecer o hotel e o suporte técnico.",
+    ],
+)
+def test_sem_intencao_afirmativa_com_objeto_comercial_nao_gera_oportunidade(transcricao):
+    """B13: antes, "interesse", "conhecer" e "módulo" geravam oportunidade
+    em qualquer contexto (negados, sem objeto comercial ou só como menção
+    nominal). Agora o gatilho precisa estar fora de uma negação e ter um
+    objeto comercial como núcleo do seu complemento."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.oportunidades == []
+    assert resultado.evidencias == []
+
+
+@pytest.mark.parametrize(
+    ("transcricao", "trecho"),
+    [
+        ("Queremos conhecer o Fluig.", "Queremos conhecer o Fluig"),
+        ("Precisamos automatizar o faturamento.", "Precisamos automatizar o faturamento"),
+        ("Estamos interessados no Datasul.", "interessados no Datasul"),
+        ("Queremos contratar um serviço de suporte.", "Queremos contratar um serviço"),
+        ("Gostaríamos de avaliar a plataforma.", "Gostaríamos de avaliar a plataforma"),
+        ("Precisamos de um módulo de faturamento.", "Precisamos de um módulo"),
+        ("Queremos o Fluig.", "Queremos o Fluig"),
+        ("Queremos muito conhecer o Fluig.", "Queremos muito conhecer o Fluig"),
+    ],
+)
+def test_intencao_afirmativa_com_objeto_comercial_gera_oportunidade_com_evidencia_literal(transcricao, trecho):
+    """Critérios 3 e 4 do cartão B13 e variantes: a evidência vai do início da
+    intenção ao fim do objeto, recorte literal e contínuo da transcrição."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == [trecho]
+    ev = resultado.evidencias[0]
+    assert transcricao[ev.inicio:ev.fim] == trecho
+    assert resultado.oportunidades[0].evidencias == [ev.id]
+
+
+def test_negacao_nao_alcanca_a_oracao_depois_do_mas():
+    """Critério 6: "Não queremos o Fluig" não gera oportunidade; "temos
+    interesse no Protheus" depois da vírgula e do "mas" gera. O catálogo
+    ainda lista as duas marcas citadas."""
+
+    transcricao = "Não queremos o Fluig, mas temos interesse no Protheus."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["interesse no Protheus"]
+    assert resultado.produtos == ["Fluig", "Protheus"]
+
+
+def test_negacao_nao_alcanca_a_frase_seguinte():
+    resultado = analisar_sinais_comerciais("Não temos interesse. Queremos conhecer o Fluig.", Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["Queremos conhecer o Fluig"]
+
+
+def test_interesse_negado_mantem_o_produto_no_catalogo_e_o_churn_avaliavel():
+    """A menção a Fluig continua em `produtos` (B13 muda a lista de
+    oportunidades, não apaga nomes citados), e produto é conteúdo comercial
+    independente: o churn é avaliado, sem sinal."""
+
+    resultado = analisar_sinais_comerciais("Não temos interesse em conhecer o Fluig.", Vinculo.CLIENTE)
+
+    assert resultado.oportunidades == []
+    assert resultado.produtos == ["Fluig"]
+    assert resultado.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "O módulo atual está instalado.",
+        "Quero conhecer a cidade.",
+        "Quero conhecer o novo diretor.",
+    ],
+)
+def test_ocorrencia_rejeitada_como_oportunidade_nao_torna_o_churn_avaliavel(transcricao):
+    """B13: uma palavra rejeitada como oportunidade ("módulo", "conhecer")
+    não conta, por si só, como conteúdo comercial: sem outro contexto, o
+    churn é `informacao_insuficiente`, como em B03-R01."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+
+
+def test_intencao_repetida_gera_oportunidades_em_posicoes_distintas():
+    transcricao = "Queremos conhecer o Fluig. Queremos conhecer o Fluig."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert [(e.inicio, e.fim) for e in resultado.evidencias] == [(0, 25), (27, 52)]
+    assert len({o.evidencias[0] for o in resultado.oportunidades}) == 2
+
+
+def test_duas_acoes_na_mesma_frase_mantem_duas_oportunidades_com_seus_objetos():
+    transcricao = "Queremos conhecer o Fluig e expandir as licenças do Protheus."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["Queremos conhecer o Fluig", "expandir as licenças"]
+
+
+def test_gatilhos_encadeados_da_mesma_intencao_nao_sao_agrupados_aqui():
+    """Fora do escopo de B13: agrupar "interesse em conhecer o Fluig" numa
+    só oportunidade é B17. Cada gatilho continua gerando a sua, agora com
+    recortes distintos que mostram a intenção e o objeto."""
+
+    resultado = analisar_sinais_comerciais("Temos interesse em conhecer o Fluig.", Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["interesse em conhecer o Fluig", "conhecer o Fluig"]
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Eles conheceram o Fluig.",  # outra flexão, sem fronteira
+        "Foi uma reunião interessante sobre o Fluig.",
+        "O sistema está integrado ao Protheus.",
+        "A automação do faturamento já existe.",
+    ],
+)
+def test_palavras_parecidas_nao_sao_gatilho(transcricao):
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.oportunidades == []
+
+
+def test_risco_e_oportunidade_coexistem_na_mesma_frase_com_evidencias_proprias():
+    transcricao = "Queremos cancelar o contrato e conhecer o Fluig."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert _trechos_das_oportunidades(resultado) == ["conhecer o Fluig"]
+    assert resultado.churn.evidencias[0] != resultado.oportunidades[0].evidencias[0]
+
+
+def test_prospect_continua_recebendo_oportunidade_so_com_intencao():
+    com_intencao = analisar_sinais_comerciais("Queremos conhecer o Fluig.", Vinculo.PROSPECT)
+    sem_intencao = analisar_sinais_comerciais("Não temos interesse em conhecer o Fluig.", Vinculo.PROSPECT)
+
+    assert com_intencao.churn.situacao is ChurnSituacao.NAO_APLICAVEL
+    assert len(com_intencao.oportunidades) == 1
+    assert sem_intencao.churn.situacao is ChurnSituacao.NAO_APLICAVEL
+    assert sem_intencao.oportunidades == []
+
+
+def test_concorrente_isolado_nao_vira_oportunidade_nem_risco():
+    for transcricao in ("Ouvimos falar bem da Oracle numa conferência.", "Queremos conhecer a SAP."):
+        resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+        assert resultado.oportunidades == []
+        assert resultado.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+
+
+def test_limite_b13_autoria_da_intencao_nao_e_identificada():
+    """Limite da regra local, pinado para não parecer acerto: a regra não
+    sabe quem quer ("O analista vai conhecer o Fluig." vira oportunidade).
+    Atribuição de fala está fora do escopo (README, seção de oportunidades)."""
+
+    resultado = analisar_sinais_comerciais("O analista vai conhecer o Fluig.", Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["conhecer o Fluig"]
+
+
+def test_intencao_sobre_objeto_coordenado_comercial_e_oportunidade():
+    """Revisão B13 (Opus): "Queremos conhecer a cidade e o Fluig." declara
+    intenção de conhecer o Fluig, coordenado à cidade — não é falso positivo.
+    O recorte vai até o objeto comercial e mostra a coordenação."""
+
+    transcricao = "Queremos conhecer a cidade e o Fluig."
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["Queremos conhecer a cidade e o Fluig"]
+
+
+@pytest.mark.parametrize(
+    ("curta", "com_acao_alheia", "trecho"),
+    [
+        ("Queremos o Fluig.", "Queremos o Fluig e conhecer a cidade.", "Queremos o Fluig"),
+        ("Precisamos de um módulo.", "Precisamos de um módulo e conhecer a cidade.", "Precisamos de um módulo"),
+        ("Queremos o Fluig.", "Queremos o Fluig e não conhecer o Protheus.", "Queremos o Fluig"),
+    ],
+)
+def test_gatilho_posterior_rejeitado_nao_apaga_a_intencao_anterior(curta, com_acao_alheia, trecho):
+    """B13-R01: antes, uma forma de querer/precisar era descartada quando havia
+    qualquer gatilho depois na oração, mesmo sem objeto comercial ou negado —
+    acrescentar "e conhecer a cidade" apagava "Queremos o Fluig". Agora a
+    intenção afirmativa é mantida e o gatilho alheio ou negado não gera outra."""
+
+    antes = analisar_sinais_comerciais(curta, Vinculo.CLIENTE)
+    depois = analisar_sinais_comerciais(com_acao_alheia, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(antes) == [trecho]
+    assert _trechos_das_oportunidades(depois) == [trecho]
+    ev = depois.evidencias[0]
+    assert com_acao_alheia[ev.inicio:ev.fim] == trecho
+    assert depois.oportunidades[0].evidencias == [ev.id]
+
+
+def test_querer_e_gatilho_com_objetos_proprios_geram_duas_intencoes():
+    """B13-R01: "Precisamos de um módulo" e "conhecer o Fluig" são duas
+    intenções comerciais; antes, só a segunda sobrevivia. Não são agrupadas
+    (B17)."""
+
+    resultado = analisar_sinais_comerciais("Precisamos de um módulo e conhecer o Fluig.", Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["Precisamos de um módulo", "conhecer o Fluig"]
+    assert len({o.evidencias[0] for o in resultado.oportunidades}) == 2
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Queremos conhecer o Fluig.",
+        "Gostaríamos de avaliar a plataforma.",
+        "Queremos e precisamos conhecer o Fluig.",
+    ],
+)
+def test_querer_que_so_introduz_o_gatilho_conta_uma_vez(transcricao):
+    """Contraprova de B13-R01: avaliado como intenção própria, o querer que
+    só introduz o gatilho seguinte chega ao mesmo objeto e ao mesmo recorte;
+    a oportunidade não é duplicada."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert len(resultado.oportunidades) == 1
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Queremos integrar o sistema solar.",
+        "Queremos conhecer o sistema nervoso.",
+        "Precisamos de um sistema imunológico forte.",
+    ],
+)
+def test_sistema_com_modificador_alheio_nao_e_objeto_comercial(transcricao):
+    """B13-R02: antes, "Queremos integrar o sistema solar." gerava oportunidade
+    "Queremos integrar o sistema" e recomendação. Um modificador astronômico
+    ou biológico logo depois de "sistema" o torna alheio à relação comercial;
+    isolada, a frase não dá base para avaliar churn."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.oportunidades == []
+    assert resultado.evidencias == []
+    assert resultado.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+
+
+@pytest.mark.parametrize(
+    ("transcricao", "trecho"),
+    [
+        ("Queremos integrar o sistema ERP.", "Queremos integrar o sistema"),
+        ("Queremos integrar o sistema de faturamento.", "Queremos integrar o sistema"),
+        ("Queremos integrar o sistema.", "Queremos integrar o sistema"),
+        ("Queremos integrar o sistema solar e o Fluig.", "Queremos integrar o sistema solar e o Fluig"),
+    ],
+)
+def test_sistema_comercial_continua_objeto_de_oportunidade(transcricao, trecho):
+    """Contraprova de B13-R02: "sistema" sem modificador alheio continua
+    objeto comercial; um membro coordenado comercial depois do rejeitado
+    ainda liga a intenção."""
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == [trecho]
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Queremos muito conhecer, no mês que vem, o Fluig.",  # vírgula intercalada
+        "Queremos conhecer o suporte técnico.",  # "suporte" não é objeto de oportunidade
+    ],
+)
+def test_limites_b13_falsos_negativos_documentados(transcricao):
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.oportunidades == []

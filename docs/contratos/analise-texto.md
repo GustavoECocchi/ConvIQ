@@ -61,6 +61,31 @@ gerar churn e recomendação de retenção — isolada, `churn` passa a
 outra oração ("Vamos cancelar a reunião e o contrato continua vigente.")
 deixou de ser lido como objeto cancelado. Formato inalterado.
 
+**Atualizado em 07/10/2026, B13:** oportunidade passou a exigir intenção
+comercial afirmativa dentro do serviço de sinais comerciais (B03) — um
+gatilho como "interesse", "conhecer" ou "automatizar" só gera oportunidade
+fora de uma negação e com um objeto comercial (produto do catálogo ou
+substantivo de solução/necessidade) no seu complemento. Sem mudar o formato
+deste contrato: `versao_analise` passou de `"0.3"` para `"0.4"`. Mudanças
+que o frontend deve esperar: (1) interesse negado ("Não temos interesse em
+conhecer o Fluig.") e menções soltas ("O módulo atual está instalado.")
+deixam de gerar oportunidade, evidência e recomendação — o produto citado
+continua em `produtos`; (2) a evidência de uma oportunidade é a intenção
+inteira ("Queremos conhecer o Fluig"), antes só a palavra ("conhecer"), e
+`descricao` cita esse trecho; (3) um texto sem outro contexto comercial cuja
+única ocorrência era uma oportunidade rejeitada passa de
+`sem_sinal_detectado` a `informacao_insuficiente` em `churn`. Os exemplos
+abaixo, que já são ilustrativos, tiveram só a versão atualizada: as
+oportunidades e evidências da API real são as descritas aqui. Ver
+`backend/README.md`, "Oportunidade por intenção comercial (B13)".
+
+**Revisão B13 (Opus), ainda na versão `"0.4"`:** uma expressão de querer ou
+precisar com objeto comercial não é mais descartada por um gatilho
+posterior alheio ou negado ("Queremos o Fluig e conhecer a cidade." mantém
+a oportunidade "Queremos o Fluig"), e "sistema" seguido de modificador
+astronômico ou biológico ("o sistema solar") deixou de ser objeto
+comercial. Formato inalterado.
+
 ## Rota
 
 `POST /api/analises/texto` — implementada em B04 (`backend/app/api/analises.py`),
@@ -213,7 +238,7 @@ Resposta:
     {"texto": "Oferecer uma apresentação do Fluig.", "evidencias": ["e2"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.3"
+  "versao_analise": "0.4"
 }
 ```
 
@@ -252,7 +277,7 @@ Resposta:
     {"texto": "Apresentar a documentação de integração via API.", "evidencias": ["e1"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.3"
+  "versao_analise": "0.4"
 }
 ```
 
@@ -289,7 +314,7 @@ Resposta:
   "evidencias": [],
   "recomendacoes": [],
   "metodo": "regras",
-  "versao_analise": "0.3"
+  "versao_analise": "0.4"
 }
 ```
 

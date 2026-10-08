@@ -346,6 +346,109 @@ o mesmo trecho aparece em duas evidências: a do sentimento é a expressão
 o suporte"`), começando na mesma posição. Sem complemento, os intervalos
 são idênticos. B04 renumera as duas ao compor (ver seção seguinte).
 
+**Oportunidade por intenção comercial (B13, `_ocorrencias_oportunidade`).**
+Antes, cada palavra como `"interesse"`, `"conhecer"` ou `"módulo"` gerava
+uma oportunidade, mesmo negada, sem objeto comercial ou como simples menção
+(`"Não temos interesse em conhecer o Fluig."` → duas oportunidades;
+`"O módulo atual está instalado."` → uma). Agora um **gatilho** só gera
+oportunidade quando:
+
+- **não está no escopo de uma negação** de B11 (`app/services/negacao.py`, a
+  mesma regra de sentimento e risco): `"Não temos interesse em conhecer o
+  Fluig."`, `"Sem interesse no Protheus."` → nada. A vírgula e o `"mas"`
+  fecham o escopo: `"Não queremos o Fluig, mas temos interesse no
+  Protheus."` → só `"interesse no Protheus"`, e `produtos` lista Fluig e
+  Protheus. Uma frase seguinte não é alcançada: `"Não temos interesse.
+  Queremos conhecer o Fluig."` → uma oportunidade; e
+- **tem um objeto comercial como núcleo do seu complemento**, na mesma
+  oração, pela ligação ação–objeto de B12 adaptada para a oportunidade
+  (`_fim_do_objeto_da_oportunidade`,
+  com artigos, preposições como `em`/`no`/`para`, `outra`, `novo`, `mais` e
+  os gatilhos encadeados pulados). Objeto comercial é um produto do catálogo
+  ou um destes substantivos: módulo, solução, sistema, plataforma, software,
+  ferramenta, produto, serviço, licença, integração, automação,
+  faturamento, proposta, filial, unidade, usuário. `"Queremos conhecer o
+  Fluig."` e `"Precisamos automatizar o faturamento."` → oportunidade;
+  `"Quero conhecer a cidade."` e `"Quero conhecer o novo diretor."` → nada.
+
+Gatilhos: `interesse`, `interessado(a)(s)`, `conhecer`, `avaliar`,
+`contratar`, `adquirir`, `implantar`, `expandir`, `ampliar`, `integrar`,
+`automatizar`. As formas de querer ou precisar (`quero`, `queremos`,
+`queria`, `precisamos`, `necessitamos`, `gostaríamos`, `pretendemos`,
+`buscamos`...) logo antes do gatilho entram no recorte e também são
+avaliadas como intenção própria, com o seu complemento (`"Precisamos de um
+módulo"`, `"Queremos o Fluig"`). **Revisão B13-R01:** na entrega inicial,
+qualquer gatilho posterior na oração descartava essa intenção, mesmo sem
+objeto comercial ou negado — `"Queremos o Fluig e conhecer a cidade."` e
+`"Queremos o Fluig e não conhecer o Protheus."` perdiam a oportunidade sobre
+Fluig, e `"Precisamos de um módulo e conhecer o Fluig."` ficava só com
+`"conhecer o Fluig"`. Agora as três mantêm `"Queremos o Fluig"`/`"Precisamos
+de um módulo"`, o gatilho alheio ou negado não gera outra, e a última tem as
+duas intenções (sem agrupar, B17). Quando o querer só introduz o gatilho
+(`"Queremos conhecer o Fluig"`), os dois recortes coincidem e contam uma
+vez. `"módulo"` deixou de ser gatilho: é só objeto.
+`"avaliar"`, `"contratar"`, `"adquirir"`, `"implantar"` e `"ampliar"` são
+novos gatilhos de B13 (avaliação e contratação do cartão).
+
+**`"sistema"` com modificador alheio (revisão B13-R02, `_e_sistema_alheio`).**
+`"sistema"` é o objeto mais genérico da lista (B12 já o tirou do contexto de
+churn por `"o sistema solar"`). Quando a palavra logo depois dele é um
+modificador astronômico ou biológico (`solar`, `planetário`, `nervoso`,
+`imunológico`, `digestivo`, `respiratório`, `circulatório`, `cardiovascular`,
+`reprodutor`, `linfático`, `endócrino`), ele não é objeto comercial:
+`"Queremos integrar o sistema solar."` → nenhuma oportunidade, churn
+`informacao_insuficiente` (antes, `"Queremos integrar o sistema"` com
+recomendação). `"o sistema ERP"`, `"o sistema de faturamento"` e `"o
+sistema"` sem modificador continuam oportunidade, e um membro coordenado
+comercial depois do rejeitado ainda liga (`"... o sistema solar e o Fluig"`).
+Lista fechada, não classificador de temas.
+
+**A evidência é a intenção inteira**, recorte literal e contínuo do início
+da intenção ao fim do objeto: `"Queremos conhecer o Fluig"`, `"Precisamos
+automatizar o faturamento"`, `"interesse no Protheus"` — antes, só a palavra
+(`"conhecer"`). A `descricao` continua `'Interesse comercial sinalizado por
+"<trecho>".'`, agora com o trecho completo. Evidência de risco e de
+oportunidade seguem independentes (`"Estamos insatisfeitos com o suporte.
+Queremos conhecer o Fluig."` → as duas, cada uma com a sua recomendação).
+
+**Efeitos em outras regras.** Uma ocorrência rejeitada como oportunidade não
+é, por si só, conteúdo comercial: `"O módulo atual está instalado."` e
+`"Quero conhecer a cidade."` → churn `informacao_insuficiente` (antes
+`sem_sinal_detectado`). Produto, concorrente ou outro termo de contexto
+independente continuam tornando o churn avaliável (`"Não temos interesse em
+conhecer o Fluig."` → `sem_sinal_detectado`, `produtos == ["Fluig"]`). Um
+concorrente isolado (`"Queremos conhecer a SAP."`) não é oportunidade nem
+risco. Prospect continua `nao_aplicavel` e recebe oportunidades pela mesma
+regra.
+
+**Limites da regra local (B13)**, pinados em `test_sinais_comerciais.py`:
+
+- **Não agrupa gatilhos da mesma intenção (B17):** `"Temos interesse em
+  conhecer o Fluig."` ainda gera duas oportunidades, `"interesse em
+  conhecer o Fluig"` e `"conhecer o Fluig"` (agora com recortes distintos).
+- **Objeto coordenado é aceito:** `"Queremos conhecer a cidade e o Fluig."`
+  declara intenção de conhecer o Fluig e gera `"Queremos conhecer a cidade e
+  o Fluig"`; a revisão B13 não o trata como falso positivo.
+- **Falsos positivos:** quem quer não é identificado (`"O analista vai
+  conhecer o Fluig."`), nem pergunta do fornecedor (`"Vocês querem conhecer
+  o Fluig?"`); `"avaliar o serviço"` é lida como oportunidade, mesmo podendo
+  ser avaliação de um serviço atual; `filial`, `unidade` e `usuário` são
+  alvos de expansão (`"integrar as filiais"`, `"precisamos de mais
+  usuários"`), mas com `"conhecer"` podem ser visita ou encontro (`"Queremos
+  conhecer a filial de São Paulo."` → oportunidade); outros sentidos
+  genéricos de objetos da lista (`"plataforma de petróleo"`) e de `"sistema"`
+  fora dos modificadores listados.
+- **Falsos negativos:** vírgula entre gatilho e objeto (`"Queremos muito
+  conhecer, no mês que vem, o Fluig."`); objeto fora da lista (`"Queremos
+  conhecer o suporte técnico."`, `"Precisamos automatizar o processo."`);
+  ironia e discurso indireto.
+- **A negação de B11 fecha no `"e"`:** `"Não queremos o Fluig e conhecer o
+  Protheus."` gera `"conhecer o Protheus"`; é o sentido provável nesse
+  exemplo, mas a regra não sabe se o `"e"` abre uma nova intenção ou
+  continua a negada.
+- A descrição segue genérica (B18) e `produtos` continua listando menções,
+  não intenções.
+
 **Ausência de sinal vs. informação insuficiente (revisão B03-R01).** Sem
 risco explícito, o serviço decide entre dois estados distintos do contrato:
 
@@ -385,7 +488,8 @@ dados factuais de nome de produto/mercado, não a lógica de contagem com bug.
   cobrem os cenários pedidos pelo plano, não são exaustivos.
 - **Descrição da oportunidade é genérica** (`'Interesse comercial
   sinalizado por "<trecho>".'`), sem nomear a qual produto ou contexto se
-  refere — correlacionar com `produtos` mencionados é melhoria futura.
+  refere — correlacionar com `produtos` mencionados é melhoria futura. Desde
+  B13 o trecho citado é a intenção inteira, não só a palavra.
 - **Sobreposição proposital com o léxico de B02** (`"insatisfeit"`,
   `"frustrad"`, `"satisfeit"` aparecem nos dois): sentimento geral e risco
   de cancelamento respondem perguntas diferentes; os dois serviços podem
@@ -475,9 +579,10 @@ persistência é B05.
    churn) e uma por oportunidade (evidenciada pela evidência daquela
    oportunidade). Sem risco nem oportunidade, a lista fica vazia — nenhuma
    recomendação é inventada sem evidência.
-4. Usa `metodo="regras"` e `versao_analise="0.3"` (`0.1` em B04, `0.2`
-   com a negação de B11, `0.3` com o risco em contexto de B12; contrato C01
-   inalterado), os mesmos valores dos exemplos do contrato.
+4. Usa `metodo="regras"` e `versao_analise="0.4"` (`0.1` em B04, `0.2`
+   com a negação de B11, `0.3` com o risco em contexto de B12, `0.4` com a
+   oportunidade por intenção de B13; contrato C01 inalterado), os mesmos
+   valores dos exemplos do contrato.
 
 **Limitações desta versão:** as recomendações são genéricas (não citam o
 produto/trecho específico, mesmo estilo já documentado para a descrição de
