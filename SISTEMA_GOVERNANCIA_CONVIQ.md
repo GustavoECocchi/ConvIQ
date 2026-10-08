@@ -394,9 +394,9 @@ Permanecem abertas as decisões do plano sobre transcrição, custos, limites de
 
 A pedido do usuário, Codex e Claude passam a registrar a própria atuação no arquivo compartilhado, com conclusão, revisão, commit, branch, push e integração separados. Foram criados os pontos de entrada `AGENTS.md` e `CLAUDE.md`. O estado atual, inclusive o preparo de B01 e a situação Git desta atualização documental, está em `REGISTRO_TRABALHO.md`.
 
-## 11. Modo ágil (versão 1.2, proposta EST01 de 07/10/2026)
+## 11. Modo ágil (versão 1.2, vigente desde 08/10/2026)
 
-Esta seção entra em vigor depois do aceite técnico e da integração de EST01 na branch padrão. Até lá, é proposta em revisão. As instruções do usuário e as autorizações da sessão prevalecem. O registro de 7.000 linhas era lido e reescrito em toda atuação; o mesmo fato aparecia no registro, num relatório separado, no prompt e na resposta do chat.
+Adotada após o aceite técnico EST01-03 e a integração do PR #3 no merge `4063830`. As instruções do usuário e as autorizações da sessão prevalecem. O registro de 7.000 linhas era lido e reescrito em toda atuação; o mesmo fato aparecia no registro, num relatório separado, no prompt e na resposta do chat.
 
 ### 11.1. Onde está cada coisa
 

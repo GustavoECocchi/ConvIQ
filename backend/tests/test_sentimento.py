@@ -348,3 +348,126 @@ def test_texto_vazio_ou_so_espacos_e_informacao_insuficiente():
         resultado = analisar_sentimento(transcricao)
         assert resultado.sentimento is Sentimento.INFORMACAO_INSUFICIENTE
         assert resultado.evidencias == []
+
+
+# B14 — acento decomposto (NFD) ----------------------------------------------
+
+
+def _nfd(texto: str) -> str:
+    import unicodedata
+
+    return unicodedata.normalize("NFD", texto)
+
+
+@pytest.mark.parametrize(
+    ("transcricao", "sentimento", "trecho"),
+    [
+        ("O suporte é péssimo.", Sentimento.NEGATIVO, "péssimo"),
+        ("O atendimento é ótimo.", Sentimento.POSITIVO, "ótimo"),
+    ],
+)
+def test_nfc_e_nfd_classificam_igual_e_o_recorte_nfd_inclui_o_combinante(transcricao, sentimento, trecho):
+    """B14: com NFD o combinante ficava entre as letras e o sinal sumia
+    ("péssimo" → informação insuficiente). O recorte devolvido é literal e
+    contém o código combinante."""
+
+    nfc = analisar_sentimento(transcricao)
+    decomposto = _nfd(transcricao)
+    nfd = analisar_sentimento(decomposto)
+
+    assert nfc.sentimento is nfd.sentimento is sentimento
+    assert [e.trecho for e in nfc.evidencias] == [trecho]
+    assert [e.trecho for e in nfd.evidencias] == [_nfd(trecho)]
+    assert len(nfd.evidencias[0].trecho) > len(trecho)
+    evidencia = nfd.evidencias[0]
+    assert decomposto[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+def test_negacao_nfd_inverte_o_elogio_como_na_forma_nfc():
+    """`Não` precisa ser reconhecido como marcador: antes, "não estamos
+    satisfeitos" em NFD virava sentimento positivo."""
+
+    transcricao = "Não estamos satisfeitos com o suporte."
+
+    nfc = analisar_sentimento(transcricao)
+    nfd = analisar_sentimento(_nfd(transcricao))
+
+    assert nfd.sentimento is nfc.sentimento is Sentimento.NEGATIVO
+    assert [_nfd(e.trecho) for e in nfc.evidencias] == [e.trecho for e in nfd.evidencias]
+    assert nfd.evidencias[0].trecho == _nfd("Não estamos satisfeitos")
+
+
+@pytest.mark.parametrize(
+    ("transcricao", "sentimento", "trechos"),
+    [
+        (
+            "Não só estamos satisfeitos, como adoramos o atendimento.",
+            Sentimento.POSITIVO,
+            ["satisfeitos", "adoramos"],
+        ),
+        ("Não é ruim, é ótimo.", Sentimento.POSITIVO, ["ótimo"]),
+        ("Sem problemas, estamos satisfeitos.", Sentimento.POSITIVO, ["satisfeitos"]),
+        ("Não gostei do atendimento, mas adoramos o produto.", Sentimento.NEUTRO, ["Não gostei", "adoramos"]),
+    ],
+)
+def test_excecoes_e_limites_de_escopo_da_negacao_valem_em_nfd(transcricao, sentimento, trechos):
+    """`não só` não abre negação; o `é` do verbo (`é`) não fecha o escopo
+    como a conjunção `e`; vírgula e `mas` fecham — tudo igual à forma NFC."""
+
+    decomposto = _nfd(transcricao)
+    resultado = analisar_sentimento(decomposto)
+
+    assert resultado.sentimento is sentimento
+    assert [e.trecho for e in resultado.evidencias] == [_nfd(t) for t in trechos]
+    for evidencia in resultado.evidencias:
+        assert decomposto[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+def test_acento_decomposto_antes_nao_desloca_a_evidencia_do_sinal_posterior():
+    """Antes, os índices eram do texto normalizado; cada combinante antes do
+    sinal deslocava o recorte. Agora a evidência aponta a posição da transcrição."""
+
+    transcricao = _nfd("Ontem, às três da tarde, a reunião começou. O suporte é péssimo e o atendimento é ótimo.")
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is Sentimento.NEUTRO
+    esperado = [_nfd("péssimo"), _nfd("ótimo")]
+    assert [e.trecho for e in resultado.evidencias] == esperado
+    for evidencia, trecho in zip(resultado.evidencias, esperado):
+        assert evidencia.inicio == transcricao.index(trecho)
+        assert transcricao[evidencia.inicio:evidencia.fim] == trecho
+
+
+def test_sinal_valido_sobrevive_a_palavra_nfd_alheia_e_a_trecho_negado():
+    transcricao = _nfd("Não houve atraso. Estamos satisfeitos com a negociação, não é ruim.")
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert resultado.sentimento is Sentimento.POSITIVO
+    assert [e.trecho for e in resultado.evidencias] == ["satisfeitos"]
+    evidencia = resultado.evidencias[0]
+    assert transcricao[evidencia.inicio:evidencia.fim] == "satisfeitos"
+
+
+def test_repeticoes_emoji_e_quebra_de_linha_em_nfd_mantem_indices_distintos():
+    transcricao = _nfd("😀 O suporte é péssimo.\nDe novo: péssimo!\n")
+
+    resultado = analisar_sentimento(transcricao)
+
+    assert [e.trecho for e in resultado.evidencias] == [_nfd("péssimo")] * 2
+    posicoes = [(e.inicio, e.fim) for e in resultado.evidencias]
+    assert posicoes[0] != posicoes[1]
+    assert posicoes[0][0] < posicoes[1][0]
+    for evidencia in resultado.evidencias:
+        assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+def test_sinal_no_inicio_e_no_fim_do_texto_nfd():
+    inicio = analisar_sentimento(_nfd("Ótimo atendimento"))
+    fim = analisar_sentimento(_nfd("O suporte é péssimo"))
+
+    assert (inicio.evidencias[0].inicio, inicio.evidencias[0].trecho) == (0, _nfd("Ótimo"))
+    ultima = fim.evidencias[0]
+    assert ultima.fim == len(_nfd("O suporte é péssimo"))
+    assert ultima.trecho == _nfd("péssimo")

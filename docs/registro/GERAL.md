@@ -208,3 +208,22 @@ Eventos que não pertencem a um único PR (operações Git e retomadas que cobre
   reset ou stash. Usuário decide a integração do PR #3; Codex
   verifica o destino antes de declarar a seção 11 vigente. B14
   permanece liberado e não foi iniciado nesta atuação.
+
+### EST01-05 — 08/10/2026 — Codex / merge e verificação no destino
+
+- **Pedido/versão:** usuário autorizou mesclar o PR #3. Antes: `OPEN`,
+  head `5c2c421`, destino `feat/b01-fundacao-api` em `2811d84`,
+  `MERGEABLE/CLEAN`, sem checks ou revisão impeditiva; 28 arquivos
+  esperados. Worktrees existentes preservados.
+- **Git:** `gh pr merge 3 --merge --match-head-commit 5c2c421...`
+  concluiu sem excluir a branch. Servidor confirmou `MERGED`, merge
+  `4063830db9b5f8400b60b8c09e9413b35115b106`, pais `2811d84`
+  e `5c2c421`; branch padrão aponta ao merge, origem preservada.
+- **Verificação própria:** clone isolado da árvore integrada em `/tmp`,
+  removido depois. Árvore Git igual à do head aprovado; `app.__file__`
+  apontou ao clone. Suíte completa: 273 passed, dois avisos conhecidos;
+  43 links relativos válidos. Frontend e áudio não executados.
+- **Estado/próximo:** EST01 FINALIZADA, APROVADA, COMMITADA,
+  PUBLICADA e INTEGRADA; seção 11 vigente. Este registro pós-merge
+  fica local no worktree B14, NAO_COMMITADO/NAO_PUBLICADO; não houve
+  commit direto na branch padrão. B14 liberado e preparado em B14-00.

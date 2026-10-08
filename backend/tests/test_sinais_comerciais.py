@@ -948,3 +948,159 @@ def test_limites_b13_falsos_negativos_documentados(transcricao):
     resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
 
     assert resultado.oportunidades == []
+
+
+# B14 — acento decomposto (NFD) ----------------------------------------------
+
+
+def _nfd(texto: str) -> str:
+    import unicodedata
+
+    return unicodedata.normalize("NFD", texto)
+
+
+def _evidencias_de(resultado) -> list[str]:
+    return [e.trecho for e in resultado.evidencias]
+
+
+def _confere_recortes(transcricao: str, resultado) -> None:
+    for evidencia in resultado.evidencias:
+        assert transcricao[evidencia.inicio:evidencia.fim] == evidencia.trecho
+
+
+@pytest.mark.parametrize(
+    "transcricao",
+    [
+        "Não estamos satisfeitos com o suporte.",
+        "Não vamos cancelar o contrato.",
+        "Vamos cancelar o contrato.",
+        "Se o suporte continuar assim, vamos cancelar o contrato.",
+        "Estamos insatisfeitos com o suporte.",
+        "Não temos interesse em conhecer o Fluig.",
+        "Queremos conhecer o Fluig.",
+        "Precisamos automatizar o faturamento.",
+        "Não queremos o Fluig, mas temos interesse no Protheus.",
+        "Vamos cancelar a reunião e o contrato continua vigente.",
+    ],
+)
+def test_nfc_e_nfd_geram_o_mesmo_churn_e_as_mesmas_oportunidades(transcricao):
+    """B14: negação, risco e oportunidade dão o mesmo resultado nas duas formas
+    de Unicode; os recortes NFD são o equivalente decomposto dos NFC."""
+
+    decomposto = _nfd(transcricao)
+    nfc = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+    nfd = analisar_sinais_comerciais(decomposto, Vinculo.CLIENTE)
+
+    assert nfd.churn.situacao is nfc.churn.situacao
+    assert [_nfd(t) for t in _evidencias_de(nfc)] == _evidencias_de(nfd)
+    assert nfd.produtos == nfc.produtos
+    assert nfd.concorrentes == nfc.concorrentes
+    assert [o.evidencias for o in nfd.oportunidades] == [o.evidencias for o in nfc.oportunidades]
+    _confere_recortes(decomposto, nfd)
+
+
+def test_negacao_nfd_de_nao_estamos_satisfeitos_gera_risco_com_o_recorte_completo():
+    transcricao = _nfd("Não estamos satisfeitos com o suporte.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert _evidencias_de(resultado) == [transcricao[:-1]]
+
+
+def test_nao_so_e_e_verbo_em_nfd_respeitam_a_excecao_e_o_limite_de_escopo():
+    """`Não só` não é negação; o `é` do verbo não fecha o escopo da
+    negação (`não é bom` mantém o objeto negado), a conjunção `e` coordena."""
+
+    nao_so = _nfd("Não só queremos conhecer o Fluig, como o Protheus.")
+    verbo = _nfd("Não é bom cancelar o contrato.")
+
+    resultado_nao_so = analisar_sinais_comerciais(nao_so, Vinculo.CLIENTE)
+    resultado_verbo = analisar_sinais_comerciais(verbo, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado_nao_so) == [_nfd("queremos conhecer o Fluig")]
+    assert resultado_verbo.churn.situacao is ChurnSituacao.SEM_SINAL_DETECTADO
+    assert resultado_verbo.evidencias == []
+
+
+def test_coordenacao_com_e_em_nfd_ainda_liga_o_segundo_objeto():
+    transcricao = _nfd("Vamos cancelar a reunião e o contrato.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _evidencias_de(resultado) == [_nfd("cancelar a reunião e o contrato")]
+    _confere_recortes(transcricao, resultado)
+
+
+def test_churn_seguido_de_outra_acao_valida_nao_desloca_a_segunda_evidencia():
+    """Cada combinante antes do sinal deslocava o recorte (índices do texto
+    normalizado). Agora a segunda ação é localizada na transcrição."""
+
+    transcricao = _nfd("Vamos cancelar o contrato. Também, até amanhã, vamos reavaliar o fornecedor.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    esperado = [_nfd("cancelar o contrato"), _nfd("reavaliar o fornecedor")]
+    assert _evidencias_de(resultado) == esperado
+    for evidencia, trecho in zip(resultado.evidencias, esperado):
+        assert evidencia.inicio == transcricao.index(trecho)
+    _confere_recortes(transcricao, resultado)
+
+
+def test_oportunidade_depois_de_palavras_nfd_aponta_a_posicao_certa():
+    transcricao = _nfd("Atenção: após a conversão, a negociação é nossa prioridade. Queremos conhecer o Fluig.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["Queremos conhecer o Fluig"]
+    evidencia = resultado.evidencias[0]
+    assert evidencia.inicio == transcricao.index("Queremos")
+    assert resultado.produtos == ["Fluig"]
+    _confere_recortes(transcricao, resultado)
+
+
+def test_sinal_vizinho_valido_sobrevive_a_palavra_nfd_alheia_e_a_trecho_negado():
+    transcricao = _nfd("Não queremos o Fluig, mas após a negociação temos interesse no Protheus.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _trechos_das_oportunidades(resultado) == ["interesse no Protheus"]
+    assert resultado.produtos == ["Fluig", "Protheus"]
+    _confere_recortes(transcricao, resultado)
+
+
+def test_duas_ocorrencias_iguais_com_emoji_quebra_de_linha_e_pontuacao_em_nfd():
+    transcricao = _nfd("😀 Vamos cancelar o contrato!\nEm março: vamos cancelar o contrato; é isso.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert _evidencias_de(resultado) == ["cancelar o contrato"] * 2
+    posicoes = [(e.inicio, e.fim) for e in resultado.evidencias]
+    assert posicoes[0][0] < posicoes[1][0]
+    assert posicoes[1][0] == transcricao.rindex("cancelar")
+    assert len(set(resultado.churn.evidencias)) == 2
+    _confere_recortes(transcricao, resultado)
+
+
+def test_catalogo_nfd_e_prospect_continuam_corretos():
+    transcricao = _nfd("Hoje usamos o Protheus e o RM; após a avaliação, vamos cancelar o contrato.")
+
+    cliente = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+    prospect = analisar_sinais_comerciais(transcricao, Vinculo.PROSPECT)
+
+    assert cliente.produtos == prospect.produtos == ["Protheus", "RM"]
+    assert cliente.churn.situacao is ChurnSituacao.SINAL_DETECTADO
+    assert prospect.churn.situacao is ChurnSituacao.NAO_APLICAVEL
+    assert prospect.churn.evidencias == []
+
+
+def test_tema_alheio_em_nfd_continua_sem_risco_de_churn():
+    """B12-R04 na forma NFD: o complemento `com o almoço` (com cedilha/til
+    decompostos) segue sendo tema alheio."""
+
+    transcricao = _nfd("Não estamos satisfeitos com o almoço.")
+
+    resultado = analisar_sinais_comerciais(transcricao, Vinculo.CLIENTE)
+
+    assert resultado.churn.situacao is ChurnSituacao.INFORMACAO_INSUFICIENTE
+    assert resultado.evidencias == []

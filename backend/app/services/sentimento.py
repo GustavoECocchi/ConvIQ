@@ -32,7 +32,7 @@ from dataclasses import dataclass
 from app.schemas.analise import Evidencia
 from app.schemas.comum import Sentimento
 from app.services.negacao import escopos_de_negacao, inicio_da_negacao_mais_proxima
-from app.services.texto import normalizar_preservando_posicoes
+from app.services.texto import normalizar_com_mapa
 
 _PADROES_NEGATIVOS = [
     r"insatisfeit[oa]s?",
@@ -101,8 +101,9 @@ def analisar_sentimento(transcricao: str) -> ResultadoSentimento:
     `informacao_insuficiente`, não `neutro`.
     """
 
-    normalizado = normalizar_preservando_posicoes(transcricao)
-    escopos = escopos_de_negacao(normalizado, transcricao)
+    texto = normalizar_com_mapa(transcricao)
+    normalizado = texto.texto
+    escopos = escopos_de_negacao(texto)
 
     ocorrencias: list[_Ocorrencia] = []
 
@@ -136,13 +137,10 @@ def analisar_sentimento(transcricao: str) -> ResultadoSentimento:
         selecionadas = negativos + positivos
 
     ocorrencias_ordenadas = sorted(selecionadas, key=lambda ocorrencia: ocorrencia.inicio)
-    evidencias = [
-        Evidencia(
-            id=f"e{indice}",
-            trecho=transcricao[ocorrencia.inicio:ocorrencia.fim],
-            inicio=ocorrencia.inicio,
-            fim=ocorrencia.fim,
-        )
-        for indice, ocorrencia in enumerate(ocorrencias_ordenadas, start=1)
-    ]
+    evidencias = []
+    for indice, ocorrencia in enumerate(ocorrencias_ordenadas, start=1):
+        # As posições da ocorrência são do texto normalizado; a evidência pública
+        # usa índices da transcrição (B14), incluindo combinantes após a letra.
+        inicio, fim = texto.intervalo_original(ocorrencia.inicio, ocorrencia.fim)
+        evidencias.append(Evidencia(id=f"e{indice}", trecho=transcricao[inicio:fim], inicio=inicio, fim=fim))
     return ResultadoSentimento(sentimento=sentimento, evidencias=evidencias)

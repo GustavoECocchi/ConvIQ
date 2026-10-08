@@ -49,7 +49,7 @@ from dataclasses import dataclass, field
 from app.schemas.analise import Churn, Evidencia, Oportunidade
 from app.schemas.comum import ChurnSituacao, Vinculo
 from app.services.negacao import escopos_de_negacao, inicio_da_negacao_mais_proxima
-from app.services.texto import normalizar_preservando_posicoes
+from app.services.texto import TextoNormalizado, normalizar_com_mapa
 
 # Risco de cancelamento: linguagem que indica avaliação ou intenção de
 # encerrar a relação comercial, não qualquer sentimento negativo genérico
@@ -341,12 +341,12 @@ def _fim_do_complemento(normalizado: str, inicio: int) -> int:
     return fronteira.start() if fronteira else len(normalizado)
 
 
-def _e_conjuncao(palavra: re.Match[str], transcricao: str) -> bool:
+def _e_conjuncao(palavra: re.Match[str], texto: TextoNormalizado) -> bool:
     """"e"/"ou" como conjunção; o "é" do verbo também vira "e" na
     normalização, por isso o caractere original é consultado (como em
     `app/services/negacao.py`)."""
 
-    return palavra.group() in _CONJUNCOES_COORDENATIVAS and transcricao[palavra.start()] not in "éÉ"
+    return palavra.group() in _CONJUNCOES_COORDENATIVAS and texto.caractere_original(palavra.start()) not in ("é", "É")
 
 
 def _nucleo(
@@ -382,7 +382,7 @@ def _e_sintagma_nominal(membro: list[re.Match[str]]) -> bool:
     return not esperando_nucleo
 
 
-def _membros_coordenados(palavras: list[re.Match[str]], transcricao: str) -> list[list[re.Match[str]]]:
+def _membros_coordenados(palavras: list[re.Match[str]], texto: TextoNormalizado) -> list[list[re.Match[str]]]:
     """Divide um complemento em membros coordenados por "e"/"ou".
 
     O primeiro membro é o complemento direto e vale como está. Cada membro
@@ -394,7 +394,7 @@ def _membros_coordenados(palavras: list[re.Match[str]], transcricao: str) -> lis
 
     membros: list[list[re.Match[str]]] = [[]]
     for palavra in palavras:
-        if _e_conjuncao(palavra, transcricao):
+        if _e_conjuncao(palavra, texto):
             membros.append([])
         else:
             membros[-1].append(palavra)
@@ -406,7 +406,7 @@ def _membros_coordenados(palavras: list[re.Match[str]], transcricao: str) -> lis
     return incluidos
 
 
-def _fim_do_objeto_da_acao(normalizado: str, transcricao: str, fim_acao: int) -> int | None:
+def _fim_do_objeto_da_acao(normalizado: str, texto: TextoNormalizado, fim_acao: int) -> int | None:
     """Fim do objeto da relação comercial ligado à ação, ou `None` (B12-R02/R06).
 
     Percorre o complemento da ação até `_fim_do_complemento`, dividido em
@@ -423,7 +423,7 @@ def _fim_do_objeto_da_acao(normalizado: str, transcricao: str, fim_acao: int) ->
     """
 
     palavras = list(_REGEX_PALAVRA.finditer(normalizado, fim_acao, _fim_do_complemento(normalizado, fim_acao)))
-    for membro in _membros_coordenados(palavras, transcricao):
+    for membro in _membros_coordenados(palavras, texto):
         nucleo = _nucleo(membro)
         if nucleo is not None and _REGEX_OBJETO_RISCO.fullmatch(nucleo.group()):
             return nucleo.end()
@@ -445,7 +445,7 @@ def _e_sistema_alheio(membro: list[re.Match[str]], nucleo: re.Match[str]) -> boo
     return posicao + 1 < len(membro) and bool(_REGEX_SISTEMA_ALHEIO.fullmatch(membro[posicao + 1].group()))
 
 
-def _fim_do_objeto_da_oportunidade(normalizado: str, transcricao: str, fim_gatilho: int) -> int | None:
+def _fim_do_objeto_da_oportunidade(normalizado: str, texto: TextoNormalizado, fim_gatilho: int) -> int | None:
     """Fim do objeto comercial ligado a um gatilho de oportunidade, ou `None` (B13).
 
     Mesma ligação local de `_fim_do_objeto_da_acao` (núcleo do complemento,
@@ -457,7 +457,7 @@ def _fim_do_objeto_da_oportunidade(normalizado: str, transcricao: str, fim_gatil
     """
 
     palavras = list(_REGEX_PALAVRA.finditer(normalizado, fim_gatilho, _fim_do_complemento(normalizado, fim_gatilho)))
-    for membro in _membros_coordenados(palavras, transcricao):
+    for membro in _membros_coordenados(palavras, texto):
         nucleo = _nucleo(membro, _PALAVRAS_ANTES_DO_OBJETO_OPORTUNIDADE)
         if nucleo is None or not _REGEX_OBJETO_OPORTUNIDADE.fullmatch(nucleo.group()):
             continue
@@ -484,7 +484,7 @@ def _inicio_da_condicao(normalizado: str, inicio_acao: int) -> int | None:
     return None
 
 
-def _complemento_com(normalizado: str, transcricao: str, fim_palavra: int) -> list[list[re.Match[str]]]:
+def _complemento_com(normalizado: str, texto: TextoNormalizado, fim_palavra: int) -> list[list[re.Match[str]]]:
     """Membros do complemento "com ..." logo depois de uma palavra, ou `[]`.
 
     "insatisfeitos com o suporte" → `[["o", "suporte"]]`; "com o almoço e
@@ -500,7 +500,7 @@ def _complemento_com(normalizado: str, transcricao: str, fim_palavra: int) -> li
         return []
     limite = _fim_do_complemento(normalizado, preposicao.end())
     palavras = list(_REGEX_PALAVRA.finditer(normalizado, preposicao.end(), limite))
-    membros = _membros_coordenados(palavras, transcricao)
+    membros = _membros_coordenados(palavras, texto)
     return membros if membros[0] else []
 
 
@@ -524,7 +524,7 @@ def _e_tema_alheio(normalizado: str, membros: list[list[re.Match[str]]]) -> bool
 
 
 def _ocorrencias_risco(
-    normalizado: str, transcricao: str, escopos: list[tuple[int, int, int]]
+    normalizado: str, texto: TextoNormalizado, escopos: list[tuple[int, int, int]]
 ) -> list[tuple[int, int]]:
     """Devolve `(inicio, fim)` de cada ocorrência de risco, já com a negação
     de B11 aplicada (ver `app/services/negacao.py`).
@@ -558,7 +558,7 @@ def _ocorrencias_risco(
     spans: list[tuple[int, int]] = []
 
     def _insatisfacao(inicio: int, fim_palavra: int) -> None:
-        membros = _complemento_com(normalizado, transcricao, fim_palavra)
+        membros = _complemento_com(normalizado, texto, fim_palavra)
         if _e_tema_alheio(normalizado, membros):
             return
         spans.append((inicio, membros[-1][-1].end() if membros else fim_palavra))
@@ -571,7 +571,7 @@ def _ocorrencias_risco(
     for acao in _REGEX_ACAO_RISCO.finditer(normalizado):
         if inicio_da_negacao_mais_proxima(escopos, acao.start()) is not None:
             continue
-        fim_objeto = _fim_do_objeto_da_acao(normalizado, transcricao, acao.end())
+        fim_objeto = _fim_do_objeto_da_acao(normalizado, texto, acao.end())
         if fim_objeto is None:
             continue
         inicio_condicao = _inicio_da_condicao(normalizado, acao.start())
@@ -586,7 +586,7 @@ def _ocorrencias_risco(
 
 
 def _ocorrencias_oportunidade(
-    normalizado: str, transcricao: str, escopos: list[tuple[int, int, int]]
+    normalizado: str, texto: TextoNormalizado, escopos: list[tuple[int, int, int]]
 ) -> list[tuple[int, int]]:
     """Devolve `(inicio, fim)` de cada intenção comercial afirmativa (B13).
 
@@ -625,7 +625,7 @@ def _ocorrencias_oportunidade(
     quereres = [querer for querer in _REGEX_QUERER_OPORTUNIDADE.finditer(normalizado) if not _negado(querer.start())]
 
     def _fim_do_objeto(fim: int) -> int | None:
-        return _fim_do_objeto_da_oportunidade(normalizado, transcricao, fim)
+        return _fim_do_objeto_da_oportunidade(normalizado, texto, fim)
 
     def _inicio_com_querer(gatilho: re.Match[str]) -> int:
         anteriores = [querer for querer in quereres if querer.end() <= gatilho.start()]
@@ -655,7 +655,7 @@ def _ocorrencias_oportunidade(
     return sorted(set(spans))
 
 
-def _ha_contexto_comercial(normalizado: str, transcricao: str) -> bool:
+def _ha_contexto_comercial(normalizado: str, texto: TextoNormalizado) -> bool:
     """Algum termo de `_PADROES_CONTEXTO_COMERCIAL` fala da relação comercial.
 
     "satisfeito" com complemento de tema alheio ("satisfeitos com o
@@ -665,7 +665,7 @@ def _ha_contexto_comercial(normalizado: str, transcricao: str) -> bool:
 
     for termo in _REGEX_CONTEXTO_COMERCIAL.finditer(normalizado):
         if _REGEX_SATISFACAO.fullmatch(termo.group()) and _e_tema_alheio(
-            normalizado, _complemento_com(normalizado, transcricao, termo.end())
+            normalizado, _complemento_com(normalizado, texto, termo.end())
         ):
             continue
         return True
@@ -674,7 +674,7 @@ def _ha_contexto_comercial(normalizado: str, transcricao: str) -> bool:
 
 def _ha_conteudo_comercial(
     normalizado: str,
-    transcricao: str,
+    texto: TextoNormalizado,
     ocorrencias_oportunidade: list[tuple[int, int]],
     produtos: list[str],
     concorrentes: list[str],
@@ -695,7 +695,7 @@ def _ha_conteudo_comercial(
         ocorrencias_oportunidade
         or produtos
         or concorrentes
-        or _ha_contexto_comercial(normalizado, transcricao)
+        or _ha_contexto_comercial(normalizado, texto)
     )
 
 
@@ -727,7 +727,8 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
     `oportunidades`.
     """
 
-    normalizado = normalizar_preservando_posicoes(transcricao)
+    texto = normalizar_com_mapa(transcricao)
+    normalizado = texto.texto
 
     produtos = _nomes_unicos_em_ordem(normalizado, _REGEX_PRODUTOS, _PRODUTOS)
     concorrentes = _nomes_unicos_em_ordem(normalizado, _REGEX_CONCORRENTES, _CONCORRENTES)
@@ -735,26 +736,29 @@ def analisar_sinais_comerciais(transcricao: str, vinculo: Vinculo) -> ResultadoS
     evidencias: list[Evidencia] = []
 
     def _nova_evidencia(inicio: int, fim: int) -> Evidencia:
+        # `inicio`/`fim` são do texto normalizado; a evidência pública usa
+        # índices da transcrição (B14), incluindo combinantes após a letra.
+        inicio_original, fim_original = texto.intervalo_original(inicio, fim)
         evidencia = Evidencia(
             id=f"e{len(evidencias) + 1}",
-            trecho=transcricao[inicio:fim],
-            inicio=inicio,
-            fim=fim,
+            trecho=transcricao[inicio_original:fim_original],
+            inicio=inicio_original,
+            fim=fim_original,
         )
         evidencias.append(evidencia)
         return evidencia
 
-    escopos = escopos_de_negacao(normalizado, transcricao)
-    ocorrencias_oportunidade = _ocorrencias_oportunidade(normalizado, transcricao, escopos)
+    escopos = escopos_de_negacao(texto)
+    ocorrencias_oportunidade = _ocorrencias_oportunidade(normalizado, texto, escopos)
 
     if vinculo is Vinculo.PROSPECT:
         churn = Churn(situacao=ChurnSituacao.NAO_APLICAVEL, evidencias=[])
     else:
-        ocorrencias_risco = _ocorrencias_risco(normalizado, transcricao, escopos)
+        ocorrencias_risco = _ocorrencias_risco(normalizado, texto, escopos)
         if ocorrencias_risco:
             ids_risco = [_nova_evidencia(inicio, fim).id for inicio, fim in ocorrencias_risco]
             churn = Churn(situacao=ChurnSituacao.SINAL_DETECTADO, evidencias=ids_risco)
-        elif _ha_conteudo_comercial(normalizado, transcricao, ocorrencias_oportunidade, produtos, concorrentes):
+        elif _ha_conteudo_comercial(normalizado, texto, ocorrencias_oportunidade, produtos, concorrentes):
             churn = Churn(situacao=ChurnSituacao.SEM_SINAL_DETECTADO, evidencias=[])
         else:
             churn = Churn(situacao=ChurnSituacao.INFORMACAO_INSUFICIENTE, evidencias=[])

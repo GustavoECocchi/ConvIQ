@@ -18,7 +18,7 @@ from app.services.sentimento import analisar_sentimento
 from app.services.sinais_comerciais import analisar_sinais_comerciais
 
 _METODO = "regras"
-_VERSAO_ANALISE = "0.4"
+_VERSAO_ANALISE = "0.5"
 
 
 def compor_analise_texto(pedido: AnaliseTextoRequest) -> AnaliseTextoResponse:

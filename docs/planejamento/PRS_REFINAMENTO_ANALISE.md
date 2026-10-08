@@ -159,8 +159,10 @@ e PR remoto devem ser confirmados na execução, nunca inferidos pelo ID lógico
   testes do utilitário/sentimento/sinais/composição. Retornar texto para busca
   e mapa de intervalos para a transcrição original, mantendo o eco de C01.
 - **Aceite/testes:** NFC e NFD de “péssimo”/“ótimo” têm a mesma classificação;
-  recortes incluem os caracteres combinantes corretos. Repetições, emoji antes
-  do sinal, quebras de linha e limites de expressão permanecem corretos.
+  recortes incluem os caracteres combinantes corretos. “Não”/“não só” em NFD
+  preservam a negação, sua exceção e o escopo; um sinal válido depois de NFD
+  ou depois de trecho negado não desaparece. Repetições, emoji antes do sinal,
+  quebras de linha e limites de expressão permanecem corretos.
   Nenhum ID/trecho é obtido por busca da primeira ocorrência com `find`.
 - **Exclusões:** mudar índices para bytes/UTF-16, alterar transcrição ecoada,
   timestamps e limpeza destrutiva de palavras/pontuação.
