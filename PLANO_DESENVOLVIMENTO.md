@@ -239,7 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (09/10/2026):** F01 foi aprovada tecnicamente em F01-05 no worktree CONVIQ-f01, mas ainda é diff local sem commit. O [prompt vigente](prompt.md) prepara F02-A para o Sonnet depois que F01 tiver commit próprio; o [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes.
+**Encaminhamento vigente (09/10/2026):** F01 foi aprovada tecnicamente em F01-05, commitada em d8e06b2 e publicada no PR #5, ainda sem merge. O [prompt vigente](prompt.md) prepara F02-A para o Sonnet sobre um worktree isolado baseado no HEAD de F01; o [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes

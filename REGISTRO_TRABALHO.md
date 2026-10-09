@@ -50,7 +50,7 @@ continua no Git.
 | [B13 — Intenção comercial para oportunidade](docs/registro/B13.md) | FINALIZADA (B13-01, Sonnet), corrigida pelo Opus em B13-03 | APROVADA tecnicamente em B13-04; INTEGRADA e verificada em B13-10 | Entrega COMMITADA em `ebed307`; registro remoto COMMITADO em `6d8bcfa`; eventos posteriores locais | `fix/b13-intencao-oportunidade`, head `6d8bcfa`, base `9921f57` | PUBLICADA; origem remota preservada em `6d8bcfa` | INTEGRADA em `feat/b01-fundacao-api` pelo PR #2, merge `2811d84` |
 | [EST01 — Estrutura ágil](docs/registro/GERAL.md) | FINALIZADA (EST01-01, Opus), corrigida em EST01-03 | APROVADA e INTEGRADA; PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) MERGEADO | Entrega COMMITADA em `53823a1`; registro COMMITADO em `5c2c421` | `chore/estrutura-agil`, base `6d8bcfa` | PUBLICADA; branch remota preservada em `5c2c421` | INTEGRADA em `feat/b01-fundacao-api`, merge `4063830` |
 | [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet) | INTEGRADO em B14-07; aceite B14-04; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4) MERGEADO | COMMITADO em `13b1519`; registros B14-05–07 locais | `fix/b14-unicode-evidencias`, base `4063830`, HEAD `13b1519` | PUBLICADA em `origin/fix/b14-unicode-evidencias` (`13b1519`) | INTEGRADA em `feat/b01-fundacao-api`, merge `b688afb` |
-| [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA localmente (F01-01, Codex) | APROVADO tecnicamente em F01-05 após revisão Opus F01-04 | `frontend/` e registros como diff local sobre `b688afb`, NAO_COMMITADOS | `feat/f01-fundacao-react`, HEAD/base `b688afb` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
+| [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA (F01-01, Codex) | APROVADO tecnicamente em F01-05 após revisão Opus F01-04 | Entrega COMMITADA em `d8e06b2`; registro F01-06 no HEAD documental posterior | `feat/f01-fundacao-react`, base `b688afb`, HEAD documental posterior a `d8e06b2` | PUBLICADA em `origin/feat/f01-fundacao-react`; PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
@@ -61,19 +61,20 @@ F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_F
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 09/10/2026, F01-05 (Codex)
+### Fotografia Git vigente — 09/10/2026, F01-06 (Codex)
 
 - Worktree `/home/gustavoecocchi/Documents/CONVIQ-f01`, branch
-  `feat/f01-fundacao-react`, HEAD/base `b688afb7bdaa63a7ac8e8905301d29075f3a4dcc`
-  (= branch padrão `feat/b01-fundacao-api`, conferida no servidor em 09/10).
-  Branch F01 ausente na lista remota; `gh pr list --head` sem PR F01.
-- **Entrega F01 = `frontend/` não rastreado:** React/TypeScript/Vite,
-  lockfile, página inicial horizontal, documentação e duas prévias. `dist/`
-  e `node_modules/` ignorados. Índice Git sem alterações preparadas.
-- **Documentos locais:** `docs/registro/F01.md` não rastreado;
-  `REGISTRO_TRABALHO.md`, `STATUS.md`, `PLANO_DESENVOLVIMENTO.md` e
-  `docs/registro/B14.md` modificados. B14-05–07 corrigem o registro da base;
-  B19 permanece local em outro worktree e não faz parte desta entrega.
-- **Planejamento local:** docs/planejamento/PRS_FRONTEND_NAVEGACAO.md não rastreado; prompt.md, docs/registro/GERAL.md, PLANO_DESENVOLVIMENTO.md, STATUS.md e este índice modificados. Os cartões F02–F06 ainda não têm código.
-- F01 APROVADA tecnicamente, mas NAO_COMMITADA, NAO_PUBLICADA, PR NAO_ABERTO, NAO_INTEGRADA.
-  Pasta raiz e worktrees B14/B19 preservados; nenhum commit, push ou merge.
+  `feat/f01-fundacao-react`, HEAD documental posterior à entrega `d8e06b2`,
+  base `b688afb7bdaa63a7ac8e8905301d29075f3a4dcc`. O hash do próprio
+  commit documental é verificado no Git após gravá-lo, sem autorreferência.
+- Entrega F01 COMMITADA em `d8e06b2` e PUBLICADA em
+  `origin/feat/f01-fundacao-react` no mesmo hash. O commit contém frontend/
+  (18 arquivos), registros F01, roteiro de navegação e sincronização documental
+  B14; não contém código B19. A pasta raiz e outros worktrees foram preservados.
+- GitHub em 09/10: branch padrão `feat/b01-fundacao-api` em `b688afb`;
+  PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) ABERTO,
+  não draft, base `b688afb`, head com entrega `d8e06b2` e registro
+  documental posterior. Na abertura com head `d8e06b2`, MERGEABLE, 26
+  arquivos esperados e sem checks. F01 APROVADA, NAO_INTEGRADA.
+- O registro F01-06, índice, STATUS, roteiro e prompt integram o commit
+  documental posterior à entrega e publicado na mesma branch. Nenhum merge.

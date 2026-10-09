@@ -1,6 +1,6 @@
 # PRs pequenos — navegação do usuário no frontend de texto
 
-Planejado em 09/10/2026 pelo Codex. Este refinamento subdivide F02–F06 do PLANO_DESENVOLVIMENTO.md; conserva os critérios originais e não altera F07–F11 (áudio, histórico e revisão final). F01 está implementado apenas como diff local no worktree CONVIQ-f01, branch feat/f01-fundacao-react, base b688afb. F02-A começa depois de F01 ter uma versão própria revisada e commitada, para que cada PR tenha diff isolável. Nenhum cartão abaixo está implementado ou liberado por este documento.
+Planejado em 09/10/2026 pelo Codex. Este refinamento subdivide F02–F06 do PLANO_DESENVOLVIMENTO.md; conserva os critérios originais e não altera F07–F11 (áudio, histórico e revisão final). F01 foi aprovado tecnicamente e publicado no PR #5: commit d8e06b2 da branch feat/f01-fundacao-react sobre b688afb. F02-A pode partir do HEAD publicado da branch F01 (que contém d8e06b2) em worktree isolado, como dependência empilhada; sua integração vem após F01. Nenhum cartão abaixo foi implementado por este documento.
 
 ## Jornada de texto que deve existir em F06-B
 

@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F01-05). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F01-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -13,11 +13,12 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   sete hashes, 271 testes e casos críticos na árvore integrada.
 - **Frontend:** usuário atribuiu F01 ao Codex nesta rodada. F01 está
   implementado localmente no worktree `CONVIQ-f01`, branch
-  `feat/f01-fundacao-react`, HEAD/base `b688afb`: dashboard horizontal
+  `feat/f01-fundacao-react`, base `b688afb`: dashboard horizontal
   React/TypeScript/Vite, com prévias desktop/celular. Typecheck, lint, build e
   preview passaram; revisão do Opus F01-04 e aceite técnico do Codex F01-05
-  concluídos. F02–F06 foram subdivididos em PRs pequenos no roteiro de
-  navegação; prompt.md deste worktree e da pasta raiz preparam F02-A após o commit próprio de F01.
+  concluídos. Código F01 commitado e publicado em d8e06b2; PR #5 ABERTO
+  para feat/b01-fundacao-api, ainda não integrado. F02–F06 foram subdivididos
+  em PRs pequenos; prompt.md prepara F02-A em worktree isolado.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -28,10 +29,9 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. F01 tem aceite técnico, mas segue local e sem commit. Com autorização para
-   commitar F01, fixar sua versão em branch própria; então liberar F02-A para
-   Sonnet em worktree separado conforme prompt.md. F03-A cobre os três ajustes
-   de menu anotados pelo Opus em 320 px e o estado ativo da rota.
+1. Preparar worktree isolado F02-A sobre o HEAD publicado de F01 para Sonnet
+   conforme prompt.md. O PR #5 fica aguardando ordem de merge. F03-A resolve
+   as observações de menu em 320 px e o estado ativo da rota do Opus.
 2. B19 segue aprovado localmente em worktree separado, aguardando decisão
    de publicação/integração; F01 não depende dessa publicação.
 
