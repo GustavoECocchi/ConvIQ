@@ -27,7 +27,7 @@ def test_entrada_valida_responde_200_conforme_o_contrato(configuracao_padrao):
     assert corpo["churn"]["situacao"] == "sinal_detectado"
     assert corpo["produtos"] == ["Fluig"]
     assert corpo["metodo"] == "regras"
-    assert corpo["versao_analise"] == "0.5"
+    assert corpo["versao_analise"] == "0.6"
     assert len(corpo["oportunidades"]) == 1
     assert len(corpo["recomendacoes"]) == 2
     ids_evidencia = {e["id"] for e in corpo["evidencias"]}
@@ -52,7 +52,7 @@ def test_negacao_com_virgula_e_mas_chega_pela_rota_com_recortes_literais(configu
     for evidencia in corpo["evidencias"]:
         assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
     assert corpo["churn"]["situacao"] == "sem_sinal_detectado"
-    assert corpo["versao_analise"] == "0.5"
+    assert corpo["versao_analise"] == "0.6"
 
 
 def test_negacao_de_cancelar_pela_rota_gera_sem_sinal_nao_informacao_insuficiente(configuracao_padrao):
@@ -69,7 +69,7 @@ def test_negacao_de_cancelar_pela_rota_gera_sem_sinal_nao_informacao_insuficient
     assert corpo["churn"]["situacao"] == "sem_sinal_detectado"
     assert corpo["churn"]["evidencias"] == []
     assert corpo["evidencias"] == []
-    assert corpo["versao_analise"] == "0.5"
+    assert corpo["versao_analise"] == "0.6"
 
 
 def test_reuniao_sobre_o_contrato_pela_rota_nao_gera_risco(configuracao_padrao):
@@ -153,7 +153,7 @@ def test_interesse_negado_pela_rota_nao_gera_oportunidade(configuracao_padrao):
     assert corpo["recomendacoes"] == []
     assert corpo["produtos"] == ["Fluig"]
     assert corpo["churn"] == {"situacao": "sem_sinal_detectado", "evidencias": []}
-    assert corpo["versao_analise"] == "0.5"
+    assert corpo["versao_analise"] == "0.6"
 
 
 def test_risco_e_intencao_coexistem_pela_rota_com_referencias_validas(configuracao_padrao):
@@ -210,7 +210,7 @@ def test_acento_decomposto_pela_rota_gera_a_mesma_analise_com_recortes_literais(
     corpo_nfd = cliente.post("/api/analises/texto", json=_payload_valido(transcricao="  " + nfd + " ")).json()
 
     assert corpo_nfd["transcricao"] == nfd
-    assert corpo_nfd["versao_analise"] == "0.5"
+    assert corpo_nfd["versao_analise"] == "0.6"
     for campo in ("sentimento", "produtos", "concorrentes"):
         assert corpo_nfd[campo] == corpo_nfc[campo]
     assert corpo_nfd["churn"] == corpo_nfc["churn"]
@@ -222,6 +222,30 @@ def test_acento_decomposto_pela_rota_gera_a_mesma_analise_com_recortes_literais(
         assert corpo_nfd["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
     assert any(e["trecho"].startswith("Queremos") for e in corpo_nfd["evidencias"])
     assert [r["evidencias"] for r in corpo_nfd["recomendacoes"]] == [r["evidencias"] for r in corpo_nfc["recomendacoes"]]
+
+
+def test_evidencia_exata_compartilhada_pela_rota_e_aninhada_continua_dupla(configuracao_padrao):
+    """B19 de ponta a ponta: sentimento e risco no mesmo intervalo dividem um
+    ID; o recorte mais longo (com o suporte) continua sendo outra evidência."""
+
+    cliente = _cliente(configuracao_padrao)
+
+    curta = cliente.post("/api/analises/texto", json=_payload_valido(transcricao="Estamos insatisfeitos.")).json()
+    longa = cliente.post(
+        "/api/analises/texto", json=_payload_valido(transcricao="Estamos insatisfeitos com o suporte.")
+    ).json()
+
+    assert [(e["id"], e["trecho"], e["inicio"], e["fim"]) for e in curta["evidencias"]] == [("e1", "insatisfeitos", 8, 21)]
+    assert curta["churn"]["evidencias"] == ["e1"]
+    assert [r["evidencias"] for r in curta["recomendacoes"]] == [["e1"]]
+    assert curta["sentimento"] == "negativo"
+    assert [(e["id"], e["inicio"], e["fim"]) for e in longa["evidencias"]] == [("e1", 8, 21), ("e2", 8, 35)]
+    assert longa["churn"]["evidencias"] == ["e2"]
+    assert [r["evidencias"] for r in longa["recomendacoes"]] == [["e2"]]
+    for corpo in (curta, longa):
+        assert corpo["versao_analise"] == "0.6"
+        for evidencia in corpo["evidencias"]:
+            assert corpo["transcricao"][evidencia["inicio"]:evidencia["fim"]] == evidencia["trecho"]
 
 
 def test_prospect_recebe_churn_nao_aplicavel_pela_rota(configuracao_padrao):

@@ -18,7 +18,7 @@ from app.services.sentimento import analisar_sentimento
 from app.services.sinais_comerciais import analisar_sinais_comerciais
 
 _METODO = "regras"
-_VERSAO_ANALISE = "0.5"
+_VERSAO_ANALISE = "0.6"
 
 
 def compor_analise_texto(pedido: AnaliseTextoRequest) -> AnaliseTextoResponse:
@@ -27,9 +27,19 @@ def compor_analise_texto(pedido: AnaliseTextoRequest) -> AnaliseTextoResponse:
     B02 e B03 numeram suas evidências de forma independente, cada um a
     partir de `e1` — misturados sem ajuste, os IDs colidiriam e deixariam
     de identificar uma evidência específica. Aqui, as evidências das duas
-    origens são reunidas, ordenadas pela posição na transcrição (`inicio`)
-    e renumeradas em sequência única; as referências em `churn.evidencias`
-    e em cada `oportunidades[].evidencias` são atualizadas para os novos IDs.
+    origens são reunidas, ordenadas pela posição na transcrição (`inicio`;
+    em empate, sentimento antes de comercial) e renumeradas em sequência
+    única; as referências em `churn.evidencias` e em cada
+    `oportunidades[].evidencias` são atualizadas para os novos IDs.
+
+    B19: evidências com a **mesma chave exata** `(inicio, fim, trecho)` —
+    como "insatisfeitos" achado pelo sentimento e pelo risco no mesmo
+    intervalo — viram uma só, com um único ID, e todas as referências passam
+    a apontar para ele. Só o intervalo idêntico é unido: recortes aninhados
+    ou apenas sobrepostos ("insatisfeitos" × "insatisfeitos com o suporte")
+    continuam sendo duas evidências, e o mesmo texto em posições diferentes
+    também. Os IDs finais são `e1..eN` sem lacunas, e cada lista de
+    referências fica sem repetição, na ordem da primeira referência.
     """
 
     resultado_sentimento = analisar_sentimento(pedido.transcricao)
@@ -40,14 +50,19 @@ def compor_analise_texto(pedido: AnaliseTextoRequest) -> AnaliseTextoResponse:
     origens.sort(key=lambda par: par[1].inicio)
 
     mapa_ids: dict[tuple[str, str], str] = {}
+    id_por_chave: dict[tuple[int, int, str], str] = {}
     evidencias_finais: list[Evidencia] = []
-    for indice, (origem, evidencia) in enumerate(origens, start=1):
-        novo_id = f"e{indice}"
-        mapa_ids[(origem, evidencia.id)] = novo_id
-        evidencias_finais.append(evidencia.model_copy(update={"id": novo_id}))
+    for origem, evidencia in origens:
+        chave = (evidencia.inicio, evidencia.fim, evidencia.trecho)
+        if chave not in id_por_chave:
+            novo_id = f"e{len(evidencias_finais) + 1}"
+            id_por_chave[chave] = novo_id
+            evidencias_finais.append(evidencia.model_copy(update={"id": novo_id}))
+        mapa_ids[(origem, evidencia.id)] = id_por_chave[chave]
 
     def _remapear(ids_antigos: list[str]) -> list[str]:
-        return [mapa_ids[("comercial", id_antigo)] for id_antigo in ids_antigos]
+        remapeados = [mapa_ids[("comercial", id_antigo)] for id_antigo in ids_antigos]
+        return list(dict.fromkeys(remapeados))
 
     churn = resultado_comercial.churn.model_copy(
         update={"evidencias": _remapear(resultado_comercial.churn.evidencias)}
