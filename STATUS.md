@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F01-06). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F02-A-03). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -18,20 +18,26 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   preview passaram; revisão do Opus F01-04 e aceite técnico do Codex F01-05
   concluídos. Código F01 commitado e publicado em d8e06b2; PR #5 ABERTO
   para feat/b01-fundacao-api, ainda não integrado. F02–F06 foram subdivididos
-  em PRs pequenos; prompt.md prepara F02-A em worktree isolado.
+  em PRs pequenos. F02-A entregue por F02-A-01 como diff local no worktree
+  CONVIQ-f02a (branch feat/f02a-tipos-c01, base 89e0801): tipos de C01, 4
+  exemplos ilustrativos e 22 testes; aprovada tecnicamente em F02-A-02 após
+  testes e quatro respostas HTTP idênticas às fixtures. Entrega COMMITADA
+  em `68ebde7`, PUBLICADA em `origin/feat/f02a-tipos-c01`;
+  [PR #6](https://github.com/GustavoECocchi/ConvIQ/pull/6) ABERTO sobre F01,
+  NAO_INTEGRADA.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
 - **B14 (Unicode NFD):** INTEGRADA pelo PR #4 em `b688afb` e verificada
   em B14-07 (330 testes na árvore integrada). Registros B14-05–07 foram
-  incorporados nesta branch como atualização documental ainda local.
+  publicados na branch F01 pelo PR #5, ainda não integrados no destino.
 - **B19:** aprovado tecnicamente em B19-04 no worktree `CONVIQ-b19`, mas
   continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. Preparar worktree isolado F02-A sobre o HEAD publicado de F01 para Sonnet
-   conforme prompt.md. O PR #5 fica aguardando ordem de merge. F03-A resolve
-   as observações de menu em 320 px e o estado ativo da rota do Opus.
+1. O PR #5 de F01 segue OPEN e precisa integrar antes do PR #6 de F02-A;
+   ambos os merges dependem de autorização do usuário. F02-B pode partir do
+   commit publicado de F02-A; F03-A resolverá as observações de menu do Opus.
 2. B19 segue aprovado localmente em worktree separado, aguardando decisão
    de publicação/integração; F01 não depende dessa publicação.
 
