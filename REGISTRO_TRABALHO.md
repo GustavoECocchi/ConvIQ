@@ -63,9 +63,9 @@ F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_F
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 09/10/2026, F02-B-05 (Codex)
+### Fotografia Git vigente — 09/10/2026, F02-B-06 (Codex)
 
 - Worktree /home/gustavoecocchi/Documents/CONVIQ-f02b, branch feat/f02b-cliente-c01, base 9706315 (branch padrão feat/b01-fundacao-api confirmada no servidor).
-- Entrega F02-B COMMITADA em 1232ac9, pai 9706315, PUBLICADA em origin/feat/f02b-cliente-c01. Este evento e a fotografia seguem em commit documental posterior na mesma branch; o hash desse commit se confere no Git, sem autorreferência.
-- PR #7 OPEN no GitHub, base feat/b01-fundacao-api, head técnico 1232ac9 conferido, MERGEABLE na consulta. F02-B NAO_INTEGRADA; branch padrão não alterada.
+- Entrega técnica COMMITADA em 1232ac9, pai 9706315, PUBLICADA em origin/feat/f02b-cliente-c01. Os commits seguintes da branch documentam a publicação; o hash do commit deste evento se consulta no Git, sem autorreferência.
+- PR #7 OPEN/MERGEABLE no GitHub, base feat/b01-fundacao-api, head documental ddd026e conferido antes do registro F02-B-06. F02-B NAO_INTEGRADA; branch padrão não alterada.
 - Pasta raiz e outros worktrees intocados.

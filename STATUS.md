@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F02-B-05). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F02-B-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -23,7 +23,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. Conferir o head documental final do PR #7; merge do F02-B depende de nova ordem do usuário.
+1. PR #7 do F02-B está aberto e aprovado tecnicamente; merge depende de nova ordem do usuário.
 2. Preparar F03-A (rotas e navegação) sobre a base integrada 9706315; independe de F02-B.
 3. B19 segue aprovado localmente em worktree separado, aguardando decisão de publicação/integração.
 
