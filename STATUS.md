@@ -1,17 +1,17 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, B19-05). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, B19-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em docs/registro/).
 
 ## Onde estamos
 - **Branch padrão e destino:** feat/b01-fundacao-api em bf7a1a1 (servidor, 09/10). origin/main é um resíduo (8d48e75), não use como destino.
 - **Integrado:** B01–B04/C01, B11/B12 (PR #1), B13 (PR #2), EST01 (PR #3), B14 (PR #4), F01 (PR #5), F02-A (PR #6) e F02-B (PR #7, bf7a1a1).
 - **Frontend:** cliente HTTP F02-B integrado; F03-A é diff local em CONVIQ-f03a, base 9706315, EM_REVISAO após correção R01/R02 pelo Codex e ainda sem parecer independente do Opus. F03-B tem proposta de tela naquele worktree, sem código.
-- **B19:** APROVADO tecnicamente em B19-04; mesmo diff técnico reaplicado sobre bf7a1a1 em integrate/b19-evidencias, mais exemplos ilustrativos atualizados para 0.6. Entrega local ainda sem commit, push, PR ou merge. Origem CONVIQ-b19 preservada.
+- **B19:** APROVADO tecnicamente em B19-04; mesmo diff técnico reaplicado sobre bf7a1a1 em integrate/b19-evidencias, mais exemplos ilustrativos atualizados para 0.6. Entrega COMMITADA em 7306b0e e PUBLICADA no PR #8, ainda NAO_INTEGRADA. Origem CONVIQ-b19 preservada.
 - **Áudio:** B07-A parcial (falta fala real, P01).
 
 ## Próximo passo
-1. Concluir conferência documental e publicar o PR B19 a partir de integrate/b19-evidencias; merge depende de ordem específica do usuário.
+1. PR #8 B19 está aberto e apto para merge; a integração depende de ordem do usuário. Após merge, conferir a árvore e os testes pertinentes no destino.
 2. Quando Claude voltar, Opus revisa F03-A no worktree CONVIQ-f03a seguindo o prompt vigente ali; Codex verifica e reconcilia com a ponta integrada antes de publicar.
 3. F03-B implementa após F03-A; B15 é o próximo refinamento de backend independente.
 
