@@ -1,32 +1,39 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 08/10/2026 (Codex, B14-04). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F01-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `4063830` (servidor,
-  08/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
+- **Branch padrão e destino:** `feat/b01-fundacao-api` em `b688afb` (servidor,
+  09/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
-  B13 (PR #2, `2811d84`) e EST01 (PR #3, `4063830`).
+  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`) e B14 (PR #4, `b688afb`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend (F01–F06):** responsável é outra pessoa; não há código na cópia.
+- **Frontend:** usuário atribuiu F01 ao Codex nesta rodada. F01 está
+  implementado localmente no worktree `CONVIQ-f01`, branch
+  `feat/f01-fundacao-react`, base `b688afb`: dashboard horizontal
+  React/TypeScript/Vite, com prévias desktop/celular. Typecheck, lint, build e
+  preview passaram; revisão do Opus F01-04 e aceite técnico do Codex F01-05
+  concluídos. Código F01 commitado e publicado em d8e06b2; PR #5 ABERTO
+  para feat/b01-fundacao-api, ainda não integrado. F02–F06 foram subdivididos
+  em PRs pequenos; prompt.md prepara F02-A em worktree isolado.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
-- **B14 (Unicode NFD):** entregue por B14-01 como diff local no worktree
-  `CONVIQ-b14` (`fix/b14-unicode-evidencias`, base `4063830`): 330 testes,
-  `versao_analise` `0.5`. Codex confirmou 330 testes e sondas em B14-02;
-  revisão do Opus concluída sem achados em B14-03; **APROVADA tecnicamente**
-  pelo Codex em B14-04. NAO_COMMITADA, NAO_PUBLICADA, sem PR, NAO_INTEGRADA.
+- **B14 (Unicode NFD):** INTEGRADA pelo PR #4 em `b688afb` e verificada
+  em B14-07 (330 testes na árvore integrada). Registros B14-05–07 foram
+  incorporados nesta branch como atualização documental ainda local.
+- **B19:** aprovado tecnicamente em B19-04 no worktree `CONVIQ-b19`, mas
+  continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. Após autorização do usuário, commitar/publicar a versão aprovada de B14
-   na branch de trabalho e abrir PR para `feat/b01-fundacao-api`; conferir o
-   commit contra os hashes aprovados e validar a integração quando autorizada.
-2. Depois da integração: revisar a premissa de B19 sobre evidências aninhadas
-   por B12, então liberar B19 → B15 → B16 → B17 → B18 → B20 → B21.
+1. Preparar worktree isolado F02-A sobre o HEAD publicado de F01 para Sonnet
+   conforme prompt.md. O PR #5 fica aguardando ordem de merge. F03-A resolve
+   as observações de menu em 320 px e o estado ativo da rota do Opus.
+2. B19 segue aprovado localmente em worktree separado, aguardando decisão
+   de publicação/integração; F01 não depende dessa publicação.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

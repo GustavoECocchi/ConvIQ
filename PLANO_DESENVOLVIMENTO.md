@@ -138,7 +138,9 @@ Cada PR deve entregar um comportamento ou artefato revisável, incluir sua valid
 
 Codex e Claude registram cada atuação e o estado de cada PR em [REGISTRO_TRABALHO.md](REGISTRO_TRABALHO.md), conforme [SISTEMA_GOVERNANCIA_CONVIQ.md](SISTEMA_GOVERNANCIA_CONVIQ.md). Entrega finalizada, aprovação, commit na branch de trabalho, push e integração na principal são informações separadas; consultar a ficha e o Git antes de retomar.
 
-**Responsáveis:** PRs `F` ficam com o colega do frontend; Claude Sonnet executa os PRs `B`, Codex coordena/verifica e Opus revisa. O responsável humano pelo backend permanece a registrar. Nos PRs `C` e `I`, definir um autor e solicitar participação da outra frente quando houver integração.
+**Responsáveis:** os PRs `F` foram inicialmente atribuídos ao colega do frontend; Claude Sonnet executa os PRs `B`, Codex coordena/verifica e Opus revisa. O responsável humano pelo backend permanece a registrar. Nos PRs `C` e `I`, definir um autor e solicitar participação da outra frente quando houver integração.
+
+Em 09/10/2026, o usuário confirmou que o colega ainda não iniciou o frontend e atribuiu o início de F01 ao Codex neste repositório. A execução dos próximos cartões `F` será definida conforme o andamento da frente; essa atribuição não altera o escopo de cada cartão.
 
 ### Primeira entrega: texto → análise → card
 
@@ -159,6 +161,8 @@ Codex e Claude registram cada atuação e o estado de cada PR em [REGISTRO_TRABA
 B01–B04/C01 já têm aceite técnico; seus critérios acima permanecem como referência. Confirmar integração e base Git antes de abrir os próximos PRs. C01 é o contrato vigente para o frontend.
 
 F03 e F04 podem avançar em paralelo ao serviço Python após F02. **O marco de primeira versão utilizável é F06**, sem depender de transcrição de áudio ou histórico.
+
+Em 09/10/2026, F02–F06 foram subdivididos em PRs A/B no roteiro [Navegação do usuário](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). Os critérios desta tabela continuam válidos; o roteiro define rotas, estados, dependências e aceite de cada corte pequeno. F07–F11 permanecem no escopo original.
 
 ### Refinamento da análise existente — B11 a B21
 
@@ -235,8 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (07/10/2026):** executar B13 a partir da branch
-padrão que contém o merge de B11/B12, seguindo o [prompt vigente](prompt.md).
+**Encaminhamento vigente (09/10/2026):** F01 foi aprovada tecnicamente em F01-05, commitada em d8e06b2 e publicada no PR #5, ainda sem merge. O [prompt vigente](prompt.md) prepara F02-A para o Sonnet sobre um worktree isolado baseado no HEAD de F01; o [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes
