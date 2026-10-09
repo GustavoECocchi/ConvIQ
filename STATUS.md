@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F02-A-02). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F02-A-03). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -21,8 +21,10 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   em PRs pequenos. F02-A entregue por F02-A-01 como diff local no worktree
   CONVIQ-f02a (branch feat/f02a-tipos-c01, base 89e0801): tipos de C01, 4
   exemplos ilustrativos e 22 testes; aprovada tecnicamente em F02-A-02 após
-  testes e quatro respostas HTTP idênticas às fixtures. NAO_COMMITADA,
-  NAO_PUBLICADA, PR NAO_ABERTO, NAO_INTEGRADA.
+  testes e quatro respostas HTTP idênticas às fixtures. Entrega COMMITADA
+  em `68ebde7`, PUBLICADA em `origin/feat/f02a-tipos-c01`;
+  [PR #6](https://github.com/GustavoECocchi/ConvIQ/pull/6) ABERTO sobre F01,
+  NAO_INTEGRADA.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -33,9 +35,9 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. Publicar F02-A após autorização do usuário (commit, push e PR empilhado);
-   o PR #5 de F01 segue OPEN e deve integrar antes de F02-A. Preparar F02-B
-   a partir do commit de F02-A; F03-A resolverá as observações de menu do Opus.
+1. O PR #5 de F01 segue OPEN e precisa integrar antes do PR #6 de F02-A;
+   ambos os merges dependem de autorização do usuário. F02-B pode partir do
+   commit publicado de F02-A; F03-A resolverá as observações de menu do Opus.
 2. B19 segue aprovado localmente em worktree separado, aguardando decisão
    de publicação/integração; F01 não depende dessa publicação.
 
