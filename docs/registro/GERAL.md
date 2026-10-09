@@ -227,3 +227,12 @@ Eventos que não pertencem a um único PR (operações Git e retomadas que cobre
   PUBLICADA e INTEGRADA; seção 11 vigente. Este registro pós-merge
   fica local no worktree B14, NAO_COMMITADO/NAO_PUBLICADO; não houve
   commit direto na branch padrão. B14 liberado e preparado em B14-00.
+
+### NAV01-01 — 09/10/2026 — Codex / planejamento do frontend
+
+- **Escopo:** usuário pediu jornada completa de navegação, dividida em PRs pequenos para Claude executar. Planejei apenas texto até F06-B; áudio/histórico continuam dependentes do backend futuro.
+- **Versão:** worktree CONVIQ-f01, branch feat/f01-fundacao-react, HEAD/base b688afb7bdaa63a7ac8e8905301d29075f3a4dcc. F01 permanece local e não rastreado em frontend/.
+- **Entrega documental:** docs/planejamento/PRS_FRONTEND_NAVEGACAO.md define rotas, estados, contraprovas, dez cortes F02-A até F06-B e níveis de revisão. PLANO, STATUS e índice apontam ao roteiro. Substituí prompt.md (antes B14) pelo prompt de revisão independente de F01 para Claude Opus; não liberei F02 antes de fixar F01 em versão própria.
+- **Conferido:** F01 atual, contrato C01, backend CORS padrão para localhost:5173 e governança seção 11; consultei guias oficiais W3C, GOV.UK e React Router para foco, erros, consistência e rotas. Não executei testes de código, porque esta ação só cria documentação e prompt; Git remoto não foi consultado nesta ação.
+- **Git:** roteiro não rastreado e documentos/prompt locais modificados; sem commit, push, PR ou integração. F01 continua com entrega FINALIZADA localmente e revisão PENDENTE. F02-A–F06-B PLANEJADOS, não iniciados.
+- **Próximo:** usuário encaminha prompt.md ao Opus; Codex verifica F01 revisado e então libera F02-A para Sonnet em branch isolada.
