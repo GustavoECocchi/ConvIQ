@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F02-B-04). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F02-B-05). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -12,7 +12,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 (PR #5) e F02-A (PR #6) integrados. F02-B entregue pelo Sonnet, corrigido pelo Opus e aprovado tecnicamente pelo Codex em F02-B-04 (98 testes); continua local no worktree CONVIQ-f02b, sem commit, push ou PR. F03-A não iniciado.
+- **Frontend:** F01 (PR #5) e F02-A (PR #6) integrados. F02-B aprovado tecnicamente em F02-B-04 e publicado no PR #7 (commit técnico 1232ac9), aberto e ainda não integrado. F03-A não iniciado.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -23,7 +23,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. Publicar F02-B na branch de trabalho e abrir PR quando o usuário autorizar; aceite técnico em F02-B-04.
+1. Conferir o head documental final do PR #7; merge do F02-B depende de nova ordem do usuário.
 2. Preparar F03-A (rotas e navegação) sobre a base integrada 9706315; independe de F02-B.
 3. B19 segue aprovado localmente em worktree separado, aguardando decisão de publicação/integração.
 

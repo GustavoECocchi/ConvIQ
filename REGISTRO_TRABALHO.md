@@ -52,25 +52,20 @@ continua no Git.
 | [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet) | INTEGRADO em B14-07; aceite B14-04; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4) MERGEADO | COMMITADO em `13b1519`; registros B14-05–07 integrados junto do F01 pelo PR #5 | `fix/b14-unicode-evidencias`, base `4063830`, HEAD `13b1519` | PUBLICADA em `origin/fix/b14-unicode-evidencias` (`13b1519`) | INTEGRADA em `feat/b01-fundacao-api`, merge `b688afb` |
 | [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA (F01-01, Codex) | INTEGRADA em F01-07 após aceite F01-05 e revisão Opus F01-04 | Entrega COMMITADA em `d8e06b2`; head documental `89e0801` | `feat/f01-fundacao-react`, base `b688afb` | PUBLICADA; PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `5a2fede` |
 | [F02-A — Tipos C01 e exemplos](docs/registro/F02-A.md) | FINALIZADA (F02-A-01, Sonnet) | INTEGRADA em F02-A-04 após aceite F02-A-02 | Entrega COMMITADA em `68ebde7`; head documental `975857d` | `feat/f02a-tipos-c01`, base `89e0801` | PUBLICADA; PR [#6](https://github.com/GustavoECocchi/ConvIQ/pull/6) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `9706315` |
-| [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet); local | APROVADO tecnicamente em F02-B-04; R01/R02 corrigidos e verificados | Diff local sobre `9706315` (cliente, testes, env, README; correções F02-B-03), NAO_COMMITADO | `feat/f02b-cliente-c01`, HEAD/base `9706315` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
+| [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet), corrigida em F02-B-03 | APROVADO tecnicamente em F02-B-04 | Entrega COMMITADA em `1232ac9`; registro F02-B-05 em commit documental posterior | `feat/f02b-cliente-c01`, base `9706315` | PUBLICADA; PR [#7](https://github.com/GustavoECocchi/ConvIQ/pull/7) ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
 integrado em INT01-06; B13 foi integrado e verificado em B13-10.
 B14 foi integrada pelo PR #4; F01 iniciou a frente frontend no worktree isolado.
-F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01 e F02-A foram integrados; F02-B está APROVADO tecnicamente no worktree próprio e aguarda publicação. F03-A e os demais continuam PLANEJADOS. O prompt vigente ainda é o da revisão F02-B, já concluída.
+F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01 e F02-A foram integrados; F02-B está APROVADO tecnicamente e publicado no PR #7, ainda sem integração. F03-A e os demais continuam PLANEJADOS. O prompt vigente ainda é o da revisão F02-B, já concluída.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 09/10/2026, F02-B-04 (Codex)
+### Fotografia Git vigente — 09/10/2026, F02-B-05 (Codex)
 
-- Worktree `/home/gustavoecocchi/Documents/CONVIQ-f02b`, branch
-  `feat/f02b-cliente-c01`, HEAD/base `9706315` (= `feat/b01-fundacao-api` no
-  servidor novamente em F02-B-04; branch e PR F02-B ausentes). Índice Git sem alterações preparadas.
-- **Entrega F02-B = diff local** em `frontend/`: `api.ts` e `api.test.ts`
-  (corrigidos em F02-B-03), `env.d.ts`, `.env.example` (não rastreados) e
-  `README.md`. Preparação e verificação do Codex (`prompt.md`, STATUS, índice, F01/F02-A,
-  `docs/registro/F02-B.md` não rastreado) e este evento também locais. Nenhum
-  commit, push, PR ou merge; NAO_PUBLICADA, NAO_INTEGRADA.
+- Worktree /home/gustavoecocchi/Documents/CONVIQ-f02b, branch feat/f02b-cliente-c01, base 9706315 (branch padrão feat/b01-fundacao-api confirmada no servidor).
+- Entrega F02-B COMMITADA em 1232ac9, pai 9706315, PUBLICADA em origin/feat/f02b-cliente-c01. Este evento e a fotografia seguem em commit documental posterior na mesma branch; o hash desse commit se confere no Git, sem autorreferência.
+- PR #7 OPEN no GitHub, base feat/b01-fundacao-api, head técnico 1232ac9 conferido, MERGEABLE na consulta. F02-B NAO_INTEGRADA; branch padrão não alterada.
 - Pasta raiz e outros worktrees intocados.
