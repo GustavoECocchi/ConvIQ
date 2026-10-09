@@ -49,27 +49,28 @@ continua no Git.
 | [INT01 — Entrega isolada B11/B12](docs/registro/INT01.md) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B13 — Intenção comercial para oportunidade](docs/registro/B13.md) | FINALIZADA (B13-01, Sonnet), corrigida pelo Opus em B13-03 | APROVADA tecnicamente em B13-04; INTEGRADA e verificada em B13-10 | Entrega COMMITADA em `ebed307`; registro remoto COMMITADO em `6d8bcfa`; eventos posteriores locais | `fix/b13-intencao-oportunidade`, head `6d8bcfa`, base `9921f57` | PUBLICADA; origem remota preservada em `6d8bcfa` | INTEGRADA em `feat/b01-fundacao-api` pelo PR #2, merge `2811d84` |
 | [EST01 — Estrutura ágil](docs/registro/GERAL.md) | FINALIZADA (EST01-01, Opus), corrigida em EST01-03 | APROVADA e INTEGRADA; PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) MERGEADO | Entrega COMMITADA em `53823a1`; registro COMMITADO em `5c2c421` | `chore/estrutura-agil`, base `6d8bcfa` | PUBLICADA; branch remota preservada em `5c2c421` | INTEGRADA em `feat/b01-fundacao-api`, merge `4063830` |
-| [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet) | INTEGRADO em B14-07; aceite B14-04; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4) MERGEADO | COMMITADO em `13b1519`; registros B14-05–07 publicados junto do F01 no PR #5, ainda fora do destino | `fix/b14-unicode-evidencias`, base `4063830`, HEAD `13b1519` | PUBLICADA em `origin/fix/b14-unicode-evidencias` (`13b1519`) | INTEGRADA em `feat/b01-fundacao-api`, merge `b688afb` |
-| [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA (F01-01, Codex) | APROVADO tecnicamente em F01-05 após revisão Opus F01-04 | Entrega COMMITADA em `d8e06b2`; registro F01-06 no HEAD documental posterior | `feat/f01-fundacao-react`, base `b688afb`, HEAD `89e0801` | PUBLICADA em `origin/feat/f01-fundacao-react`; PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) ABERTO | NAO_INTEGRADA |
-| [F02-A — Tipos C01 e exemplos](docs/registro/F02-A.md) | FINALIZADA (F02-A-01, Sonnet) | APROVADA tecnicamente em F02-A-02 (nível B) | Entrega COMMITADA em `68ebde7`; registro F02-A-03 no HEAD documental posterior | `feat/f02a-tipos-c01`, base `89e0801` | PUBLICADA em `origin/feat/f02a-tipos-c01`; PR [#6](https://github.com/GustavoECocchi/ConvIQ/pull/6) ABERTO | NAO_INTEGRADA; empilhada sobre F01 (PR #5 aberto) |
+| [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet) | INTEGRADO em B14-07; aceite B14-04; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4) MERGEADO | COMMITADO em `13b1519`; registros B14-05–07 integrados junto do F01 pelo PR #5 | `fix/b14-unicode-evidencias`, base `4063830`, HEAD `13b1519` | PUBLICADA em `origin/fix/b14-unicode-evidencias` (`13b1519`) | INTEGRADA em `feat/b01-fundacao-api`, merge `b688afb` |
+| [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA (F01-01, Codex) | INTEGRADA em F01-07 após aceite F01-05 e revisão Opus F01-04 | Entrega COMMITADA em `d8e06b2`; head documental `89e0801` | `feat/f01-fundacao-react`, base `b688afb` | PUBLICADA; PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `5a2fede` |
+| [F02-A — Tipos C01 e exemplos](docs/registro/F02-A.md) | FINALIZADA (F02-A-01, Sonnet) | INTEGRADA em F02-A-04 após aceite F02-A-02 | Entrega COMMITADA em `68ebde7`; head documental `975857d` | `feat/f02a-tipos-c01`, base `89e0801` | PUBLICADA; PR [#6](https://github.com/GustavoECocchi/ConvIQ/pull/6) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `9706315` |
+| [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet); local | APROVADO tecnicamente em F02-B-04; R01/R02 corrigidos e verificados | Diff local sobre `9706315` (cliente, testes, env, README; correções F02-B-03), NAO_COMMITADO | `feat/f02b-cliente-c01`, HEAD/base `9706315` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
 integrado em INT01-06; B13 foi integrado e verificado em B13-10.
 B14 foi integrada pelo PR #4; F01 iniciou a frente frontend no worktree isolado.
-F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F02-A foi aprovada tecnicamente e publicada no PR #6; os demais continuam PLANEJADOS. O prompt vigente ainda descreve F02-A.
+F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01 e F02-A foram integrados; F02-B está APROVADO tecnicamente no worktree próprio e aguarda publicação. F03-A e os demais continuam PLANEJADOS. O prompt vigente ainda é o da revisão F02-B, já concluída.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 09/10/2026, F02-A-03 (Codex)
+### Fotografia Git vigente — 09/10/2026, F02-B-04 (Codex)
 
-- Worktree `/home/gustavoecocchi/Documents/CONVIQ-f02a`, branch
-  `feat/f02a-tipos-c01`, base `89e0801` (head do PR #5 F01); branch padrão
-  `feat/b01-fundacao-api` em `b688afb`.
-- Entrega F02-A COMMITADA em `68ebde7` e PUBLICADA em
-  `origin/feat/f02a-tipos-c01`. [PR #6](https://github.com/GustavoECocchi/ConvIQ/pull/6)
-  OPEN, base F01, MERGEABLE; F01 [PR #5](https://github.com/GustavoECocchi/ConvIQ/pull/5) OPEN.
-- Esta atualização do registro F02-A-03 entra em commit documental posterior,
-  publicado na mesma branch; hash verificado no Git, sem autorreferência.
-  F02-A NAO_INTEGRADA; pasta raiz e outros worktrees intocados.
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-f02b`, branch
+  `feat/f02b-cliente-c01`, HEAD/base `9706315` (= `feat/b01-fundacao-api` no
+  servidor novamente em F02-B-04; branch e PR F02-B ausentes). Índice Git sem alterações preparadas.
+- **Entrega F02-B = diff local** em `frontend/`: `api.ts` e `api.test.ts`
+  (corrigidos em F02-B-03), `env.d.ts`, `.env.example` (não rastreados) e
+  `README.md`. Preparação e verificação do Codex (`prompt.md`, STATUS, índice, F01/F02-A,
+  `docs/registro/F02-B.md` não rastreado) e este evento também locais. Nenhum
+  commit, push, PR ou merge; NAO_PUBLICADA, NAO_INTEGRADA.
+- Pasta raiz e outros worktrees intocados.

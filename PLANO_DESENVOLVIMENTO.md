@@ -15,7 +15,7 @@ adiante. Essa evolução não amplia os critérios dos PRs atuais.
 
 Este documento será compartilhado com o colega de equipe responsável pelo frontend. Ele reúne a visão geral e um guia de execução para essa frente, incluindo o que pode avançar antes de a API estar disponível.
 
-Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Após a perda da primeira base local, B01–B04/C01 foram implementados e aprovados tecnicamente: saúde, contrato de texto, sentimento, sinais comerciais e `POST /api/analises/texto`. Estão no commit agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`. B11/B12 foram aprovados e integrados pelo PR #1 na branch padrão `feat/b01-fundacao-api`, merge `e31e6ba81692c61e0b0615d349972e2b3a0c459d`, verificado em 07/10. Áudio e persistência ainda não existem; frontend/F06 não foram comprovados nesta cópia. Os materiais Java e Oracle citados no contexto não estão nesta pasta.
+Existe neste repositório o experimento acadêmico `conviq_datascience.py`. Após a perda da primeira base local, B01–B04/C01 foram implementados e aprovados tecnicamente: saúde, contrato de texto, sentimento, sinais comerciais e `POST /api/analises/texto`. Estão no commit agregado `6169feca8c3a6cc6c5500eeab264eba817c8fbbc`. B11/B12 foram aprovados e integrados pelo PR #1 na branch padrão `feat/b01-fundacao-api`, merge `e31e6ba81692c61e0b0615d349972e2b3a0c459d`, verificado em 07/10. Áudio e persistência ainda não existem; F01 e F02-A do frontend estão integrados, mas a jornada de texto F06 ainda não foi entregue. Os materiais Java e Oracle citados no contexto não estão nesta pasta.
 
 Em 19/09/2026, B07-A tem entrega parcial do experimento isolado de Whisper
 na branch `spike/b07-a-viabilidade-whisper`, sobre o mesmo commit, ainda sem
@@ -239,7 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (09/10/2026):** F01 foi aprovada tecnicamente em F01-05, commitada em d8e06b2 e publicada no PR #5, ainda sem merge. O [prompt vigente](prompt.md) prepara F02-A para o Sonnet sobre um worktree isolado baseado no HEAD de F01; o [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes.
+**Encaminhamento vigente (09/10/2026):** F01 (PR #5, merge 5a2fede) e F02-A (PR #6, merge 9706315) foram integrados à branch padrão. F02-B foi aprovado tecnicamente em F02-B-04 e está em publicação na branch de trabalho; prompt.md preserva a instrução de revisão já executada. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define F03-A como próximo cartão de navegação.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes
