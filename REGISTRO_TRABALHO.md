@@ -50,22 +50,22 @@ continua no Git.
 | [B13 — Intenção comercial para oportunidade](docs/registro/B13.md) | FINALIZADA (B13-01, Sonnet), corrigida pelo Opus em B13-03 | APROVADA tecnicamente em B13-04; INTEGRADA e verificada em B13-10 | Entrega COMMITADA em `ebed307`; registro remoto COMMITADO em `6d8bcfa`; eventos posteriores locais | `fix/b13-intencao-oportunidade`, head `6d8bcfa`, base `9921f57` | PUBLICADA; origem remota preservada em `6d8bcfa` | INTEGRADA em `feat/b01-fundacao-api` pelo PR #2, merge `2811d84` |
 | [EST01 — Estrutura ágil](docs/registro/GERAL.md) | FINALIZADA (EST01-01, Opus), corrigida em EST01-03 | APROVADA e INTEGRADA; PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) MERGEADO | Entrega COMMITADA em `53823a1`; registro COMMITADO em `5c2c421` | `chore/estrutura-agil`, base `6d8bcfa` | PUBLICADA; branch remota preservada em `5c2c421` | INTEGRADA em `feat/b01-fundacao-api`, merge `4063830` |
 | [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet) | INTEGRADO em B14-07; aceite B14-04; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4) MERGEADO | COMMITADO em `13b1519`; registros B14-05–07 integrados junto do F01 pelo PR #5 | `fix/b14-unicode-evidencias`, base `4063830`, HEAD `13b1519` | PUBLICADA em `origin/fix/b14-unicode-evidencias` (`13b1519`) | INTEGRADA em `feat/b01-fundacao-api`, merge `b688afb` |
+| [B19 — Evidência única por intervalo exato](docs/registro/B19.md) | FINALIZADA (B19-01, Sonnet), reaplicada em B19-05 | APROVADA tecnicamente em B19-04; técnica idêntica | Diff técnico local SHA-256 5b7bee52…74379ee + fixtures 0.6 e registros; NAO_COMMITADO | integrate/b19-evidencias, HEAD/base bf7a1a1 | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
 | [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA (F01-01, Codex) | INTEGRADA em F01-07 após aceite F01-05 e revisão Opus F01-04 | Entrega COMMITADA em `d8e06b2`; head documental `89e0801` | `feat/f01-fundacao-react`, base `b688afb` | PUBLICADA; PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `5a2fede` |
 | [F02-A — Tipos C01 e exemplos](docs/registro/F02-A.md) | FINALIZADA (F02-A-01, Sonnet) | INTEGRADA em F02-A-04 após aceite F02-A-02 | Entrega COMMITADA em `68ebde7`; head documental `975857d` | `feat/f02a-tipos-c01`, base `89e0801` | PUBLICADA; PR [#6](https://github.com/GustavoECocchi/ConvIQ/pull/6) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `9706315` |
-| [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet), corrigida em F02-B-03 | APROVADO tecnicamente em F02-B-04 | Entrega COMMITADA em `1232ac9`; registro F02-B-05 em commit documental posterior | `feat/f02b-cliente-c01`, base `9706315` | PUBLICADA; PR [#7](https://github.com/GustavoECocchi/ConvIQ/pull/7) ABERTO | NAO_INTEGRADA |
+| [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet), corrigida em F02-B-03 | INTEGRADO em F02-B-07 após aceite F02-B-04 | Entrega COMMITADA em 1232ac9; head documental 73c4771 | feat/f02b-cliente-c01, base 9706315 | PUBLICADA; PR [#7](https://github.com/GustavoECocchi/ConvIQ/pull/7) MERGEADO | INTEGRADA em feat/b01-fundacao-api, merge bf7a1a1 |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
 integrado em INT01-06; B13 foi integrado e verificado em B13-10.
 B14 foi integrada pelo PR #4; F01 iniciou a frente frontend no worktree isolado.
-F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01 e F02-A foram integrados; F02-B está APROVADO tecnicamente e publicado no PR #7, ainda sem integração. F03-A e os demais continuam PLANEJADOS. O prompt vigente ainda é o da revisão F02-B, já concluída.
+F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01, F02-A e F02-B foram integrados; PR #7 gerou bf7a1a1. B19 aprovado foi reaplicado sobre essa ponta e aguarda publicação. F03-A segue EM_REVISAO como diff local em outro worktree; F03-B e os demais continuam PLANEJADOS. O prompt.md deste checkout ainda é o rascunho antigo F02-B; a revisão vigente F03-A está no worktree CONVIQ-f03a.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 09/10/2026, F02-B-06 (Codex)
+### Fotografia Git vigente — 09/10/2026, B19-05 (Codex)
 
-- Worktree /home/gustavoecocchi/Documents/CONVIQ-f02b, branch feat/f02b-cliente-c01, base 9706315 (branch padrão feat/b01-fundacao-api confirmada no servidor).
-- Entrega técnica COMMITADA em 1232ac9, pai 9706315, PUBLICADA em origin/feat/f02b-cliente-c01. Os commits seguintes da branch documentam a publicação; o hash do commit deste evento se consulta no Git, sem autorreferência.
-- PR #7 OPEN/MERGEABLE no GitHub, base feat/b01-fundacao-api, head documental ddd026e conferido antes do registro F02-B-06. F02-B NAO_INTEGRADA; branch padrão não alterada.
-- Pasta raiz e outros worktrees intocados.
+- Worktree /home/gustavoecocchi/Documents/CONVIQ-b19-integracao, branch integrate/b19-evidencias, HEAD/base bf7a1a1 (= feat/b01-fundacao-api no servidor após PR #7). Índice vazio; diff técnico de cinco arquivos com SHA-256 5b7bee52…74379ee idêntico ao B19 aprovado, mais cartão B19, exemplos frontend 0.6, ficha/registro/STATUS/plano e evento F02-B-07.
+- Entrega B19 NAO_COMMITADA, branch NAO_PUBLICADA, PR NAO_ABERTO, NAO_INTEGRADA. Origem /home/gustavoecocchi/Documents/CONVIQ-b19 segue em b688afb com seu diff local preservado; F03-A segue local em outro worktree.
+- Nenhum commit, push, PR ou merge B19 nesta etapa; pasta raiz preservada.

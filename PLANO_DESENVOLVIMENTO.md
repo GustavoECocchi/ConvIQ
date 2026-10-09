@@ -239,7 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (09/10/2026):** F01 (PR #5, merge 5a2fede) e F02-A (PR #6, merge 9706315) foram integrados à branch padrão. F02-B foi aprovado tecnicamente em F02-B-04 e publicado no PR #7, ainda sem merge; prompt.md preserva a instrução de revisão já executada. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define F03-A como próximo cartão de navegação.
+**Encaminhamento vigente (09/10/2026):** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7, merge bf7a1a1) estão integrados. F03-A foi entregue como diff local no worktree CONVIQ-f03a e segue EM_REVISAO após correção R01/R02 pelo Codex. B19 aprovado em B19-04 foi reaplicado, com diff técnico idêntico, na branch integrate/b19-evidencias sobre bf7a1a1 e aguarda publicação. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define a jornada seguinte.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes

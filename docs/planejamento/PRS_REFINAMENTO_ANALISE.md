@@ -29,7 +29,8 @@ afirmações de que os refinamentos já foram feitos.
 | “O suporte foi frustrante.” | Sentimento insuficiente | B15 |
 | “O analista sênior apresentou o sistema.” | Concorrente Senior | B16 |
 | “Temos interesse em conhecer o Fluig.” | Duas oportunidades sem associação explícita ao produto e sugestões iguais | B17, B18, B20 |
-| “Estamos insatisfeitos com o suporte.” | Duas evidências do mesmo intervalo | B19 |
+| “Estamos insatisfeitos.” | Sentimento e churn repetem o intervalo 8–21 | B19 |
+| “Estamos insatisfeitos com o suporte.” | Intervalos aninhados 8–21 e 8–35, que devem permanecer distintos | B19 (contraprova) |
 
 As limitações de B02–B04 foram aceitas no escopo anterior. Este pedido
 autoriza planejar sua evolução; não invalida os aceites históricos.
@@ -235,18 +236,27 @@ e PR remoto devem ser confirmados na execução, nunca inferidos pelo ID lógico
 
 ### B19 — Compartilhar uma evidência entre os sinais que a utilizam
 
-- **Branch:** `fix/b19-unificar-evidencias`.
-- **Problema:** sentimento e churn podem devolver cópias do mesmo intervalo.
-- **Escopo/arquivos:** `analise.py`, testes de composição/schema/HTTP e nota
-  do contrato. Unificar por `(inicio, fim, trecho)` e remapear todas as
-  referências para o ID resultante, preservando ordem determinística.
-- **Aceite/testes:** duplicata exata vira uma evidência; churn, oportunidades
-  e recomendações mantêm referências existentes e sem repetição interna de
-  ID. Duas ocorrências iguais em posições diferentes permanecem distintas;
-  intervalos apenas sobrepostos não são unidos automaticamente. Recortes de
-  C01 válidos, inclusive NFD de B14. Schema/OpenAPI mantêm o formato atual.
-- **Exclusões:** alterar sinal detectado, deduplicar somente pelo texto,
-  acrescentar campo de origem ou depender de ID fixo entre versões de análise.
+- **Branch/revisão:** `fix/b19-unificar-evidencias`; nível A (Sonnet → Opus → Codex).
+- **Problema revisto após B12/B14:** “Estamos insatisfeitos.” devolve sentimento
+  e churn no mesmo `(inicio, fim, trecho)` (8–21). Com “com o suporte”, os
+  intervalos são **aninhados** (8–21 e 8–35), não duplicatas. Preservar ambos.
+- **Escopo/arquivos:** composição em `analise.py`, testes de composição/schema/HTTP,
+  README e nota C01. Compartilhar apenas evidências de chave exata
+  `(inicio, fim, trecho)`, atribuir IDs sequenciais `e1..eN` na ordem estável
+  da primeira ocorrência e remapear referências de churn/oportunidades/
+  recomendações. Cada lista de referências fica sem ID repetido, na ordem.
+- **Aceite/testes:** “Estamos insatisfeitos.” e “Não estamos satisfeitos.” →
+  uma evidência compartilhada pelo sentimento/churn, com churn e recomendação
+  apontando ao ID existente. “Estamos insatisfeitos com o suporte.” → duas
+  evidências distintas, mesmo início e fins diferentes; a de churn sustenta
+  churn/recomendação. Duas frases iguais em posições diferentes → duas
+  evidências. NFD preserva recorte literal e a mesma regra de identidade.
+  Oportunidade vizinha, prospect, classificações e catálogos seguem iguais;
+  nenhuma referência pendente ou duplicada dentro de uma lista. `versao_analise`
+  `0.5`→`0.6`; schema/OpenAPI e formato C01 inalterados.
+- **Exclusões:** unir intervalos sobrepostos/aninhados, deduplicar só pelo
+  texto, alterar detecção de sinais, agrupar oportunidades (B17), acrescentar
+  campo de origem ou prometer ID fixo entre versões.
 
 ### B20 — Gerar recomendações específicas e sustentadas
 

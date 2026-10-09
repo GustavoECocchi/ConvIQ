@@ -1,31 +1,19 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F02-B-06). Quem muda o estado de um PR atualiza este
-arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
+Atualizado em 09/10/2026 (Codex, B19-05). Quem muda o estado de um PR atualiza este
+arquivo; ele não guarda histórico (isso fica em docs/registro/).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `9706315` (servidor,
-  09/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
-- **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
-  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
-  `b688afb`), F01 (PR #5, `5a2fede`) e F02-A (PR #6, `9706315`).
-- **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
-  [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
-  sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 (PR #5) e F02-A (PR #6) integrados. F02-B aprovado tecnicamente em F02-B-04 e publicado no PR #7 (commit técnico 1232ac9), aberto e ainda não integrado. F03-A não iniciado.
-- **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
-- **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
-  validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
-- **B14 (Unicode NFD):** INTEGRADA pelo PR #4 em `b688afb` e verificada
-  em B14-07 (330 testes na árvore integrada). Registros B14-05–07 foram
-  integrados junto do F01 pelo PR #5.
-- **B19:** aprovado tecnicamente em B19-04 no worktree `CONVIQ-b19`, mas
-  continua como diff local naquele worktree; código B19 não integra esta branch.
+- **Branch padrão e destino:** feat/b01-fundacao-api em bf7a1a1 (servidor, 09/10). origin/main é um resíduo (8d48e75), não use como destino.
+- **Integrado:** B01–B04/C01, B11/B12 (PR #1), B13 (PR #2), EST01 (PR #3), B14 (PR #4), F01 (PR #5), F02-A (PR #6) e F02-B (PR #7, bf7a1a1).
+- **Frontend:** cliente HTTP F02-B integrado; F03-A é diff local em CONVIQ-f03a, base 9706315, EM_REVISAO após correção R01/R02 pelo Codex e ainda sem parecer independente do Opus. F03-B tem proposta de tela naquele worktree, sem código.
+- **B19:** APROVADO tecnicamente em B19-04; mesmo diff técnico reaplicado sobre bf7a1a1 em integrate/b19-evidencias, mais exemplos ilustrativos atualizados para 0.6. Entrega local ainda sem commit, push, PR ou merge. Origem CONVIQ-b19 preservada.
+- **Áudio:** B07-A parcial (falta fala real, P01).
 
 ## Próximo passo
-1. PR #7 do F02-B está aberto e aprovado tecnicamente; merge depende de nova ordem do usuário.
-2. Preparar F03-A (rotas e navegação) sobre a base integrada 9706315; independe de F02-B.
-3. B19 segue aprovado localmente em worktree separado, aguardando decisão de publicação/integração.
+1. Concluir conferência documental e publicar o PR B19 a partir de integrate/b19-evidencias; merge depende de ordem específica do usuário.
+2. Quando Claude voltar, Opus revisa F03-A no worktree CONVIQ-f03a seguindo o prompt vigente ali; Codex verifica e reconcilia com a ponta integrada antes de publicar.
+3. F03-B implementa após F03-A; B15 é o próximo refinamento de backend independente.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
