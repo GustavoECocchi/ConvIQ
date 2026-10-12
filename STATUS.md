@@ -1,13 +1,13 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, B19-04). Quem muda o estado de um PR atualiza este
+Atualizado em 12/10/2026 (Codex, B19-05). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `b688afb` (servidor,
-  08/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
+- **Branch padrão e destino:** `feat/b01-fundacao-api` em `0a29627` (servidor,
+  12/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
-  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`) e B14 (PR #4, `b688afb`).
+  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4), F01 (PR #5), F02-A (PR #6), F02-B (PR #7) e B19 (PR #8, `0a29627`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
@@ -22,16 +22,11 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   pelo Codex em B14-04. COMMITADA/PUBLICADA em `13b1519`; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4)
   MERGEADO em `b688afb`, árvore idêntica, **330 testes na integração**.
   B14 INTEGRADA; registros B14-05–07 carregados localmente no worktree B19.
-- **B19 (evidência exata):** entregue por B19-01 como diff local no worktree
-  `CONVIQ-b19` (`fix/b19-unificar-evidencias`, base `b688afb`): 344 testes,
-  `versao_analise` `0.6`. Análise Codex B19-02 e revisão Opus B19-03 sem
-  achados; Codex confirmou **344 testes** e aprovou tecnicamente em B19-04.
-  NAO_COMMITADA, NAO_PUBLICADA, sem PR, NAO_INTEGRADA.
+- **B19 (evidência exata):** origem revisada em `CONVIQ-b19` (`fix/b19-unificar-evidencias`, base `b688afb`) COMMITADA em `aa3b5ba` e PUBLICADA. Revisões B19-02/03 e aceite B19-04 confirmaram 344 testes; o mesmo diff técnico foi reaplicado e INTEGRADO pelo PR #8 em `0a29627`. Esta branch de origem não teve PR próprio.
 
 ## Próximo passo
-1. Decisão do usuário sobre commit, push e PR do B19 aprovado; depois,
-   integração e verificação na principal.
-2. Frente planejada seguinte: B15 → B16 → B17 → B18 → B20 → B21.
+1. F03-A está publicado em branch própria, mas aguarda revisão independente do Opus e reconciliação com a ponta integrada antes de PR/merge.
+2. Frente planejada de backend: B15 → B16 → B17 → B18 → B20 → B21.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
