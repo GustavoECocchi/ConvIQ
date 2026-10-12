@@ -12,13 +12,14 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 07/10/2026 pelo Codex, após INT01-06 e a
-preparação de B13. O PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
+Fotografia atualizada em 07/10/2026 pelo Codex, após INT01-07/B13-01.
+O PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
 foi integrado à branch padrão `feat/b01-fundacao-api` no merge
 `e31e6ba81692c61e0b0615d349972e2b3a0c459d`. O conteúdo integrado
 é idêntico ao head aprovado `ae71f84`, e a suíte pós-merge passou 212
-testes. B11/B12 estão integrados; B13 está apenas preparado em `prompt.md`
-e ainda não foi implementado. B07-A continua parcial. A referência local
+testes. O registro pós-merge e o prompt B13 foram publicados em `9921f57`.
+B11/B12 estão integrados; B13 está preparado, ainda sem implementação.
+B07-A continua parcial. A referência local
 `origin/main` não corresponde a uma branch existente no servidor.
 Fotografias anteriores são históricas.
 
@@ -39,7 +40,7 @@ Fotografias anteriores são históricas.
 | [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | INTEGRADO após aceite B11-04; PR #1 MERGEADO | Origem `d5fb40a`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | INTEGRADO após aceite B12-07; PR #1 MERGEADO | Origem `d5fb40a` + `b14f0a5`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | Conteúdo PUBLICADO no PR #1; `b14f0a5` permanece local na origem | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
-| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | NAO_INICIADA; prompt preparado | PLANEJADO, dependência B11 integrada | SEM_ALTERACOES de implementação; `prompt.md` preparado localmente | `fix/b13-intencao-oportunidade` proposta, ainda não criada | NAO_PUBLICADA | NAO_INTEGRADA |
+| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | NAO_INICIADA; prompt preparado | PLANEJADO, dependência B11 integrada | SEM_ALTERACOES de implementação; prompt COMMITADO em `9921f57` | `fix/b13-intencao-oportunidade` proposta, ainda não criada | Prompt PUBLICADO em `feat/b01-fundacao-api`; implementação NAO_PUBLICADA | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
@@ -48,7 +49,17 @@ integrado em INT01-06; B13 tem prompt pronto, implementação pendente.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 07/10/2026, INT01-06/B13-00 (Codex)
+### Fotografia Git vigente — 07/10/2026, INT01-07/B13-01 (Codex)
+
+- Commit documental `9921f579481fdfac098576de425b7ed19df8ef8d`
+  publicado e confirmado como head da branch padrão
+  `feat/b01-fundacao-api`. Contém registro pós-merge, plano/roteiro
+  atualizados, `prompt.md` B13 e cópia nomeada do prompt B12-05. Nenhuma
+  alteração de implementação após os 212 testes pós-merge. B13 segue
+  NAO_INICIADA, sem branch própria/PR; B11/B12 seguem INTEGRADOS. Esta
+  nota posterior ao commit/push está local e não foi publicada.
+
+### Fotografia Git histórica — 07/10/2026, INT01-06/B13-00 (Codex)
 
 - GitHub confirmou o PR #1 `MERGED` em 07/10/2026 19:50:03 UTC, merge
   `e31e6ba81692c61e0b0615d349972e2b3a0c459d`, na branch padrão
@@ -3474,6 +3485,16 @@ Destino previsto / branch principal: NAO_VERIFICADO
 
 ## B13 — Intenção comercial para oportunidade
 
+### Prompt publicado — Codex, 07/10/2026 — B13-01
+
+O prompt de B13 e a cópia histórica B12-05 foram commitados no documental
+`9921f57` e publicados na branch padrão `feat/b01-fundacao-api`; o hash
+remoto foi conferido. A implementação B13 permanece NAO_INICIADA/
+SEM_ALTERACOES, a branch `fix/b13-intencao-oportunidade` não foi criada,
+PR remoto NAO_ABERTO e integração NAO_INTEGRADA. Esta nota pós-publicação
+é local e não commitada. Próximo responsável: usuário encaminha o
+`prompt.md` ao Claude Sonnet, que registra sua própria execução.
+
 ### Preparação do executor — Codex, 07/10/2026 — B13-00
 
 `prompt.md` foi substituído pelo prompt completo para Claude Sonnet,
@@ -6195,3 +6216,18 @@ e64b14c66ef9773b1ef05e319bb499c5c56ba813e9d84dcbeda0c1d9256e2518  backend/README
   locais ainda não commitados nesta fotografia. Próximo responsável:
   Codex publica a preparação documental; usuário encaminha o prompt ao
   Sonnet para implementação local.
+
+### INT01-07/B13-01 — 07/10/2026 — Codex / publicação do registro e prompt
+
+- **Ação:** criei `9921f57` com cinco arquivos documentais: registro
+  pós-merge, plano geral, roteiro de refinamento, `prompt.md` B13 e cópia
+  nomeada do prompt B12-05. Publiquei por avanço direto da branch padrão,
+  de `e31e6ba` para `9921f57`; consulta ao GitHub confirmou o hash remoto.
+- **Estado:** PR #1 permanece MERGEADO; B11/B12 INTEGRADOS, 212 testes
+  pós-merge aprovados. O commit `9921f57` não muda código/testes.
+  B13 tem prompt COMMITADO/PUBLICADO, implementação NAO_INICIADA,
+  branch/PR B13 ainda inexistentes, integração NAO_INTEGRADA.
+- **Arquivos locais:** esta nota posterior ao commit/push está
+  NAO_COMMITADA/NAO_PUBLICADA; o rascunho oficial deve ser sincronizado
+  para a pasta raiz sem descartar o relatório Sonnet não rastreado.
+  Próximo responsável: usuário encaminha `prompt.md` ao Sonnet.
