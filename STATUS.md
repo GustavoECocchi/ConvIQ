@@ -1,13 +1,13 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 08/10/2026 (Codex, B14-04). Quem muda o estado de um PR atualiza este
+Atualizado em 08/10/2026 (Codex, B14-07). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `4063830` (servidor,
+- **Branch padrão e destino:** `feat/b01-fundacao-api` em `b688afb` (servidor,
   08/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
-  B13 (PR #2, `2811d84`) e EST01 (PR #3, `4063830`).
+  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`) e B14 (PR #4, `b688afb`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
@@ -19,14 +19,15 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
   `CONVIQ-b14` (`fix/b14-unicode-evidencias`, base `4063830`): 330 testes,
   `versao_analise` `0.5`. Codex confirmou 330 testes e sondas em B14-02;
   revisão do Opus concluída sem achados em B14-03; **APROVADA tecnicamente**
-  pelo Codex em B14-04. NAO_COMMITADA, NAO_PUBLICADA, sem PR, NAO_INTEGRADA.
+  pelo Codex em B14-04. COMMITADA/PUBLICADA em `13b1519`; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4)
+  MERGEADO em `b688afb`, árvore idêntica, **330 testes na integração**.
+  B14 INTEGRADA; registros B14-05–07 locais.
 
 ## Próximo passo
-1. Após autorização do usuário, commitar/publicar a versão aprovada de B14
-   na branch de trabalho e abrir PR para `feat/b01-fundacao-api`; conferir o
-   commit contra os hashes aprovados e validar a integração quando autorizada.
-2. Depois da integração: revisar a premissa de B19 sobre evidências aninhadas
-   por B12, então liberar B19 → B15 → B16 → B17 → B18 → B20 → B21.
+1. Rever a premissa do cartão B19: B12 já produz intervalos aninhados,
+   preservados em B14, enquanto o cartão fala em evidências idênticas. Ajustar critérios
+   antes de liberar a execução de B19.
+2. Depois: B19 → B15 → B16 → B17 → B18 → B20 → B21.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
