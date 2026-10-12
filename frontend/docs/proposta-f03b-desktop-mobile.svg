@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" role="img" aria-labelledby="titulo descricao">
+<title id="titulo">Proposta visual F03-B em desktop e celular</title>
+<desc id="descricao">Formulário de nova análise por texto, ainda sem envio, com painel principal no desktop e campos em coluna no celular.</desc>
+<rect width="1500" height="900" fill="#e9edf3"/>
+<text x="32" y="36" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="#31415b" text-anchor="start">F03-B  /  PROPOSTA VISUAL · SEM ENVIO NESTA ETAPA</text>
+<text x="1090" y="36" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#42516b" text-anchor="end">Desktop</text>
+<text x="1450" y="36" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#42516b" text-anchor="end">Celular</text>
+<rect x="24" y="58" width="1070" height="810" rx="18" fill="#f3f4f6" stroke="#d3d9e3" stroke-width="1"/>
+<rect x="24" y="58" width="1070" height="74" rx="18" fill="#fff" stroke="#e4e7ed" stroke-width="1"/>
+<text x="58" y="105" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800" fill="#20242b" text-anchor="start">Conv</text>
+<text x="117" y="105" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800" fill="#2458f5" text-anchor="start">IQ</text>
+<rect x="756" y="76" width="125" height="36" rx="18" fill="#f2f3f5" stroke="none" stroke-width="1"/>
+<rect x="884" y="76" width="165" height="36" rx="18" fill="#f2f3f5" stroke="none" stroke-width="1"/>
+<text x="818" y="99" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#4f5864" text-anchor="middle">Visão geral</text>
+<text x="966" y="99" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#4f5864" text-anchor="middle">Como ler os sinais</text>
+<text x="56" y="168" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#2458f5" text-anchor="start">← Visão geral</text>
+<text x="56" y="210" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="750" fill="#20242b" text-anchor="start">Nova análise por texto</text>
+<text x="56" y="240" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#66707e" text-anchor="start">Organize os dados da reunião antes de conferir os sinais.</text>
+<rect x="56" y="275" width="700" height="550" rx="18" fill="#fff" stroke="#e4e7ed" stroke-width="1"/>
+<text x="82" y="315" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="750" fill="#20242b" text-anchor="start">Dados da reunião</text>
+<text x="82" y="350" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Título da reunião</text>
+<rect x="82" y="360" width="648" height="42" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="96" y="387" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Ex.: Reunião de acompanhamento</text>
+<text x="82" y="430" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Empresa</text>
+<rect x="82" y="440" width="648" height="42" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="96" y="467" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Nome da empresa</text>
+<text x="82" y="510" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Vínculo com a empresa</text>
+<rect x="82" y="520" width="648" height="42" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="96" y="547" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Selecione o vínculo</text>
+<text x="82" y="590" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Transcrição da reunião</text>
+<rect x="82" y="601" width="648" height="130" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="96" y="628" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Cole aqui a conversa em texto...</text>
+<rect x="82" y="752" width="170" height="45" rx="9" fill="#2458f5" stroke="none" stroke-width="1"/>
+<text x="167" y="780" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">Conferir dados</text>
+<rect x="778" y="275" width="284" height="248" rx="18" fill="#fff" stroke="#e4e7ed" stroke-width="1"/>
+<text x="801" y="315" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="750" fill="#20242b" text-anchor="start">Antes de começar</text>
+<text x="801" y="351" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#66707e" text-anchor="start">Cole a transcrição completa</text>
+<text x="801" y="373" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#66707e" text-anchor="start">em texto. Os sinais podem ser</text>
+<text x="801" y="395" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#66707e" text-anchor="start">conferidos nos trechos citados.</text>
+<rect x="801" y="429" width="237" height="57" rx="10" fill="#eef2ff" stroke="none" stroke-width="1"/>
+<text x="814" y="452" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#304b83" text-anchor="start">Esta etapa só confere os dados.</text>
+<text x="814" y="471" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#304b83" text-anchor="start">Nenhuma análise será enviada.</text>
+<rect x="1120" y="58" width="350" height="810" rx="18" fill="#f3f4f6" stroke="#d3d9e3" stroke-width="1"/>
+<rect x="1120" y="58" width="350" height="96" rx="18" fill="#fff" stroke="#e4e7ed" stroke-width="1"/>
+<text x="1142" y="92" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#20242b" text-anchor="start">Conv</text>
+<text x="1189" y="92" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#2458f5" text-anchor="start">IQ</text>
+<rect x="1139" y="106" width="138" height="32" rx="16" fill="#f2f3f5" stroke="none" stroke-width="1"/>
+<rect x="1281" y="106" width="169" height="32" rx="16" fill="#f2f3f5" stroke="none" stroke-width="1"/>
+<text x="1208" y="127" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#4f5864" text-anchor="middle">Visão geral</text>
+<text x="1365" y="127" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#4f5864" text-anchor="middle">Como ler os sinais</text>
+<text x="1142" y="183" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#2458f5" text-anchor="start">← Visão geral</text>
+<text x="1142" y="218" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="750" fill="#20242b" text-anchor="start">Nova análise</text>
+<text x="1142" y="242" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="750" fill="#20242b" text-anchor="start">por texto</text>
+<rect x="1138" y="264" width="314" height="475" rx="16" fill="#fff" stroke="#e4e7ed" stroke-width="1"/>
+<text x="1154" y="295" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Título da reunião</text>
+<rect x="1154" y="305" width="282" height="42" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="1168" y="332" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Título</text>
+<text x="1154" y="363" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Empresa</text>
+<rect x="1154" y="373" width="282" height="42" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="1168" y="400" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Nome da empresa</text>
+<text x="1154" y="431" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Vínculo</text>
+<rect x="1154" y="441" width="282" height="42" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="1168" y="468" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#838b96" text-anchor="start">Selecione o vínculo</text>
+<text x="1154" y="499" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#20242b" text-anchor="start">Transcrição da reunião</text>
+<rect x="1154" y="510" width="282" height="125" rx="8" fill="#fff" stroke="#ccd2dc" stroke-width="1"/>
+<text x="1168" y="538" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#838b96" text-anchor="start">Cole a conversa...</text>
+<rect x="1154" y="655" width="282" height="47" rx="9" fill="#2458f5" stroke="none" stroke-width="1"/>
+<text x="1295" y="684" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">Conferir dados</text>
+<rect x="1138" y="755" width="314" height="84" rx="14" fill="#fff" stroke="#e4e7ed" stroke-width="1"/>
+<text x="1154" y="784" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="750" fill="#20242b" text-anchor="start">Antes de começar</text>
+<text x="1154" y="807" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#66707e" text-anchor="start">Cole a transcrição completa em texto.</text>
+<text x="1154" y="824" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#66707e" text-anchor="start">Nenhuma análise será enviada ainda.</text>
+</svg>

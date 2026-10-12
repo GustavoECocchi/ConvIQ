@@ -10,8 +10,8 @@
 .brand-mark { display: grid; place-items: center; width: 41px; height: 41px; border-radius: 11px; background: #2458f5; color: #fff; }
 .brand-mark svg { width: 30px; height: 30px; }
 .brand-iq { color: #2458f5; }
-.topnav { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 5px; border-radius: 100px; background: #f2f3f5; }
-.topnav-link { padding: 11px 18px; border-radius: 100px; color: #626871; font-size: 13px; font-weight: 700; text-decoration: none; }
+.topnav { display: inline-flex; flex-wrap: nowrap; gap: 4px; padding: 5px; border-radius: 100px; background: #f2f3f5; }
+.topnav-link { padding: 11px 18px; border-radius: 100px; color: #626871; font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap; }
 .topnav-link:hover { color: #20242b; }
 .topnav-link.is-active { background: #22252b; color: #fff; }
 .topbar-caption { justify-self: end; color: #626a73; font-size: 12px; font-weight: 700; }
@@ -80,6 +80,23 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
 .footer-content { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 68px; color: #626a73; font-size: 12px; }
 .footer-brand { color: #22252b; font-size: 16px; font-weight: 800; letter-spacing: -.05em; }
 
+.guide-back { text-decoration: none; }
+.guide-back:hover { background: #dfe8ff; }
+.guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.guide-panel { padding: 26px; }
+.guide-panel h2 { margin-bottom: 9px; font-size: 22px; letter-spacing: -.03em; }
+.guide-panel > p { color: #626a73; font-size: 14px; line-height: 1.7; }
+.guide-list { display: grid; gap: 12px; margin: 18px 0 0; }
+.guide-list > div { padding-top: 12px; border-top: 1px solid #eceef0; }
+.guide-list dt { font-size: 13px; font-weight: 800; }
+.guide-list dd { margin: 4px 0 0; color: #626a73; font-size: 13px; line-height: 1.65; }
+.guide-panel .example-box { margin-top: 20px; background: #fafbfc; }
+.guide-panel .evidence-note { margin-bottom: 0; }
+.guide-footer { margin: 21px 0 0; }
+.not-found { padding-bottom: 60px; }
+.not-found h1 { margin-bottom: 14px; }
+.not-found-action { margin: 26px 0 0; }
+
 @media (max-width: 1120px) {
   .topbar-inner { grid-template-columns: auto 1fr; }
   .topnav { justify-self: end; }
@@ -97,6 +114,7 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .section-header { align-items: start; flex-direction: column; gap: 10px; }
   .signal-grid { grid-template-columns: 1fr; }
   .signal-card { min-height: 0; }
+  .guide-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 580px) {
   .layout { width: min(100% - 28px, 1500px); }
@@ -121,5 +139,13 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .signal-card { padding: 20px; }
   .reading-note { align-items: start; }
   .footer-content { align-items: start; flex-direction: column; justify-content: center; gap: 5px; padding-block: 16px; }
+}
+/* Telas muito estreitas (F01-04): marca (~110 px) e menu (~193 px, itens sem quebra) deixam de caber
+   lado a lado abaixo de ~360 px com barra de rolagem clássica; o menu vai para uma linha própria. */
+@media (max-width: 370px) {
+  .topbar-inner { grid-template-columns: 1fr; gap: 10px; min-height: 0; padding-block: 12px; }
+  .topnav { width: 100%; }
+  .topnav-link { flex: 1; text-align: center; }
+  .guide-panel { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .action-link { transition: none; } }

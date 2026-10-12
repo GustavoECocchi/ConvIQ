@@ -1,45 +1,31 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 09/10/2026 (Codex, F02-A-03). Quem muda o estado de um PR atualiza este
+Atualizado em 09/10/2026 (Codex, F02-B-07/F03-B-00). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `b688afb` (servidor,
+- **Branch padrão e destino:** `feat/b01-fundacao-api` em `bf7a1a1` (servidor,
   09/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
-  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`) e B14 (PR #4, `b688afb`).
+  B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
+  `b688afb`), F01 (PR #5, `5a2fede`) e F02-A (PR #6, `9706315`) e F02-B (PR #7, `bf7a1a1`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** usuário atribuiu F01 ao Codex nesta rodada. F01 está
-  implementado localmente no worktree `CONVIQ-f01`, branch
-  `feat/f01-fundacao-react`, base `b688afb`: dashboard horizontal
-  React/TypeScript/Vite, com prévias desktop/celular. Typecheck, lint, build e
-  preview passaram; revisão do Opus F01-04 e aceite técnico do Codex F01-05
-  concluídos. Código F01 commitado e publicado em d8e06b2; PR #5 ABERTO
-  para feat/b01-fundacao-api, ainda não integrado. F02–F06 foram subdivididos
-  em PRs pequenos. F02-A entregue por F02-A-01 como diff local no worktree
-  CONVIQ-f02a (branch feat/f02a-tipos-c01, base 89e0801): tipos de C01, 4
-  exemplos ilustrativos e 22 testes; aprovada tecnicamente em F02-A-02 após
-  testes e quatro respostas HTTP idênticas às fixtures. Entrega COMMITADA
-  em `68ebde7`, PUBLICADA em `origin/feat/f02a-tipos-c01`;
-  [PR #6](https://github.com/GustavoECocchi/ConvIQ/pull/6) ABERTO sobre F01,
-  NAO_INTEGRADA.
+- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados; último merge bf7a1a1; cliente ainda fora do worktree F03-A, que partiu de 9706315. F03-A entregue como diff local; R01/R02 corrigidos e verificados pelo Codex em F03-A-03. Ciclo EM_REVISAO até parecer independente do Opus.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
 - **B14 (Unicode NFD):** INTEGRADA pelo PR #4 em `b688afb` e verificada
   em B14-07 (330 testes na árvore integrada). Registros B14-05–07 foram
-  publicados na branch F01 pelo PR #5, ainda não integrados no destino.
+  integrados junto do F01 pelo PR #5.
 - **B19:** aprovado tecnicamente em B19-04 no worktree `CONVIQ-b19`, mas
   continua como diff local naquele worktree; código B19 não integra esta branch.
 
 ## Próximo passo
-1. O PR #5 de F01 segue OPEN e precisa integrar antes do PR #6 de F02-A;
-   ambos os merges dependem de autorização do usuário. F02-B pode partir do
-   commit publicado de F02-A; F03-A resolverá as observações de menu do Opus.
-2. B19 segue aprovado localmente em worktree separado, aguardando decisão
-   de publicação/integração; F01 não depende dessa publicação.
+1. Quando o Claude voltar a estar disponível, Opus revisa independentemente a correção F03-A-R01/R02 no worktree CONVIQ-f03a seguindo prompt.md; Codex verifica o parecer. F03-A não está aprovado nem publicado.
+2. PR #7 F02-B está integrado. A proposta de tela e critérios de F03-B está pronta em docs/planejamento/F03-B_FORMULARIO.md; implementação espera F03-A. Depois da revisão, reconciliar F03-A com a nova ponta bf7a1a1 antes de integrar.
+3. B19 segue aprovado localmente em worktree separado, aguardando decisão de publicação/integração.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
