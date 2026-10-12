@@ -49,27 +49,26 @@ continua no Git.
 | [INT01 — Entrega isolada B11/B12](docs/registro/INT01.md) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B13 — Intenção comercial para oportunidade](docs/registro/B13.md) | FINALIZADA (B13-01, Sonnet), corrigida pelo Opus em B13-03 | APROVADA tecnicamente em B13-04; INTEGRADA e verificada em B13-10 | Entrega COMMITADA em `ebed307`; registro remoto COMMITADO em `6d8bcfa`; eventos posteriores locais | `fix/b13-intencao-oportunidade`, head `6d8bcfa`, base `9921f57` | PUBLICADA; origem remota preservada em `6d8bcfa` | INTEGRADA em `feat/b01-fundacao-api` pelo PR #2, merge `2811d84` |
 | [EST01 — Estrutura ágil](docs/registro/GERAL.md) | FINALIZADA (EST01-01, Opus), corrigida em EST01-03 | APROVADA e INTEGRADA; PR [#3](https://github.com/GustavoECocchi/ConvIQ/pull/3) MERGEADO | Entrega COMMITADA em `53823a1`; registro COMMITADO em `5c2c421` | `chore/estrutura-agil`, base `6d8bcfa` | PUBLICADA; branch remota preservada em `5c2c421` | INTEGRADA em `feat/b01-fundacao-api`, merge `4063830` |
-| [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet); local | APROVADO tecnicamente pelo Codex em B14-04; Opus B14-03 sem achados | Diff local de 11 arquivos + `test_texto.py` sobre `4063830`, NAO_COMMITADOS | `fix/b14-unicode-evidencias`, HEAD/base `4063830` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
+| [B14 — Normalização Unicode e evidências](docs/registro/B14.md) | FINALIZADA (B14-01, Sonnet) | INTEGRADO em B14-07; aceite B14-04; PR [#4](https://github.com/GustavoECocchi/ConvIQ/pull/4) MERGEADO | COMMITADO em `13b1519`; registros B14-05–07 locais | `fix/b14-unicode-evidencias`, base `4063830`, HEAD `13b1519` | PUBLICADA em `origin/fix/b14-unicode-evidencias` (`13b1519`) | INTEGRADA em `feat/b01-fundacao-api`, merge `b688afb` |
+| [B19 — Evidência por intervalo exato](docs/registro/B19.md) | FINALIZADA (B19-01, Sonnet); local | APROVADA TECNICAMENTE em B19-04 após revisão Opus B19-03 e verificação Codex | Diff técnico local de 5 arquivos sobre `b688afb` + registros, NAO_COMMITADOS | `fix/b19-unificar-evidencias`, HEAD/base `b688afb` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
 integrado em INT01-06; B13 foi integrado e verificado em B13-10.
-B14 está liberado.
+B14 integrada; B19 liberado com premissa e critérios corrigidos em B19-00.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 08/10/2026, B14-04 (Codex)
+### Fotografia Git vigente — 09/10/2026, B19-04/GERAL-02 (Codex)
 
-- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b14`, branch
-  `fix/b14-unicode-evidencias`, HEAD e base `4063830` (= `feat/b01-fundacao-api`
-  no servidor, conferido 08/10). Índice Git sem alterações preparadas.
-- **Entrega B14 = diff local** de 11 arquivos de `backend/` e `docs/contratos/`
-  mais `backend/tests/test_texto.py` não rastreado; **preparação do Codex
-  (B14-00)** em `REGISTRO_TRABALHO.md`, `STATUS.md`, `SISTEMA_GOVERNANCIA_CONVIQ.md`,
-  roteiro, `docs/registro/GERAL.md`, `docs/registro/B14.md` (não rastreado) e
-  `prompt.md`, também locais. Nenhum commit, push, PR ou merge.
-- Servidor Git: branch padrão `feat/b01-fundacao-api` em `4063830`; branch
-  B14 ausente; `gh pr list --head` sem PR B14. PRs #1, #2 e #3 mesclados.
-  Aprovação técnica B14-04 registrada localmente; `prompt.md` de revisão do Opus
-  permanece como último rascunho, espelhado na pasta raiz. Outros worktrees preservados.
+- Worktree `CONVIQ-b19`, branch `fix/b19-unificar-evidencias`, HEAD/base
+  `b688afb` (= `feat/b01-fundacao-api` no servidor, conferido em 09/10). Branch
+  B19 e PR ausentes no servidor; índice Git sem alterações preparadas.
+- **Entrega B19 = diff local** de 5 arquivos (`analise.py`, dois testes,
+  README e nota C01), SHA-256 `5b7bee52…74379ee`; preparação/revisões locais
+  em `PLANO_DESENVOLVIMENTO.md`, roteiro, `REGISTRO_TRABALHO.md`, `STATUS.md`,
+  `docs/registro/B14.md`, `docs/registro/B19.md` (não rastreado),
+  `docs/registro/GERAL.md` (notas de coordenação) e `prompt.md`. Nenhum commit,
+  push, PR ou merge; NAO_PUBLICADA, NAO_INTEGRADA.
+- PRs #1–#4 mesclados. Pasta raiz e worktrees antigos intocados.

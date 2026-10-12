@@ -227,3 +227,46 @@ Eventos que não pertencem a um único PR (operações Git e retomadas que cobre
   PUBLICADA e INTEGRADA; seção 11 vigente. Este registro pós-merge
   fica local no worktree B14, NAO_COMMITADO/NAO_PUBLICADO; não houve
   commit direto na branch padrão. B14 liberado e preparado em B14-00.
+
+### GERAL-01 — 09/10/2026 — Codex / próximo passo e trabalho remanescente
+
+- **Pedido:** usuário perguntou próximo passo e quanto falta para concluir o
+  ConvIQ. Conferi `STATUS.md`, índice, plano, roteiro de áudio e Git do worktree
+  `CONVIQ-b19` (`fix/b19-unificar-evidencias`, HEAD `b688afb`). A referência
+  geral `GOVERNANCA/REGRAS.md` não está disponível; usei a governança do projeto.
+- **Estado confirmado no registro:** B19 aprovado em B19-04, ainda local, sem
+  commit/push/PR/integração. Na análise textual, B11–B14 integrados, B19
+  aprovado local e B15/B16/B17/B18/B20/B21 ainda planejados (seis cartões).
+- **Marcos do plano:** primeira versão utilizável = F06 (texto → card); F01–F06
+  não têm código ou aceite verificável nesta cópia. Demonstração por áudio =
+  F09 + I01, com B07-A parcial (falta fala real), mais 11 cartões de áudio/
+  contrato/ensaio após B07-A; frontend de áudio, revisão F11 e ambiente H01
+  continuam por resolver. Persistência/histórico ficam depois da apresentação.
+- **Limite da estimativa:** contagem de cartões, não previsão de prazo; faltam
+  estado da frente frontend, amostra/hardware do Whisper e escolha de execução
+  por link. Não tratar ausência de frontend nesta cópia como prova de ausência
+  no trabalho do colega.
+- **Git/ação:** só este evento e a fotografia Git foram atualizados nesta
+  atuação; código B19 preservado. Sem commit, push, PR, merge, reset ou stash.
+- **Próximo:** usuário decide autorização de publicação do B19; após integrar,
+  B15 é o próximo refinamento planejado. Confirmar F06 e concluir B07-A para
+  medir o caminho até a demonstração de áudio.
+
+### GERAL-02 — 09/10/2026 — Codex / início recomendado do frontend
+
+- **Pedido:** usuário perguntou se deve iniciar o frontend agora ou após mais
+  trabalho de backend. Conferi dependências F01–F06 em `PLANO_DESENVOLVIMENTO.md`
+  e o estado B19 em `STATUS.md`; não há código `frontend/` nesta cópia.
+- **Recomendação:** iniciar F01 (React/TypeScript/Vite) agora, depois F02
+  (tipos/cliente C01); F03 (formulário) e F04 (card) podem seguir após F02.
+  F05 (evidências) vem após F04; F06 integra a jornada de texto com API real.
+  C01 e B04 já estão integrados; B19 mantém o formato C01 e só altera IDs,
+  referências e versão. F05 deve aceitar ID compartilhado e intervalos
+  aninhados. Coordenar F06 com a integração do B19.
+- **Limite:** F01–F06 são responsabilidade da frente frontend; trabalhos
+  externos a esta cópia não foram verificados. F07–F09 dependem do contrato
+  de áudio C02-A/C02-B, de B07-A e das rotas; início textual não os antecipa.
+- **Git:** nenhum código, commit, push, PR ou merge nesta atuação; este evento
+  e a fotografia Git são locais no worktree B19, HEAD `b688afb`.
+- **Próximo:** iniciar F01 na frente frontend, conferir branch/estado do colega;
+  publicar/integrar B19 quando autorizado e alinhar F05/F06 à versão `0.6`.

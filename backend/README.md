@@ -380,7 +380,8 @@ Como `"insatisfeito"`/`"satisfeito"` também alimentam o sentimento de B02,
 o mesmo trecho aparece em duas evidências: a do sentimento é a expressão
 (`"insatisfeitos"`) e a do churn inclui o complemento (`"insatisfeitos com
 o suporte"`), começando na mesma posição. Sem complemento, os intervalos
-são idênticos. B04 renumera as duas ao compor (ver seção seguinte).
+são idênticos e, desde B19, a composição os une numa só evidência. B04 renumera
+e une ao compor (ver seção seguinte).
 
 **Oportunidade por intenção comercial (B13, `_ocorrencias_oportunidade`).**
 Antes, cada palavra como `"interesse"`, `"conhecer"` ou `"módulo"` gerava
@@ -598,37 +599,43 @@ persistência é B05.
 
 1. Roda `analisar_sentimento` (B02) e `analisar_sinais_comerciais` (B03)
    sobre a mesma transcrição.
-2. **Renumera as evidências.** B02 e B03 numeram cada um a partir de `e1`;
-   juntos sem ajuste, colidiriam. A composição reúne as duas listas, ordena
-   por `inicio` (posição no texto, não por origem) e renumera em sequência
-   única, atualizando as referências em `churn.evidencias` e em cada
-   `oportunidades[].evidencias`. Consequência esperada, não um bug: quando
-   B02 e B03 detectam o mesmo radical (ex.: `"insatisfeito"`, sinal de
-   sentimento negativo **e** de risco de churn), a resposta tem duas
-   evidências distintas para o mesmo trecho — verificado com servidor real
-   (`uvicorn`) no exemplo do contrato C01. Desde a revisão B12-R03, a de
-   churn inclui o complemento (`"insatisfeitos"` e `"insatisfeitos com o
-   suporte"`, mesma posição inicial); sem complemento, os intervalos são
-   idênticos. Empate de posição mantém a ordem sentimento → comercial.
+2. **Renumera e une as evidências (B19).** B02 e B03 numeram cada um a partir
+   de `e1`; juntos sem ajuste, colidiriam. A composição reúne as duas listas,
+   ordena por `inicio` (posição no texto, não por origem; em empate, sentimento
+   antes de comercial) e renumera `e1..eN` sem lacunas, atualizando as
+   referências em `churn.evidencias` e em cada `oportunidades[].evidencias`.
+   **Evidências com a mesma chave exata `(inicio, fim, trecho)` viram uma só**,
+   com um ID, e todas as referências apontam para ele: `"Estamos
+   insatisfeitos."` tem uma evidência `(8, 21)` para sentimento e churn
+   (antes, `e1` e `e2` idênticas, e churn/recomendação citavam só `e2`);
+   `"Não estamos satisfeitos."`, uma evidência `(0, 23)`. Cada lista de
+   referências fica sem repetição, na ordem da primeira referência. **Só o
+   intervalo idêntico é unido:** recortes aninhados ou apenas sobrepostos
+   continuam distintos (`"insatisfeitos"` 8–21 e `"insatisfeitos com o
+   suporte"` 8–35 são duas evidências, e churn/recomendação citam a mais
+   longa), e o mesmo texto em posições diferentes também (`"Estamos
+   insatisfeitos. Depois, estamos insatisfeitos."` → duas, e churn cita as
+   duas). A união não olha o texto isolado, não muda a detecção nem agrupa
+   oportunidades (B17).
 3. **Deriva `recomendacoes`:** uma recomendação genérica para
    `churn.situacao == sinal_detectado` (evidenciada pelas evidências de
    churn) e uma por oportunidade (evidenciada pela evidência daquela
    oportunidade). Sem risco nem oportunidade, a lista fica vazia — nenhuma
    recomendação é inventada sem evidência.
-4. Usa `metodo="regras"` e `versao_analise="0.5"` (`0.1` em B04, `0.2`
+4. Usa `metodo="regras"` e `versao_analise="0.6"` (`0.1` em B04, `0.2`
    com a negação de B11, `0.3` com o risco em contexto de B12, `0.4` com a
-   oportunidade por intenção de B13, `0.5` com o Unicode NFD de B14; contrato
+   oportunidade por intenção de B13, `0.5` com o Unicode NFD de B14, `0.6` com a evidência compartilhada de B19; contrato
    C01 inalterado), os mesmos valores dos exemplos do contrato.
 
 **Limitações desta versão:** as recomendações são genéricas (não citam o
 produto/trecho específico, mesmo estilo já documentado para a descrição de
-oportunidades em B03); evidências duplicadas do mesmo trecho (item 2 acima)
-não são mescladas — a resposta **não** tem campo que diga de qual serviço
-cada evidência veio; o que fica preservado são os IDs únicos e as
-referências (qual evidência sustenta `churn`, cada oportunidade e cada
-recomendação). Uma interface que listar `evidencias` pode mostrar o mesmo
-trecho destacado duas vezes; decidir se isso precisa de tratamento é
-decisão de produto/frontend (F05), não deste PR.
+oportunidades em B03). Desde B19 um mesmo ID pode sustentar sentimento e
+churn (ou churn e uma oportunidade que casem o mesmo intervalo); a resposta
+**não** tem campo que diga de qual serviço cada evidência veio, e o que
+identifica o apoio de cada sinal são as referências em `churn`, em cada
+oportunidade e em cada recomendação. Intervalos aninhados ou sobrepostos
+seguem como destaques distintos, que a interface (F05) pode ter de
+sobrepor; unir sobreposições não é feito aqui.
 
 ## Contrato de análise por texto (C01)
 

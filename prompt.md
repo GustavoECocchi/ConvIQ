@@ -1,69 +1,71 @@
-# B14 — Revisão independente da normalização Unicode e dos índices
+# B19 — revisão independente da evidência compartilhada (Opus)
 
-Você é Claude Opus, revisor e corretor de B14 (nível A) no ConvIQ. Trabalhe
-no worktree `/home/gustavoecocchi/Documents/CONVIQ-b14`, branch
-`fix/b14-unicode-evidencias`, HEAD/base
-`4063830db9b5f8400b60b8c09e9413b35115b106`. A entrega de Sonnet
-(B14-01) é **diff local não commitado** sobre essa base: 11 arquivos
-rastreados em `backend/` e `docs/contratos/`, mais o não rastreado
-`backend/tests/test_texto.py`. Preserve as alterações locais de preparação
-e registro. Confira Git antes de editar; não use a pasta raiz para o código.
+Você é Claude Opus, revisor/corretor do B19 no ConvIQ. Trabalhe no worktree
+`/home/gustavoecocchi/Documents/CONVIQ-b19`, branch
+`fix/b19-unificar-evidencias`, HEAD/base
+`b688afb7bdaa63a7ac8e8905301d29075f3a4dcc` (merge do PR #4 na branch
+padrão `feat/b01-fundacao-api`). A entrega B19 é **diff local não commitado**
+sobre essa base. Antes de editar, confira branch, HEAD, alterações locais,
+arquivos não rastreados e a identidade do `app` importado. Preserve a
+preparação B19-00, o registro B19-01/B19-02 e os outros worktrees.
 
-Leia `STATUS.md`, a linha B14 em `REGISTRO_TRABALHO.md`, a ficha e os eventos
-B14-01/B14-02 em `docs/registro/B14.md`, a seção 11 de
-`SISTEMA_GOVERNANCIA_CONVIQ.md`, o cartão B14 em
-`docs/planejamento/PRS_REFINAMENTO_ANALISE.md` e o contrato C01. Revise o
-diff `git diff 4063830 -- backend docs/contratos` e o teste novo. Para
-identificar a versão examinada pelo Codex, o SHA-256 do diff binário técnico
-foi `9e35397cdb8eb6f56bca58c45ba02ed13e114791b6eb8c7eac0e4cec34328ca0`
-e o de `backend/tests/test_texto.py` foi
-`67c97757c497e2fe7496eef89514da13772aa63005caa79bac11569eefd715fc`.
+Leia `STATUS.md`, a linha B19 do `REGISTRO_TRABALHO.md`,
+`docs/registro/B19.md`, o cartão B19 em
+`docs/planejamento/PRS_REFINAMENTO_ANALISE.md`, a seção 11 de
+`SISTEMA_GOVERNANCIA_CONVIQ.md`, `backend/README.md` e a nota B19 do contrato
+`docs/contratos/analise-texto.md`. Revise o diff técnico com
+`git diff b688afb -- backend docs/contratos`. O SHA-256 desse diff binário
+na análise inicial do Codex foi
+`5b7bee5209fa28a03822fb3f56115688a25ad8dfb97382949bd4936bd74379ee`;
+se divergir, identifique a mudança antes de concluir. B19 é nível A: após
+sua revisão/correção, Codex fará a verificação final.
 
-O Codex não encontrou impeditivo na análise inicial. Conferiu a suíte
-completa (**330 passed**, 2 avisos), seis sondas na composição real,
-`git diff --check`, branch padrão remota em `4063830` e ausência de branch/PR
-B14. A fuzz de 8.000 análises, os 29 testes discriminadores e seis casos
-em servidor real são evidências **relatadas pelo Sonnet**, ainda não
-reproduzidas pelo Codex. Sua revisão deve ser independente.
+## Revisão solicitada
 
-## Verificações principais
+1. Verifique independentemente a composição em
+   `backend/app/services/analise.py`. Evidências só devem compartilhar ID
+   quando `(inicio, fim, trecho)` forem iguais. Duplicata não adjacente também
+   deve unir; intervalos aninhados ou apenas sobrepostos e ocorrências em
+   posições diferentes devem continuar separados. Confirme ordem estável
+   por posição, sentimento antes do comercial em empate e IDs `e1..eN` sem
+   lacunas.
+2. Confira o remapeamento de todas as referências de churn, oportunidades
+   e recomendações: IDs existentes, sem repetição em cada lista, preservando
+   a primeira ordem. Um ID pode servir a sentimento e churn. Não altere a
+   detecção, classificação, catálogo, número/descrição das oportunidades ou
+   conteúdo das recomendações. Prospect mantém churn `nao_aplicavel`.
+3. Execute contraprovas: `Estamos insatisfeitos.` (uma evidência 8–21),
+   `Não estamos satisfeitos.` (uma, inclusive NFD com recorte literal),
+   `Estamos insatisfeitos com o suporte.` (duas: 8–21 e 8–35), duas frases
+   curtas iguais em offsets distintos, emoji/espaços à esquerda, risco e
+   oportunidade vizinha, prospect, texto sem sinal e menção de catálogo.
+   Gere casos próprios se revelarem uma falha real. Confirme
+   `transcricao[inicio:fim] == trecho` e referências contra o eco da rota.
+4. Revise se testes cobrem duplicata não adjacente e referências repetidas;
+   valide schema/API/formato C01 e `versao_analise` `0.6`. Verifique README
+   e nota de contrato. O frontend F05 deve saber que um ID pode ser
+   compartilhado, enquanto aninhamentos permanecem como dois destaques.
 
-1. Revise `TextoNormalizado`/`normalizar_com_mapa`: mapeamento de começo e fim
-   exclusivo, combinantes após letras, forma mista NFC/NFD, múltiplos
-   combinantes, caractere de compatibilidade que expande (ex.: `ﬁ`),
-   combinante órfão, início/fim do texto e monotonicidade dos intervalos.
-   Faça contraprovas próprias; avalie se os limites documentados são aceitáveis
-   para o escopo em português ou causam defeito material.
-2. Revise todos os consumidores (`sentimento.py`, `negacao.py`,
-   `sinais_comerciais.py`, `analise.py`). Confirme que regex/escopos usam
-   coordenadas normalizadas, enquanto cada `Evidencia` pública usa índices
-   Python do eco de C01. Verifique a distinção `e`/`é` em NFC/NFD, inclusive
-   conjunção nominal e escopo de negação; nenhum índice pode ser recuperado
-   pela primeira ocorrência de `find`.
-3. Teste pares NFC/NFD para `péssimo`, `ótimo`, `Não estamos satisfeitos`,
-   `Não só`, `Não é ruim, é ótimo`; depois um sinal válido precedido de
-   combinantes e outro após trecho negado. Preserve as regras de B11–B13:
-   prospect, cancelamento com objeto comercial, tema alheio, intenção
-   afirmativa com objeto comercial, catálogos, coexistência de risco e
-   oportunidade, repetições, IDs e referências de recomendações.
-4. Confira limites da rota e do contrato: eco sem normalização, `inicio`/`fim`
-   relativos ao eco, recortes literais, `versao_analise="0.5"`, schema
-   inalterado. Use `backend/scripts/sondar.py` e `app.__file__` para não
-   importar a instalação editável da pasta raiz. Rode testes afetados e suíte
-   completa a partir de `backend/`; use timeout. O TestClient pode travar
-   dentro do sandbox; se ocorrer, reexecute fora dele. Confira
-   `git diff --check` e, se possível, a rota num servidor real.
+O Codex conferiu o código, `git diff --check`, a suíte completa (**344
+passed**, dois avisos já conhecidos) e sondas pela composição para curta,
+aninhada, repetida, NFD e sinal vizinho. Os 289 testes afetados, 19 falhas
+contra a base, fuzz de 8.000 análises e oito casos em servidor real foram
+**relatados pelo Sonnet**, ainda não repetidos pelo Codex. Faça verificação
+independente proporcional ao risco; rode os testes relevantes e a suíte
+completa a partir de `backend/`, usando timeout. Para scripts avulsos,
+use `backend/scripts/sondar.py` ou `PYTHONPATH` do worktree e confira
+`app.__file__`, pois o venv da raiz tem instalação editável para outra pasta.
+Se confirmar defeito, corrija com teste discriminante e revalide. Se não
+houver defeito, mantenha o código intacto e registre o aceite da revisão.
+Separe no registro o que você observou do que veio dos relatos anteriores.
 
-Confirme qualquer achado com entrada, saída observada, saída esperada,
-impacto e teste que falha antes da correção. Corrija apenas defeitos
-comprovados dentro de B14, com teste de regressão e contraprova do sinal
-vizinho. Se não achar defeito, conclua a revisão sem mudança artificial.
-Mantenha os limites aceitos documentados. Não inicie B19.
+## Registro e Git
 
-Atualize a ficha B14, índice/STATUS apenas se o estado mudar, a fotografia
-Git se mudar, e acrescente **um** evento curto B14-03 em
-`docs/registro/B14.md`. Separe verificação própria de evidência relatada;
-separe entrega, revisão, commit, push, PR e integração. Esta instrução
-**não autoriza commit, push, abertura de PR nem merge**: deixe eventual
-correção local para a verificação final do Codex. Entregue ao usuário um
-resumo curto com o caminho do evento.
+Atualize a ficha B19, a linha do índice, `STATUS.md` e a fotografia Git se
+mudarem; escreva um evento curto **B19-03** em `docs/registro/B19.md`, com
+achados, arquivos, validação, limites e próximo responsável. Registre
+separadamente entrega, revisão, commit, push, PR e integração. O usuário
+autorizou esta etapa local, **sem autorização para commit, push, PR ou
+merge do B19**. Deixe eventuais correções como diff local para a
+verificação final do Codex. Não inicie B15. Responda com resumo curto e o
+caminho do evento.

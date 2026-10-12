@@ -174,7 +174,7 @@ problemas reproduzidos, cartões completos, exclusões, exemplos e validação.
 | 2 | B12 | Risco de cancelamento: negação e contexto da relação comercial | B11 |
 | 3 | B13 | Oportunidade baseada em intenção, evitando menção ou interesse negado | B11 |
 | 4 | B14 | Unicode/NFD com mapeamento correto para os trechos originais | B11, B12, B13 |
-| 5 | B19 | Evidência única por intervalo, com referências preservadas | B14 |
+| 5 | B19 | Evidência única por intervalo exato, preservando aninhamentos e referências | B14 |
 | 6 | B15 | Vocabulário de sentimento ampliado com contraexemplos | B11 |
 | 7 | B16 | Catálogo com contexto para marcas/siglas ambíguas | B04, C01 |
 | 8 | B17 | Uma oportunidade por intenção local, sem duplicar palavras do mesmo pedido | B13 |
