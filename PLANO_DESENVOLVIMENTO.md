@@ -239,7 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (09/10/2026):** F01 (PR #5) e F02-A (PR #6) integrados; F02-B aprovado e integrado pelo PR #7 no merge bf7a1a1. F03-A foi entregue localmente; R01/R02 foram corrigidos e verificados pelo Codex em F03-A-03, e o ciclo está EM_REVISAO até a revisão independente do Opus. O [prompt vigente](prompt.md) pede essa revisão. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes; a [proposta do F03-B](docs/planejamento/F03-B_FORMULARIO.md) foi preparada sem código.
+**Encaminhamento vigente (12/10/2026):** F01 (PR #5), F02-A (PR #6), F02-B (PR #7) e B19 (PR #8) estão integrados; destino em 0a29627. F03-A foi commitado em caface2 e publicado na branch própria, com R01/R02 corrigidos e verificados pelo Codex; o ciclo segue EM_REVISAO até a revisão independente do Opus. O [prompt vigente](prompt.md) pede essa revisão. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes; a [proposta do F03-B](docs/planejamento/F03-B_FORMULARIO.md) foi publicada sem código.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes

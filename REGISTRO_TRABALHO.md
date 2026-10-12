@@ -53,20 +53,19 @@ continua no Git.
 | [F01 — Fundação React](docs/registro/F01.md) | FINALIZADA (F01-01, Codex) | INTEGRADA em F01-07 após aceite F01-05 e revisão Opus F01-04 | Entrega COMMITADA em `d8e06b2`; head documental `89e0801` | `feat/f01-fundacao-react`, base `b688afb` | PUBLICADA; PR [#5](https://github.com/GustavoECocchi/ConvIQ/pull/5) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `5a2fede` |
 | [F02-A — Tipos C01 e exemplos](docs/registro/F02-A.md) | FINALIZADA (F02-A-01, Sonnet) | INTEGRADA em F02-A-04 após aceite F02-A-02 | Entrega COMMITADA em `68ebde7`; head documental `975857d` | `feat/f02a-tipos-c01`, base `89e0801` | PUBLICADA; PR [#6](https://github.com/GustavoECocchi/ConvIQ/pull/6) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `9706315` |
 | [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet), corrigida em F02-B-03 | INTEGRADO em F02-B-07 após aceite F02-B-04 | Entrega COMMITADA em 1232ac9; head documental 73c4771 | feat/f02b-cliente-c01, base 9706315 | PUBLICADA; PR [#7](https://github.com/GustavoECocchi/ConvIQ/pull/7) MERGEADO | INTEGRADA em feat/b01-fundacao-api, merge bf7a1a1 |
-| [F03-A — Rotas e navegação](docs/registro/F03-A.md) | FINALIZADA (F03-A-01, Sonnet), corrigida em F03-A-03 (Codex) | EM_REVISAO; R01/R02 verificados pelo Codex, Opus independente pendente | Diff local sobre `9706315` (rotas, páginas, layout, testes, capturas, `react-router`), NAO_COMMITADO | `feat/f03a-rotas-navegacao`, HEAD/base `9706315` | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
-| [F03-B — Formulário de nova análise](docs/registro/F03-B.md) | NAO_INICIADA; proposta visual e critérios em F03-B-00 | PLANEJADO; depende de F03-A | Só documentação local, NAO_COMMITADA; código SEM_ALTERACOES | Branch/worktree de implementação NAO_CRIADOS | NAO_PUBLICADA; PR NAO_ABERTO | NAO_INTEGRADA |
+| [F03-A — Rotas e navegação](docs/registro/F03-A.md) | FINALIZADA (F03-A-01, Sonnet), corrigida em F03-A-03 (Codex) | EM_REVISAO; Opus independente pendente | Entrega COMMITADA em `caface2`; registro F03-A-04 em commit documental posterior | `feat/f03a-rotas-navegacao`, base `9706315` | PUBLICADA no GitHub; PR NAO_ABERTO | NAO_INTEGRADA |
+| [F03-B — Formulário de nova análise](docs/registro/F03-B.md) | NAO_INICIADA; proposta visual e critérios em F03-B-00 | PLANEJADO; depende de F03-A | Proposta COMMITADA em `caface2`; código SEM_ALTERACOES | Branch/worktree de implementação NAO_CRIADOS | Proposta PUBLICADA na branch F03-A; PR próprio NAO_ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
 integrado em INT01-06; B13 foi integrado e verificado em B13-10.
 B14 foi integrada pelo PR #4; F01 iniciou a frente frontend no worktree isolado.
-F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01, F02-A e F02-B foram integrados; o PR #7 trouxe F02-B no merge bf7a1a1. F03-A está EM_REVISAO no worktree próprio após correção local do Codex; F03-B tem proposta de tela e critérios, mas continua PLANEJADO e sem código. O prompt vigente é a revisão independente F03-A para Opus.
+F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01, F02-A e F02-B foram integrados, assim como B19 pelo PR #8. F03-A está PUBLICADA como candidata, EM_REVISAO após correção do Codex; F03-B tem proposta de tela e critérios publicados, mas continua PLANEJADO e sem código. O prompt vigente é a revisão independente F03-A para Opus.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 09/10/2026, NAV01-03 (Codex)
+### Fotografia Git vigente — 12/10/2026, F03-A-04 (Codex)
 
-- Servidor: branch padrão feat/b01-fundacao-api em bf7a1a1; PR #7 F02-B MERGED, head 73c4771, merge bf7a1a1. Árvore do merge idêntica à do head. Worktree F02-B em feat/f02b-cliente-c01, HEAD 73c4771 e limpo; branch remota de origem preservada.
-- Worktree de coordenação /home/gustavoecocchi/Documents/CONVIQ-f03a, branch feat/f03a-rotas-navegacao, HEAD/base 9706315, índice vazio. F03-A continua como diff local não commitado em frontend/ (rotas, layout, páginas, testes, quatro capturas, package/lockfile e README); código F02-B integrado no destino ainda não está neste checkout.
-- Documentação local no worktree F03-A: preparação/eventos F03-A, F02-B-07, F03-B-00, proposta e wireframe F03-B, STATUS, índice, plano, roteiro, fichas F01/F02-A, GERAL NAV01-02/03 e prompt.md. F03-A NAO_COMMITADA/NAO_PUBLICADA/NAO_INTEGRADA; F03-B sem código/branch/PR. Pasta raiz preservada exceto prompt.md espelhado.
+- Worktree CONVIQ-f03a, branch feat/f03a-rotas-navegacao, base 9706315; entrega técnica e documentação inicial COMMITADAS em caface2, branch PUBLICADA no GitHub. Este registro de publicação integra o commit documental posterior.
+- Servidor: branch padrão feat/b01-fundacao-api em 0a29627 (PRs #1–#8 MERGED); F03-A ainda não contém F02-B/B19, PR F03-A NAO_ABERTO, NAO_INTEGRADA. F03-B só tem proposta documental na branch F03-A, sem implementação.
