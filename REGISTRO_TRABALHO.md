@@ -12,9 +12,10 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 07/10/2026 pelo Codex, após INT01-04. A branch
+Fotografia atualizada em 07/10/2026 pelo Codex, após INT01-05. A branch
 `integrate/b11-b12-analise` parte de `6169fec` e preserva B11/B12
-aprovados e documentos de acompanhamento no commit publicado `45e1e76`.
+aprovados e documentos de acompanhamento em `45e1e76`; a atualização do
+estado do PR foi publicada em `ae71f84`.
 B12 também está no commit de origem `b14f0a5`; a cópia isolada passou
 na suíte completa (212 testes). O PR remoto #1 está ABERTO para
 `feat/b01-fundacao-api`; nenhuma integração ocorreu.
@@ -41,7 +42,7 @@ versão. Fotografias anteriores são históricas.
 | [PLN02 — Refinamento das capacidades](#pln02--refinamento-das-capacidades) | FINALIZADA; planejamento | ENTREGUE | COMMITADO; `cc61925` | `spike/b07-a-viabilidade-whisper` | PUBLICADO; branch remota conferida | NAO_SE_APLICA |
 | [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | APROVADO tecnicamente em B11-04; PR #1 ABERTO | Origem `d5fb40a`; reaplicação byte a byte COMMITADA em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO e hash remoto conferido em 07/10 | NAO_INTEGRADO em `feat/b01-fundacao-api` |
 | [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | APROVADO tecnicamente em B12-07; PR #1 ABERTO | Origem `d5fb40a` + `b14f0a5`; reaplicação byte a byte COMMITADA em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO e hash remoto conferido; `b14f0a5` não publicado na origem | NAO_INTEGRADO em `feat/b01-fundacao-api` |
-| [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | Preparada, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) ABERTO; sem merge | `45e1e76` sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | NAO_INTEGRADA |
+| [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | Preparada, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) ABERTO; sem merge | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise`, head remoto `ae71f84` | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
@@ -50,7 +51,17 @@ foi aberto antes de INT01; a listagem remota de B12-08 estava vazia e o PR
 #1 foi aberto nesta atuação. Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 07/10/2026, INT01-04 (Codex)
+### Fotografia Git vigente — 07/10/2026, INT01-05 (Codex)
+
+- O registro do PR foi commitado em `ae71f84` e publicado em
+  `origin/integrate/b11-b12-analise`. O GitHub confirmou o PR #1 `OPEN`,
+  head `ae71f844dcedde710627a03cda7830329ab27d4e`, base
+  `feat/b01-fundacao-api` ainda em `6169fec`, `MERGEABLE` e sem checks
+  listados. B11/B12 NAO_INTEGRADAS; não houve merge. Esta nota é local,
+  posterior ao commit/push, e fica fora do commit publicado para evitar
+  um ciclo de commits contendo o próprio hash.
+
+### Fotografia Git histórica — 07/10/2026, INT01-04 (Codex)
 
 - PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) confirmado
   `OPEN`, não rascunho, head `integrate/b11-b12-analise` em `45e1e76`,
@@ -2425,6 +2436,19 @@ NAO_COMMITADO/NAO_PUBLICADO. Fotografias Git anteriores abaixo são históricas.
   resolver e persistência posterior, sem novos bloqueios de infraestrutura.
 
 ## INT01 — Entrega isolada B11/B12
+
+### Registro do PR publicado — Codex, 07/10/2026 — INT01-05
+
+- **Git da entrega:** `45e1e76` contém B11/B12 aprovados, com 212 testes
+  aprovados na composição; `ae71f84` contém a atualização posterior do
+  registro com PR #1. Ambos publicados na branch de integração; o servidor
+  confirmou head `ae71f84`. Esta nota posterior ao commit/push é local e
+  não está publicada.
+- **PR/integração:** [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1)
+  `OPEN`, `MERGEABLE`, sem checks listados; branch padrão
+  `feat/b01-fundacao-api` permanece em `6169fec`. B11/B12 NAO_INTEGRADAS.
+  Próximo responsável: coordenação/usuário para decidir o merge após a
+  revisão do PR; B13 ainda não iniciado.
 
 ### PR remoto aberto — Codex, 07/10/2026 — INT01-04
 
@@ -6031,3 +6055,17 @@ e64b14c66ef9773b1ef05e319bb499c5c56ba813e9d84dcbeda0c1d9256e2518  backend/README
 - **Próximo responsável:** Codex publica esta atualização do registro;
   coordenação/usuário acompanham revisão e decidem integração. B13 ainda
   não iniciado.
+
+### INT01-05 — 07/10/2026 — Codex / registro do PR publicado e conferência final
+
+- **Ação:** commit `ae71f84` com a atualização de `REGISTRO_TRABALHO.md`
+  para o PR #1, publicado em `origin/integrate/b11-b12-analise`.
+- **Evidência:** PR #1 confirmado `OPEN`, não rascunho, `MERGEABLE`, head
+  `ae71f844dcedde710627a03cda7830329ab27d4e`, base
+  `feat/b01-fundacao-api` em `6169fec`, sem checks listados. Nenhum código
+  mudou desde a execução dos 212 testes; a atualização de `ae71f84` é só
+  documental. Nenhum merge foi feito.
+- **Estado/pendência:** B11/B12 FINALIZADAS/APROVADAS/COMMITADAS/
+  PUBLICADAS, NAO_INTEGRADAS. Esta nota posterior ao commit/push é
+  NAO_COMMITADA/NAO_PUBLICADA. Próximo responsável: coordenação/usuário
+  para decidir a integração após revisão do PR; B13 permanece planejado.
