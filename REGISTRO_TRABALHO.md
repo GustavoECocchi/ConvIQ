@@ -12,12 +12,16 @@ alterações locais ainda não commitadas, mesmo quando o código já está comm
 
 ## Índice atual
 
-Fotografia atualizada em 07/10/2026 pelo Codex (B13-05). B13 foi finalizada
+Fotografia atualizada em 08/10/2026 pelo Codex (B13-10). B13 foi finalizada
 pelo Sonnet em B13-01, corrigida pelo Opus em B13-03 e aprovada tecnicamente
-pelo Codex em B13-04. A versão aprovada foi commitada em `ebed307`,
-publicada e apresentada no PR #2, aberto para `feat/b01-fundacao-api`.
-Ainda NAO_INTEGRADA. B11/B12 estão integrados pelo PR #1;
-B07-A segue parcial.
+pelo Codex em B13-04. A versão aprovada foi commitada em `ebed307`, e o
+registro da publicação em `6d8bcfa`. Ambos foram publicados no PR #2 para
+`feat/b01-fundacao-api`.
+Consulta atual ao servidor confirma PR #2 `MERGED` em `2811d84` e B13 INTEGRADA.
+O prompt de integração/verificação em `prompt.md` foi executado e permanece
+local como rascunho já consumido.
+B11/B12 estão integrados pelo PR #1;
+B07-A segue parcial. B14 está liberado após B13-10.
 Fotografias anteriores são históricas.
 
 | PR/tarefa | Entrega do executor | Estado do ciclo | Git da entrega | Branch de trabalho | Publicação da entrega | Integração na principal |
@@ -37,17 +41,78 @@ Fotografias anteriores são históricas.
 | [B11 — Negação no sentimento](#b11--negação-no-sentimento) | FINALIZADA (B11-01) e corrigida pelo Opus (B11-03) | INTEGRADO após aceite B11-04; PR #1 MERGEADO | Origem `d5fb40a`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | `45e1e76` PUBLICADO | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [B12 — Risco com contexto local](#b12--risco-de-cancelamento-com-contexto-local) | FINALIZADA (B12-01), corrigida em B12-04 e B12-06 | INTEGRADO após aceite B12-07; PR #1 MERGEADO | Origem `d5fb40a` + `b14f0a5`; reaplicação aprovada em `45e1e76` | `integrate/b11-b12-analise` (base `6169fec`); origem `fix/b12-contexto-risco` | Conteúdo PUBLICADO no PR #1; `b14f0a5` permanece local na origem | INTEGRADO em `feat/b01-fundacao-api`, merge `e31e6ba` |
 | [INT01 — Entrega isolada B11/B12](#int01--entrega-isolada-b11b12) | FINALIZADA, validação concluída | PR [#1](https://github.com/GustavoECocchi/ConvIQ/pull/1) MERGEADO | `45e1e76` (entrega) + `ae71f84` (registro) sobre `6169fec` | `integrate/b11-b12-analise` | PUBLICADA em `origin/integrate/b11-b12-analise` | INTEGRADA em `feat/b01-fundacao-api`, merge `e31e6ba` |
-| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | FINALIZADA (B13-01, Sonnet) e corrigida pelo Opus (B13-03): R01/R02 corrigidos | APROVADO tecnicamente em B13-04; PR [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) ABERTO | COMMITADO em `ebed307` (sete arquivos B13, registro B13-04 e relatório Sonnet); atualização B13-05 do registro local; `prompt.md` local fora do PR | `fix/b13-intencao-oportunidade`, HEAD `ebed307`, base `9921f57` | PUBLICADA em `origin/fix/b13-intencao-oportunidade`, `ebed307` conferido no servidor | NAO_INTEGRADA em `feat/b01-fundacao-api` (`9921f57`); PR #2 ABERTO |
+| [B13 — Intenção comercial para oportunidade](#b13--intenção-comercial-para-oportunidade) | FINALIZADA (B13-01, Sonnet), corrigida pelo Opus em B13-03 | APROVADA tecnicamente em B13-04; INTEGRADA e verificada em B13-10 | Entrega COMMITADA em `ebed307`; registro remoto COMMITADO em `6d8bcfa`; eventos posteriores locais | `fix/b13-intencao-oportunidade`, head `6d8bcfa`, base `9921f57` | PUBLICADA; origem remota preservada em `6d8bcfa` | INTEGRADA em `feat/b01-fundacao-api` pelo PR #2, merge `2811d84` |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
-integrado em INT01-06; B13 tem aceite técnico e PR #2 aberto, aguardando
-integração.
+integrado em INT01-06; B13 foi integrado e verificado em B13-10.
+B14 está liberado.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 07/10/2026, B13-05 (Codex)
+### Fotografia Git vigente — 08/10/2026, B13-10 (Codex)
+
+- PR #2 `MERGED` por merge commit `2811d84`, com pais `9921f57` e
+  `6d8bcfa`; `feat/b01-fundacao-api` remoto aponta ao merge.
+  Branch B13 remota preservada em `6d8bcfa`. B13 INTEGRADA e verificada.
+- EST01 segue aprovada tecnicamente, com diff local na branch
+  `chore/estrutura-agil`, NAO_COMMITADA/NAO_PUBLICADA e sem PR.
+- Registros e `prompt.md` locais continuam NAO_COMMITADOS; pasta raiz e
+  worktree B13 com alterações preexistentes preservadas. Nenhum
+  commit/push adicional após o merge.
+
+### Fotografia Git histórica — 07/10/2026, B13-08 (Codex)
+
+- `prompt.md` substituído pelo prompt completo de integração e
+  verificação do PR #2, idêntico na pasta raiz e no worktree B13;
+  não executado, NAO_COMMITADO/NAO_PUBLICADO. `REGISTRO_TRABALHO.md`
+  atualizado localmente; os sete arquivos técnicos e o PR remoto
+  não mudaram nesta preparação.
+- Consulta ao servidor antes de escrever: PR #2 `OPEN`, não draft,
+  head `6d8bcfa`, base `feat/b01-fundacao-api` em `9921f57`,
+  `MERGEABLE`, sem checks listados ou decisão de revisão.
+  B13 APROVADO tecnicamente, NAO_INTEGRADO; prompt pede reconsulta
+  antes de qualquer merge.
+- Worktree B13 em `fix/b13-intencao-oportunidade`, HEAD `6d8bcfa`,
+  índice vazio, registro e prompt locais. Pasta raiz em outra branch
+  com alterações preexistentes preservadas; seu registro foi
+  sincronizado.
+
+### Fotografia Git histórica — 07/10/2026, B13-07 (Codex)
+
+- Consulta atual a `gh pr view 2`: [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2)
+  `OPEN`, não draft, head `6d8bcfa`, base
+  `feat/b01-fundacao-api` em `9921f57`, `MERGEABLE`,
+  sem checks listados nem decisão de revisão. `git ls-remote`
+  confirmou os mesmos hashes das branches. B13 permanece APROVADO
+  tecnicamente e NAO_INTEGRADA; nenhum merge nesta atuação.
+- Worktree B13 em `fix/b13-intencao-oportunidade`, HEAD `6d8bcfa`;
+  `REGISTRO_TRABALHO.md` e `prompt.md` modificados localmente, índice
+  vazio. O evento posterior do Opus, "Retomada sem execução", foi
+  preservado; este registro B13-07 é local e foi sincronizado com a
+  cópia da pasta raiz. Código, testes e PR não foram alterados.
+
+### Fotografia Git histórica — 07/10/2026, B13-06 (Codex)
+
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
+  `fix/b13-intencao-oportunidade`, HEAD `6d8bcfacbc4ab9583c74cbf3b426f263884148cf`,
+  base `9921f579481fdfac098576de425b7ed19df8ef8d`. Entrega aprovada
+  COMMITADA em `ebed307`; registro da publicação/PR COMMITADO em
+  `6d8bcfa`. `prompt.md` é rascunho local preexistente, fora do PR;
+  atualização B13-06 deste registro ainda não commitada.
+- Servidor: `origin/fix/b13-intencao-oportunidade` em `6d8bcfa`, destino
+  `feat/b01-fundacao-api` em `9921f57`. PR
+  [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) `OPEN`, não draft,
+  head `6d8bcfa`, `MERGEABLE`, sem checks listados ou decisão de revisão
+  nesta consulta. B13 NAO_INTEGRADA; nenhum merge.
+- A alteração de `6d8bcfa` é só `REGISTRO_TRABALHO.md`; os sete arquivos
+  de código/testes/documentação aprovados permanecem como em `ebed307`,
+  com 271 testes e 21 sondas verificados em B13-04. A cópia do registro
+  na pasta raiz foi sincronizada; seu trabalho preexistente em outra
+  branch foi preservado.
+
+### Fotografia Git histórica — 07/10/2026, B13-05 (Codex)
 
 - Worktree `/home/gustavoecocchi/Documents/CONVIQ-b13`, branch
   `fix/b13-intencao-oportunidade`, base `9921f57`. A versão aprovada de
@@ -3570,6 +3635,68 @@ Destino previsto / branch principal: NAO_VERIFICADO
 
 ## B13 — Intenção comercial para oportunidade
 
+### Integração verificada — Codex, 07–08/10/2026 — B13-10
+
+O PR #2 foi integrado por merge commit `2811d84` em
+`feat/b01-fundacao-api`. Árvore integrada, testes e casos críticos
+foram conferidos em B13-10. B13 está FINALIZADA, APROVADA,
+COMMITADA, PUBLICADA e INTEGRADA; B14 foi liberado.
+
+### Prompt de integração preparado — Codex, 07/10/2026 — B13-08
+
+O usuário pediu o prompt do próximo passo em `prompt.md` após a
+recomendação de integrar o PR #2. Substituí o prompt B13-02 de revisão,
+já executado pelo Opus, por uma instrução completa para integrar o
+PR #2 e verificar `feat/b01-fundacao-api`. Hash SHA-256 do novo prompt:
+`9ab14572b88aacf0b47e36b63f70b576ff38379f8d5dbea9c6f0d74346add5da`.
+As cópias da pasta raiz e do worktree B13 são idênticas.
+
+O prompt fixa head `6d8bcfa`, base `9921f57`, commits técnicos e hashes
+aprovados; exige reconsulta ao servidor, revisão do diff e das regras
+de merge, método merge commit, comparação da árvore integrada com os
+sete arquivos aprovados, suíte no checkout integrado e registro do
+resultado. Ele preserva as alterações locais das duas árvores e manda
+parar antes do merge se a versão/condições divergirem. O envio do
+prompt pelo usuário ao agente executor constitui a ordem de integração
+quando as conferências passarem. Nenhum merge, commit, push, teste de
+código ou início de B14 nesta preparação. B13 permanece FINALIZADA,
+APROVADA tecnicamente, COMMITADA em `ebed307`, PUBLICADA com registro
+em `6d8bcfa`, PR #2 ABERTO e NAO_INTEGRADA. Registro e prompt locais
+NAO_COMMITADOS; próximo responsável: usuário encaminha `prompt.md`
+ao executor da integração e depois traz o resultado para conferência
+do Codex.
+
+### Encaminhamento após publicação — Codex, 07/10/2026 — B13-07
+
+O usuário perguntou o próximo passo. Conferi o Git e o PR remoto:
+B13 continua FINALIZADA e APROVADA tecnicamente, com a entrega
+COMMITADA em `ebed307` e o registro documental em `6d8bcfa`,
+ambos PUBLICADOS em `origin/fix/b13-intencao-oportunidade`. O PR
+[#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) está ABERTO,
+`MERGEABLE`, sem checks listados ou decisão de revisão; a branch
+`feat/b01-fundacao-api` continua em `9921f57`. Integração:
+`NAO_INTEGRADA`. A próxima decisão do usuário é integrar o PR #2;
+após o merge, Codex confere o commit/conteúdo e executa verificação
+pertinente no destino. Só depois B13 passa a `INTEGRADO` e B14 pode
+ser liberado. Nenhum código, teste, prompt ou operação Git de
+escrita nesta atuação. A nota posterior do Opus sobre o prompt B13
+já consumido foi preservada como histórico.
+
+### Fechamento da publicação — Codex, 07/10/2026 — B13-06
+
+O commit documental `6d8bcfacbc4ab9583c74cbf3b426f263884148cf`,
+que publica a fotografia B13-05, foi enviado à mesma branch B13.
+`git ls-remote` e `gh pr view 2` confirmaram head remoto `6d8bcfa`,
+base `feat/b01-fundacao-api` em `9921f57` e PR #2 `OPEN`,
+`MERGEABLE`, sem checks listados. O commit `6d8bcfa` altera apenas
+`REGISTRO_TRABALHO.md`; o conteúdo técnico aprovado segue exatamente
+o de `ebed307`. B13 continua `APROVADO` tecnicamente e
+`NAO_INTEGRADA`. Esta atualização B13-06 do registro fica local para
+evitar uma sequência de commits cujo único fim seria registrar o próprio
+hash; `prompt.md` permanece rascunho local, fora do PR. Próximo
+responsável: usuário decide a integração do PR #2; após merge, Codex
+verifica o resultado no destino antes de liberar B14.
+
 ### Publicação e abertura do PR — Codex, 07/10/2026 — B13-05
 
 O usuário autorizou seguir com a publicação após o aceite técnico B13-04.
@@ -6823,3 +6950,160 @@ b927f77042908021ca691f234ab424417989808f6c7c6fed632c7a65afe3e17a  docs/contratos
   do registro na pasta raiz será sincronizada após a atualização final.
   O próximo passo é registrar esta publicação no PR, conferir o novo
   head e aguardar a decisão de integração do usuário.
+
+### B13-06 — 07/10/2026 — Codex / publicação do registro e conferência final do PR
+
+- **Ação:** `REGISTRO_TRABALHO.md` com índice, fotografia, ficha e
+  evento B13-05 foi commitado sozinho em
+  `6d8bcfacbc4ab9583c74cbf3b426f263884148cf`
+  (`docs: registrar publicação e PR de B13`), filho de `ebed307`,
+  e publicado em `origin/fix/b13-intencao-oportunidade`. Nenhum
+  arquivo de código/teste/contrato mudou neste segundo commit.
+- **Evidência remota:** `git ls-remote` confirmou destino
+  `feat/b01-fundacao-api` em `9921f57` e branch B13 em `6d8bcfa`;
+  `gh pr view 2` confirmou
+  [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2)
+  `OPEN`, não draft, head `6d8bcfa`, base `9921f57`,
+  `MERGEABLE` e lista vazia de checks. Nenhum merge.
+- **Estado:** entrega B13 FINALIZADA e APROVADA tecnicamente;
+  COMMITADA em `ebed307` e PUBLICADA no PR #2, com registro remoto
+  em `6d8bcfa`; NAO_INTEGRADA. Esta atualização B13-06 do registro
+  ainda é local; `prompt.md` segue rascunho local fora do PR.
+  Cópia do registro na pasta raiz sincronizada sem alterar seu
+  código preexistente. Nenhuma validação de código reexecutada após
+  `6d8bcfa` porque o commit alterou só este registro.
+- **Próximo responsável:** usuário decide a integração de PR #2.
+  Depois do merge, Codex verifica hash, conteúdo e teste pertinente
+  na branch de destino; só então B13 pode ser `INTEGRADO` e B14 liberado.
+
+### Retomada sem execução — 07/10/2026 — Claude Opus / revisor-corretor
+
+- **Pedido:** usuário pediu "execute o prompt em prompt.md".
+- **Divergência registrada:** `prompt.md` (pasta raiz e worktree, idênticos)
+  ainda contém o prompt de revisão B13 do Codex (B13-02), **já executado
+  pelo Opus em B13-03**. Depois disso, B13 foi aprovado em B13-04,
+  commitado em `ebed307` e publicado no PR #2 (registro em `6d8bcfa`,
+  B13-05/B13-06).
+- **Conferência atual:** worktree `fix/b13-intencao-oportunidade` em
+  `6d8bcfa`, com `REGISTRO_TRABALHO.md` (B13-06 do Codex) e `prompt.md`
+  modificados localmente. Servidor: branch B13 em `6d8bcfa`,
+  `feat/b01-fundacao-api` em `9921f57`; `gh pr view 2` → `OPEN`, não
+  draft, `MERGEABLE`, `mergedAt` nulo, sem decisão de revisão.
+- **Ação:** nenhuma. Reexecutar o prompt sobre a versão aprovada e
+  publicada alteraria o PR #2 sem pedido da coordenação. Nenhum código,
+  teste, `prompt.md` ou operação Git alterado. Esta nota `NAO_COMMITADA`.
+- **Próximo responsável:** usuário decide integrar o PR #2 ou pede ao Codex
+  o próximo prompt; B14 segue não liberado.
+
+### B13-07 — 07/10/2026 — Codex / conferência do próximo passo
+
+- **Pedido:** usuário perguntou qual é o próximo passo após abrir o
+  PR #2. Li a nota posterior do Opus e preservei seu evento; conferi
+  branch/HEAD, status e índice do worktree B13, governança e dependência
+  de B14.
+- **Git remoto verificado:** `gh pr view 2` → PR
+  [#2](https://github.com/GustavoECocchi/ConvIQ/pull/2) `OPEN`,
+  não draft, `MERGEABLE`, head `6d8bcfacbc4ab9583c74cbf3b426f263884148cf`,
+  base `feat/b01-fundacao-api` em
+  `9921f579481fdfac098576de425b7ed19df8ef8d`,
+  sem checks listados nem decisão de revisão. `git ls-remote`
+  confirmou os dois hashes; não houve integração.
+- **Estado e arquivos:** B13 FINALIZADA, revisão APROVADA,
+  entrega COMMITADA em `ebed307`, registro remoto em `6d8bcfa`,
+  PUBLICADA no PR #2 e NAO_INTEGRADA. Atualizei apenas índice,
+  fotografia, ficha e este evento em `REGISTRO_TRABALHO.md`,
+  ainda NAO_COMMITADOS; sincronizei sua cópia na pasta raiz.
+  `prompt.md` continua rascunho B13 local preexistente e não foi
+  alterado. Nenhum código, teste, commit, push ou merge nesta atuação.
+- **Encaminhamento:** recomendar a integração do PR #2 quando o usuário
+  decidir. Após o merge, Codex deve verificar o conteúdo na branch
+  padrão e teste pertinente, registrar `INTEGRADO` e então preparar
+  B14 sobre a base atualizada. B14 não foi iniciado.
+
+### B13-08 — 07/10/2026 — Codex / prompt para integração do PR #2
+
+- **Pedido:** usuário pediu o prompt em `prompt.md` para o próximo
+  passo após a recomendação de integrar B13.
+- **Conferência:** `gh pr view 2` confirmou PR #2 `OPEN`, não draft,
+  `MERGEABLE`, head `6d8bcfacbc4ab9583c74cbf3b426f263884148cf`,
+  base `feat/b01-fundacao-api` em
+  `9921f579481fdfac098576de425b7ed19df8ef8d`, sem checks
+  listados; Git local em B13 com HEAD `6d8bcfa` e alterações
+  apenas no registro e no prompt. As duas cópias anteriores de
+  `prompt.md` tinham o mesmo hash e continham a revisão B13-02 já
+  executada. O registro também era idêntico nas duas cópias antes
+  desta preparação.
+- **Arquivos/ação:** substituí `prompt.md` na pasta raiz e no
+  worktree B13 pelo prompt de integração/verificação do PR #2
+  (SHA-256 `9ab14572b88aacf0b47e36b63f70b576ff38379f8d5dbea9c6f0d74346add5da`).
+  Atualizei índice, fotografia, ficha e este evento em
+  `REGISTRO_TRABALHO.md` nas duas cópias, preservando o evento
+  posterior do Opus e as alterações preexistentes de outras tarefas.
+- **Estado/próximo responsável:** entrega B13 FINALIZADA, revisão
+  APROVADA, entrega COMMITADA em `ebed307`, registro remoto em
+  `6d8bcfa`, PUBLICADA no PR #2, NAO_INTEGRADA. Novo prompt e
+  atualização do registro são locais, NAO_COMMITADOS/NAO_PUBLICADOS;
+  nenhum commit, push, merge, teste ou alteração do código nesta
+  atuação. Usuário encaminha o prompt ao executor; Codex verifica
+  o relatório da integração e só então libera B14.
+
+### B13-09 — 07/10/2026 — Claude Opus / integração do PR #2 (bloqueada)
+
+- **Pedido:** usuário pediu "execute o prompt em prompt.md" (prompt B13-08
+  do Codex: integrar o PR #2 por merge commit e verificar o destino).
+- **Referência de governança:** `docs/governanca/REGRAS.md` e
+  `/home/gustavoecocchi/Documents/GOVERNANCA/REGRAS.md` continuam ausentes;
+  segui `SISTEMA_GOVERNANCIA_CONVIQ.md` e o prompt.
+- **Conferência no servidor (antes do merge):** `gh pr view 2` → `OPEN`, não
+  draft, head `6d8bcfacbc4ab9583c74cbf3b426f263884148cf`, base
+  `feat/b01-fundacao-api` em `9921f579481fdfac098576de425b7ed19df8ef8d`,
+  `mergeable=MERGEABLE`, `mergeStateStatus=CLEAN`, `statusCheckRollup`
+  vazio, `reviewDecision` vazio, `mergedAt` nulo. `git ls-remote` confirmou
+  os dois hashes. Branch padrão sem proteção (API: "Branch not protected").
+  Arquivos do PR: os sete técnicos, `REGISTRO_TRABALHO.md` e o relatório
+  Sonnet (ADDED); sem `prompt.md`.
+- **SHA-256 em `6d8bcfa`:** seis iguais à lista do prompt. `analise.py` =
+  `061454cdf42d31cc386c97986524ef9c2b8db35fe03de9d62cb6699515c87b5c`, igual
+  ao hash aprovado registrado em B13-03/B13-04; a string do prompt
+  (`…9c2bdb35…`) tem 63 caracteres — erro de transcrição, não outra versão
+  (diff contra a base: só `_VERSAO_ANALISE` `0.3` → `0.4`). Arquivos
+  técnicos idênticos entre `ebed307` e `6d8bcfa`. README `14dd5a86…` é a
+  correção documental aprovada em B13-04.
+- **Merge: NÃO EXECUTADO.** O comando `gh pr merge 2 --repo
+  GustavoECocchi/ConvIQ --merge --match-head-commit 6d8bcfa…` foi negado pela
+  política de permissões do Claude Code ("Merge Without Review"). Não houve
+  nova tentativa nem contorno. O PR #2 continua `OPEN`; B13 continua
+  APROVADO tecnicamente e `NAO_INTEGRADO`. Verificação no destino, testes na
+  árvore integrada e checkout temporário não foram feitos (dependem do
+  merge). Nenhum commit, push, reset ou stash; código e `prompt.md` intactos.
+- **Registro:** este evento acrescentado nas duas cópias (worktree e pasta
+  raiz, idênticas antes), `NAO_COMMITADO`. Índice e fotografia não mudam: o
+  estado Git/PR é o mesmo de B13-08.
+- **Próximo responsável:** usuário decide como integrar — mesclar ele mesmo
+  o PR #2 (merge commit, sem apagar a branch) ou liberar a permissão para o
+  agente; depois, o Codex (ou o agente autorizado) verifica o destino e
+  registra `INTEGRADO` antes de liberar B14.
+
+### B13-10 — 07–08/10/2026 — Codex / merge e verificação no destino
+
+- **Pedido e versão:** usuário pediu que eu fizesse o merge. Prompt B13-08
+  já autorizava o PR #2 se head/base e condições permanecessem iguais.
+  Conferi no servidor PR `OPEN`, head `6d8bcfa`, destino
+  `feat/b01-fundacao-api` em `9921f57`, `MERGEABLE/CLEAN`, sem checks
+  ou revisão impeditiva; nove arquivos e sete hashes técnicos esperados.
+- **Git:** `gh pr merge 2 --merge --match-head-commit 6d8bcfa...`
+  concluiu sem excluir a origem. Servidor confirmou `MERGED`, commit
+  `2811d84fe7335819a1d2f21ea1f4dc198305ac5f`, pais `9921f57` e
+  `6d8bcfa`; destino aponta ao merge e origem permanece em `6d8bcfa`.
+- **Verificação própria:** clone isolado do destino em `/tmp`, depois
+  removido. Sete SHA-256 da árvore integrada iguais aos aprovados;
+  `app.__file__` apontou ao clone; suíte com `PYTHONPATH` do clone:
+  271 passed, dois avisos de depreciação. Sondas de B13-R01, B13-R02
+  e coexistência churn/oportunidade validaram recortes e referências.
+- **Estados:** B13 FINALIZADA, revisão APROVADA, entrega COMMITADA em
+  `ebed307`, registro PUBLICADO em `6d8bcfa`, PR #2 MERGED e
+  INTEGRADA no destino em `2811d84`. Sem diferença técnica na
+  integração. Registros locais e `prompt.md` continuam NAO_COMMITADOS;
+  nenhum commit/push adicional, reset ou stash. Frontend não executado.
+- **Próximo:** B14 liberado. EST01 segue aprovada tecnicamente e local;
+  usuário decide commit, push e PR dessa frente.
