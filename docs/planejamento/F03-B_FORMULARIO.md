@@ -1,9 +1,9 @@
 # F03-B — proposta de tela e critérios do formulário
 
 Preparado pelo Codex em 09/10/2026 para o cartão F03-B do
-[roteiro de navegação](PRS_FRONTEND_NAVEGACAO.md). É uma proposta de
-implementação, sem código de tela entregue. O PR #7 (cliente HTTP) e o PR #9
-(rotas e shell de F03-A) já foram integrados; F03-B ainda não tem código.
+[roteiro de navegação](PRS_FRONTEND_NAVEGACAO.md). Esta proposta orientou a
+implementação integrada pelo PR #10 em `f859e69`. O formulário confere os
+dados localmente; o envio real à API continua reservado para F06-A.
 
 ## Percurso da pessoa usuária
 

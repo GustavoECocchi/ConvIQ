@@ -45,7 +45,7 @@ Um branch por cartão, a partir da versão integrada do predecessor; se houver d
 | 9 | F06-A / A | Submissão real, estados inicial/enviando/sucesso/erro, navegação para resultado em memória, voltar para editar e tentar novamente. Conferir CORS/origem real e rota no servidor. | F02-B, F03-B, F05-B, B04 |
 | 10 | F06-B / B | Fechar jornada com resultado ausente, nova análise, 422/rede/servidor, títulos/foco, desktop/celular e teste ponta a ponta no navegador com a API real. Documentar execução e limites. | F06-A |
 
-A [proposta de tela e critérios do F03-B](F03-B_FORMULARIO.md) foi preparada em 09/10, sem implementação. O PR #7 F02-B está integrado em bf7a1a1.
+A [proposta de tela e critérios do F03-B](F03-B_FORMULARIO.md) foi preparada em 09/10 e orientou a implementação integrada pelo PR #10 em `f859e69`. O PR #7 F02-B está integrado em `bf7a1a1`; F04-A é o próximo cartão da jornada.
 
 F03-A pode ser desenvolvido em paralelo ao cliente, mas sua integração deve manter a sequência de branches explícita. F04-A/B podem usar fixtures antes da ligação HTTP. F06-B é o marco de primeira jornada de texto utilizável; F07–F09 seguem para áudio quando C02 e backend estiverem prontos. F10 depende de persistência e listagem reais; F11 continua revisão visual final da jornada incluída na apresentação.
 

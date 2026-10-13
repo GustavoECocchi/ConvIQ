@@ -239,7 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (13/10/2026):** F01 (PR #5), F02-A (PR #6), F02-B (PR #7), B19 (PR #8) e F03-A (PR #9) estão integrados; F03-A chegou ao destino no merge `b50ce86`. Sua revisão e correções O01/O02 foram preservadas em `708f5e5`, e a árvore reconciliada em `b6cfabe` foi validada antes e depois do PR. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes; a [proposta do F03-B](docs/planejamento/F03-B_FORMULARIO.md) está publicada na principal, sem código de formulário.
+**Encaminhamento vigente (13/10/2026):** F01 (PR #5), F02-A (PR #6), F02-B (PR #7), B19 (PR #8), F03-A (PR #9) e F03-B (PR #10) estão integrados. F03-A chegou ao destino em `b50ce86`; sua revisão e correções O01/O02 foram preservadas em `708f5e5`, e a árvore reconciliada em `b6cfabe` foi validada antes e depois do PR. F03-B chegou em `f859e69`, com formulário de validação local conforme a [proposta](docs/planejamento/F03-B_FORMULARIO.md); o envio HTTP segue em F06-A. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define F04-A como próximo cartão.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes

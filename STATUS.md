@@ -1,19 +1,19 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-B-04). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-B-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api`; PR #9 integrado em
-  `b50ce86`, ponta remota `0a0e8a8` (GitHub, 13/10).
+- **Branch padrão e destino:** `feat/b01-fundacao-api`; PR #10 integrado em
+  `f859e69`, seguido por este registro documental pós-merge.
   `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
-  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`) e F03-A (PR #9, `b50ce86`).
+  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`), F03-A (PR #9, `b50ce86`) e F03-B (PR #10, `f859e69`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01, F02-A, F02-B e F03-A integrados. F03-A foi aprovada após revisão Opus e correções O01/O02; o PR #9 foi mesclado em `b50ce86` com árvore idêntica ao head testado. F03-B está implementada e aprovada tecnicamente no worktree próprio (F03-B-04), ainda NAO_COMMITADA/NAO_INTEGRADA: 147 testes, typecheck, lint, build e Chromium real passaram; Firefox não foi repetido para F03-B.
+- **Frontend:** F01, F02-A, F02-B, F03-A e F03-B integrados. O PR #10 levou o formulário de nova análise em `f859e69`, com árvore idêntica ao head aprovado `999b1d4`; 147 testes passaram novamente no destino. Antes do merge, typecheck, lint, build e Chromium real passaram; Firefox não foi repetido para F03-B. A interface ainda não envia à API.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -23,8 +23,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Publicar a entrega F03-B na branch de trabalho quando houver autorização para commit/push; abrir PR e integrar só por ordem do usuário. A chamada real à API fica para F06.
-2. A prévia local do F03-B está em `http://127.0.0.1:5200/`; a interface apenas confere os dados, sem envio à API.
+1. Preparar F04-A (resumo de resultado com dados tipados/fixture identificada) sobre a ponta integrada F03-B. A chamada real à API continua em F06-A.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
