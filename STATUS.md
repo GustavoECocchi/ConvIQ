@@ -1,18 +1,18 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 12/10/2026 (Codex, F03-A-04). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-A-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
 - **Branch padrão e destino:** `feat/b01-fundacao-api` em `0a29627` (servidor,
-  12/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
+  13/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
   `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`) e B19 (PR #8, `0a29627`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A partiu de 9706315, foi COMMITADA em caface2 e PUBLICADA na própria branch; R01/R02 corrigidos e verificados pelo Codex em F03-A-03. Ciclo EM_REVISAO até parecer independente do Opus; F02-B/B19 ainda não estão neste checkout.
+- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A partiu de 9706315; R01/R02 foram confirmados pelo Opus em F03-A-05 (Chromium e Firefox) e O01/O02 corrigidas pelo Codex em F03-A-06. APROVADA tecnicamente como diff local sobre HEAD 6f05046, com 48 testes, typecheck, lint e build aprovados. As correções e os registros F03-A-05/06 não foram commitados nem publicados; F02-B/B19 ainda não estão neste checkout.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -22,8 +22,8 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (0a29627); a origem local também foi preservada e publicada em branch própria. Código B19 ainda não integra esta branch F03-A.
 
 ## Próximo passo
-1. Opus revisa independentemente a correção F03-A-R01/R02 no head publicado da branch feat/f03a-rotas-navegacao; Codex verifica o parecer. F03-A ainda não está aprovado nem integrado.
-2. A proposta de tela e critérios F03-B está publicada em docs/planejamento/F03-B_FORMULARIO.md; implementação espera F03-A. Depois da revisão, reconciliar F03-A com a ponta 0a29627 antes de abrir PR/mesclar.
+1. Preservar a versão local aprovada da F03-A e reconciliá-la com a ponta 0a29627 antes da etapa de PR/integração. A comparação prévia apontou conflitos em documentos e registros, sem conflito no código de F03-A; a árvore reconciliada precisa de validação própria. PR F03-A não aberto, entrega não integrada.
+2. A proposta de tela e critérios F03-B está publicada em docs/planejamento/F03-B_FORMULARIO.md; implementação espera a integração de F03-A.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

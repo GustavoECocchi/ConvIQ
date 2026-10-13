@@ -127,6 +127,30 @@ describe('navegação entre páginas', () => {
     expect(document.activeElement).toBe(titulo())
   })
 
+  it('não foca o título antigo se o URL mudar antes do quadro pendente', async () => {
+    const quadros: FrameRequestCallback[] = []
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      quadros.push(callback)
+      return quadros.length
+    })
+    vi.stubGlobal('cancelAnimationFrame', vi.fn())
+    const roteador = createMemoryRouter(rotas, {
+      initialEntries: ['/#conteudo', '/como-ler'],
+      initialIndex: 1,
+    })
+    render(<RouterProvider router={roteador} />)
+
+    await voltar(roteador)
+    const principal = screen.getByRole('main')
+    principal.focus()
+    expect(quadros).toHaveLength(1)
+
+    // A URL da próxima navegação já mudou, mas React ainda mostra a rota anterior.
+    vi.stubGlobal('location', { pathname: '/como-ler' })
+    act(() => quadros[0](performance.now()))
+    expect(document.activeElement).toBe(principal)
+  })
+
   it('avançar depois de voltar também leva título, foco e item atual para a página certa', async () => {
     const roteador = abrir('/')
     fireEvent.click(screen.getByRole('link', { name: 'Entenda o resultado' }))

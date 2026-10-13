@@ -35,7 +35,10 @@ function useTituloEFoco() {
 
     // Ao voltar para uma entrada com #conteudo, o navegador pode restaurar o
     // foco da âncora depois do efeito React. Foque o título no quadro seguinte.
-    const quadro = requestAnimationFrame(focarTitulo)
+    // O URL pode mudar antes de a nova rota ser renderizada; não foque o título antigo.
+    const quadro = requestAnimationFrame(() => {
+      if (window.location.pathname === pathname) focarTitulo()
+    })
     return () => cancelAnimationFrame(quadro)
   }, [pathname, hash])
 }

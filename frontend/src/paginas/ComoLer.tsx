@@ -23,7 +23,7 @@ const estadosDeRisco = [
 const tiposDeSentimento = [
   ['Positivo', 'predominam trechos de satisfação ou elogio.'],
   ['Negativo', 'predominam trechos de insatisfação ou reclamação.'],
-  ['Neutro', 'há sinais positivos e negativos em quantidade parecida.'],
+  ['Neutro', 'há sinais positivos e negativos na mesma quantidade.'],
   ['Informação insuficiente', 'o texto não traz sinais de sentimento.'],
 ] as const
 
