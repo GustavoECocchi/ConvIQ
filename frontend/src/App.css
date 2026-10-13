@@ -125,6 +125,27 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
 .form-help p { color: #626a73; font-size: 14px; line-height: 1.7; }
 .form-help p:last-child { margin-bottom: 0; }
 
+.exemplo-aviso { margin-bottom: 18px; padding: 16px 20px; border: 2px dashed #79501e; border-radius: 14px; background: #fff7ea; color: #4a3010; }
+.exemplo-aviso p { margin: 0; font-size: 14px; line-height: 1.6; }
+.exemplo-aviso .exemplo-rotulo { margin-bottom: 4px; font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+.resumo { display: grid; gap: 18px; }
+.resumo-reuniao { padding: 26px; overflow-wrap: anywhere; }
+.resumo h2 { margin-bottom: 14px; font-size: 22px; letter-spacing: -.03em; }
+.resumo-dados { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; }
+.resumo-dados > div { min-width: 0; padding-top: 12px; border-top: 1px solid #eceef0; }
+.resumo-dados dt { color: #5f6670; font-size: 12px; font-weight: 800; letter-spacing: .04em; }
+.resumo-dados dd { margin: 4px 0 0; font-size: 15px; line-height: 1.55; }
+.resumo-nota { display: block; color: #5f6670; font-size: 13px; }
+.resumo-cartoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.resumo-cartao { padding: 26px; overflow-wrap: anywhere; }
+.resumo-cartao h3 { margin-bottom: 10px; font-size: 18px; letter-spacing: -.025em; }
+.resumo-cartao > p:last-child { margin-bottom: 0; color: #4f565f; font-size: 14px; line-height: 1.7; }
+.resumo-estado { display: inline-block; margin-bottom: 12px; padding: 6px 12px; border-radius: 100px; background: #f0f1f3; color: #2c323a; font-size: 14px; font-weight: 800; }
+[data-sentimento='positivo'] .resumo-estado { background: #e5f5e9; color: #1d5c34; }
+[data-sentimento='negativo'] .resumo-estado { background: #fde8e6; color: #8a1f17; }
+[data-churn='sinal_detectado'] .resumo-estado { background: #fff0dc; color: #79501e; }
+[data-churn='sem_sinal_detectado'] .resumo-estado { background: #eef2ff; color: #263b6c; }
+
 @media (max-width: 1120px) {
   .topbar-inner { grid-template-columns: auto 1fr; }
   .topnav { justify-self: end; }
@@ -144,6 +165,7 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .signal-card { min-height: 0; }
   .guide-grid { grid-template-columns: 1fr; }
   .form-layout { grid-template-columns: 1fr; }
+  .resumo-dados, .resumo-cartoes { grid-template-columns: 1fr; }
 }
 @media (max-width: 580px) {
   .layout { width: min(100% - 28px, 1500px); }
@@ -156,7 +178,7 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .page-intro { align-items: start; flex-direction: column; gap: 14px; padding: 33px 0 22px; }
   .page-intro p:last-child { font-size: 12px; }
   .start-panel, .evidence-panel { padding: 20px; border-radius: 17px; }
-  .meeting-form, .form-help { padding: 20px; border-radius: 17px; }
+  .meeting-form, .form-help, .resumo-reuniao, .resumo-cartao { padding: 20px; border-radius: 17px; }
   .action-button { justify-self: stretch; }
   .panel-heading { gap: 12px; }
   .panel-heading h2 { font-size: 14px; }
