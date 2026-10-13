@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-A-09). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-A-11). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -12,7 +12,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A foi aprovada tecnicamente após revisão Opus F03-A-05 e correções O01/O02 do Codex; versão aprovada COMMITADA em `708f5e5`, ainda não publicada. A branch F03-A está em reconciliação local com o destino `0a29627`; validação da árvore mesclada pendente.
+- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A foi aprovada tecnicamente após revisão Opus F03-A-05 e correções O01/O02 do Codex, preservadas em `708f5e5`. Reconciliação com F02-B/B19 COMMITADA em `b6cfabe` e validada com 124 testes frontend, 344 backend, build e navegador Chromium/Firefox; publicação e PR pendentes.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -22,7 +22,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); código recebido na árvore em reconciliação da F03-A.
 
 ## Próximo passo
-1. Concluir os conflitos documentais da reconciliação F03-A com `0a29627`, validar frontend e backend pertinentes, publicar a branch, abrir e integrar o PR autorizado. Conferir o destino após o merge.
+1. Publicar `feat/f03a-rotas-navegacao` reconciliada, abrir e integrar o PR autorizado da F03-A, depois conferir o destino `feat/b01-fundacao-api` e registrar a integração.
 2. A proposta de tela e critérios F03-B está publicada em docs/planejamento/F03-B_FORMULARIO.md; implementação espera a integração de F03-A.
 
 ## Decisões abertas
