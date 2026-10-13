@@ -38,9 +38,11 @@ afterEach(() => {
 describe('destinos', () => {
   it('menu e títulos usam só caminhos implementados e sem repetição', () => {
     expect(new Set(CAMINHOS_CONHECIDOS).size).toBe(CAMINHOS_CONHECIDOS.length)
-    expect(CAMINHOS_CONHECIDOS).toEqual(['/', '/como-ler', '/analises/nova'])
+    expect(CAMINHOS_CONHECIDOS).toEqual(['/', '/como-ler', '/analises/nova', '/exemplo/resultado'])
     expect(ITENS_DO_MENU.map((item) => item.titulo)).toEqual([PAGINAS.visaoGeral.titulo, PAGINAS.comoLer.titulo])
-    expect(new Set([...ITENS_DO_MENU.map((item) => item.titulo), PAGINAS.novaAnalise.titulo, TITULO_NAO_ENCONTRADA]).size).toBe(4)
+    expect(
+      new Set([...ITENS_DO_MENU.map((item) => item.titulo), PAGINAS.novaAnalise.titulo, PAGINAS.exemploResultado.titulo, TITULO_NAO_ENCONTRADA]).size,
+    ).toBe(5)
   })
 })
 
@@ -222,7 +224,7 @@ describe('navegação entre páginas', () => {
 })
 
 describe('links e landmarks', () => {
-  it.each(['/', '/como-ler', '/analises/nova', '/rota-qualquer'])('em %s todo link interno aponta para um destino implementado', (caminho) => {
+  it.each(['/', '/como-ler', '/analises/nova', '/exemplo/resultado', '/rota-qualquer'])('em %s todo link interno aponta para um destino implementado', (caminho) => {
     abrir(caminho)
     const links = [...document.querySelectorAll<HTMLAnchorElement>('a[href]')]
 
@@ -237,7 +239,7 @@ describe('links e landmarks', () => {
     }
   })
 
-  it.each(['/', '/como-ler', '/analises/nova', '/nao-existe'])('em %s: link de pular, main focável, um h1 e landmarks', (caminho) => {
+  it.each(['/', '/como-ler', '/analises/nova', '/exemplo/resultado', '/nao-existe'])('em %s: link de pular, main focável, um h1 e landmarks', (caminho) => {
     abrir(caminho)
     const pular = screen.getByRole('link', { name: 'Pular para o conteúdo' })
     const principal = screen.getByRole('main')

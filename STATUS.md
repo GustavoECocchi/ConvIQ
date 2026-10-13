@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-B-06). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F04-A-03). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -13,7 +13,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01, F02-A, F02-B, F03-A e F03-B integrados. O PR #10 levou o formulário de nova análise em `f859e69`, com árvore idêntica ao head aprovado `999b1d4`; 147 testes passaram novamente no destino. Antes do merge, typecheck, lint, build e Chromium real passaram; Firefox não foi repetido para F03-B. A interface ainda não envia à API.
+- **Frontend:** F01, F02-A, F02-B, F03-A e F03-B integrados. O PR #10 levou o formulário de nova análise em `f859e69`, com árvore idêntica ao head aprovado `999b1d4`; 147 testes passaram novamente no destino. F04-A foi aprovado tecnicamente em F04-A-03 (184 testes, typecheck, lint, build e navegador), mas segue LOCAL/NAO_COMMITADO, sem PR nem integração. A interface ainda não envia à API.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -23,7 +23,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Preparar F04-A (resumo de resultado com dados tipados/fixture identificada) sobre a ponta integrada F03-B. A chamada real à API continua em F06-A.
+1. Com ordem do usuário, commitar/publicar o F04-A aprovado tecnicamente na branch `feat/f04a-resumo-resultado`, abrir PR contra `feat/b01-fundacao-api` e integrar após conferir o diff. Depois iniciar F04-B em branch própria a partir da versão integrada. O resumo usa fixture ilustrativa e props tipadas; a chamada real à API continua em F06-A.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

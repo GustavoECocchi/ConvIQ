@@ -55,17 +55,18 @@ continua no Git.
 | [F02-B — Cliente HTTP C01](docs/registro/F02-B.md) | FINALIZADA (F02-B-01, Sonnet), corrigida em F02-B-03 | INTEGRADO em F02-B-07 após aceite F02-B-04 | Entrega COMMITADA em 1232ac9; head documental 73c4771 | feat/f02b-cliente-c01, base 9706315 | PUBLICADA; PR [#7](https://github.com/GustavoECocchi/ConvIQ/pull/7) MERGEADO | INTEGRADA em feat/b01-fundacao-api, merge bf7a1a1 |
 | [F03-A — Rotas e navegação](docs/registro/F03-A.md) | FINALIZADA (F03-A-01, Sonnet), R01/R02 em F03-A-03, O01/O02 em F03-A-06 | INTEGRADA em F03-A-13 após revisão/aceite e PR #9 | COMMITADA: `708f5e5` (correções), `b6cfabe` (reconciliação), head `2741e53`; registro pós-merge `f235444` | `feat/f03a-rotas-navegacao`, base `9706315`, destino `feat/b01-fundacao-api` | PUBLICADA até `2741e53`; PR [#9](https://github.com/GustavoECocchi/ConvIQ/pull/9) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `b50ce86` |
 | [F03-B — Formulário de nova análise](docs/registro/F03-B.md) | FINALIZADA (F03-B-03/04) | APROVADA_TECNICAMENTE e INTEGRADA em F03-B-06 | Entrega COMMITADA em `999b1d4`; registro pós-merge neste commit documental | `feat/f03b-formulario-analise`, base `0a0e8a8`, destino `feat/b01-fundacao-api` | PUBLICADA; PR [#10](https://github.com/GustavoECocchi/ConvIQ/pull/10) MERGED | INTEGRADA em `feat/b01-fundacao-api`, merge `f859e69` |
+| [F04-A — Resumo do resultado](docs/registro/F04-A.md) | FINALIZADA localmente (F04-A-03) | APROVADA_TECNICAMENTE pelo Codex, nível B | LOCAL/NAO_COMMITADO em HEAD `6f1b53c`; código e capturas não rastreados | `feat/f04a-resumo-resultado`, base `6f1b53c`, destino `feat/b01-fundacao-api` | Push NAO_FEITO; PR NAO_ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
 iniciais, branches propostas, dependências e critérios. O PR #1 foi
 integrado em INT01-06; B13 foi integrado e verificado em B13-10.
 B14 foi integrada pelo PR #4; F01 iniciou a frente frontend no worktree isolado.
-F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01, F02-A, F02-B, B19, F03-A e F03-B estão integrados; F03-B chegou à branch padrão no PR #10 (`f859e69`) e foi verificada no destino em F03-B-06. O próximo cartão da jornada de texto é F04-A.
+F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md). F01, F02-A, F02-B, B19, F03-A e F03-B estão integrados; F03-B chegou à branch padrão no PR #10 (`f859e69`) e foi verificada no destino em F03-B-06. F04-A foi aprovado tecnicamente no worktree próprio (F04-A-03), ainda sem commit ou integração.
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 13/10/2026, F03-B-06 (Codex)
+### Fotografia Git vigente — 13/10/2026, F04-A-03 (Codex)
 
-- Worktree `/tmp/conviq-f03a-posmerge` na branch padrão `feat/b01-fundacao-api`, HEAD no commit documental que contém esta fotografia (consultar `git rev-parse HEAD`), sem diff local após publicação. O merge F03-B `f859e69` preserva exatamente a árvore do head publicado `999b1d4`; 147 testes passaram no destino. A origem `feat/f03b-formulario-analise` permanece limpa em `999b1d4`; a raiz em `fix/b12-contexto-risco` e seu diff antigo foram preservados.
-- GitHub em 13/10: PR [#10](https://github.com/GustavoECocchi/ConvIQ/pull/10) MERGED em `f859e69`; branch padrão remota coincide com o HEAD documental após publicação. O próximo cartão é F04-A, ainda não iniciado.
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-f04a`, branch `feat/f04a-resumo-resultado`, HEAD/base `6f1b53c`, destino `feat/b01-fundacao-api`. F04-A somente local: modificados `prompt.md`, `REGISTRO_TRABALHO.md`, `STATUS.md`, `frontend/src/{App.css,destinos.ts,rotas.tsx,navegacao.test.tsx}`; não rastreados `docs/registro/F04-A.md`, `frontend/src/resultado/` (2 arquivos), `frontend/src/paginas/ExemploResultado.tsx`, `frontend/src/exemplo.test.tsx` e `frontend/docs/f04a-{mobile,desktop}.png`. A raiz em `fix/b12-contexto-risco` e seu diff antigo foram preservados.
+- GitHub em 13/10: PR [#10](https://github.com/GustavoECocchi/ConvIQ/pull/10) MERGED em `f859e69`; branch padrão remota consultada diretamente em `6f1b53c`. F04-A sem push, PR ou integração.
