@@ -2,8 +2,8 @@
 
 Preparado pelo Codex em 09/10/2026 para o cartão F03-B do
 [roteiro de navegação](PRS_FRONTEND_NAVEGACAO.md). É uma proposta de
-implementação, sem código de tela entregue. O PR #7 (cliente HTTP) já foi
-integrado; a rota e o shell de F03-A seguem locais e em revisão.
+implementação, sem código de tela entregue. O PR #7 (cliente HTTP) e o PR #9
+(rotas e shell de F03-A) já foram integrados; F03-B ainda não tem código.
 
 ## Percurso da pessoa usuária
 
