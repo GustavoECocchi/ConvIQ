@@ -63,6 +63,38 @@ describe('rota didática /exemplo/resultado', () => {
     expect(menu.getAllByRole('link').filter((l) => l.getAttribute('aria-current') === 'page')).toHaveLength(0)
   })
 
+  it('mostra o exemplo completo: detalhe depois do resumo, com a lista vazia de concorrentes explicada', () => {
+    abrir(CAMINHO)
+    const { resposta } = exemplos.find((e) => e.chave === 'cliente-risco-e-oportunidade')!
+    const resumo = screen.getByRole('region', { name: 'Sinais da conversa' })
+    const oportunidades = screen.getByRole('region', { name: 'Oportunidades' })
+    const mencoes = screen.getByRole('region', { name: 'Menções na conversa' })
+    const recomendacoes = screen.getByRole('region', { name: 'Recomendações' })
+
+    expect(resumo.compareDocumentPosition(oportunidades) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(oportunidades.compareDocumentPosition(recomendacoes) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(within(oportunidades).getByText(resposta.oportunidades[0].descricao)).toBeTruthy()
+    expect(within(mencoes).getByText('Fluig')).toBeTruthy()
+    expect(resposta.concorrentes).toEqual([])
+    expect(within(mencoes).getByText('Nenhum concorrente da lista conhecida foi citado.')).toBeTruthy()
+    expect(within(recomendacoes).getAllByRole('listitem').map((li) => li.textContent)).toEqual(resposta.recomendacoes.map((r) => r.texto))
+    expect(document.querySelector('.detalhe-metodo')!.textContent).toContain(resposta.versao_analise)
+    expect(document.body.textContent).not.toMatch(/\be\d+\b/)
+  })
+
+  it('o guia leva ao exemplo, com título e foco no h1', () => {
+    const roteador = abrir('/como-ler')
+    const link = screen.getByRole('link', { name: 'Ver exemplo de resultado' })
+
+    expect(link.getAttribute('href')).toBe(CAMINHO)
+    fireEvent.click(link)
+
+    expect(roteador.state.location.pathname).toBe(CAMINHO)
+    expect(document.title).toBe(PAGINAS.exemploResultado.titulo)
+    expect(document.activeElement).toBe(h1())
+    expect(screen.getByRole('note').textContent).toContain(ROTULO_EXEMPLO)
+  })
+
   it('ao navegar até ela, título e foco vão para o h1; o retorno ao guia funciona', async () => {
     const roteador = abrir('/como-ler')
     await act(async () => {
@@ -96,11 +128,20 @@ describe('rota didática /exemplo/resultado', () => {
 })
 
 describe('isolamento da rota didática', () => {
-  it.each(['/', '/como-ler', '/analises/nova', '/nao-existe'])('nenhum link em %s aponta para ela', (caminho) => {
+  it.each(['/', '/analises/nova', '/nao-existe'])('nenhum link em %s aponta para ela', (caminho) => {
     abrir(caminho)
     const hrefs = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href'))
 
     expect(hrefs).not.toContain(CAMINHO)
+  })
+
+  it('só o guia aponta para ela, uma vez, fora do menu', () => {
+    abrir('/como-ler')
+    const hrefs = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href'))
+    const menu = within(screen.getByRole('navigation', { name: 'Navegação principal' }))
+
+    expect(hrefs.filter((href) => href === CAMINHO)).toHaveLength(1)
+    expect(menu.getAllByRole('link').map((l) => l.getAttribute('href'))).not.toContain(CAMINHO)
   })
 
   it('o formulário preenchido e conferido não leva ao exemplo nem mostra resultado', () => {
@@ -114,6 +155,7 @@ describe('isolamento da rota didática', () => {
     expect(roteador.state.location.pathname).toBe('/analises/nova')
     expect(screen.queryByText(ROTULO_EXEMPLO)).toBeNull()
     expect(screen.queryByRole('region', { name: 'Reunião analisada' })).toBeNull()
+    expect(screen.queryByRole('region', { name: 'Recomendações' })).toBeNull()
     expect(fetchEspiao).not.toHaveBeenCalled()
   })
 

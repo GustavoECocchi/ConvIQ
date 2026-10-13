@@ -99,7 +99,10 @@ export function ComoLer() {
         <p><strong>A análise segue regras sobre o texto.</strong> Não mede probabilidades nem confiança, e o que não está escrito na transcrição não entra no resultado.</p>
       </aside>
 
-      <p className="guide-footer"><Link className="action-link" to={PAGINAS.visaoGeral.caminho}>Voltar à visão geral</Link></p>
+      <div className="guide-footer guide-acoes">
+        <Link className="action-link" to={PAGINAS.exemploResultado.caminho}>Ver exemplo de resultado</Link>
+        <Link className="intro-tag guide-back" to={PAGINAS.visaoGeral.caminho}>Voltar à visão geral</Link>
+      </div>
     </>
   )
 }

@@ -1,19 +1,20 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F04-A-03). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Claude Opus revisor, F04-B-02). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api`; PR #10 integrado em
-  `f859e69`, seguido por este registro documental pós-merge.
+- **Branch padrão e destino:** `feat/b01-fundacao-api`, em `cd6745c` (PR #11,
+  conferido por `git fetch` em 13/10).
   `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
-  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`), F03-A (PR #9, `b50ce86`) e F03-B (PR #10, `f859e69`).
+  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`), F03-A (PR #9, `b50ce86`), F03-B (PR #10, `f859e69`) e F04-A (PR #11, `cd6745c`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01, F02-A, F02-B, F03-A e F03-B integrados. O PR #10 levou o formulário de nova análise em `f859e69`, com árvore idêntica ao head aprovado `999b1d4`; 147 testes passaram novamente no destino. F04-A foi aprovado tecnicamente em F04-A-03 (184 testes, typecheck, lint, build e navegador), mas segue LOCAL/NAO_COMMITADO, sem PR nem integração. A interface ainda não envia à API.
+- **Frontend:** F01 a F04-A integrados. F04-B (detalhe do resultado) APROVADO tecnicamente em F04-B-02 (revisão independente, sem impeditivos), O1 aplicada em F04-B-03, publicado com PR aberto; aguarda merge pelo usuário. A interface ainda não envia à API.
+- **Papéis desde 13/10:** Codex indisponível (sem tokens). Por decisão do usuário, Claude Opus executa e registra, outra sessão Claude revisa de forma independente pelo `prompt.md` da raiz (espelhado no worktree), e o usuário decide commit, push, PR e merge. Ninguém aprova a própria entrega.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -23,7 +24,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Com ordem do usuário, commitar/publicar o F04-A aprovado tecnicamente na branch `feat/f04a-resumo-resultado`, abrir PR contra `feat/b01-fundacao-api` e integrar após conferir o diff. Depois iniciar F04-B em branch própria a partir da versão integrada. O resumo usa fixture ilustrativa e props tipadas; a chamada real à API continua em F06-A.
+1. Usuário integra o PR do F04-B. Depois, F05-A (transcrição com evidências por índices, nível A) em branch própria a partir da versão integrada; O2 (foco ao voltar em página rolada) vai para F06-B.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

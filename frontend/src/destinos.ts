@@ -8,7 +8,7 @@ export const PAGINAS = {
 
 export const TITULO_NAO_ENCONTRADA = 'ConvIQ — Página não encontrada'
 
-/** Itens do menu superior, na ordem de leitura. Nova análise é alcançada pelo CTA; o exemplo didático ainda não tem link (F04-B). */
+/** Itens do menu superior, na ordem de leitura. Nova análise é alcançada pelo CTA; o exemplo didático, pelo guia. */
 export const ITENS_DO_MENU = [PAGINAS.visaoGeral, PAGINAS.comoLer] as const
 
 export const CAMINHOS_CONHECIDOS: readonly string[] = [...ITENS_DO_MENU, PAGINAS.novaAnalise, PAGINAS.exemploResultado].map((pagina) => pagina.caminho)
