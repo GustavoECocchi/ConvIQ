@@ -1,11 +1,12 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-A-13/F03-B-01). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-A-14/F03-B-01). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `b50ce86` (servidor,
-  13/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
+- **Branch padrão e destino:** `feat/b01-fundacao-api`; PR #9 integrado em
+  `b50ce86`, registro pós-merge publicado em `f235444` (servidor, 13/10).
+  `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
   `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`) e F03-A (PR #9, `b50ce86`).
