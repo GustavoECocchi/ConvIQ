@@ -1,11 +1,11 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-A-14/F03-B-01). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-B-04). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
 - **Branch padrão e destino:** `feat/b01-fundacao-api`; PR #9 integrado em
-  `b50ce86`, registro pós-merge publicado em `f235444` (servidor, 13/10).
+  `b50ce86`, ponta remota `0a0e8a8` (GitHub, 13/10).
   `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
@@ -13,7 +13,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01, F02-A, F02-B e F03-A integrados. F03-A foi aprovada após revisão Opus e correções O01/O02; o PR #9 foi mesclado em `b50ce86` com árvore idêntica ao head testado. Frontend: 124 testes passaram novamente no checkout integrado; antes do merge, typecheck, lint, build, 344 testes backend e navegador Chromium/Firefox passaram. F03-B tem proposta integrada, mas formulário ainda não foi implementado.
+- **Frontend:** F01, F02-A, F02-B e F03-A integrados. F03-A foi aprovada após revisão Opus e correções O01/O02; o PR #9 foi mesclado em `b50ce86` com árvore idêntica ao head testado. F03-B está implementada e aprovada tecnicamente no worktree próprio (F03-B-04), ainda NAO_COMMITADA/NAO_INTEGRADA: 147 testes, typecheck, lint, build e Chromium real passaram; Firefox não foi repetido para F03-B.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -23,8 +23,8 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Preparar F03-B sobre a ponta integrada: página `/analises/nova` e formulário conforme a proposta em docs/planejamento/F03-B_FORMULARIO.md. O formulário ainda não foi iniciado; a chamada real à API fica para F06.
-2. A prévia local da F03-A está em `http://127.0.0.1:5199/`; ainda não há envio de texto à API pela interface.
+1. Publicar a entrega F03-B na branch de trabalho quando houver autorização para commit/push; abrir PR e integrar só por ordem do usuário. A chamada real à API fica para F06.
+2. A prévia local do F03-B está em `http://127.0.0.1:5200/`; a interface apenas confere os dados, sem envio à API.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

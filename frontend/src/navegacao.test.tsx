@@ -38,9 +38,9 @@ afterEach(() => {
 describe('destinos', () => {
   it('menu e títulos usam só caminhos implementados e sem repetição', () => {
     expect(new Set(CAMINHOS_CONHECIDOS).size).toBe(CAMINHOS_CONHECIDOS.length)
-    expect(CAMINHOS_CONHECIDOS).toEqual(['/', '/como-ler'])
+    expect(CAMINHOS_CONHECIDOS).toEqual(['/', '/como-ler', '/analises/nova'])
     expect(ITENS_DO_MENU.map((item) => item.titulo)).toEqual([PAGINAS.visaoGeral.titulo, PAGINAS.comoLer.titulo])
-    expect(new Set([...ITENS_DO_MENU.map((item) => item.titulo), TITULO_NAO_ENCONTRADA]).size).toBe(3)
+    expect(new Set([...ITENS_DO_MENU.map((item) => item.titulo), PAGINAS.novaAnalise.titulo, TITULO_NAO_ENCONTRADA]).size).toBe(4)
   })
 })
 
@@ -71,7 +71,7 @@ describe('rotas diretas', () => {
     expect(roteador.state.location.pathname).toBe('/nao-existe')
   })
 
-  it.each(['/analises/nova', '/como-ler/extra', '/COMO-LER-X'])('%s (destino não implementado) é 404', (caminho) => {
+  it.each(['/analises/nova/extra', '/analises', '/como-ler/extra', '/COMO-LER-X'])('%s (destino não implementado) é 404', (caminho) => {
     abrir(caminho)
 
     expect(titulo().textContent).toBe('Página não encontrada')
@@ -222,7 +222,7 @@ describe('navegação entre páginas', () => {
 })
 
 describe('links e landmarks', () => {
-  it.each(['/', '/como-ler', '/rota-qualquer'])('em %s todo link interno aponta para um destino implementado', (caminho) => {
+  it.each(['/', '/como-ler', '/analises/nova', '/rota-qualquer'])('em %s todo link interno aponta para um destino implementado', (caminho) => {
     abrir(caminho)
     const links = [...document.querySelectorAll<HTMLAnchorElement>('a[href]')]
 
@@ -237,7 +237,7 @@ describe('links e landmarks', () => {
     }
   })
 
-  it.each(['/', '/como-ler', '/nao-existe'])('em %s: link de pular, main focável, um h1 e landmarks', (caminho) => {
+  it.each(['/', '/como-ler', '/analises/nova', '/nao-existe'])('em %s: link de pular, main focável, um h1 e landmarks', (caminho) => {
     abrir(caminho)
     const pular = screen.getByRole('link', { name: 'Pular para o conteúdo' })
     const principal = screen.getByRole('main')

@@ -39,7 +39,10 @@ export function VisaoGeral() {
           <h1 id="page-title" tabIndex={-1}>Visão geral</h1>
           <p>Entenda os sinais de uma reunião e confira sempre de onde vieram.</p>
         </div>
-        <span className="intro-tag"><span aria-hidden="true" /> Análise por texto</span>
+        <div className="intro-actions">
+          <span className="intro-tag"><span aria-hidden="true" /> Análise por texto</span>
+          <Link className="action-link" to={PAGINAS.novaAnalise.caminho}>{PAGINAS.novaAnalise.rotulo}</Link>
+        </div>
       </section>
 
       <section className="overview-grid" aria-label="Introdução à análise">
