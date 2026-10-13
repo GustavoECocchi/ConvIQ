@@ -4,10 +4,11 @@
  * guia de leitura; nunca devem aparecer na interface como resultado de uma
  * transcrição que o usuário enviou.
  *
- * Os valores foram conferidos com a saída real da rota atual
- * (`compor_analise_texto`, `versao_analise` "0.5", sem a união de evidências
- * de B19 ainda não integrada) e não copiam cegamente os exemplos históricos do
- * contrato: por exemplo, para o prospect abaixo a rota não devolve oportunidade.
+ * Os valores foram conferidos com a saída da composição atual
+ * (`compor_analise_texto`, `versao_analise` "0.6", com B19) e não copiam
+ * cegamente os exemplos históricos do contrato: por exemplo, para o prospect
+ * abaixo a rota não devolve oportunidade. Nestes quatro casos B19 mudou só a
+ * versão; os intervalos existentes são aninhados ou distintos.
  */
 import type { AnaliseTextoRequest, AnaliseTextoResponse } from '../../types/analise.ts'
 
@@ -56,7 +57,7 @@ export const exemplos: readonly ExemploIlustrativo[] = [
         { texto: 'Dar seguimento ao interesse comercial identificado nesta oportunidade.', evidencias: ['e3'] },
       ],
       metodo: 'regras',
-      versao_analise: '0.5',
+      versao_analise: '0.6',
     },
   },
   {
@@ -79,7 +80,7 @@ export const exemplos: readonly ExemploIlustrativo[] = [
       evidencias: [],
       recomendacoes: [],
       metodo: 'regras',
-      versao_analise: '0.5',
+      versao_analise: '0.6',
     },
   },
   {
@@ -102,7 +103,7 @@ export const exemplos: readonly ExemploIlustrativo[] = [
       evidencias: [],
       recomendacoes: [],
       metodo: 'regras',
-      versao_analise: '0.5',
+      versao_analise: '0.6',
     },
   },
   {
@@ -129,7 +130,7 @@ export const exemplos: readonly ExemploIlustrativo[] = [
       ],
       recomendacoes: [{ texto: 'Investigar o risco de cancelamento identificado na conversa.', evidencias: ['e2'] }],
       metodo: 'regras',
-      versao_analise: '0.5',
+      versao_analise: '0.6',
     },
   },
 ]

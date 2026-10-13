@@ -100,6 +100,21 @@ ter os mesmos sinais, evidências e recomendações que em NFC. O eco da
 transcrição não é normalizado. Ver `backend/README.md`, "Normalização e
 índices (B14)".
 
+**Atualizado em 08/10/2026, B19:** evidências com o **mesmo intervalo exato**
+(`inicio`, `fim` e `trecho` iguais) passaram a ser uma só na resposta. Antes, o
+sentimento e o risco de cancelamento geravam duas evidências idênticas com IDs
+diferentes (`"Estamos insatisfeitos."` → `e1` e `e2`, ambas `insatisfeitos`,
+8–21). Agora há uma evidência (`e1`) e `churn.evidencias` e as recomendações
+apontam para ela. `versao_analise` passou de `"0.5"` para `"0.6"`; formato,
+campos, enums e a convenção de índices não mudam. O que o frontend (F05) deve
+esperar: (1) um mesmo ID pode sustentar o sentimento e o churn, então não conte
+destaques por sinal; (2) intervalos **aninhados ou sobrepostos continuam
+evidências distintas** (`insatisfeitos` 8–21 e `insatisfeitos com o suporte`
+8–35) e podem exigir destaque sobreposto; (3) o mesmo texto em posições
+diferentes são evidências diferentes; (4) os IDs são `e1..eN` sem lacunas, e
+nenhuma lista de referências repete um ID. Ver `backend/README.md`, item 2 da
+seção "Rota de análise (B04)".
+
 ## Rota
 
 `POST /api/analises/texto` — implementada em B04 (`backend/app/api/analises.py`),
@@ -252,7 +267,7 @@ Resposta:
     {"texto": "Oferecer uma apresentação do Fluig.", "evidencias": ["e2"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.5"
+  "versao_analise": "0.6"
 }
 ```
 
@@ -291,7 +306,7 @@ Resposta:
     {"texto": "Apresentar a documentação de integração via API.", "evidencias": ["e1"]}
   ],
   "metodo": "regras",
-  "versao_analise": "0.5"
+  "versao_analise": "0.6"
 }
 ```
 
@@ -328,7 +343,7 @@ Resposta:
   "evidencias": [],
   "recomendacoes": [],
   "metodo": "regras",
-  "versao_analise": "0.5"
+  "versao_analise": "0.6"
 }
 ```
 

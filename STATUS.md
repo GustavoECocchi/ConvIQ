@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-A-06). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-A-09). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -12,17 +12,17 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A partiu de 9706315; R01/R02 foram confirmados pelo Opus em F03-A-05 (Chromium e Firefox) e O01/O02 corrigidas pelo Codex em F03-A-06. APROVADA tecnicamente como diff local sobre HEAD 6f05046, com 48 testes, typecheck, lint e build aprovados. As correções e os registros F03-A-05/06 não foram commitados nem publicados; F02-B/B19 ainda não estão neste checkout.
+- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A foi aprovada tecnicamente após revisão Opus F03-A-05 e correções O01/O02 do Codex; versão aprovada COMMITADA em `708f5e5`, ainda não publicada. A branch F03-A está em reconciliação local com o destino `0a29627`; validação da árvore mesclada pendente.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
 - **B14 (Unicode NFD):** INTEGRADA pelo PR #4 em `b688afb` e verificada
   em B14-07 (330 testes na árvore integrada). Registros B14-05–07 foram
   integrados junto do F01 pelo PR #5.
-- **B19:** INTEGRADO no destino pelo PR #8 (0a29627); a origem local também foi preservada e publicada em branch própria. Código B19 ainda não integra esta branch F03-A.
+- **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); código recebido na árvore em reconciliação da F03-A.
 
 ## Próximo passo
-1. Preservar a versão local aprovada da F03-A e reconciliá-la com a ponta 0a29627 antes da etapa de PR/integração. A comparação prévia apontou conflitos em documentos e registros, sem conflito no código de F03-A; a árvore reconciliada precisa de validação própria. PR F03-A não aberto, entrega não integrada.
+1. Concluir os conflitos documentais da reconciliação F03-A com `0a29627`, validar frontend e backend pertinentes, publicar a branch, abrir e integrar o PR autorizado. Conferir o destino após o merge.
 2. A proposta de tela e critérios F03-B está publicada em docs/planejamento/F03-B_FORMULARIO.md; implementação espera a integração de F03-A.
 
 ## Decisões abertas
