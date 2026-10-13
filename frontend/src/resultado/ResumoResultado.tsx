@@ -35,7 +35,7 @@ const CHURN: Record<ChurnSituacao, Mensagem> = {
   sinal_detectado: {
     rotulo: 'Sinal detectado',
     texto:
-      'Há trechos que indicam risco de cancelamento. Vale investigar a relação; não é uma previsão de que o contrato será encerrado. Os trechos ainda não aparecem nesta tela.',
+      'Há trechos que indicam risco de cancelamento. Vale investigar a relação; não é uma previsão de que o contrato será encerrado. Os trechos que sustentam os sinais aparecem destacados na transcrição.',
   },
   sem_sinal_detectado: {
     rotulo: 'Sem sinal detectado',

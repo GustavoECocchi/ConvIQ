@@ -61,8 +61,8 @@ export function DetalheResultado({ resposta }: DetalheResultadoProps) {
               {recomendacoes.map((recomendacao, indice) => <li key={indice}>{recomendacao.texto}</li>)}
             </ul>
             <p className="detalhe-nota">
-              Cada sugestão vem de um risco ou de uma oportunidade encontrada no texto. Os trechos que as sustentam ainda não
-              aparecem nesta tela.
+              Cada sugestão vem de um risco ou de uma oportunidade encontrada no texto. Os trechos que sustentam os sinais
+              aparecem destacados na transcrição, ainda sem indicar qual sugestão cada um sustenta.
             </p>
           </>
         ) : (

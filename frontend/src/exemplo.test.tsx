@@ -82,6 +82,32 @@ describe('rota didática /exemplo/resultado', () => {
     expect(document.body.textContent).not.toMatch(/\be\d+\b/)
   })
 
+  it('mostra a transcrição do exemplo por último, com os trechos destacados pelos índices e sem pedido HTTP', () => {
+    abrir(CAMINHO)
+    const { resposta } = exemplos.find((e) => e.chave === 'cliente-risco-e-oportunidade')!
+    const recomendacoes = screen.getByRole('region', { name: 'Recomendações' })
+    const transcricao = screen.getByRole('region', { name: 'Transcrição' })
+    const texto = transcricao.querySelector('.transcricao-texto')!
+
+    expect(recomendacoes.compareDocumentPosition(transcricao) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(texto.textContent).toBe(resposta.transcricao)
+    expect([...texto.querySelectorAll('mark')].map((m) => m.textContent)).toEqual([
+      'insatisfeitos',
+      ' com o suporte',
+      'Queremos conhecer o Fluig',
+    ])
+    expect(transcricao.textContent).not.toMatch(/\be\d+\b/)
+    expect(transcricao.querySelector('a, button')).toBeNull()
+    expect(fetchEspiao).not.toHaveBeenCalled()
+  })
+
+  it('os avisos do exemplo não dizem mais que os trechos não aparecem', () => {
+    abrir(CAMINHO)
+
+    expect(document.body.textContent).not.toContain('ainda não aparecem')
+    expect(document.body.textContent).toContain('aparecem destacados na transcrição')
+  })
+
   it('o guia leva ao exemplo, com título e foco no h1', () => {
     const roteador = abrir('/como-ler')
     const link = screen.getByRole('link', { name: 'Ver exemplo de resultado' })
