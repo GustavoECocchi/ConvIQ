@@ -145,6 +145,22 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
 [data-sentimento='negativo'] .resumo-estado { background: #fde8e6; color: #8a1f17; }
 [data-churn='sinal_detectado'] .resumo-estado { background: #fff0dc; color: #79501e; }
 [data-churn='sem_sinal_detectado'] .resumo-estado { background: #eef2ff; color: #263b6c; }
+.detalhe { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.detalhe-bloco { padding: 26px; overflow-wrap: anywhere; }
+.detalhe h2 { margin-bottom: 14px; font-size: 22px; letter-spacing: -.03em; }
+.detalhe h3 { margin: 18px 0 8px; font-size: 15px; letter-spacing: -.01em; }
+.detalhe-recomendacoes, .detalhe-metodo { grid-column: 1 / -1; }
+.detalhe-lista { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.detalhe-lista li { padding: 12px 14px; border-left: 4px solid #267842; border-radius: 8px; background: #f3faf5; font-size: 14px; line-height: 1.6; }
+.detalhe-recomendacoes .detalhe-lista li { border-left-color: #2458f5; background: #f2f5ff; }
+.detalhe-nomes { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.detalhe-nomes li { padding: 6px 12px; border-radius: 100px; background: #f0f1f3; color: #2c323a; font-size: 14px; font-weight: 800; }
+.detalhe-nota { margin: 12px 0 0; color: #5f6670; font-size: 13px; line-height: 1.6; }
+.detalhe-nota-topo { margin: 0; }
+.detalhe-vazio { margin: 0; color: #4f565f; font-size: 14px; line-height: 1.7; }
+.detalhe-metodo { margin: 0; color: #5f6670; font-size: 13px; }
+.guide-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.guide-acoes .intro-tag { margin-bottom: 0; }
 
 @media (max-width: 1120px) {
   .topbar-inner { grid-template-columns: auto 1fr; }
@@ -165,7 +181,7 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .signal-card { min-height: 0; }
   .guide-grid { grid-template-columns: 1fr; }
   .form-layout { grid-template-columns: 1fr; }
-  .resumo-dados, .resumo-cartoes { grid-template-columns: 1fr; }
+  .resumo-dados, .resumo-cartoes, .detalhe { grid-template-columns: 1fr; }
 }
 @media (max-width: 580px) {
   .layout { width: min(100% - 28px, 1500px); }
@@ -178,7 +194,7 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .page-intro { align-items: start; flex-direction: column; gap: 14px; padding: 33px 0 22px; }
   .page-intro p:last-child { font-size: 12px; }
   .start-panel, .evidence-panel { padding: 20px; border-radius: 17px; }
-  .meeting-form, .form-help, .resumo-reuniao, .resumo-cartao { padding: 20px; border-radius: 17px; }
+  .meeting-form, .form-help, .resumo-reuniao, .resumo-cartao, .detalhe-bloco { padding: 20px; border-radius: 17px; }
   .action-button { justify-self: stretch; }
   .panel-heading { gap: 12px; }
   .panel-heading h2 { font-size: 14px; }

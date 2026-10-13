@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { PAGINAS } from '../destinos.ts'
+import { DetalheResultado } from '../resultado/DetalheResultado.tsx'
 import { ResumoResultado } from '../resultado/ResumoResultado.tsx'
 import { exemplos } from '../services/mocks/exemplos.ts'
 
@@ -11,7 +12,7 @@ function carregarExemplo() {
 
 const exemplo = carregarExemplo()
 
-/** Rota didática: injeta uma fixture rotulada no resumo. Não é resultado de análise enviada. */
+/** Rota didática, aberta pelo guia: injeta uma fixture rotulada no resumo e no detalhe. Não é resultado de análise enviada. */
 export function ExemploResultado() {
   return (
     <>
@@ -19,7 +20,7 @@ export function ExemploResultado() {
         <div>
           <p className="eyebrow">EXEMPLO DIDÁTICO</p>
           <h1 id="page-title" tabIndex={-1}>Exemplo de resultado</h1>
-          <p>Como o resumo de uma reunião aparece depois da análise.</p>
+          <p>Como o resultado de uma reunião aparece depois da análise, do resumo às recomendações.</p>
         </div>
         <Link className="intro-tag guide-back" to={PAGINAS.comoLer.caminho}>← Voltar ao guia</Link>
       </section>
@@ -30,6 +31,7 @@ export function ExemploResultado() {
       </div>
 
       <ResumoResultado entrada={exemplo.entrada} resposta={exemplo.resposta} />
+      <DetalheResultado resposta={exemplo.resposta} />
 
       <p className="guide-footer"><Link className="action-link" to={PAGINAS.comoLer.caminho}>Voltar ao guia: Como ler os sinais</Link></p>
     </>
