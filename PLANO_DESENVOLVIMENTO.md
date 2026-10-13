@@ -239,7 +239,7 @@ independentes encontrados no ensaio devem gerar PRs de correção próprios.
 - Testes relevantes acompanham o comportamento que verificam. A revisão visual final e I01 complementam essa validação.
 - Integrar após revisão, verificações pertinentes e ausência de dependências pendentes. Registrar se o resultado foi verificado com exemplos, API real ou transcrição real.
 
-**Encaminhamento vigente (09/10/2026):** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7, merge bf7a1a1) estão integrados. F03-A foi entregue como diff local no worktree CONVIQ-f03a e segue EM_REVISAO após correção R01/R02 pelo Codex. B19 aprovado em B19-04 foi reaplicado, com diff técnico idêntico, na branch integrate/b19-evidencias sobre bf7a1a1; está publicado no PR #8 e aguarda integração. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define a jornada seguinte.
+**Encaminhamento vigente (13/10/2026):** F01 (PR #5), F02-A (PR #6), F02-B (PR #7) e B19 (PR #8) estão integrados; destino em `0a29627`. F03-A foi aprovada tecnicamente após revisão independente do Opus e correções O01/O02 pelo Codex, preservadas em `708f5e5`. A reconciliação com o destino foi validada em `b6cfabe` e publicada no [PR #9](https://github.com/GustavoECocchi/ConvIQ/pull/9), ainda pendente de merge. Conferir `STATUS.md` e a ficha F03-A para o estado Git atual. O [roteiro de frontend](docs/planejamento/PRS_FRONTEND_NAVEGACAO.md) define os cartões seguintes; a [proposta do F03-B](docs/planejamento/F03-B_FORMULARIO.md) foi publicada sem código.
 B07-A continua parcial por falta da amostra P01 de fala real, e sua instrução de retomada
 permanece em `docs/planejamento/PROMPT_B07_A_VIABILIDADE_WHISPER.md`.
 Confirmar F06 com a frente frontend para C02-B; conferir registro/Git antes

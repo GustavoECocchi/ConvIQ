@@ -236,3 +236,18 @@ Eventos que não pertencem a um único PR (operações Git e retomadas que cobre
 - **Conferido:** F01 atual, contrato C01, backend CORS padrão para localhost:5173 e governança seção 11; consultei guias oficiais W3C, GOV.UK e React Router para foco, erros, consistência e rotas. Não executei testes de código, porque esta ação só cria documentação e prompt; Git remoto não foi consultado nesta ação.
 - **Git:** roteiro não rastreado e documentos/prompt locais modificados; sem commit, push, PR ou integração. F01 continua com entrega FINALIZADA localmente e revisão PENDENTE. F02-A–F06-B PLANEJADOS, não iniciados.
 - **Próximo:** usuário encaminha prompt.md ao Opus; Codex verifica F01 revisado e então libera F02-A para Sonnet em branch isolada.
+
+### NAV01-02 — 09/10/2026 — Codex / encaminhamento durante indisponibilidade do Claude
+
+- **Pedido:** usuário informou que o Claude ficou sem tokens e perguntou o que avançar enquanto a revisão independente de F03-A espera.
+- **Conferido:** STATUS, cartão de navegação, Git local F03-A (HEAD/base 9706315 e entrega ainda não commitada). No servidor, PR #7 F02-B está OPEN, head 73c4771, destino feat/b01-fundacao-api, MERGEABLE/CLEAN; a branch padrão permanece em 9706315.
+- **Dependências:** F03-B e F04-A exigem F03-A, que ainda está em revisão e só existe como diff local. F02-B já está aprovado e seu PR pode avançar independentemente. O formulário F03-B pode ter critérios e mensagens preparados sem implementar sobre uma base instável; o guia W3C de validação de formulários confirma rótulos, erros claros e validação também no servidor. B19 aprovado localmente é outra frente independente, mas não aproxima a navegação do marco F06-B tão diretamente.
+- **Recomendação:** priorizar a integração do PR #7 quando o usuário ordenar; em paralelo, preparar os critérios de F03-B. Depois da revisão de F03-A, integrar sua branch e iniciar a implementação de F03-B sobre a base confirmada.
+- **Git:** somente este evento e a fotografia vigente atualizados; sem código novo, commit, push, PR ou merge. F03-A segue EM_REVISAO, NAO_COMMITADA, NAO_PUBLICADA e NAO_INTEGRADA.
+
+### NAV01-03 — 09/10/2026 — Codex / frente independente durante revisão F03-A
+
+- **Pedido:** usuário perguntou o que pode avançar enquanto a revisão independente F03-A aguarda Claude.
+- **Conferido:** B19 permanece APROVADO tecnicamente em B19-04, mas só como diff local no worktree CONVIQ-b19, branch fix/b19-unificar-evidencias, HEAD/base b688afb, sem PR. Servidor agora tem feat/b01-fundacao-api em bf7a1a1; PR #7 F02-B MERGED. Comparação remota b688afb…bf7a1a1 mostra mudanças em documentação/frontend, sem alteração nos cinco arquivos técnicos B19 (backend/app/services/analise.py, dois testes, README backend e contrato C01). Registros/plano/STATUS/prompt têm sobreposição documental.
+- **Recomendação:** preparar B19 numa branch isolada partindo de bf7a1a1, reaplicar apenas o diff técnico aprovado e reconciliar os registros preservando eventos; conferir hashes/comportamento e rodar testes antes de publicação. A integração B19 também fixa a semântica de IDs compartilhados que F05-A deverá consumir. Depois, B15 é backend independente, mas ainda requer execução e revisão; F03-B/F04-A aguardam F03-A.
+- **Git:** apenas este evento e fotografia local; nenhum código B19 alterado, commit, push, PR ou merge nesta atuação. B19 continua NAO_COMMITADO/NAO_PUBLICADO/NAO_INTEGRADO na origem.
