@@ -1,29 +1,29 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 13/10/2026 (Codex, F03-A-12). Quem muda o estado de um PR atualiza este
+Atualizado em 13/10/2026 (Codex, F03-A-13/F03-B-01). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api` em `0a29627` (servidor,
+- **Branch padrão e destino:** `feat/b01-fundacao-api` em `b50ce86` (servidor,
   13/10). `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
-  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`) e B19 (PR #8, `0a29627`).
+  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`) e F03-A (PR #9, `b50ce86`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 (PR #5), F02-A (PR #6) e F02-B (PR #7) integrados. F03-A foi aprovada tecnicamente após revisão Opus F03-A-05 e correções O01/O02 do Codex, preservadas em `708f5e5`. Reconciliação com F02-B/B19 COMMITADA em `b6cfabe` e validada com 124 testes frontend, 344 backend, build e navegador Chromium/Firefox; branch publicada e PR #9 aberto, merge pendente.
+- **Frontend:** F01, F02-A, F02-B e F03-A integrados. F03-A foi aprovada após revisão Opus e correções O01/O02; o PR #9 foi mesclado em `b50ce86` com árvore idêntica ao head testado. Frontend: 124 testes passaram novamente no checkout integrado; antes do merge, typecheck, lint, build, 344 testes backend e navegador Chromium/Firefox passaram. F03-B tem proposta integrada, mas formulário ainda não foi implementado.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
 - **B14 (Unicode NFD):** INTEGRADA pelo PR #4 em `b688afb` e verificada
   em B14-07 (330 testes na árvore integrada). Registros B14-05–07 foram
   integrados junto do F01 pelo PR #5.
-- **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); código recebido na árvore em reconciliação da F03-A.
+- **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Mesclar o [PR #9](https://github.com/GustavoECocchi/ConvIQ/pull/9) autorizado da F03-A após reconsulta de head/base; depois conferir o destino `feat/b01-fundacao-api` e registrar a integração.
-2. A proposta de tela e critérios F03-B está publicada em docs/planejamento/F03-B_FORMULARIO.md; implementação espera a integração de F03-A.
+1. Preparar F03-B sobre a ponta integrada: página `/analises/nova` e formulário conforme a proposta em docs/planejamento/F03-B_FORMULARIO.md. O formulário ainda não foi iniciado; a chamada real à API fica para F06.
+2. A prévia local da F03-A está em `http://127.0.0.1:5199/`; ainda não há envio de texto à API pela interface.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
