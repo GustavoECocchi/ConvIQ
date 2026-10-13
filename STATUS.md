@@ -13,7 +13,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 a F04-B integrados (203 testes no destino). F05-A (`TranscriptViewer`: transcrição com trechos destacados por índices de C01) está FINALIZADO localmente em `CONVIQ-f05a`, branch `feat/f05a-transcricao`, 254 testes, APROVADO_TECNICAMENTE na revisão independente F05-A-02 (nível A, sem impeditivos), sem commit. A interface ainda não envia à API.
+- **Frontend:** F01 a F04-B integrados; F05-A (transcrição com evidências destacadas) aprovado em F05-A-02 e publicado no PR #13. A interface ainda não envia à API.
 - **Papéis desde 13/10:** Codex indisponível (sem tokens). Por decisão do usuário, Claude Opus executa e registra, outra sessão Claude revisa de forma independente pelo `prompt.md` da raiz (espelhado no worktree), e o usuário decide commit, push, PR e merge. Ninguém aprova a própria entrega.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
