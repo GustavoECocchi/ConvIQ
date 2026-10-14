@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import { exemplos } from '../services/mocks/exemplos.ts'
 import type { DetalheResultadoProps } from './DetalheResultado.tsx'
@@ -187,5 +187,59 @@ describe.each(exemplos.map((exemplo) => [exemplo.chave, exemplo.resposta] as con
     expect(itens(blocoDaMencao(mencoes, 'Produtos'))).toEqual(resposta.produtos)
     expect(itens(blocoDaMencao(mencoes, 'Concorrentes'))).toEqual(resposta.concorrentes)
     expect(itens(recomendacoes)).toEqual(resposta.recomendacoes.map((r) => r.texto))
+  })
+})
+
+describe('ação Ver evidência (F05-B)', () => {
+  const comSinais: Resposta = {
+    ...VAZIA,
+    oportunidades: [
+      { descricao: 'Oportunidade A', evidencias: ['e3'] },
+      { descricao: 'Oportunidade sem ID', evidencias: [] },
+    ],
+    recomendacoes: [{ texto: 'Recomendação com dois IDs', evidencias: ['e1', 'e2'] }],
+  }
+
+  it('sem callback não há botão e a nota mantém o texto de F05-A', () => {
+    render(<DetalheResultado resposta={comSinais} />)
+
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
+    expect(document.body.textContent).toContain('ainda sem indicar qual sugestão cada um sustenta')
+  })
+
+  it('com callback: um botão por ID citado, nenhum para item sem ID, e a nota passa a apontar para a ação', () => {
+    const pedidos: string[] = []
+    render(<DetalheResultado resposta={comSinais} aoVerEvidencia={(id) => pedidos.push(id)} />)
+    const botoes = screen.getAllByRole('button')
+
+    expect(botoes.map((b) => b.getAttribute('aria-label'))).toEqual([
+      'Ver evidência: oportunidade 1',
+      'Ver evidência 1: recomendação 1',
+      'Ver evidência 2: recomendação 1',
+    ])
+    botoes.forEach((b) => fireEvent.click(b))
+    expect(pedidos).toEqual(['e3', 'e1', 'e2'])
+    expect(document.body.textContent).toContain('Use Ver evidência')
+    expect(document.body.textContent).not.toContain('ainda sem indicar')
+  })
+
+  it('o botão fica dentro do item, depois do texto, e o texto do sinal continua intacto', () => {
+    render(<DetalheResultado resposta={comSinais} aoVerEvidencia={() => {}} />)
+    const item = screen.getByText('Oportunidade A').closest('li')!
+
+    expect(item.firstChild!.textContent).toBe('Oportunidade A')
+    expect(item.querySelector('button')).not.toBeNull()
+  })
+
+  it('item sem ID não deixa contêiner de ações vazio (ocuparia espaço sem ter ação)', () => {
+    render(<DetalheResultado resposta={{ ...VAZIA, oportunidades: [{ descricao: 'Sem ID', evidencias: [] }] }} aoVerEvidencia={() => {}} />)
+
+    expect(document.querySelector('.evidencia-acoes')).toBeNull()
+  })
+
+  it('listas vazias continuam sem botões', () => {
+    render(<DetalheResultado resposta={VAZIA} aoVerEvidencia={() => {}} />)
+
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
   })
 })

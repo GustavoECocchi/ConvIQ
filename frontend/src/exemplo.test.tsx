@@ -77,7 +77,7 @@ describe('rota didática /exemplo/resultado', () => {
     expect(within(mencoes).getByText('Fluig')).toBeTruthy()
     expect(resposta.concorrentes).toEqual([])
     expect(within(mencoes).getByText('Nenhum concorrente da lista conhecida foi citado.')).toBeTruthy()
-    expect(within(recomendacoes).getAllByRole('listitem').map((li) => li.textContent)).toEqual(resposta.recomendacoes.map((r) => r.texto))
+    expect(within(recomendacoes).getAllByRole('listitem').map((li) => li.firstChild!.textContent)).toEqual(resposta.recomendacoes.map((r) => r.texto))
     expect(document.querySelector('.detalhe-metodo')!.textContent).toContain(resposta.versao_analise)
     expect(document.body.textContent).not.toMatch(/\be\d+\b/)
   })

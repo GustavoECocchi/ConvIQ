@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { exemplos } from '../services/mocks/exemplos.ts'
 import { recortarPorPontosDeCodigo } from '../types/analise.ts'
-import { segmentarTranscricao } from './segmentos.ts'
+import { idsNaoLocalizados, segmentarTranscricao } from './segmentos.ts'
 
 /** Metade de um par substituto (UTF-16) sem a outra: sinal de que um emoji foi partido. */
 const SUBSTITUTO_SOLTO = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/
@@ -173,28 +173,52 @@ describe('intervalos que se encontram', () => {
   })
 })
 
-describe('robustez com índices fora do contrato', () => {
-  it('limita ao texto o que passa do fim ou começa antes do início', () => {
-    expect(comIds(segmentarTranscricao('abcd', [ev('a', -3, 2), ev('b', 3, 99)]))).toEqual([
-      ['ab', ['a']],
-      ['c', []],
-      ['d', ['b']],
-    ])
-  })
-
+describe('evidências que não podem ser localizadas são descartadas, não limitadas ao texto', () => {
   it.each([
+    ['passa do fim', ev('x', 3, 99)],
+    ['começa antes do início', ev('x', -3, 2)],
     ['vazio', ev('x', 2, 2)],
     ['invertido', ev('x', 3, 1)],
     ['fora do texto', ev('x', 50, 60)],
     ['não inteiro', ev('x', 0.5, 2)],
     ['NaN', ev('x', Number.NaN, 2)],
-  ])('ignora intervalo %s sem quebrar nem perder texto', (_nome, invalido) => {
-    const segmentos = segmentarTranscricao('abcd', [invalido, ev('ok', 0, 1)])
+  ])('intervalo %s não gera destaque e é listado como não localizado', (_nome, invalido) => {
+    const evidencias = [invalido, ev('ok', 0, 1)]
 
-    expect(comIds(segmentos)).toEqual([
+    expect(comIds(segmentarTranscricao('abcd', evidencias))).toEqual([
       ['a', ['ok']],
       ['bcd', []],
     ])
+    expect(idsNaoLocalizados('abcd', evidencias)).toEqual(['x'])
+  })
+
+  it('o recorte precisa ser igual ao trecho: índices que apontam para outro texto não destacam nada', () => {
+    const texto = 'Cliente: estamos satisfeitos. Pedro: ok.'
+    const certo = { id: 'e1', trecho: 'satisfeitos', inicio: 17, fim: 28 }
+    const deslocado = { id: 'e2', trecho: 'satisfeitos', inicio: 18, fim: 29 }
+
+    expect(idsNaoLocalizados(texto, [certo, deslocado])).toEqual(['e2'])
+    expect(comIds(segmentarTranscricao(texto, [certo, deslocado])).filter(([, ids]) => (ids as string[]).length > 0)).toEqual([
+      ['satisfeitos', ['e1']],
+    ])
+  })
+
+  it('a conferência compara o recorte, não procura: o mesmo trecho existente em outro lugar não salva índices errados', () => {
+    const texto = 'falha. falha.'
+    const errado = { id: 'e1', trecho: 'falha', inicio: 3, fim: 8 }
+
+    expect(idsNaoLocalizados(texto, [errado])).toEqual(['e1'])
+    expect(segmentarTranscricao(texto, [errado])).toEqual([{ texto, evidencias: [] }])
+  })
+
+  it('emoji: o recorte conferido é por pontos de código', () => {
+    const texto = '😀 péssimo'
+    expect(idsNaoLocalizados(texto, [{ id: 'e1', trecho: 'péssimo', inicio: 2, fim: 9 }])).toEqual([])
+    expect(idsNaoLocalizados(texto, [{ id: 'e1', trecho: 'péssimo', inicio: 3, fim: 10 }])).toEqual(['e1'])
+  })
+
+  it('sem `trecho` informado, só os índices são conferidos', () => {
+    expect(idsNaoLocalizados('abcd', [ev('a', 0, 4)])).toEqual([])
   })
 })
 
@@ -211,6 +235,10 @@ describe('invariantes sobre todas as fixtures', () => {
         const doId = segmentos.filter((s) => s.evidencias.includes(evidencia.id)).map((s) => s.texto).join('')
         expect(doId).toBe(evidencia.trecho)
       }
+    })
+
+    it('todas as evidências das fixtures são localizadas', () => {
+      expect(idsNaoLocalizados(resposta.transcricao, resposta.evidencias)).toEqual([])
     })
 
     it('nenhum segmento é vazio', () => {

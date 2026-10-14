@@ -1,4 +1,6 @@
 import type { AnaliseTextoResponse } from '../types/analise.ts'
+import { BotoesEvidencia } from './BotoesEvidencia.tsx'
+import type { AoVerEvidencia, FalhaEvidencia } from './BotoesEvidencia.tsx'
 
 /**
  * Detalhe do resultado (F04-B): oportunidades, menções a produtos e concorrentes,
@@ -8,6 +10,10 @@ import type { AnaliseTextoResponse } from '../types/analise.ts'
  */
 export interface DetalheResultadoProps {
   resposta: Pick<AnaliseTextoResponse, 'oportunidades' | 'produtos' | 'concorrentes' | 'recomendacoes' | 'metodo' | 'versao_analise'>
+  /** Se vier, cada oportunidade e recomendação com `evidencias` ganha "Ver evidência" (F05-B). */
+  aoVerEvidencia?: AoVerEvidencia
+  /** Último pedido de evidência não localizada; o aviso aparece junto do botão do sinal que pediu. */
+  falhaEvidencia?: FalhaEvidencia
 }
 
 function Nomes({ nomes, vazio }: { nomes: string[]; vazio: string }) {
@@ -19,7 +25,7 @@ function Nomes({ nomes, vazio }: { nomes: string[]; vazio: string }) {
   )
 }
 
-export function DetalheResultado({ resposta }: DetalheResultadoProps) {
+export function DetalheResultado({ resposta, aoVerEvidencia, falhaEvidencia }: DetalheResultadoProps) {
   const { oportunidades, produtos, concorrentes, recomendacoes } = resposta
 
   return (
@@ -29,7 +35,12 @@ export function DetalheResultado({ resposta }: DetalheResultadoProps) {
         {oportunidades.length > 0 ? (
           <>
             <ul className="detalhe-lista">
-              {oportunidades.map((oportunidade, indice) => <li key={indice}>{oportunidade.descricao}</li>)}
+              {oportunidades.map((oportunidade, indice) => (
+                <li key={indice}>
+                  {oportunidade.descricao}
+                  {aoVerEvidencia ? <BotoesEvidencia ids={oportunidade.evidencias} sinal={`oportunidade ${indice + 1}`} aoVerEvidencia={aoVerEvidencia} falha={falhaEvidencia} /> : null}
+                </li>
+              ))}
             </ul>
             <p className="detalhe-nota">Cada oportunidade é um indício para dar seguimento, não uma venda confirmada.</p>
           </>
@@ -58,11 +69,17 @@ export function DetalheResultado({ resposta }: DetalheResultadoProps) {
         {recomendacoes.length > 0 ? (
           <>
             <ul className="detalhe-lista">
-              {recomendacoes.map((recomendacao, indice) => <li key={indice}>{recomendacao.texto}</li>)}
+              {recomendacoes.map((recomendacao, indice) => (
+                <li key={indice}>
+                  {recomendacao.texto}
+                  {aoVerEvidencia ? <BotoesEvidencia ids={recomendacao.evidencias} sinal={`recomendação ${indice + 1}`} aoVerEvidencia={aoVerEvidencia} falha={falhaEvidencia} /> : null}
+                </li>
+              ))}
             </ul>
             <p className="detalhe-nota">
-              Cada sugestão vem de um risco ou de uma oportunidade encontrada no texto. Os trechos que sustentam os sinais
-              aparecem destacados na transcrição, ainda sem indicar qual sugestão cada um sustenta.
+              {aoVerEvidencia
+                ? 'Cada sugestão vem de um risco ou de uma oportunidade encontrada no texto. Use Ver evidência para ir ao trecho que a sustenta.'
+                : 'Cada sugestão vem de um risco ou de uma oportunidade encontrada no texto. Os trechos que sustentam os sinais aparecem destacados na transcrição, ainda sem indicar qual sugestão cada um sustenta.'}
             </p>
           </>
         ) : (

@@ -162,8 +162,21 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
 .transcricao { margin-top: 18px; padding: 26px; overflow-wrap: anywhere; }
 .transcricao h2 { margin-bottom: 14px; font-size: 22px; letter-spacing: -.03em; }
 .transcricao-texto { margin: 14px 0 0; padding: 18px 20px; border-radius: 12px; background: #fafbfc; font-size: 15px; line-height: 1.9; white-space: pre-wrap; }
-.transcricao-texto mark { padding: 2px 0; }
+.transcricao-texto mark { padding: 2px 0; box-shadow: inset 0 -1px 0 #ad6416; }
+.transcricao-texto mark + mark { margin-left: 2px; }
 .transcricao-texto mark[data-sobrepostas] { background: #ffd9a0; box-shadow: inset 0 -3px 0 #ad6416; }
+.transcricao-texto mark[data-selecionada] { background: #ffd9a0; outline: 3px solid #1a3fb0; outline-offset: 1px; }
+.transcricao-texto mark:focus-visible { outline: 3px solid #1a3fb0; outline-offset: 1px; }
+.transcricao-status { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
+.transcricao-status p { margin: 0; color: #2c323a; font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+.evidencia-acoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.link-evidencia { padding: 8px 12px; border: 1px solid #1a3fb0; border-radius: 8px; background: #fff; color: #1a3fb0; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+.link-evidencia:hover { background: #eef2ff; }
+.link-evidencia:focus-visible { outline: 3px solid #1a3fb0; outline-offset: 2px; }
+/* R01 de F05-B: o aviso de evidência não localizada fica ao lado do botão quando cabe (na mesma altura) e abaixo dele nas telas
+   estreitas; nesse caso, quando o foco traz o botão à vista, a margem deixa espaço para até 3 linhas do aviso. */
+.evidencia-falha { flex: 1 1 220px; align-self: center; color: #8a1f17; font-size: 13px; font-weight: 700; line-height: 1.5; }
+.evidencia-acoes .link-evidencia { scroll-margin-bottom: 72px; }
 .guide-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .guide-acoes .intro-tag { margin-bottom: 0; }
 

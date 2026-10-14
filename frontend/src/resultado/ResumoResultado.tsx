@@ -1,3 +1,5 @@
+import { BotoesEvidencia } from './BotoesEvidencia.tsx'
+import type { AoVerEvidencia, FalhaEvidencia } from './BotoesEvidencia.tsx'
 import type { AnaliseTextoRequest, AnaliseTextoResponse, ChurnSituacao, Sentimento, Vinculo } from '../types/analise.ts'
 
 /**
@@ -7,7 +9,11 @@ import type { AnaliseTextoRequest, AnaliseTextoResponse, ChurnSituacao, Sentimen
  */
 export interface ResumoResultadoProps {
   entrada: Pick<AnaliseTextoRequest, 'titulo' | 'empresa' | 'vinculo'>
-  resposta: Pick<AnaliseTextoResponse, 'sentimento'> & { churn: Pick<AnaliseTextoResponse['churn'], 'situacao'> }
+  resposta: Pick<AnaliseTextoResponse, 'sentimento'> & { churn: Pick<AnaliseTextoResponse['churn'], 'situacao'> & Partial<Pick<AnaliseTextoResponse['churn'], 'evidencias'>> }
+  /** Se vier, o risco com `evidencias` ganha "Ver evidência" (F05-B); o sentimento nunca ganha, pois C01 não lhe dá IDs. */
+  aoVerEvidencia?: AoVerEvidencia
+  /** Último pedido de evidência não localizada; o aviso aparece junto do botão do sinal que pediu. */
+  falhaEvidencia?: FalhaEvidencia
 }
 
 interface Mensagem {
@@ -54,7 +60,7 @@ const CHURN: Record<ChurnSituacao, Mensagem> = {
   },
 }
 
-export function ResumoResultado({ entrada, resposta }: ResumoResultadoProps) {
+export function ResumoResultado({ entrada, resposta, aoVerEvidencia, falhaEvidencia }: ResumoResultadoProps) {
   const vinculo = VINCULOS[entrada.vinculo]
   const sentimento = SENTIMENTOS[resposta.sentimento]
   const churn = CHURN[resposta.churn.situacao]
@@ -85,6 +91,9 @@ export function ResumoResultado({ entrada, resposta }: ResumoResultadoProps) {
             <h3 id="resumo-churn">Risco de cancelamento</h3>
             <p className="resumo-estado">{churn.rotulo}</p>
             <p>{churn.texto}</p>
+            {aoVerEvidencia && resposta.churn.situacao === 'sinal_detectado' ? (
+              <BotoesEvidencia ids={resposta.churn.evidencias ?? []} sinal="risco de cancelamento" aoVerEvidencia={aoVerEvidencia} falha={falhaEvidencia} />
+            ) : null}
           </article>
         </div>
       </section>
