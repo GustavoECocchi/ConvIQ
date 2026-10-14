@@ -58,7 +58,7 @@ continua no Git.
 | [F04-A — Resumo do resultado](docs/registro/F04-A.md) | FINALIZADA (F04-A-03) | APROVADA_TECNICAMENTE pelo Codex, nível B; INTEGRADA e conferida em F04-A-04 | COMMITADA em `850bb06` | `feat/f04a-resumo-resultado`, base `6f1b53c`, destino `feat/b01-fundacao-api` | PUBLICADA; PR [#11](https://github.com/GustavoECocchi/ConvIQ/pull/11) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `cd6745c` |
 | [F04-B — Detalhe do resultado](docs/registro/F04-B.md) | FINALIZADA (F04-B-01, Opus); O1 em F04-B-03 | APROVADA_TECNICAMENTE em F04-B-02 (revisão independente, sem impeditivos), nível B; INTEGRADA em F04-B-04 | COMMITADA em `8b8167d`; head documental `cdcf697` | `feat/f04b-detalhes-resultado`, base `cd6745c`, destino `feat/b01-fundacao-api` | PUBLICADA; PR [#12](https://github.com/GustavoECocchi/ConvIQ/pull/12) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `c66eba9` |
 | [F05-A — Transcrição com evidências](docs/registro/F05-A.md) | FINALIZADA (F05-A-01, Sonnet) | APROVADA_TECNICAMENTE em F05-A-02 (revisão independente Claude Opus, sem impeditivos), nível A; INTEGRADA em F05-A-04 | COMMITADA em `574f970`; head documental `ff26e14` | `feat/f05a-transcricao`, base `c66eba9`, destino `feat/b01-fundacao-api` | PUBLICADA; PR [#13](https://github.com/GustavoECocchi/ConvIQ/pull/13) MERGEADO | INTEGRADA em `feat/b01-fundacao-api`, merge `3a5de83` |
-| [F05-B — Ver evidência](docs/registro/F05-B.md) | FINALIZADA (F05-B-01, Sonnet); correções F05-B-03/04/05 (Opus) | APROVADA_TECNICAMENTE em F05-B-06 pelo Codex, nível B | COMMITADA em `f90ddc5` sobre `3a5de83`; registro F05-B-07 local | `feat/f05b-ver-evidencia`, destino `feat/b01-fundacao-api` | Push NAO_FEITO; PR NAO_ABERTO | NAO_INTEGRADA |
+| [F05-B — Ver evidência](docs/registro/F05-B.md) | FINALIZADA (F05-B-01, Sonnet); correções F05-B-03/04/05 (Opus) | APROVADA_TECNICAMENTE em F05-B-06 pelo Codex, nível B | Entrega `f90ddc5`, registro `5a8fc8a`; F05-B-09 local | `feat/f05b-ver-evidencia`, destino `feat/b01-fundacao-api` | PUBLICADA; PR [#14](https://github.com/GustavoECocchi/ConvIQ/pull/14) ABERTO | NAO_INTEGRADA |
 
 Os demais PRs B, F, C e I continuam planejados. Os novos cartões constam de
 [PRs pequenos de áudio](docs/planejamento/PRS_BACKEND_AUDIO.md), com estados
@@ -69,7 +69,7 @@ F02–F06 foram subdivididos no [roteiro de navegação](docs/planejamento/PRS_F
 Criar/atualizar a ficha de cada tarefa
 quando encaminhada, sem declarar conclusão por antecipação.
 
-### Fotografia Git vigente — 14/10/2026, F05-B-07 (Codex, commit local)
+### Fotografia Git vigente — 14/10/2026, F05-B-09 (Codex, PR aberto)
 
-- Worktree `/home/gustavoecocchi/Documents/CONVIQ-f05b`, branch `feat/f05b-ver-evidencia`, HEAD `f90ddc5` (pai/base `3a5de83`), índice vazio. Entrega e aceite F05-B-06 COMMITADOS; `prompt.md` histórico e atualizações de `REGISTRO_TRABALHO.md`, `STATUS.md` e F05-B-07 em diff local. Push, PR e integração NAO_FEITOS.
+- Worktree `/home/gustavoecocchi/Documents/CONVIQ-f05b`, branch `feat/f05b-ver-evidencia`, HEAD remoto `5a8fc8a` (`f90ddc5` entrega; base `3a5de83`), índice vazio. PR #14 OPEN, head `5a8fc8a`, base `feat/b01-fundacao-api` em `3a5de83`, MERGEABLE/CLEAN, sem checks listados. `prompt.md` histórico e registros F05-B-08/09 locais; NAO_INTEGRADA.
 - Destino `origin/feat/b01-fundacao-api` em `3a5de83` (PR #13 MERGED), reconfirmado por `git ls-remote` em 14/10. A raiz `CONVIQ` (`fix/b12-contexto-risco`) tem `prompt.md` com o prompt F05-B-05 (RET02-04) e `REGISTRO_TRABALHO.md` com RET02 e alterações antigas; preservada, sem commit.

@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 14/10/2026 (Codex, F05-B-07). Quem muda o estado de um PR atualiza este
+Atualizado em 14/10/2026 (Codex, F05-B-09). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -13,7 +13,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 a F05-A integrados. F05-B FINALIZADA e APROVADA_TECNICAMENTE em F05-B-06; entrega COMMITADA em `f90ddc5` sobre `3a5de83`, com 311 testes aprovados. Evento F05-B-07 ainda local; push, PR e integração pendentes. A interface ainda não envia à API.
+- **Frontend:** F01 a F05-A integrados. F05-B FINALIZADA/APROVADA_TECNICAMENTE em F05-B-06, entrega `f90ddc5`, registro `5a8fc8a`, ambos PUBLICADOS no [PR #14](https://github.com/GustavoECocchi/ConvIQ/pull/14) ABERTO. Integração pendente; 311 testes passaram. A interface ainda não envia à API.
 - **Papéis desde 13/10:** Codex indisponível (sem tokens). Por decisão do usuário, Claude Opus executa e registra, outra sessão Claude revisa de forma independente pelo `prompt.md` da raiz (espelhado no worktree), e o usuário decide commit, push, PR e merge. Ninguém aprova a própria entrega. Em 14/10 o Codex voltou a verificar o F05-B (RET02, registrado no `REGISTRO_TRABALHO.md` da raiz).
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
@@ -24,7 +24,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Registrar o commit F05-B-07, publicar `feat/f05b-ver-evidencia`, abrir PR para `feat/b01-fundacao-api`, integrar e conferir a árvore, conforme autorização de 13/10 registrada em F05-A-03.
+1. F05-B no PR #14: publicar o registro F05-B-09, reconferir head/base/mergeabilidade, integrar no destino `feat/b01-fundacao-api` e verificar a árvore conforme autorização de F05-A-03.
 2. F06-A (envio real à API, nível A; tratar O2 de F05-B: zerar a seleção ao trocar de resposta) e F06-B (jornada completa; inclui O2 de F04-B, foco ao voltar em página rolada) a partir da versão integrada.
 
 ## Decisões abertas
