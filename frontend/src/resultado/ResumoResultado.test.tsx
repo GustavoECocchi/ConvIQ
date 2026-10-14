@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import { SENTIMENTOS, SITUACOES_CHURN, VINCULOS } from '../types/analise.ts'
 import type { ChurnSituacao, Sentimento, Vinculo } from '../types/analise.ts'
@@ -148,5 +148,51 @@ describe('estrutura', () => {
     const texto = document.body.textContent!
 
     expect(texto).not.toMatch(/oportunidade|produto|concorrente|recomenda/i)
+  })
+})
+
+describe('ação Ver evidência (F05-B)', () => {
+  const entrada = { titulo: 'T', empresa: 'E', vinculo: 'cliente' } as const
+
+  it('sem callback não há botão, mesmo com IDs de evidência', () => {
+    render(<ResumoResultado entrada={entrada} resposta={{ sentimento: 'negativo', churn: { situacao: 'sinal_detectado', evidencias: ['e1'] } }} />)
+
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
+  })
+
+  it('com callback, só o risco detectado com IDs ganha botão e ele entrega ID e origem', () => {
+    const chamadas: Array<[string, HTMLElement]> = []
+    render(
+      <ResumoResultado
+        entrada={entrada}
+        resposta={{ sentimento: 'negativo', churn: { situacao: 'sinal_detectado', evidencias: ['e7'] } }}
+        aoVerEvidencia={(id, origem) => chamadas.push([id, origem])}
+      />,
+    )
+    const botao = screen.getByRole('button', { name: 'Ver evidência: risco de cancelamento' })
+    fireEvent.click(botao)
+
+    expect(screen.getAllByRole('button')).toHaveLength(1)
+    expect(chamadas).toEqual([['e7', botao]])
+  })
+
+  it.each(['sem_sinal_detectado', 'nao_aplicavel', 'informacao_insuficiente'] as const)('%s não ganha botão, mesmo que a resposta traga IDs', (situacao) => {
+    render(
+      <ResumoResultado
+        entrada={entrada}
+        resposta={{ sentimento: 'neutro', churn: { situacao, evidencias: ['e1'] } }}
+        aoVerEvidencia={() => {}}
+      />,
+    )
+
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
+  })
+
+  it('sinal detectado sem IDs não ganha botão', () => {
+    render(
+      <ResumoResultado entrada={entrada} resposta={{ sentimento: 'negativo', churn: { situacao: 'sinal_detectado', evidencias: [] } }} aoVerEvidencia={() => {}} />,
+    )
+
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
   })
 })

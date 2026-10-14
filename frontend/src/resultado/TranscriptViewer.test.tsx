@@ -95,12 +95,12 @@ describe('sem evidências', () => {
 })
 
 describe('limites de F05-A', () => {
-  it('não mostra IDs como texto nem oferece ação, link, busca ou campo', () => {
+  it('sem seleção: não mostra IDs como texto nem oferece ação, link, busca ou campo', () => {
     const { resposta } = exemplos.find((e) => e.chave === 'cliente-risco-e-oportunidade')!
     const { secao } = montar(resposta)
 
     expect(secao.textContent).not.toMatch(/\be\d+\b/)
-    expect(secao.querySelector('a, button, input, [tabindex], [role="button"]')).toBeNull()
+    expect(secao.querySelector('a, button, input, [role="button"], [tabindex]:not([tabindex="-1"])')).toBeNull()
     expect(secao.textContent).not.toMatch(/Ver evidência/i)
   })
 
@@ -115,6 +115,23 @@ describe('limites de F05-A', () => {
     montar({ transcricao: 'x', evidencias: [] })
 
     expect(screen.getAllByRole('heading').map((h) => [h.tagName, h.textContent])).toEqual([['H2', 'Transcrição']])
+  })
+})
+
+describe('seleção que não pode ser localizada', () => {
+  it('é ignorada: nada destacado, status vazio e sem "Voltar ao sinal" (o aviso fica com quem pediu)', () => {
+    render(
+      <TranscriptViewer
+        resposta={{ transcricao: 'Estamos insatisfeitos.', evidencias: [{ id: 'e1', trecho: 'insatisfeitos', inicio: 9, fim: 22 }] }}
+        selecionada={{ id: 'e1' }}
+        aoVoltar={() => {}}
+      />,
+    )
+    const secao = screen.getByRole('region', { name: 'Transcrição' })
+
+    expect(secao.querySelector('mark')).toBeNull()
+    expect(screen.getByRole('status').textContent).toBe('')
+    expect(screen.queryByRole('button', { name: 'Voltar ao sinal' })).toBeNull()
   })
 })
 
