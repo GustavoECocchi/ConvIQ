@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "vitest run",
+    "e2e": "node --test --test-timeout=240000 e2e/jornada.e2e.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@vitejs/plugin-react": "^6.1.1",
     "jsdom": "^27.4.0",
     "oxlint": "^1.81.0",
+    "playwright-core": "1.63.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vitest": "^4.1.11"

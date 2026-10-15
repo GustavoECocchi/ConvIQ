@@ -13,7 +13,7 @@ interface MeetingFormProps {
   valoresIniciais?: ValoresDoFormulario
   /** Recebe todos os valores a cada edição, para a página guardá-los em memória. */
   onValores?: (valores: ValoresDoFormulario) => void
-  /** Envio em andamento: o botão fica indisponível sem perder o foco, e os campos não mudam até a resposta. */
+  /** Envio em andamento: o botão fica indisponível sem perder o foco, e os campos ficam somente leitura (o select, `aria-disabled`) até a resposta. */
   enviando?: boolean
 }
 
@@ -126,19 +126,20 @@ export function MeetingForm({ onSubmit, onEdit, valoresIniciais = VALORES_INICIA
       <div className={`field${erros.titulo ? ' has-error' : ''}`}>
         <label htmlFor={idDoCampo('titulo')}>{ROTULOS.titulo}</label>
         {mensagens('titulo')}
-        <input type="text" autoComplete="off" {...propriedades('titulo')} />
+        <input type="text" autoComplete="off" readOnly={enviando} {...propriedades('titulo')} />
       </div>
 
       <div className={`field${erros.empresa ? ' has-error' : ''}`}>
         <label htmlFor={idDoCampo('empresa')}>{ROTULOS.empresa}</label>
         {mensagens('empresa')}
-        <input type="text" autoComplete="organization" {...propriedades('empresa')} />
+        <input type="text" autoComplete="organization" readOnly={enviando} {...propriedades('empresa')} />
       </div>
 
       <div className={`field${erros.vinculo ? ' has-error' : ''}`}>
         <label htmlFor={idDoCampo('vinculo')}>{ROTULOS.vinculo}</label>
         {mensagens('vinculo')}
-        <select {...propriedades('vinculo')}>
+        {/* `select` não tem `readonly`: aria-disabled informa o estado e `editar` ignora a troca. */}
+        <select aria-disabled={enviando || undefined} {...propriedades('vinculo')}>
           <option value="">Selecione o vínculo</option>
           <option value="cliente">Cliente</option>
           <option value="prospect">Prospect</option>
@@ -149,7 +150,7 @@ export function MeetingForm({ onSubmit, onEdit, valoresIniciais = VALORES_INICIA
       <div className={`field${erros.transcricao ? ' has-error' : ''}`}>
         <label htmlFor={idDoCampo('transcricao')}>{ROTULOS.transcricao}</label>
         {mensagens('transcricao')}
-        <textarea rows={10} {...propriedades('transcricao')} />
+        <textarea rows={10} readOnly={enviando} {...propriedades('transcricao')} />
       </div>
 
       {/* aria-disabled, não disabled: o botão continua focável e o foco não se perde ao enviar com Enter. */}

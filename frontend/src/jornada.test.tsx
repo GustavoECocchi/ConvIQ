@@ -102,6 +102,35 @@ describe('estados do envio', () => {
     expect(campo('Empresa').value).toBe('Acme')
   })
 
+  it('enviando: campos de texto somente leitura, vínculo com aria-disabled, e o status explica o motivo', () => {
+    fetchEspiao.mockReturnValue(pendente().promessa)
+    abrir()
+    preencher()
+    enviar()
+
+    for (const nome of ['Título da reunião', 'Empresa', 'Transcrição da reunião']) {
+      expect(campo(nome).hasAttribute('readonly')).toBe(true)
+    }
+    const vinculo = campo('Vínculo com a empresa')
+    expect(vinculo.getAttribute('aria-disabled')).toBe('true')
+    digitar(vinculo, 'prospect')
+    expect(vinculo.value).toBe('cliente')
+    expect(status()).toContain('somente leitura')
+  })
+
+  it('depois da falha os campos voltam a ser editáveis e sem aria-disabled', async () => {
+    fetchEspiao.mockResolvedValueOnce(json({}, 500))
+    abrir()
+    preencher()
+    enviar()
+    await screen.findByRole('alert')
+
+    for (const nome of ['Título da reunião', 'Empresa', 'Transcrição da reunião']) {
+      expect(campo(nome).hasAttribute('readonly')).toBe(false)
+    }
+    expect(campo('Vínculo com a empresa').hasAttribute('aria-disabled')).toBe(false)
+  })
+
   it('envio duplicado (dois cliques e Enter no formulário) faz um só POST', () => {
     fetchEspiao.mockReturnValue(pendente().promessa)
     abrir()
@@ -262,7 +291,7 @@ describe('resultado em memória', () => {
   it('Editar dados: volta ao formulário preenchido, sem pedido novo, e a análise some da memória', async () => {
     const roteador = await enviarComSucesso()
     fetchEspiao.mockClear()
-    fireEvent.click(screen.getByRole('button', { name: '← Editar dados' }))
+    fireEvent.click(screen.getByRole('link', { name: '← Editar dados' }))
 
     expect(roteador.state.location.pathname).toBe('/analises/nova')
     expect(campo('Título da reunião').value).toBe('  Renovação Acme  ')
@@ -280,7 +309,7 @@ describe('resultado em memória', () => {
 
   it('Nova análise: formulário limpo, e voltar ao resultado não traz a análise anterior', async () => {
     const roteador = await enviarComSucesso()
-    fireEvent.click(screen.getByRole('button', { name: 'Nova análise' }))
+    fireEvent.click(screen.getByRole('link', { name: 'Nova análise' }))
 
     expect(roteador.state.location.pathname).toBe('/analises/nova')
     for (const nome of ['Título da reunião', 'Empresa', 'Vínculo com a empresa', 'Transcrição da reunião']) {
@@ -294,7 +323,7 @@ describe('resultado em memória', () => {
 
   it('editar e reenviar mostra só a resposta nova, com a identificação nova', async () => {
     await enviarComSucesso()
-    fireEvent.click(screen.getByRole('button', { name: '← Editar dados' }))
+    fireEvent.click(screen.getByRole('link', { name: '← Editar dados' }))
     fetchEspiao.mockResolvedValueOnce(json(respostaB))
     digitar(campo('Título da reunião'), 'Segunda reunião')
     enviar()
@@ -307,7 +336,7 @@ describe('resultado em memória', () => {
 
   it('durante um novo envio a análise anterior não aparece como se fosse a do pedido novo', async () => {
     const roteador = await enviarComSucesso()
-    fireEvent.click(screen.getByRole('button', { name: '← Editar dados' }))
+    fireEvent.click(screen.getByRole('link', { name: '← Editar dados' }))
     fetchEspiao.mockReturnValue(pendente().promessa)
     enviar()
     await act(async () => {
@@ -332,6 +361,68 @@ describe('resultado em memória', () => {
     expect(screen.queryByRole('region', { name: 'Transcrição' })).toBeNull()
   })
 
+  it('Editar dados e Nova análise não mostram, nem por um instante, o aviso de "sem análise"', async () => {
+    for (const nome of ['← Editar dados', 'Nova análise']) {
+      const roteador = await enviarComSucesso()
+      let aviso = false
+      const observador = new MutationObserver(() => {
+        if (document.body.textContent?.includes('Não há nenhuma análise')) aviso = true
+      })
+      observador.observe(document.body, { childList: true, subtree: true, characterData: true })
+      fireEvent.click(screen.getByRole('link', { name: nome }))
+      await waitFor(() => expect(roteador.state.location.pathname).toBe('/analises/nova'))
+      await waitFor(() => expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Nova análise por texto'))
+      observador.disconnect()
+
+      expect(aviso).toBe(false)
+      expect(document.activeElement).toBe(screen.getByRole('heading', { level: 1 }))
+      cleanup()
+    }
+  })
+
+  it('"Nova análise" da visão geral limpa o rascunho, como a do resultado', async () => {
+    const roteador = abrir()
+    preencher()
+    await act(async () => {
+      await roteador.navigate('/')
+    })
+    const cta = screen.getByRole('link', { name: 'Nova análise' })
+    expect(cta.getAttribute('href')).toBe('/analises/nova')
+    fireEvent.click(cta)
+
+    expect(roteador.state.location.pathname).toBe('/analises/nova')
+    for (const nome of ['Título da reunião', 'Empresa', 'Vínculo com a empresa', 'Transcrição da reunião']) {
+      expect(campo(nome).value).toBe('')
+    }
+  })
+
+  it('o caminho de volta do resultado ausente também começa do zero', async () => {
+    const roteador = await enviarComSucesso()
+    fireEvent.click(screen.getByRole('link', { name: '← Editar dados' }))
+    expect(campo('Empresa').value).toBe('Acme')
+    await act(async () => {
+      await roteador.navigate(PAGINAS.resultado.caminho)
+    })
+    fireEvent.click(screen.getByRole('link', { name: 'Nova análise' }))
+
+    expect(roteador.state.location.pathname).toBe('/analises/nova')
+    expect(campo('Empresa').value).toBe('')
+  })
+
+  it('falha depois de Editar dados não ressuscita o resultado anterior', async () => {
+    const roteador = await enviarComSucesso()
+    fireEvent.click(screen.getByRole('link', { name: '← Editar dados' }))
+    fetchEspiao.mockResolvedValueOnce(json({}, 500))
+    enviar()
+    await screen.findByRole('alert')
+    await act(async () => {
+      await roteador.navigate(PAGINAS.resultado.caminho)
+    })
+
+    expect(screen.queryByRole('region', { name: 'Transcrição' })).toBeNull()
+    expect(document.body.textContent).toContain('Não há nenhuma análise')
+  })
+
   it('sem estado (abertura direta ou recarga): aviso simples, nenhuma fixture, caminho de volta', async () => {
     await enviarComSucesso()
     cleanup() // recarregar a página: tudo em memória se perde
@@ -342,8 +433,8 @@ describe('resultado em memória', () => {
     expect(screen.queryByRole('region', { name: 'Reunião analisada' })).toBeNull()
     expect(screen.queryByRole('region', { name: 'Transcrição' })).toBeNull()
     expect(document.body.textContent).not.toContain('Empresa Exemplo')
-    expect(document.body.textContent).toContain('ele some ao recarregar')
-    expect(screen.getByRole('link', { name: 'Ir para Nova análise' }).getAttribute('href')).toBe('/analises/nova')
+    expect(document.body.textContent).toContain('some ao recarregá-la')
+    expect(screen.getByRole('link', { name: 'Nova análise' }).getAttribute('href')).toBe('/analises/nova')
   })
 })
 

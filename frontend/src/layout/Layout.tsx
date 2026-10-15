@@ -1,8 +1,56 @@
 import { useEffect, useRef } from 'react'
-import { Link, NavLink, Outlet, useLocation, useMatches } from 'react-router'
+import { Link, NavLink, Outlet, useLocation, useMatches, useNavigationType } from 'react-router'
 import { ITENS_DO_MENU, PAGINAS } from '../destinos.ts'
 import type { DadosDaRota } from '../destinos.ts'
 import { AnaliseEmMemoriaProvider } from '../analise/AnaliseEmMemoria.tsx'
+
+/** Tem alguma parte na janela? */
+const naJanela = (elemento: Element) => {
+  const { top, bottom } = elemento.getBoundingClientRect()
+  return bottom > 0 && top < window.innerHeight
+}
+
+/**
+ * Ao voltar ou avançar o navegador restaura a rolagem da página. Levar o foco a um `h1` fora da janela
+ * faria o foco apontar para um lugar e a vista para outro (O2 de F04-B-02): então o foco vai ao primeiro
+ * título visível, sem rolar, e o teclado e o leitor de tela continuam de onde a pessoa está olhando.
+ */
+function focarContextoVisivel() {
+  const titulo = document.querySelector<HTMLElement>('main h1')
+  if (window.scrollY === 0 || !titulo || naJanela(titulo)) {
+    titulo?.focus()
+    return
+  }
+  const alvo = [...document.querySelectorAll<HTMLElement>('main h2, main h3, main h4')].find(naJanela) ?? document.querySelector<HTMLElement>('main')
+  if (!alvo) return
+  if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1')
+  alvo.focus({ preventScroll: true })
+}
+
+const SILENCIO_DA_ROLAGEM_MS = 120
+const ESPERA_MAXIMA_DA_ROLAGEM_MS = 1500
+
+/** Chama `acao` quando a rolagem fica `SILENCIO_DA_ROLAGEM_MS` sem mudar (ou após o limite). Devolve o cancelamento. */
+function aoAssentarARolagem(acao: () => void) {
+  let silencio = 0
+  const limite = window.setTimeout(concluir, ESPERA_MAXIMA_DA_ROLAGEM_MS)
+  const reiniciar = () => {
+    window.clearTimeout(silencio)
+    silencio = window.setTimeout(concluir, SILENCIO_DA_ROLAGEM_MS)
+  }
+  function cancelar() {
+    window.clearTimeout(silencio)
+    window.clearTimeout(limite)
+    window.removeEventListener('scroll', reiniciar)
+  }
+  function concluir() {
+    cancelar()
+    acao()
+  }
+  window.addEventListener('scroll', reiniciar, { passive: true })
+  reiniciar()
+  return cancelar
+}
 
 /**
  * A cada navegação: atualiza o título do documento e leva o foco ao `h1` da página
@@ -15,6 +63,7 @@ function useTituloEFoco() {
   const { pathname, hash } = useLocation()
   const dados = useMatches().at(-1)?.handle as DadosDaRota | undefined
   const titulo = dados?.titulo
+  const tipo = useNavigationType()
   const caminhoAnterior = useRef<string | null>(null)
 
   useEffect(() => {
@@ -29,9 +78,16 @@ function useTituloEFoco() {
     if (!mudouDePagina) return
 
     const focarTitulo = () => document.querySelector<HTMLElement>('main h1')?.focus()
-    if (!hash) {
+    if (!hash && tipo !== 'POP') {
       focarTitulo()
       return
+    }
+    if (!hash) {
+      // Voltar/avançar: o navegador restaura a rolagem depois da renderização, e com `scroll-behavior: smooth`
+      // a restauração é animada. Só quando a rolagem para de mudar vale escolher o foco pelo que está visível.
+      return aoAssentarARolagem(() => {
+        if (window.location.pathname === pathname) focarContextoVisivel()
+      })
     }
 
     // Ao voltar para uma entrada com #conteudo, o navegador pode restaurar o
@@ -41,7 +97,7 @@ function useTituloEFoco() {
       if (window.location.pathname === pathname) focarTitulo()
     })
     return () => cancelAnimationFrame(quadro)
-  }, [pathname, hash])
+  }, [pathname, hash, tipo])
 }
 
 /** O estado em memória da análise vive aqui, acima das páginas, para sobreviver à navegação entre elas. */
