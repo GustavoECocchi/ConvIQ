@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 15/10/2026 (Codex, F06-B-06). Quem muda o estado de um PR atualiza este
+Atualizado em 15/10/2026 (Codex, F06-B-07). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -13,8 +13,8 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 a F06-A integrados. F06-A FINALIZADA/APROVADA_TECNICAMENTE, entrega `1bc9675` e registro `e4fc053` publicados; [PR #15](https://github.com/GustavoECocchi/ConvIQ/pull/15) MERGEADO em `4950292` e conferido em F06-A-07. F06-B FINALIZADA/APROVADA_TECNICAMENTE em F06-B-03: entrega `4725ee9` commitada e publicada em `origin/feat/f06b-jornada-texto`, sem PR/merge. Nova análise coerente, aviso de ausência sem quadro intermediário, campos somente leitura, foco ao voltar e E2E com API real. Codex reexecutou 350 testes duas vezes, typecheck, lint, build e 20/20 E2E a 320/1440 px. Observação não impeditiva O1 em F06-B-03; leitor de tela/Firefox/Safari/aparelho real/CI não executados.
-- **Papéis:** Claude Sonnet executou F06-B; Codex concedeu aceite técnico no nível B e publicou a entrega com autorização do usuário. PR e merge dependem de ordens separadas.
+- **Frontend:** F01 a F06-A integrados. F06-A FINALIZADA/APROVADA_TECNICAMENTE, entrega `1bc9675` e registro `e4fc053` publicados; [PR #15](https://github.com/GustavoECocchi/ConvIQ/pull/15) MERGEADO em `4950292` e conferido em F06-A-07. F06-B FINALIZADA/APROVADA_TECNICAMENTE em F06-B-03: entrega `4725ee9` publicada e [PR #16](https://github.com/GustavoECocchi/ConvIQ/pull/16) ABERTO, ainda sem merge. Nova análise coerente, aviso de ausência sem quadro intermediário, campos somente leitura, foco ao voltar e E2E com API real. Codex reexecutou 350 testes duas vezes, typecheck, lint, build e 20/20 E2E a 320/1440 px. Observação não impeditiva O1 em F06-B-03; leitor de tela/Firefox/Safari/aparelho real/CI não executados.
+- **Papéis:** Claude Sonnet executou F06-B; Codex concedeu aceite técnico no nível B, publicou e abriu o PR com as autorizações do usuário. Merge depende de ordem separada.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -24,8 +24,8 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Com ordem do usuário, abrir PR F06-B de `feat/f06b-jornada-texto` para `feat/b01-fundacao-api`, conferindo head/base e o diff publicado.
-2. Merge depende de ordem própria; após integração, conferir a árvore no destino antes de iniciar outro cartão. Não iniciar F07 automaticamente.
+1. Conferir o head final do PR #16 após publicar F06-B-07. O merge depende de ordem separada do usuário.
+2. Após integração autorizada, conferir a árvore no destino antes de iniciar outro cartão. Não iniciar F07 automaticamente.
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).
