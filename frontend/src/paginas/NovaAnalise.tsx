@@ -21,6 +21,11 @@ export function NovaAnalise() {
   // O controlador do pedido em andamento; ausente quando nada está sendo enviado.
   const pendente = useRef<AbortController | null>(null)
 
+  // Ao abrir o formulário a análise anterior sai da memória: nem "Editar dados" nem um erro a ressuscitam depois.
+  useEffect(() => {
+    esquecerAnalise()
+  }, [esquecerAnalise])
+
   useEffect(
     () => () => {
       pendente.current?.abort()
@@ -33,8 +38,6 @@ export function NovaAnalise() {
     if (pendente.current) return
     const controlador = new AbortController()
     pendente.current = controlador
-    // Uma análise anterior não pode aparecer como resposta deste pedido.
-    esquecerAnalise()
     setEnvio({ situacao: 'enviando' })
     // Cancelar só acontece aqui, ao sair da página; então um pedido que não é mais o atual é sempre ignorado, inclusive o `cancelado`.
     const atual = () => pendente.current === controlador && !controlador.signal.aborted
@@ -76,7 +79,7 @@ export function NovaAnalise() {
             enviando={enviando}
           />
           <div className="form-status" role="status">
-            {enviando && <p>Enviando a transcrição para análise… aguarde, isso pode levar alguns segundos.</p>}
+            {enviando && <p>Enviando a transcrição para análise… os campos ficam somente leitura até a resposta; aguarde, isso pode levar alguns segundos.</p>}
           </div>
           {envio.situacao === 'erro' && (
             <div className="form-erro" role="alert">

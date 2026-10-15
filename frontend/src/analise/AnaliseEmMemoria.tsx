@@ -14,18 +14,12 @@ import type { AnaliseRecebida } from './useAnaliseEmMemoria.ts'
 export function AnaliseEmMemoriaProvider({ children }: { children: ReactNode }) {
   const [analise, setAnalise] = useState<AnaliseRecebida | undefined>()
   const rascunho = useRef<ValoresDoFormulario>(VALORES_INICIAIS)
-  const contador = useRef(0)
 
-  const receber = useCallback((pedido: AnaliseTextoRequest, resposta: AnaliseTextoResponse) => {
-    contador.current += 1
-    const id = contador.current
-    setAnalise({ id, pedido, resposta })
-    return id
-  }, [])
+  const receber = useCallback((pedido: AnaliseTextoRequest, resposta: AnaliseTextoResponse) => setAnalise({ pedido, resposta }), [])
   const esquecerAnalise = useCallback(() => setAnalise(undefined), [])
+  // Só a referência: não renderiza nada, então a tela de onde o usuário sai não muda antes da navegação.
   const recomecar = useCallback(() => {
     rascunho.current = VALORES_INICIAIS
-    setAnalise(undefined)
   }, [])
   const lerRascunho = useCallback(() => rascunho.current, [])
   const guardarRascunho = useCallback((valores: ValoresDoFormulario) => {

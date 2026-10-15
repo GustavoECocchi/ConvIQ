@@ -26,6 +26,14 @@ async function voltar(roteador: ReturnType<typeof abrir>, passos = -1) {
   })
 }
 
+/** Voltar/avançar espera a rolagem restaurada assentar: só então o `Layout` escolhe o foco. */
+async function voltarEEsperar(roteador: ReturnType<typeof abrir>, passos = -1) {
+  await voltar(roteador, passos)
+  await act(async () => {
+    await new Promise<void>((resolver) => setTimeout(resolver, 250))
+  })
+}
+
 beforeEach(() => {
   document.title = ''
   ;(document.activeElement as HTMLElement | null)?.blur()
@@ -94,7 +102,7 @@ describe('navegação entre páginas', () => {
     expect(document.activeElement).toBe(titulo())
     expect(itensAtuais()).toEqual(['Como ler os sinais'])
 
-    await voltar(roteador)
+    await voltarEEsperar(roteador)
 
     expect(roteador.state.location.pathname).toBe('/')
     expect(document.title).toBe(PAGINAS.visaoGeral.titulo)
@@ -157,12 +165,100 @@ describe('navegação entre páginas', () => {
     const roteador = abrir('/')
     fireEvent.click(screen.getByRole('link', { name: 'Entenda o resultado' }))
     await voltar(roteador)
-    await voltar(roteador, 1)
+    // O guarda do `Layout` compara com o URL do navegador, que o roteador em memória não muda.
+    vi.stubGlobal('location', { pathname: '/como-ler' })
+    await voltarEEsperar(roteador, 1)
 
     expect(roteador.state.location.pathname).toBe('/como-ler')
     expect(document.title).toBe(PAGINAS.comoLer.titulo)
     expect(document.activeElement).toBe(titulo())
     expect(itensAtuais()).toEqual(['Como ler os sinais'])
+  })
+
+  describe('voltar para uma página rolada (O2 de F04-B-02)', () => {
+    const emRolagem = (rolagem: number, h1Visivel: boolean) => {
+      vi.stubGlobal('scrollY', rolagem)
+      const limites = (topo: number) => ({ top: topo, bottom: topo + 40, left: 0, right: 0, width: 0, height: 40, x: 0, y: topo, toJSON: () => ({}) })
+      let primeiro = true
+      vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (this: Element) {
+        if (this.tagName === 'H1') return limites(h1Visivel ? 20 : -2300)
+        if (this.tagName === 'H2' && primeiro) {
+          primeiro = false
+          return limites(3000) // título abaixo da janela: não serve
+        }
+        if (this.tagName === 'H2') return limites(120)
+        return limites(3000)
+      })
+    }
+    const aoVoltar = async () => {
+      const foco = vi.spyOn(HTMLElement.prototype, 'focus')
+      const roteador = createMemoryRouter(rotas, { initialEntries: ['/', '/como-ler'], initialIndex: 1 })
+      render(<RouterProvider router={roteador} />)
+      foco.mockClear()
+      await voltarEEsperar(roteador)
+      return foco
+    }
+    afterEach(() => vi.restoreAllMocks())
+
+    it('com o h1 fora da janela, o foco vai ao primeiro título visível, sem rolar', async () => {
+      emRolagem(2277, false)
+      const foco = await aoVoltar()
+
+      expect(document.activeElement?.tagName).toBe('H2')
+      expect(document.activeElement).not.toBe(titulo())
+      expect(foco).toHaveBeenLastCalledWith({ preventScroll: true })
+      expect(foco.mock.instances.at(-1)).toBe(document.activeElement)
+    })
+
+    it('com a restauração animada (scroll-behavior: smooth), o foco só é escolhido depois que a rolagem assenta', async () => {
+      let rolagem = 0
+      vi.stubGlobal('scrollY', 0)
+      const limites = (topo: number) => ({ top: topo, bottom: topo + 40, left: 0, right: 0, width: 0, height: 40, x: 0, y: topo, toJSON: () => ({}) })
+      vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (this: Element) {
+        if (this.tagName === 'H1') return limites(100 - rolagem) // o h1 sai da janela à medida que a página rola
+        return limites(this.tagName === 'H2' ? 200 : 3000)
+      })
+      const roteador = createMemoryRouter(rotas, { initialEntries: ['/', '/como-ler'], initialIndex: 1 })
+      render(<RouterProvider router={roteador} />)
+      await voltar(roteador)
+
+      // O h1 ainda está na janela (rolagem em 0), mas a restauração segue: nada de foco no h1.
+      await act(async () => new Promise<void>((resolver) => setTimeout(resolver, 40)))
+      expect(document.activeElement).not.toBe(titulo())
+      for (const passo of [400, 1200, 2277]) {
+        rolagem = passo
+        vi.stubGlobal('scrollY', passo)
+        window.dispatchEvent(new Event('scroll'))
+        await act(async () => new Promise<void>((resolver) => setTimeout(resolver, 60)))
+        expect(document.activeElement).not.toBe(titulo())
+      }
+      await act(async () => new Promise<void>((resolver) => setTimeout(resolver, 250)))
+
+      expect(document.activeElement?.tagName).toBe('H2')
+    })
+
+    it('com o h1 ainda visível na rolagem restaurada, o foco continua no h1', async () => {
+      emRolagem(30, true)
+      await aoVoltar()
+
+      expect(document.activeElement).toBe(titulo())
+    })
+
+    it('sem rolagem restaurada, o foco vai ao h1 como antes', async () => {
+      emRolagem(0, false)
+      await aoVoltar()
+
+      expect(document.activeElement).toBe(titulo())
+    })
+
+    it('navegação comum por link, mesmo com a página rolada, leva o foco ao h1 da página nova', () => {
+      emRolagem(2277, false)
+      const roteador = abrir('/')
+      fireEvent.click(screen.getByRole('link', { name: 'Entenda o resultado' }))
+
+      expect(roteador.state.location.pathname).toBe('/como-ler')
+      expect(document.activeElement).toBe(titulo())
+    })
   })
 
   it('"Entenda o resultado" abre /como-ler (não uma âncora)', () => {
