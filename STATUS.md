@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 15/10/2026 (Codex, F06-A-05). Quem muda o estado de um PR atualiza este
+Atualizado em 15/10/2026 (Codex, F06-A-06). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -13,8 +13,8 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 a F05-B integrados. F05-B FINALIZADA/APROVADA_TECNICAMENTE em F05-B-06, entrega `f90ddc5`, PR #14 MERGEADO em `7821eee` e conferido em F05-B-10; 311 testes passaram. F06-A está FINALIZADA localmente em F06-A-02 e APROVADA_TECNICAMENTE em F06-A-05, sem commit: `/analises/nova` envia à API real, `/analises/resultado` mostra a resposta em memória e O2 de F05-B foi incluído. Codex reexecutou 339 testes, typecheck, lint e build em F06-A-03; Opus revisou em F06-A-04 sem impeditivos nem mudança de código e registrou 80 checks Chromium 320/1440 px com API real, além de 10 mutações detectadas. Publicação e integração pendentes.
-- **Papéis:** Claude Sonnet executou F06-A; Claude Opus fez a revisão independente e Codex concedeu aceite técnico em 15/10. Publicação depende da ordem do usuário.
+- **Frontend:** F01 a F05-B integrados. F06-A FINALIZADA em F06-A-02 e APROVADA_TECNICAMENTE em F06-A-05: entrega `1bc9675` PUBLICADA em `feat/f06a-integracao-texto`; [PR #15](https://github.com/GustavoECocchi/ConvIQ/pull/15) ABERTO contra `feat/b01-fundacao-api`, não integrado. `/analises/nova` envia à API real, `/analises/resultado` mostra a resposta em memória e O2 de F05-B foi incluído. Codex reexecutou 339 testes, typecheck, lint e build em F06-A-03; Opus revisou em F06-A-04 sem impeditivos e registrou 80 checks Chromium 320/1440 px com API real, além de 10 mutações detectadas.
+- **Papéis:** Claude Sonnet executou F06-A; Claude Opus fez a revisão independente e Codex concedeu aceite técnico. Usuário autorizou commit, push e abertura do PR; merge depende de ordem separada.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -24,7 +24,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Usuário decide publicação F06-A: commit/push da versão aprovada na branch de trabalho e, em ordem separada, abertura de PR e merge na branch padrão. `AGENTS.md` exige autorização para essas operações; nada foi publicado.
+1. Confirmar o head final e a situação do PR #15 após o commit documental F06-A-06. O merge exige ordem separada do usuário; nenhuma integração foi autorizada nesta publicação.
 2. Após integração e verificação, preparar F06-B: resultado ausente, foco, 422/rede em toda a jornada e E2E, mais O1 (quadro intermediário em Editar dados/Nova análise), O2 (rótulo "Nova análise" com duas ações) e avaliação de O4 (`readOnly`/anúncio dos campos durante envio).
 
 ## Decisões abertas
