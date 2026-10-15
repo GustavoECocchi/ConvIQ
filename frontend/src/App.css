@@ -236,3 +236,15 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
   .guide-panel { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .action-link { transition: none; } }
+
+/* F06-A: erro de envio, resultado ausente e ações do resultado real. */
+.form-erro { margin-top: 14px; padding: 16px 18px; border: 3px solid #a4261c; border-radius: 12px; background: #fff; color: #5f1a14; font-size: 14px; line-height: 1.6; }
+.form-erro p { margin: 0 0 6px; }
+.form-erro p:last-child { margin-bottom: 0; }
+.form-erro .form-erro-titulo { color: #a4261c; font-size: 16px; font-weight: 800; }
+.action-button[aria-disabled='true'] { cursor: progress; background: #5a6a99; }
+.resultado-ausente { padding: 24px; overflow-wrap: anywhere; }
+.resultado-ausente p { margin: 0 0 14px; color: #3d444d; font-size: 15px; line-height: 1.7; }
+.resultado-ausente p:last-child { margin-bottom: 0; }
+.resultado-acoes { display: flex; flex-wrap: wrap; gap: 10px; }
+button.guide-back { font-family: inherit; cursor: pointer; }

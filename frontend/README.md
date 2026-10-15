@@ -1,6 +1,6 @@
 # Frontend do ConvIQ
 
-Base React, TypeScript e Vite do cartão F01. A página inicial usa um dashboard horizontal com navegação superior e cartões amplos. O exemplo de evidência é identificado como ilustrativo; a página ainda não envia transcrições nem mostra resultados da API.
+Base React, TypeScript e Vite do cartão F01. A página inicial usa um dashboard horizontal com navegação superior e cartões amplos. O exemplo de evidência é identificado como ilustrativo e independente da análise real. Desde F06-A, `/analises/nova` envia a transcrição à API e `/analises/resultado` mostra a resposta, só em memória.
 
 ## Requisitos
 
@@ -44,18 +44,47 @@ Navegação de cliente com [React Router 7](https://reactrouter.com/start/declar
 
 ## Cliente da API (F02-B)
 
-`src/services/api.ts` envia `POST /analises/texto` (contrato C01) e devolve a resposta tipada, sem recalcular sinais. Ainda não é usado pela interface (formulário e resultado vêm em F03–F06).
+`src/services/api.ts` envia `POST /analises/texto` (contrato C01) e devolve a resposta tipada, sem recalcular sinais. É usado por `/analises/nova` desde F06-A (ver a seção abaixo).
 
 - **Endereço da API:** variável `VITE_API_BASE_URL`, com o prefixo `/api`. Valor local em [`.env.example`](.env.example) (`http://localhost:8000/api`, o mesmo que a API usa por padrão); para trocar, copie para `.env.local` (ignorado pelo Git). Sem a variável, vale o padrão local. A base é juntada ao caminho com uma só barra, com ou sem barra final, e o cliente não acrescenta `/api` por conta própria.
 - **Uso:** `analisarTexto(pedido, { signal })`; o `AbortSignal` é repassado ao `fetch`. Para testes, `criarClienteApi({ baseUrl, fetchImpl })`.
 - **Falhas:** toda rejeição é um `ErroDaApi` com `falha.tipo`: `validacao` (HTTP 422 com `{"erro": {"codigo", "mensagem"}}`, que traz o código e a mensagem da API), `http` (outro status, com `status`), `rede` (o `fetch` falhou ou a conexão caiu durante a leitura do corpo), `cancelado` (o sinal foi acionado, não é falha de rede) e `resposta_invalida` (corpo completo de 200 ou 422 fora do schema de C01; um 422 malformado nunca vira erro de campo). Um 200 só é aceito se seguir o schema de C01: textos obrigatórios preenchidos, `inicio >= 0` e `fim > inicio` em cada evidência, IDs de evidência únicos e toda referência apontando para uma evidência existente. O cliente não confere o recorte literal nem regras de produto, como o próprio schema; o mesmo ID pode ser citado por listas diferentes. `mensagemDaFalha(falha)` devolve uma mensagem em português para o usuário, sem corpo nem detalhes internos do servidor.
-- **CORS:** a API só libera por padrão a origem `http://localhost:5173`; abrir a página em `http://127.0.0.1:5173` é outra origem e o navegador bloqueia. A conferência real no navegador fica para F06-A.
+- **CORS:** a API só libera por padrão a origem `http://localhost:5173`; abrir a página em `http://127.0.0.1:5173` é outra origem e o navegador bloqueia. Conferido no navegador em F06-A (seção abaixo).
 - **Testes:** `npm test` usa `fetch` simulado (sem servidor).
 
 ## Decisões de interface
 
 O [registro de referências de UX](docs/UX_REFERENCIAS.md) documenta a inspiração visual, a hierarquia de informação e os cuidados previstos para os próximos cartões. Prévia: [desktop](docs/preview-f01-desktop.png) e [celular](docs/preview-f01-mobile.png). A página usa rótulos diretos e um exemplo textual para explicar a ligação entre sinal e evidência. Gráficos e contadores serão usados apenas se os dados disponíveis sustentarem uma comparação real.
 
+## Integração real por texto (F06-A)
+
+`/analises/nova` envia a reunião com `analisarTexto` (`src/services/api.ts`, sem replicar `fetch` nem regras) e, ao receber a resposta, navega para `/analises/resultado`, que mostra a identificação da reunião e o `ResultadoAnalise` com a resposta exata da API.
+
+- **Estados do envio:** inicial; enviando (`role="status"`, botão "Enviando…" com `aria-disabled`, sem perder o foco, campos congelados e um só POST); erro (`role="alert"` com `mensagemDaFalha`, campos preservados, nova tentativa com os dados correntes); sucesso (navegação, foco no `h1`).
+- **Memória, não armazenamento:** `src/analise/` guarda pedido, resposta e o texto digitado no `Layout`, acima das páginas. Nada vai a `localStorage`, `sessionStorage`, IndexedDB nem à URL; recarregar apaga tudo. **Editar dados** volta ao formulário preenchido e esquece a análise; **Nova análise** limpa também o texto. Enviar de novo esquece a análise anterior antes de pedir a nova.
+- **Sem análise em memória** (abertura direta, recarga), `/analises/resultado` mostra um aviso simples com o caminho para Nova análise, nunca uma fixture. O acabamento desse caso e da jornada fica em F06-B.
+- **Pedido obsoleto:** sair da página cancela o pedido (`AbortController`); uma resposta ou falha que chegue depois é ignorada.
+- **Troca de resposta (O2 de F05-B):** `ResultadoAnalise` remonta quando recebe outro objeto de resposta, e seleção, anúncio, aviso e botão de origem recomeçam.
+
+### Reproduzir com a API real
+
+Dois terminais, a partir da raiz do checkout (o venv da pasta raiz tem instalação editável de outra pasta; por isso `PYTHONPATH`):
+
+```bash
+# API em http://localhost:8000
+cd backend
+PYTHONPATH=$PWD <venv>/bin/uvicorn app.main:app --port 8000
+
+# Frontend em http://localhost:5173 (a base padrão da API já é http://localhost:8000/api)
+cd frontend
+npm ci
+npm run dev -- --port 5173 --strictPort
+```
+
+Abra `http://localhost:5173/analises/nova`, preencha e envie. Essa origem está no CORS padrão do backend. `http://127.0.0.1:5173` é **outra origem**: sem configuração o navegador bloqueia o POST e a tela mostra o erro de rede. Para usá-la, suba a API com `ORIGENS_CORS='["http://127.0.0.1:5173"]'` e abra o Vite com `--host 127.0.0.1`. Para outra porta de API, defina `VITE_API_BASE_URL` (com `/api`) ao iniciar o Vite. Nada depende de serviço externo.
+
+Um 422 real, sem alterar o servidor: uma transcrição só com o caractere de controle U+001F passa pela validação local (o `trim` do JavaScript não o remove) e o Python o apara, então a API responde 422.
+
 ## Próximos cartões
 
-F03-B entregará o formulário conforme o contrato C01 em `../docs/contratos/analise-texto.md`. F04 entregará o card; F05, a consulta de evidências; F06, a integração de texto com `POST /api/analises/texto`. Os cartões futuros devem manter a navegação superior, os estados claros e a ligação literal aos trechos da transcrição.
+F06-B fecha a jornada: resultado ausente após recarga, 422/rede/servidor em toda a jornada, títulos e foco, desktop/celular e o teste ponta a ponta no navegador. Os cartões futuros devem manter a navegação superior, os estados claros e a ligação literal aos trechos da transcrição.

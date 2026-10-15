@@ -1,20 +1,20 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 14/10/2026 (Codex, F05-B-09). Quem muda o estado de um PR atualiza este
+Atualizado em 15/10/2026 (Codex, F06-A-05). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
-- **Branch padrão e destino:** `feat/b01-fundacao-api`, em `3a5de83` (PR #13,
-  reconfirmado por `git ls-remote` em 14/10).
+- **Branch padrão e destino:** `feat/b01-fundacao-api`, em `7821eee` (PR #14,
+  reconfirmado no GitHub em 15/10).
   `origin/main` é um resíduo (`8d48e75`), não use como destino.
 - **Integrado:** B01–B04, C01 (`6169fec`), B11/B12 (PR #1, `e31e6ba`),
   B13 (PR #2, `2811d84`), EST01 (PR #3, `4063830`), B14 (PR #4,
-  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`), F03-A (PR #9, `b50ce86`), F03-B (PR #10, `f859e69`) F04-A (PR #11, `cd6745c`) e F04-B (PR #12, `c66eba9`) e F05-A (PR #13, `3a5de83`).
+  `b688afb`), F01 (PR #5, `5a2fede`), F02-A (PR #6, `9706315`), F02-B (PR #7, `bf7a1a1`), B19 (PR #8, `0a29627`), F03-A (PR #9, `b50ce86`), F03-B (PR #10, `f859e69`), F04-A (PR #11, `cd6745c`) e F04-B (PR #12, `c66eba9`), F05-A (PR #13, `3a5de83`) e F05-B (PR #14, `7821eee`).
 - **B13 (oportunidade por intenção):** aprovado em B13-04 e integrado no
   [PR #2](https://github.com/GustavoECocchi/ConvIQ/pull/2); B13-10 verificou
   sete hashes, 271 testes e casos críticos na árvore integrada.
-- **Frontend:** F01 a F05-A integrados. F05-B FINALIZADA/APROVADA_TECNICAMENTE em F05-B-06, entrega `f90ddc5`, registro `5a8fc8a`, ambos PUBLICADOS no [PR #14](https://github.com/GustavoECocchi/ConvIQ/pull/14) ABERTO. Integração pendente; 311 testes passaram. A interface ainda não envia à API.
-- **Papéis desde 13/10:** Codex indisponível (sem tokens). Por decisão do usuário, Claude Opus executa e registra, outra sessão Claude revisa de forma independente pelo `prompt.md` da raiz (espelhado no worktree), e o usuário decide commit, push, PR e merge. Ninguém aprova a própria entrega. Em 14/10 o Codex voltou a verificar o F05-B (RET02, registrado no `REGISTRO_TRABALHO.md` da raiz).
+- **Frontend:** F01 a F05-B integrados. F05-B FINALIZADA/APROVADA_TECNICAMENTE em F05-B-06, entrega `f90ddc5`, PR #14 MERGEADO em `7821eee` e conferido em F05-B-10; 311 testes passaram. F06-A está FINALIZADA localmente em F06-A-02 e APROVADA_TECNICAMENTE em F06-A-05, sem commit: `/analises/nova` envia à API real, `/analises/resultado` mostra a resposta em memória e O2 de F05-B foi incluído. Codex reexecutou 339 testes, typecheck, lint e build em F06-A-03; Opus revisou em F06-A-04 sem impeditivos nem mudança de código e registrou 80 checks Chromium 320/1440 px com API real, além de 10 mutações detectadas. Publicação e integração pendentes.
+- **Papéis:** Claude Sonnet executou F06-A; Claude Opus fez a revisão independente e Codex concedeu aceite técnico em 15/10. Publicação depende da ordem do usuário.
 - **Áudio:** B07-A parcial (falta fala real, P01). Nada além disso.
 - **EST01:** integrada no [PR #3](https://github.com/GustavoECocchi/ConvIQ/pull/3);
   validação EST01-05 confirmou árvore e 273 testes. Seção 11 vigente.
@@ -24,8 +24,8 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. F05-B no PR #14: publicar o registro F05-B-09, reconferir head/base/mergeabilidade, integrar no destino `feat/b01-fundacao-api` e verificar a árvore conforme autorização de F05-A-03.
-2. F06-A (envio real à API, nível A; tratar O2 de F05-B: zerar a seleção ao trocar de resposta) e F06-B (jornada completa; inclui O2 de F04-B, foco ao voltar em página rolada) a partir da versão integrada.
+1. Usuário decide publicação F06-A: commit/push da versão aprovada na branch de trabalho e, em ordem separada, abertura de PR e merge na branch padrão. `AGENTS.md` exige autorização para essas operações; nada foi publicado.
+2. Após integração e verificação, preparar F06-B: resultado ausente, foco, 422/rede em toda a jornada e E2E, mais O1 (quadro intermediário em Editar dados/Nova análise), O2 (rótulo "Nova análise" com duas ações) e avaliação de O4 (`readOnly`/anúncio dos campos durante envio).
 
 ## Decisões abertas
 - B12-R04 usa lista fechada de temas alheios; decidir se cresce (PR próprio ou B21).

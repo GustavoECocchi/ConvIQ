@@ -38,11 +38,11 @@ afterEach(() => {
 describe('destinos', () => {
   it('menu e títulos usam só caminhos implementados e sem repetição', () => {
     expect(new Set(CAMINHOS_CONHECIDOS).size).toBe(CAMINHOS_CONHECIDOS.length)
-    expect(CAMINHOS_CONHECIDOS).toEqual(['/', '/como-ler', '/analises/nova', '/exemplo/resultado'])
+    expect(CAMINHOS_CONHECIDOS).toEqual(['/', '/como-ler', '/analises/nova', '/analises/resultado', '/exemplo/resultado'])
     expect(ITENS_DO_MENU.map((item) => item.titulo)).toEqual([PAGINAS.visaoGeral.titulo, PAGINAS.comoLer.titulo])
     expect(
-      new Set([...ITENS_DO_MENU.map((item) => item.titulo), PAGINAS.novaAnalise.titulo, PAGINAS.exemploResultado.titulo, TITULO_NAO_ENCONTRADA]).size,
-    ).toBe(5)
+      new Set([...ITENS_DO_MENU.map((item) => item.titulo), PAGINAS.novaAnalise.titulo, PAGINAS.resultado.titulo, PAGINAS.exemploResultado.titulo, TITULO_NAO_ENCONTRADA]).size,
+    ).toBe(6)
   })
 })
 

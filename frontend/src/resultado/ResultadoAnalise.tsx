@@ -23,7 +23,25 @@ export interface ResultadoAnaliseProps {
 
 const reduzMovimento = () => typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-export function ResultadoAnalise({ entrada, resposta }: ResultadoAnaliseProps) {
+/** Identidade de cada objeto de resposta recebido: o mesmo objeto mantém o estado; outro o recomeça (O2 de F05-B). */
+const identidades = new WeakMap<object, number>()
+let proxima = 0
+function identidade(resposta: object): number {
+  let id = identidades.get(resposta)
+  if (id === undefined) identidades.set(resposta, (id = ++proxima))
+  return id
+}
+
+/**
+ * Se `resposta` passa a ser outro objeto, o estado (seleção, anúncio, aviso e botão de origem) é descartado
+ * junto: o evento antigo não pode ficar valendo para uma análise nova, e os `id`s `e1`, `e2`… se repetem
+ * entre respostas. Remontar pela identidade da resposta garante isso sem repetir a limpeza campo a campo.
+ */
+export function ResultadoAnalise(props: ResultadoAnaliseProps) {
+  return <ResultadoDaResposta key={identidade(props.resposta)} {...props} />
+}
+
+function ResultadoDaResposta({ entrada, resposta }: ResultadoAnaliseProps) {
   const [selecionada, setSelecionada] = useState<{ id: string } | undefined>()
   const [falha, setFalha] = useState<FalhaEvidencia | undefined>()
   const origem = useRef<HTMLElement | null>(null)

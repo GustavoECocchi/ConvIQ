@@ -7,8 +7,14 @@ import type { CampoDoFormulario, ErrosDoFormulario, ValoresDoFormulario } from '
 interface MeetingFormProps {
   /** Chamado uma vez por envio válido, com os textos já aparados. */
   onSubmit: (pedido: AnaliseTextoRequest) => void
-  /** Chamado a cada edição de campo, para a página retirar o status de "dados prontos". */
+  /** Chamado a cada edição de campo, para a página retirar avisos que já não valem para o texto digitado. */
   onEdit?: () => void
+  /** Valores com que o formulário começa (ao voltar para editar); sem eles, começa vazio. */
+  valoresIniciais?: ValoresDoFormulario
+  /** Recebe todos os valores a cada edição, para a página guardá-los em memória. */
+  onValores?: (valores: ValoresDoFormulario) => void
+  /** Envio em andamento: o botão fica indisponível sem perder o foco, e os campos não mudam até a resposta. */
+  enviando?: boolean
 }
 
 const ROTULOS: Record<CampoDoFormulario, string> = {
@@ -27,8 +33,8 @@ const AJUDAS: Record<CampoDoFormulario, string> = {
 
 const idDoCampo = (campo: CampoDoFormulario) => `campo-${campo}`
 
-export function MeetingForm({ onSubmit, onEdit }: MeetingFormProps) {
-  const [valores, setValores] = useState<ValoresDoFormulario>(VALORES_INICIAIS)
+export function MeetingForm({ onSubmit, onEdit, valoresIniciais = VALORES_INICIAIS, onValores, enviando = false }: MeetingFormProps) {
+  const [valores, setValores] = useState<ValoresDoFormulario>(valoresIniciais)
   const [erros, setErros] = useState<ErrosDoFormulario>({})
   // Conta envios inválidos: cada um leva o foco ao resumo, mesmo que o conteúdo seja igual.
   const [falhas, setFalhas] = useState(0)
@@ -42,8 +48,11 @@ export function MeetingForm({ onSubmit, onEdit }: MeetingFormProps) {
 
   function editar(campo: CampoDoFormulario) {
     return (evento: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      // Durante o envio os campos ficam como foram enviados: o resultado volta para esse pedido, não para outro texto.
+      if (enviando) return
       const proximos = { ...valores, [campo]: evento.target.value } as ValoresDoFormulario
       setValores(proximos)
+      onValores?.(proximos)
       // Depois de um envio inválido, só o erro do campo editado é recalculado.
       if (falhas > 0) {
         setErros((atuais) => {
@@ -59,6 +68,7 @@ export function MeetingForm({ onSubmit, onEdit }: MeetingFormProps) {
 
   function enviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault()
+    if (enviando) return
     const encontrados = validar(valores)
     setErros(encontrados)
     if (Object.keys(encontrados).length > 0) {
@@ -97,7 +107,7 @@ export function MeetingForm({ onSubmit, onEdit }: MeetingFormProps) {
   }
 
   return (
-    <form className="panel meeting-form" onSubmit={enviar} noValidate aria-labelledby="form-titulo">
+    <form className="panel meeting-form" onSubmit={enviar} noValidate aria-labelledby="form-titulo" aria-busy={enviando || undefined}>
       <h2 id="form-titulo">Dados da reunião</h2>
 
       {camposComErro.length > 0 && (
@@ -142,7 +152,10 @@ export function MeetingForm({ onSubmit, onEdit }: MeetingFormProps) {
         <textarea rows={10} {...propriedades('transcricao')} />
       </div>
 
-      <button className="action-button" type="submit">Conferir dados</button>
+      {/* aria-disabled, não disabled: o botão continua focável e o foco não se perde ao enviar com Enter. */}
+      <button className="action-button" type="submit" aria-disabled={enviando || undefined}>
+        {enviando ? 'Enviando…' : 'Analisar reunião'}
+      </button>
     </form>
   )
 }
