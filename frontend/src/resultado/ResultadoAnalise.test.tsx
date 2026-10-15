@@ -402,6 +402,57 @@ describe('evidência que não pode ser localizada', () => {
   })
 })
 
+describe('troca de resposta (O2 de F05-B)', () => {
+  const outra = (r: AnaliseTextoResponse): AnaliseTextoResponse => ({ ...r }) // outra resposta, mesmos IDs e1, e2…
+
+  it('a seleção, o anúncio, o "Voltar" e o botão de origem da resposta anterior não sobrevivem', () => {
+    const { rerender } = render(<ResultadoAnalise entrada={entrada} resposta={resposta} />)
+    clicar('Ver evidência: risco de cancelamento')
+    expect(selecionadas().length).toBeGreaterThan(0)
+    expect(status()).toContain('Evidência selecionada')
+
+    rerender(<ResultadoAnalise entrada={entrada} resposta={outra(resposta)} />)
+
+    expect(selecionadas()).toHaveLength(0)
+    expect(status()).toBe('')
+    expect(screen.queryByRole('button', { name: 'Voltar ao sinal' })).toBeNull()
+  })
+
+  it('o aviso de evidência não localizada da resposta anterior também some', () => {
+    const quebrada: AnaliseTextoResponse = {
+      ...resposta,
+      evidencias: resposta.evidencias.map((e) => (e.id === 'e3' ? { ...e, inicio: e.inicio + 1, fim: e.fim + 1 } : e)),
+    }
+    const { rerender } = render(<ResultadoAnalise entrada={entrada} resposta={quebrada} />)
+    clicar('Ver evidência: oportunidade 1')
+    expect(screen.queryAllByRole('alert')).toHaveLength(1)
+
+    rerender(<ResultadoAnalise entrada={entrada} resposta={outra(resposta)} />)
+
+    expect(screen.queryAllByRole('alert')).toHaveLength(0)
+  })
+
+  it('depois da troca, "Voltar" volta ao botão da nova resposta, não ao antigo', () => {
+    const { rerender } = render(<ResultadoAnalise entrada={entrada} resposta={resposta} />)
+    clicar('Ver evidência: risco de cancelamento')
+    const antigo = botao('Ver evidência: risco de cancelamento')
+    rerender(<ResultadoAnalise entrada={entrada} resposta={outra(resposta)} />)
+    clicar('Ver evidência: oportunidade 1')
+    fireEvent.click(screen.getByRole('button', { name: 'Voltar ao sinal' }))
+
+    expect(antigo.isConnected).toBe(false)
+    expect(document.activeElement).toBe(botao('Ver evidência: oportunidade 1'))
+  })
+
+  it('o mesmo objeto de resposta mantém a seleção quando só a entrada é re-renderizada', () => {
+    const { rerender } = render(<ResultadoAnalise entrada={entrada} resposta={resposta} />)
+    clicar('Ver evidência: risco de cancelamento')
+    rerender(<ResultadoAnalise entrada={{ ...entrada }} resposta={resposta} />)
+
+    expect(selecionadas().length).toBeGreaterThan(0)
+  })
+})
+
 describe('acessibilidade e limites', () => {
   it('os destaques anunciam o papel de evidência; o forte diz que há mais de uma', () => {
     montar()

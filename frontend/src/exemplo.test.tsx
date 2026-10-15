@@ -170,22 +170,31 @@ describe('isolamento da rota didática', () => {
     expect(menu.getAllByRole('link').map((l) => l.getAttribute('href'))).not.toContain(CAMINHO)
   })
 
-  it('o formulário preenchido e conferido não leva ao exemplo nem mostra resultado', () => {
+  it('o formulário preenchido e enviado, enquanto a API não responde, não leva ao exemplo nem mostra resultado', () => {
+    fetchEspiao.mockReturnValue(new Promise(() => {}))
     const roteador = abrir('/analises/nova')
     fireEvent.change(screen.getByLabelText('Título da reunião'), { target: { value: 'Reunião' } })
     fireEvent.change(screen.getByLabelText('Empresa'), { target: { value: 'Empresa' } })
     fireEvent.change(screen.getByLabelText('Vínculo com a empresa'), { target: { value: 'cliente' } })
     fireEvent.change(screen.getByLabelText('Transcrição da reunião'), { target: { value: 'Texto da reunião.' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Conferir dados' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Analisar reunião' }))
 
+    expect(fetchEspiao).toHaveBeenCalledTimes(1)
     expect(roteador.state.location.pathname).toBe('/analises/nova')
     expect(screen.queryByText(ROTULO_EXEMPLO)).toBeNull()
     expect(screen.queryByRole('region', { name: 'Reunião analisada' })).toBeNull()
     expect(screen.queryByRole('region', { name: 'Recomendações' })).toBeNull()
-    expect(fetchEspiao).not.toHaveBeenCalled()
   })
 
-  it.each(['/exemplo', '/exemplo/resultado/extra', '/analises/resultado'])('%s continua sendo 404', (caminho) => {
+  it('/analises/resultado sem análise em memória não mostra o exemplo como se fosse real', () => {
+    abrir('/analises/resultado')
+
+    expect(screen.queryByText(ROTULO_EXEMPLO)).toBeNull()
+    expect(screen.queryByRole('region', { name: 'Reunião analisada' })).toBeNull()
+    expect(screen.queryByText('Empresa Exemplo')).toBeNull()
+  })
+
+  it.each(['/exemplo', '/exemplo/resultado/extra'])('%s continua sendo 404', (caminho) => {
     abrir(caminho)
 
     expect(h1().textContent).toBe('Página não encontrada')

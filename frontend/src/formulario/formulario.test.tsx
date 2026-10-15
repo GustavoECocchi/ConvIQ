@@ -7,7 +7,6 @@ import { rotas } from '../rotas.tsx'
 import { MeetingForm } from './MeetingForm.tsx'
 import { contarPontosDeCodigo } from './validacao.ts'
 
-const STATUS = 'Dados prontos. A transcrição ainda não foi enviada.'
 const NFD = 'é' // "é" decomposto: 2 pontos de código, 2 unidades UTF-16
 
 let fetchEspiao: ReturnType<typeof vi.fn>
@@ -42,7 +41,7 @@ const empresa = () => campo('Empresa')
 const vinculo = () => screen.getByLabelText('Vínculo com a empresa') as HTMLSelectElement
 const transcricao = () => screen.getByLabelText('Transcrição da reunião') as HTMLTextAreaElement
 const digitar = (el: HTMLElement, valor: string) => fireEvent.change(el, { target: { value: valor } })
-const conferir = () => fireEvent.click(screen.getByRole('button', { name: 'Conferir dados' }))
+const conferir = () => fireEvent.click(screen.getByRole('button', { name: 'Analisar reunião' }))
 const resumo = () => screen.queryByRole('group', { name: 'Confira os dados' })
 
 function preencher(sobrescrever: Partial<Record<'titulo' | 'empresa' | 'vinculo' | 'transcricao', string>> = {}) {
@@ -68,7 +67,7 @@ describe('rota /analises/nova', () => {
 
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Nova análise por texto')
     expect(document.title).toBe(PAGINAS.novaAnalise.titulo)
-    expect(screen.getByRole('button', { name: 'Conferir dados' })).toBeTruthy()
+    expect(screen.getByRole('button', { name: 'Analisar reunião' })).toBeTruthy()
     const menu = within(screen.getByRole('navigation', { name: 'Navegação principal' }))
     expect(menu.getAllByRole('link').map((l) => l.textContent)).toEqual(['Visão geral', 'Como ler os sinais'])
     expect(menu.getAllByRole('link').filter((l) => l.hasAttribute('aria-current'))).toEqual([])
@@ -291,38 +290,5 @@ describe('envio válido', () => {
       transcricao: 'Olá, tudo bem?',
     })
     expect(fetchEspiao).not.toHaveBeenCalled()
-  })
-
-  it('a página mostra o status acessível, sem resultado, e o retira ao editar', () => {
-    const roteador = abrirPagina()
-    const status = screen.getByRole('status')
-    expect(status.textContent).toBe('')
-
-    preencher()
-    conferir()
-    expect(screen.getByRole('status').textContent).toBe(STATUS)
-    expect(screen.getByRole('status')).toBe(status)
-    expect(roteador.state.location.pathname).toBe('/analises/nova')
-    expect(screen.queryByText(/sentimento|risco de cancelamento/i)).toBeNull()
-    expect(fetchEspiao).not.toHaveBeenCalled()
-
-    digitar(empresa(), 'Outra empresa')
-    expect(screen.getByRole('status').textContent).toBe('')
-    expect(empresa().value).toBe('Outra empresa')
-    expect(titulo().value).toBe('Reunião de renovação')
-
-    conferir()
-    expect(screen.getByRole('status').textContent).toBe(STATUS)
-  })
-
-  it('um envio inválido depois de conferido não mostra o status', () => {
-    abrirPagina()
-    preencher()
-    conferir()
-    digitar(transcricao(), '   ')
-    conferir()
-
-    expect(screen.getByRole('status').textContent).toBe('')
-    expect(resumo()).toBeTruthy()
   })
 })

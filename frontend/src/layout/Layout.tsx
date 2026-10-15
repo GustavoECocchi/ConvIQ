@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link, NavLink, Outlet, useLocation, useMatches } from 'react-router'
 import { ITENS_DO_MENU, PAGINAS } from '../destinos.ts'
 import type { DadosDaRota } from '../destinos.ts'
+import { AnaliseEmMemoriaProvider } from '../analise/AnaliseEmMemoria.tsx'
 
 /**
  * A cada navegação: atualiza o título do documento e leva o foco ao `h1` da página
@@ -43,7 +44,16 @@ function useTituloEFoco() {
   }, [pathname, hash])
 }
 
+/** O estado em memória da análise vive aqui, acima das páginas, para sobreviver à navegação entre elas. */
 export function Layout() {
+  return (
+    <AnaliseEmMemoriaProvider>
+      <Casca />
+    </AnaliseEmMemoriaProvider>
+  )
+}
+
+function Casca() {
   useTituloEFoco()
 
   return (
