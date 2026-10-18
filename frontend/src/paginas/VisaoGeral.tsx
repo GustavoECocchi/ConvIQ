@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { LinkNovaAnalise } from '../analise/LinkNovaAnalise.tsx'
 import { PAGINAS } from '../destinos.ts'
 
 const signals = [
@@ -41,7 +42,7 @@ export function VisaoGeral() {
         </div>
         <div className="intro-actions">
           <span className="intro-tag"><span aria-hidden="true" /> Análise por texto</span>
-          <Link className="action-link" to={PAGINAS.novaAnalise.caminho}>{PAGINAS.novaAnalise.rotulo}</Link>
+          <LinkNovaAnalise className="action-link" />
         </div>
       </section>
 

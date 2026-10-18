@@ -247,4 +247,4 @@ mark { padding: 2px 3px; border-radius: 3px; background: #fff1dc; color: #5e3b13
 .resultado-ausente p { margin: 0 0 14px; color: #3d444d; font-size: 15px; line-height: 1.7; }
 .resultado-ausente p:last-child { margin-bottom: 0; }
 .resultado-acoes { display: flex; flex-wrap: wrap; gap: 10px; }
-button.guide-back { font-family: inherit; cursor: pointer; }
+.field input[readonly], .field textarea[readonly], .field select[aria-disabled='true'] { background: #eef0f4; border-style: dashed; cursor: progress; }

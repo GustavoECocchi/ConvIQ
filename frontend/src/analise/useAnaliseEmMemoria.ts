@@ -2,21 +2,23 @@ import { createContext, useContext } from 'react'
 import type { ValoresDoFormulario } from '../formulario/validacao.ts'
 import type { AnaliseTextoRequest, AnaliseTextoResponse } from '../types/analise.ts'
 
-/** Pedido enviado e a resposta exata da API. `id` muda a cada análise recebida; só existe em memória. */
+/** Pedido enviado e a resposta exata da API; só existem em memória. */
 export interface AnaliseRecebida {
-  id: number
   pedido: AnaliseTextoRequest
   resposta: AnaliseTextoResponse
 }
 
 export interface AnaliseEmMemoria {
-  /** Última análise recebida, ou `undefined` (nunca enviada, reinício da página, "Editar dados" ou "Nova análise"). */
+  /** Última análise recebida, ou `undefined` (nunca enviada, reinício da página ou formulário reaberto). */
   analise: AnaliseRecebida | undefined
-  /** Guarda a resposta recebida; devolve o `id` dado a ela. */
-  receber: (pedido: AnaliseTextoRequest, resposta: AnaliseTextoResponse) => number
-  /** Esquece a análise recebida, mas preserva o que foi digitado (editar dados, novo envio em andamento). */
+  /** Guarda a análise recebida. */
+  receber: (pedido: AnaliseTextoRequest, resposta: AnaliseTextoResponse) => void
+  /**
+   * Esquece a análise recebida e preserva o que foi digitado. Quem a chama é o formulário, ao abrir: assim
+   * a página de resultado continua na tela até ser trocada, sem mostrar por um quadro o aviso de ausência.
+   */
   esquecerAnalise: () => void
-  /** Esquece análise e texto digitado (nova análise). */
+  /** Descarta só o texto digitado (início "do zero"); a análise sai da memória quando o formulário abre. */
   recomecar: () => void
   /** Valores digitados no formulário, para voltar a eles depois de um erro ou de "Editar dados". */
   lerRascunho: () => ValoresDoFormulario
