@@ -1,6 +1,6 @@
 # Estado do ConvIQ — leia primeiro
 
-Atualizado em 15/10/2026 (Codex, F06-B-07). Quem muda o estado de um PR atualiza este
+Atualizado em 18/10/2026 (Codex, F06-B-08). Quem muda o estado de um PR atualiza este
 arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 
 ## Onde estamos
@@ -24,7 +24,7 @@ arquivo; ele não guarda histórico (isso fica em `docs/registro/`).
 - **B19:** INTEGRADO no destino pelo PR #8 (`0a29627`); preservado na árvore de F03-A.
 
 ## Próximo passo
-1. Conferir o head final do PR #16 após publicar F06-B-07. O merge depende de ordem separada do usuário.
+1. Usuário autorizou o merge do PR #16 em 18/10. Publicar o registro F06-B-08, reconfirmar head/base e mergeabilidade e integrar em `feat/b01-fundacao-api`.
 2. Após integração autorizada, conferir a árvore no destino antes de iniciar outro cartão. Não iniciar F07 automaticamente.
 
 ## Decisões abertas
